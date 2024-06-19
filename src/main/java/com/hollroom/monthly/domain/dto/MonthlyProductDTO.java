@@ -1,21 +1,17 @@
 package com.hollroom.monthly.domain.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
+import lombok.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 
-@Getter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 public class MonthlyProductDTO {
     private long id;
-    private long user_id;
+    //private long user_id;
     private int deposit;
     private int monthly;
     private String address;
@@ -23,8 +19,9 @@ public class MonthlyProductDTO {
     private int pyeong_count;
     private int room_count;
     private int bay_count;
-    private String option;
-    private String security;
+    private String room_option;
+    private String security_facility;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date expiration_date;
     private Date created_at;
     private Date updated_at;

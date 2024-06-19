@@ -13,7 +13,7 @@ import java.util.Date;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "monthly_products")
+@Table(name = "monthly_product")
 public class MonthlyProductEntity {
     @Id
     @GeneratedValue
@@ -27,12 +27,25 @@ public class MonthlyProductEntity {
     private int pyeong_count;
     private int room_count;
     private int bay_count;
-    private String option;
-    private String security;
+    private String room_option;
+    private String security_facility;
     private Date expiration_date;
     @CreationTimestamp
     private Date created_at;
     @UpdateTimestamp
     private Date updated_at;
     private Date deleted_at;
+
+    public MonthlyProductEntity(int deposit, int monthly, String address, int floor_count, int pyeong_count, int room_count, int bay_count, String room_option, String security_facility, Date expiration_date) {
+        this.deposit = deposit;
+        this.monthly = monthly;
+        this.address = address;
+        this.floor_count = floor_count;
+        this.pyeong_count = pyeong_count;
+        this.room_count = room_count;
+        this.bay_count = bay_count;
+        this.room_option = room_option;
+        this.security_facility = security_facility;
+        this.expiration_date = expiration_date;
+    }
 }
