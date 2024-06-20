@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/main_layout}">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="Start your development with a Design System for Bootstrap 4.">
+  <meta name="author" content="Creative Tim">
+  <title>HollRoomCommunityUpdatePage</title>
+
+  <!-- Docs CSS -->
+  <link type="text/css" href="/hollroom/common/css/styles_list2.css" rel="stylesheet">
+</head>
+
+<body>
+<div layout:fragment="content" style="background-color: #cfe2ff " >
+    <!--<section class="section section-components pb-0" id="section-components">-->
+      <div class="container" style="background-color: #f2f2f2; width: 1200px;">
+        <form action="" method="post" enctype="multipart/form-data">
+          <div class="row justify-content-center">
+            <div class="col-lg-12">
+              <!-- Basic elements -->
+              <h2 class="mb-5">
+                <span>게시글 수정</span>
+              </h2>
+              <!-- Buttons -->
+              <!--<h3 class="h4 text-success font-weight-bold mb-4">Buttons</h3>-->
+              <!-- Button styles -->
+
+            </div>
+          </div>
+
+      <!--</section>-->
+      <!--<section class="section pb-0 section-components">-->
+        <!--<div class="container mb-5">-->
+          <div class="mb-3">
+            <label class="text-uppercase font-weight-bold">번호</label>
+          </div>
+          <div class="row">
+            <div class="col-lg-4 col-sm-6">
+              <div class="form-group">
+                <input type="text" value="게시글번호" class="form-control" disabled />
+              </div>
+            </div>
+          </div>
+          <div class="mb-3">
+            <label class="text-uppercase font-weight-bold">제목</label>
+          </div>
+          <div class="row">
+            <div class="col-lg-4 col-sm-6">
+              <div class="form-group">
+                <input type="text" placeholder="Regular" class="form-control" />
+              </div>
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label class="text-uppercase font-weight-bold">작성자</label>
+          </div>
+          <div class="row">
+            <div class="col-lg-4 col-sm-6">
+              <div class="form-group">
+                <input type="text" value="작성자" class="form-control" disabled />
+              </div>
+            </div>
+          </div>
+
+          <div class="mb-1">
+            <label class="text-uppercase font-weight-bold">카테고리</label>
+          </div>
+          <div class="row">
+            <div class="col-lg-4 col-sm-6">
+              <select class="form-select" name="category">
+                <option value="자유">자유</option>
+                <option value="꿀팁">꿀팁</option>
+                <option value="질문">질문</option>
+                <option value="자취레시피">자취레시피</option>
+              </select>
+            </div>
+          </div>
+        <!--</div>-->
+      <!--</section>-->
+          <div class="mb-3">
+            <label class="text-uppercase font-weight-bold">본문 내용</label>
+          </div>
+          <div class="form-group mb-4">
+            <textarea class="form-control form-control-alternative" name="name" rows="10" cols="80" placeholder="Type a message..."></textarea>
+          </div>
+          <div>
+
+            <button class="btn btn-primary" type="submit">수정</button>
+            <button class="btn btn-1 btn-danger" type="reset">취소</button>
+            <!--<button class="btn btn-1 btn-success" type="submit">등록</button>-->
+            <!-- 버튼 종류
+            <button class="btn btn-1 btn-primary" type="button">Primary</button>-->
+           <!-- <button class="btn btn-1 btn-info" type="button">Info</button>-->
+            <!--<button class="btn btn-1 btn-warning" type="button">Warning</button>-->
+            <!--<button class="btn btn-1 btn-neutral" type="button">Neutral</button>-->
+          </div>
+        </form>
+      </div> <!--컨테이너-->
+</div>
+
+</body>
+
+</html>

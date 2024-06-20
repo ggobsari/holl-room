@@ -6,16 +6,21 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("/community")
-public class IndexController {
+public class CommunityController {
 
     @GetMapping("/list")
-    public String list(){
-        return "community/content/community_list.html";
+    public String listPage(){
+        return "community/content/community_list";
     }
 
-    @GetMapping("/test")
+    @GetMapping("/write")
+    public String writePage(){
+        return "community/content/community_write";
+    }
+    //임시
+    @GetMapping("/read")
     public String test(){
-        return "community/index.html";
+        return "community/content/community_read";
     }
 
 }
