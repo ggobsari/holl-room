@@ -23,29 +23,29 @@ public class MonthlyProductEntity {
     private int deposit;
     private int monthly;
     private String address;
-    private int floor_count;
-    private int pyeong_count;
-    private int room_count;
-    private int bay_count;
-    private String room_option;
-    private String security_facility;
-    private Date expiration_date;
+    private int floorCount;
+    private int pyeongCount;
+    private int roomCount;
+    private int bayCount;
+    private String roomOption;
+    private String securityFacility;
+    private Date expirationDate;
     @CreationTimestamp
-    private Date created_at;
+    private Date createdAt;
     @UpdateTimestamp
-    private Date updated_at;
-    private Date deleted_at;
+    private Date updatedAt;
+    private Date deletedAt;
 
-    public MonthlyProductEntity(int deposit, int monthly, String address, int floor_count, int pyeong_count, int room_count, int bay_count, String room_option, String security_facility, Date expiration_date) {
+    public MonthlyProductEntity(int deposit, int monthly, String address, int floorCount, int pyeongCount, int roomCount, int bayCount, String roomOption, String securityFacility, Date expirationDate) {
         this.deposit = deposit;
         this.monthly = monthly;
         this.address = address;
-        this.floor_count = floor_count;
-        this.pyeong_count = pyeong_count;
-        this.room_count = room_count;
-        this.bay_count = bay_count;
-        this.room_option = room_option;
-        this.security_facility = security_facility;
-        this.expiration_date = expiration_date;
+        this.floorCount = floorCount;
+        this.pyeongCount = pyeongCount;
+        this.roomCount = roomCount;
+        this.bayCount = bayCount;
+        this.roomOption = roomOption;
+        this.securityFacility = securityFacility;
+        this.expirationDate = expirationDate;
     }
 }
