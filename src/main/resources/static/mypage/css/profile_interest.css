@@ -1,0 +1,206 @@
+/* screen - profile_interest */
+.profile_interest .overlap-group {
+  height: 1169px;
+  margin-top: 1%;
+  margin-bottom: 1%;
+  position: relative;
+  width: 1460px;
+  flex-direction: column;
+}
+
+.profile_interest .overlap-group2 {
+  height: 180px;
+  left: 0;
+  position: absolute;
+  top: 0;
+  margin-left: 1%;
+  width: 98%;
+  background-color: #e2e2dc;
+}
+
+.profile_interest .text-13 {
+  left: 110px;
+  top: 122px;
+  width: 102px;
+}
+
+.profile_interest .text-14 {
+  left: 247px;
+  top: 122px;
+  width: 95px;
+}
+
+.profile_interest .text-15 {
+  left: 384px;
+  top: 122px;
+  width: 61px;
+}
+
+.profile_interest .text-16 {
+  left: 490px;
+  top: 122px;
+  width: 81px;
+}
+
+.profile_interest .text-17 {
+  left: 598px;
+  top: 122px;
+  width: 81px;
+}
+
+.profile_interest .text-18 {
+  left: 100px;
+  top: 43px;
+  width: 175px;
+}
+
+.profile_interest .rectangle-11 {
+  background-color: var(--kokoda);
+  height: 3px;
+  left: 384px;
+  position: absolute;
+  top: 175px;
+  width: 61px;
+}
+
+.profile_interest .text {
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  white-space: nowrap;
+}
+
+/* 드롭다운 메뉴 스타일 */
+.dropdown-container {
+  position: absolute;
+  top: 210px; /* 마이페이지 부분 아래로 내리기 위한 위치 조정 */
+  left: 5%; /* 왼쪽에 배치 */
+}
+
+.category-dropdown {
+  padding: 5px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+/* 문의 목록 스타일 */
+.inquiry-list-container {
+  margin-top: 250px; /* 위치 조정 */
+  text-align: center;
+}
+
+.inquiry-list {
+  width: 90%;
+  margin: 0 auto;
+  border-collapse: collapse;
+}
+
+.inquiry-list th:nth-child(2){
+  width: 50%; /* 제목의 너비를 50%로 설정 */
+}
+
+.inquiry-list td:nth-child(2){
+  text-align: left;
+}
+
+.inquiry-list th, .inquiry-list td {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+.inquiry-list th {
+  background-color: #f2f2f2;
+  font-size: 18px;
+  color: #333;
+}
+
+.inquiry-list td {
+  font-size: 16px;
+}
+
+.inquiry-list tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.inquiry-list tr:hover {
+  background-color: #f1f1f1;
+}
+
+.inquiry-list a {
+  color: #0000ff;
+  text-decoration: none;
+}
+
+.inquiry-list a:hover {
+  text-decoration: underline;
+}
+
+/* 페이지네이션 스타일 */
+.pagination {
+  margin: 20px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.pagination a {
+  color: black;
+  float: left;
+  padding: 8px 16px;
+  text-decoration: none;
+  transition: background-color .3s;
+}
+
+.pagination a.active {
+  background-color: #4CAF50;
+  color: #5b5b5b;
+  border-radius: 5px;
+}
+
+.pagination a:hover:not(.active) {
+  background-color: #ddd;
+  border-radius: 5px;
+}
+
+/* 검색 기능 스타일 */
+.search-container {
+  margin: 20px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.search-dropdown {
+  padding: 10px;
+  font-size: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px 0 0 5px;
+  height: 40px;
+}
+
+.search-input {
+  padding: 10px;
+  font-size: 15px;
+  border: 1px solid #ccc;
+  border-left: none;
+  border-radius: 0;
+  width: 200px;
+  height: 40px;
+}
+
+.search-button {
+  padding: 10px 20px;
+  font-size: 16px;
+  color: white;
+  background-color: #a5a58d;
+  border: 1px solid #a5a58d;
+  border-left: none;
+  border-radius: 0 5px 5px 0;
+  cursor: pointer;
+  height: 40px;
+}
+
+.search-button:hover {
+  background-color: #74745c;
+}

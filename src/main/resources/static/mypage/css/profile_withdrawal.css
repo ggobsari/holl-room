@@ -1,0 +1,123 @@
+/* screen - profile_withdrawal */
+.profile_withdrawal .overlap-group {
+  height: 1169px;
+  margin-top: 1%;
+  margin-bottom: 1%;
+  position: relative;
+  width: 1460px;
+  flex-direction: column;
+}
+
+.profile_withdrawal .overlap-group2 {
+  height: 180px;
+  left: 0;
+  position: absolute;
+  top: 0;
+  margin-left: 1%;
+  width: 98%;
+  background-color: #e2e2dc;
+}
+
+.profile_withdrawal .text-1 {
+  left: 110px;
+  top: 122px;
+  width: 102px;
+}
+
+.profile_withdrawal .text-2 {
+  left: 247px;
+  top: 122px;
+  width: 95px;
+}
+
+.profile_withdrawal .text-3 {
+  left: 384px;
+  top: 122px;
+  width: 61px;
+}
+
+.profile_withdrawal .text-4 {
+  left: 490px;
+  top: 122px;
+  width: 81px;
+}
+
+.profile_withdrawal .text-5 {
+  left: 598px;
+  top: 122px;
+  width: 81px;
+}
+
+.profile_withdrawal .text-6 {
+  left: 100px;
+  top: 43px;
+  width: 175px;
+}
+
+.profile_withdrawal .rectangle-11 {
+  background-color: var(--kokoda);
+  height: 3px;
+  left: 598px;
+  position: absolute;
+  top: 175px;
+  width: 81px;
+}
+
+.profile_withdrawal .text {
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  white-space: nowrap;
+}
+
+.withdrawal-section {
+  margin-top: 200px; /* 위치 조정 */
+  text-align: center;
+}
+
+.withdrawal-title {
+  font-size: 30px;
+  color: #000000;
+  margin-bottom: 20px;
+}
+
+.withdrawal-description {
+  font-size: 22px;
+  color: #6e6e6e;
+  margin-bottom: 20px;
+}
+
+.withdrawal-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.withdrawal-label {
+  font-size: 22px;
+  color: #6e6e6e;
+  margin-bottom: 10px;
+}
+
+.withdrawal-input {
+  width: 300px;
+  padding: 10px;
+  font-size: 18px;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.withdrawal-button {
+  padding: 10px 20px;
+  font-size: 18px;
+  color: #ffffff;
+  background-color: #000000;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.withdrawal-button:hover {
+  background-color: #444444;
+}
