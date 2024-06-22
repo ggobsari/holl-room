@@ -1,0 +1,36 @@
+/* styleguide.css */
+.abeezee-normal-dove-gray-22px {
+  color: var(--dove-gray);
+  font-family: var(--font-family-abeezee);
+  font-size: var(--font-size-m);
+  font-style: normal;
+  font-weight: 400;
+}
+
+.abeezee-normal-black-14px {
+  color: var(--black);
+  font-family: var(--font-family-abeezee);
+  font-size: var(--font-size-xs);
+  font-style: normal;
+  font-weight: 400;
+}
+
+.abeezee-normal-kokoda-22px {
+  color: var(--kokoda);
+  font-family: var(--font-family-abeezee);
+  font-size: var(--font-size-m);
+  font-style: normal;
+  font-weight: 400;
+}
+
+.abeezee-normal-black-38px {
+  color: var(--black);
+  font-family: var(--font-family-abeezee);
+  font-size: var(--font-size-xxxl);
+  font-style: normal;
+  font-weight: 400;
+}
+
+
+
+
