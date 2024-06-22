@@ -1,6 +1,6 @@
 package com.hollroom.mypage.dto;
 
-import com.hollroom.user.dto.UserDTO;
+import com.hollroom.user.dto.UserSignupDTO;
 import com.hollroom.user.entity.UserEntity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,7 +14,7 @@ import java.util.Date;
 @Setter
 @NoArgsConstructor
 @ToString
-public class ProfileDTO extends UserDTO {
+public class ProfileDTO extends UserSignupDTO {
 
     private String userNickname;
     private String userImage;
