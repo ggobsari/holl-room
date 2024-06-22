@@ -14,137 +14,106 @@
   <link rel="stylesheet" type="text/css" href="css/globals.css" />
   <link rel="stylesheet" type="text/css" href="css/profile_profile.css" />
   <link rel="stylesheet" type="text/css" href="css/profile_shape.css" />
-  <script>
-    function validatePassword() {
-      var password = document.getElementById("password").value;
-      var confirmPassword = document.getElementById("confirmPassword").value;
-      if (password != confirmPassword) {
-        alert("비밀번호와 비밀번호 확인이 일치하지 않습니다.");
-        return false;
-      }
-      return true;
-    }
-
-    function updateProfile() {
-      if (validatePassword()) {
-        alert("수정되었습니다");
-        location.reload(); // 페이지 새로고침
-      }
-    }
-
-    function resetPage() {
-      location.reload();
-    }
-
-    function triggerFileUpload() {
-      document.getElementById("fileInput").click();
-    }
-
-    function previewImage(event) {
-      const reader = new FileReader();
-      reader.onload = function () {
-        const output = document.getElementById('profileImage');
-        output.src = reader.result;
-      }
-      reader.readAsDataURL(event.target.files[0]);
-    }
-  </script>
+  <script src="js/profile.js"></script>
 </head>
 <body>
-<div layout:fragment="content" >
-<div class="container-center-horizontal">
-  <div class="profile_profile screen">
-    <div class="overlap-group6" style="background-color: #f8f9fa">
-      <div class="content2">
-        <div class="overlap-group5">
-          <div class="basic-info-group">
-            <div class="flex-row">
-              <div class="basic-info">내 정보</div>
-              <div class="overlap-group1 clickable-box" onclick="resetPage()">
-                <div class="text-31">취 소</div>
-                <div class="rectangle-22"></div>
+<div layout:fragment="content">
+  <div class="container-center-horizontal">
+    <div class="profile_profile screen">
+      <div class="overlap-group6" style="background-color: #f8f9fa">
+        <div class="content2">
+          <div class="overlap-group5">
+            <div class="basic-info-group">
+              <div class="flex-row">
+                <div class="basic-info">내 정보</div>
+                <div class="overlap-group1 clickable-box" onclick="resetPage()">
+                  <div class="text-31">취 소</div>
+                  <div class="rectangle-22"></div>
+                </div>
+                <div class="overlap-group clickable-box" id="saveButton">
+                  <div class="text-3">저 장</div>
+                </div>
               </div>
-              <div class="overlap-group clickable-box" onclick="updateProfile()">
-                <div class="text-3">저 장</div>
+              <div class="rectangle-21"></div>
+              <div class="flex-row-1 flex-row-5">
+                <div class="flex-col abeezee-normal-black-14px">
+                  <div class="text-28">닉네임</div>
+                  <input type="text" class="rectangle-9" th:value="${user.getUserNickname()}" readonly />
+                  <div class="text-27">이메일</div>
+                </div>
+                <div class="flex-col-1">
+                  <div class="text-30 abeezee-normal-black-14px">실 명</div>
+                  <input type="text" class="rectangle-18" th:value="${user.getUserName()}" readonly />
+                </div>
               </div>
-            </div>
-            <div class="rectangle-21"></div>
-            <div class="flex-row-1 flex-row-5">
-              <div class="flex-col abeezee-normal-black-14px">
-                <div class="text-28">닉네임</div>
-                <input type="text" class="rectangle-9" th:value="${user.getUserNickname()}" readonly />
-                <div class="text-27">이메일</div>
+              <input type="text" class="rectangle-16" th:value="${user.getUserEmail()}" readonly/>
+              <div class="text-container abeezee-normal-black-14px">
+                <div class="text">비밀번호</div>
+                <div class="text-26">비밀번호 확인</div>
               </div>
-              <div class="flex-col-1">
-                <div class="text-30 abeezee-normal-black-14px">실 명</div>
-                <input type="text" class="rectangle-18" th:value="${user.getUserName()}" readonly />
+              <div class="flex-row-2 flex-row-5">
+                <input type="password" class="rectangle" id="password" />
+                <input type="password" class="rectangle" id="confirmPassword" />
               </div>
-            </div>
-            <input type="text" class="rectangle-16" th:value="${user.getUserEmail()}" readonly/>
-            <div class="text-container abeezee-normal-black-14px">
-              <div class="text">비밀번호</div>
-              <div class="text-26">비밀번호 확인</div>
-            </div>
-            <div class="flex-row-2 flex-row-5">
-              <input type="password" class="rectangle" id="password" />
-              <input type="password" class="rectangle" id="confirmPassword" />
-            </div>
-            <div class="text-container-1 abeezee-normal-black-14px">
-              <div class="text">생년월일</div>
-              <div class="text">성별</div>
-            </div>
-            <div class="flex-row-3 flex-row-5">
-              <input type="text" class="rectangle" th:value="${#dates.format(user.getUserBirthday(), 'yyyy년 MM월 dd일')}" readonly />
-              <input type="text" class="rectangle-27" th:value="${user.getUserGender() == 0 ? ' 남 ' : ' 여 '}" readonly />
-            </div>
-            <div class="flex-row-4 flex-row-5">
-              <div class="text-29">지역 정보</div>
-              <div class="overlap-group3 clickable-box" onclick="resetPage()">
-                <div class="text-33">취 소</div>
+              <div class="text-container-1 abeezee-normal-black-14px">
+                <div class="text">생년월일</div>
+                <div class="text">성별</div>
               </div>
-              <div class="overlap-group2 clickable-box" onclick="updateProfile()">
-                <div class="text-3">저 장</div>
+              <div class="flex-row-3 flex-row-5">
+                <input type="text" class="rectangle" th:value="${#dates.format(user.getUserBirthday(), 'yyyy년 MM월 dd일')}" readonly />
+                <input type="text" class="rectangle-27" th:value="${user.getUserGender() ? ' 남 ' : ' 여 '}" readonly />
               </div>
+              <div class="flex-row-4 flex-row-5">
+                <div class="text-29">지역 정보</div>
+              </div>
+              <div class="rectangle-23"></div>
+              <div class="text-36 abeezee-normal-black-14px">거주지역</div>
+              <input type="text" class="rectangle-30" id="userLocal" th:value="${user.getUserLocal()}" />
+
+              <input type="hidden" id="userId" th:value="${user.getUserEmail()}" />
             </div>
-            <div class="rectangle-23"></div>
-            <div class="text-36 abeezee-normal-black-14px">거주지역</div>
-            <input type="text" class="rectangle-30" th:value="${user.getUserLocal()}" readonly />
+
+            <div class="flex-row-5 im-web-designer-i">
+              <div id="userInfoText" th:text="${user.getUserInfo() != null ? user.getUserInfo() : '내용을 입력하세요'}"/>
+              <textarea id="userInfoInput" rows="4" style="display:none;" th:value="${user.getUserInfo()} "></textarea>
+              <button id="editButton" onclick="enableEditUserInfo()">✏️</button>
+              <button id="info_saveButton"  onclick="saveUserInfo()">확인</button>
+            </div>
+
+            <div class="rectangle-14"></div>
+            <div class="rectangle-31"></div>
           </div>
-          <textarea class="im-web-designer-i" rows="4" cols="50" th:text="${user.getUserInfo()}" placeholder="내용을 입력하세요"/>
-          <div class="rectangle-14"></div>
-          <div class="rectangle-31"></div>
         </div>
-      </div>
-      <div class="content1">
-        <div class="text-38">프로필</div>
-        <img class="ellipse-1 clickable-box" onclick="triggerFileUpload()" th:src="@{${user.getUserImage()}}"/>
-        <input type="file" id="fileInput" style="display:none" onchange="previewImage(event)" />
-        <p class="text-39" th:text="${user.getUserNickname()}"/>
-        <div class="uzbekistan-tashkent" th:text="${user.getUserLocal()}"></div>
-        <div class="overlap-group4">
-          <div class="rectangle-15"></div>
-          <div class="text-40 abeezee-normal-kokoda-22px">
-            <a class="profile-menu" href="profile">마이프로필</a>
+        <div class="content1">
+          <div class="text-38">프로필</div>
+          <img class="ellipse-1 clickable-box" id="profileImage" onclick="triggerFileUpload()" th:src="@{${user.getUserImage()} != null ? ${user.getUserImage()} : '/mypage/img/no_images.png'}">
+          <input type="file" id="fileInput" style="display:none" onchange="previewImage(event)">
+          <p class="text-39" th:text="${user.getUserNickname()}"></p>
+          <div class="uzbekistan-tashkent" th:text="${user.getUserLocal()}"></div>
+          <div class="overlap-group4">
+            <div class="rectangle-15"></div>
+            <div class="text-40 abeezee-normal-kokoda-22px">
+              <a class="profile-menu" href="profile">마이프로필</a>
+            </div>
+            <div class="text-41 abeezee-normal-dove-gray-22px">
+              <a class="profile-menu" href="mywrite">내가 쓴 글</a>
+            </div>
+            <div class="text-42 abeezee-normal-dove-gray-22px">
+              <a class="profile-menu" href="interest">관심글</a>
+            </div>
+            <div class="text-43 abeezee-normal-dove-gray-22px">
+              <a class="profile-menu" href="inquiry">문의하기</a>
+            </div>
+            <div class="text-44 abeezee-normal-dove-gray-22px">
+              <a class="profile-menu" href="withdrawal">회원탈퇴</a>
+            </div>
+            <h1 class="text-45 abeezee-normal-black-38px">마이페이지</h1>
+            <div class="rectangle-11"></div>
           </div>
-          <div class="text-41 abeezee-normal-dove-gray-22px">
-            <a class="profile-menu" href="mywrite">내가 쓴 글</a>
-          </div>
-          <div class="text-42 abeezee-normal-dove-gray-22px">
-            <a class="profile-menu" href="interest">관심글</a>
-          </div>
-          <div class="text-43 abeezee-normal-dove-gray-22px">
-            <a class="profile-menu" href="inquiry">문의하기</a>
-          </div>
-          <div class="text-44 abeezee-normal-dove-gray-22px">
-            <a class="profile-menu" href="withdrawal">회원탈퇴</a>
-          </div>
-          <h1 class="text-45 abeezee-normal-black-38px">마이페이지</h1>
-          <div class="rectangle-11"></div>
         </div>
       </div>
     </div>
   </div>
-</div>
 </div>
 </body>
 </html>

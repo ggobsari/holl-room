@@ -246,8 +246,8 @@
 
 .profile_profile .flex-row-4 {
   margin-left: 3px;
-  margin-top: 38px;
-  min-width: 672px;
+  margin-top: 55px;
+  min-width: 300px;
 }
 
 .profile_profile .text-29 {
@@ -332,9 +332,6 @@
   font-size: var(--font-size-xs);
   font-style: italic;
   font-weight: 400;
-
-  text-align: center;
-
   left: 0;
   letter-spacing: 0;
   line-height: normal;
@@ -343,6 +340,10 @@
   width: 365px;
 
   border-color: #E2E2E2;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
 }
 
@@ -574,6 +575,35 @@ a {
     top: 0;
     left: 0;
   }
-
 }
+
+#editButton {
+  position: absolute;
+  right: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+/* 추가: 숨겨진 확인 버튼 */
+#info_saveButton {
+  display: none;
+  position: absolute;
+  right: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+
+  background-color: #a5a58d;
+  color: white;
+  border-radius: 0.4rem;
+}
+
+#userInfoInput {
+  width: 75%;
+  max-width: 500px; /* 필요한 경우 너비 조정 */
+}
+
+
+
 
