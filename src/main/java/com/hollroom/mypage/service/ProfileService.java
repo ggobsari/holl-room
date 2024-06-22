@@ -13,7 +13,12 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.Timestamp;
 import java.util.Optional;
 
@@ -23,23 +28,6 @@ public class ProfileService {
 
     @Autowired
     private PasswordEncoder passwordEncoder; // 비밀번호 인코더 추가
-
-    //    // 예시용 임시 메서드, 실제로는 DB나 다른 소스에서 데이터를 가져옴
-//    public ProfileDTO getProfile() {
-//        ProfileDTO profileDTO = new ProfileDTO();
-//        profileDTO.setUserNickname("닉네임");
-//        profileDTO.setUserEmail("user@example.com");
-//        profileDTO.setUserName("실명");
-//
-//        String birthdateStr = "1990-01-01";
-//        Date birthdate = parseDate(birthdateStr);
-//        profileDTO.setUserBirthday(birthdate);
-//
-//        profileDTO.setUserGender(Boolean.FALSE);
-//        profileDTO.setUserLocal("서울");
-//
-//        return profileDTO;
-//    }
 
     public ProfileService(UserRepository userRepository) {
         this.userRepository = userRepository;
@@ -80,7 +68,7 @@ public class ProfileService {
             UserEntity userEntity = userRepository.findByUserEmail(profileDTO.getUserEmail())
                     .orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
-            //자기소개 업데이트
+            // 로컬 정보 업데이트
             userEntity.setUserInfo(profileDTO.getUserInfo());
 
             userRepository.save(userEntity);
@@ -91,12 +79,24 @@ public class ProfileService {
         }
     }
 
+    private static final String UPLOAD_DIR = "src/main/resources/static/mypage/img/profile/";
     //사진 업데이트
-    public void saveProfileImage(String fileUrl, ProfileDTO profileDTO) {
+    public void saveProfileImage(MultipartFile image, ProfileDTO profileDTO) {
         try {
             UserEntity userEntity = userRepository.findByUserEmail(profileDTO.getUserEmail())
                     .orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
+            // 업로드 디렉토리 생성
+            File uploadDir = new File(UPLOAD_DIR);
+            if (!uploadDir.exists()) {
+                uploadDir.mkdirs();
+            }
+
+            // 파일 저장
+            Path filePath = Paths.get(UPLOAD_DIR, image.getOriginalFilename());
+//            System.out.println(filePath);
+            Files.write(filePath, image.getBytes());
+            String fileUrl = "http://localhost:8090/hollroom/mypage/img/profile/" + image.getOriginalFilename();
             userEntity.setUserImage(fileUrl);
 
             userRepository.save(userEntity);
@@ -105,7 +105,6 @@ public class ProfileService {
         }
 
     }
-
 
 }
 

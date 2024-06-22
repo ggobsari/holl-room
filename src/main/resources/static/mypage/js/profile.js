@@ -26,7 +26,7 @@ function updateProfile() {
         const password = document.getElementById("password").value;
 
         const xhr = new XMLHttpRequest();
-        xhr.open("POST", "http://localhost:8090/hollroom/mypage/profile.do", true);
+        xhr.open("POST", "http://localhost:8090/hollroom/mypage/updateUser", true);
         xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
         xhr.onreadystatechange = function () {
             if (xhr.readyState == 4) {
@@ -57,10 +57,10 @@ function enableEditUserInfo() {
 //자기소개 저장
 function saveUserInfo() {
     var userInfoInput = document.getElementById('userInfoInput').value;
-
+    const userId = document.getElementById("userId").value;
     // 데이터 저장 요청
     const xhr = new XMLHttpRequest();
-    xhr.open("POST", "http://localhost:8090/hollroom/mypage/profile.do", true); // 실제 엔드포인트로 수정 필요
+    xhr.open("POST", "http://localhost:8090/hollroom/mypage/updateUserInfo", true); // 실제 엔드포인트로 수정 필요
     xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
     xhr.onreadystatechange = function () {
         if (xhr.readyState == 4) {
@@ -76,19 +76,14 @@ function saveUserInfo() {
             }
         }
     };
-    xhr.send(JSON.stringify({ userInfo: userInfoInput }));
+    xhr.send(JSON.stringify({ userInfo: userInfoInput, userEmail: userId}));
 }
 
 //===============================================================
 //사진
-document.addEventListener("DOMContentLoaded", function() {
-    document.getElementById("profileImage").addEventListener("click", function() {
-        document.getElementById("fileInput").click();
-    });
-    document.getElementById("fileInput").addEventListener("change", function(event) {
-        previewImage(event);
-    });
-});
+function triggerFileUpload() {
+    document.getElementById("fileInput").click();
+}
 
 function previewImage(event) {
     const reader = new FileReader();
@@ -99,23 +94,27 @@ function previewImage(event) {
     reader.readAsDataURL(event.target.files[0]);
     uploadImage(event.target.files[0]);
 }
-
+//===================================================================
 function uploadImage(file) {
     const formData = new FormData();
+    const userId = document.getElementById("userId").value;
     formData.append("image", file);
 
+    const profileData = JSON.stringify({ userEmail: userId });
+    const blob = new Blob([profileData], { type: "application/json" });
+    formData.append("profile", blob);
+
     const xhr = new XMLHttpRequest();
-    xhr.open("POST", "/hollroom/mypage/profile.img", true);
-    xhr.onreadystatechange = function() {
-        if (xhr.readyState == 4) {
-            const response = JSON.parse(xhr.responseText);
-            if (xhr.status == 200) {
-                alert(response.message);
-            } else {
-                alert("이미지 업로드 실패. 서버 응답: " + response.message);
-            }
+    xhr.open("POST", "http://localhost:8090/hollroom/mypage/uploadProfileImage", true);
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState == 4 && xhr.status == 200) {
+            alert("이미지 업로드 성공!");
+        } else if (xhr.readyState == 4) {
+            alert("이미지 업로드 실패. 서버 응답: " + xhr.responseText);
         }
     };
-    xhr.send(formData);
+
+    xhr.send(formData, JSON.stringify({ userEmail: userId}));
 }
+
 

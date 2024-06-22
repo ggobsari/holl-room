@@ -74,10 +74,10 @@
             </div>
 
             <div class="flex-row-5 im-web-designer-i">
-              <div id="userInfoText" th:text="${user.getUserInfo() != null ? user.getUserInfo() : '내용을 입력하세요'}"/>
+              <div id="userInfoText" th:text="${user.getUserInfo() != null ? user.getUserInfo() : '자기소개를 작성해보세요!'}"></div>
               <textarea id="userInfoInput" rows="4" style="display:none;" th:value="${user.getUserInfo()} "></textarea>
               <button id="editButton" onclick="enableEditUserInfo()">✏️</button>
-              <button id="info_saveButton"  onclick="saveUserInfo()">확인</button>
+              <button id="info_saveButton" onclick="saveUserInfo()" style="display:none;">확인</button>
             </div>
 
             <div class="rectangle-14"></div>
@@ -86,7 +86,7 @@
         </div>
         <div class="content1">
           <div class="text-38">프로필</div>
-          <img class="ellipse-1 clickable-box" id="profileImage" onclick="triggerFileUpload()" th:src="@{${user.getUserImage()} != null ? ${user.getUserImage()} : '/mypage/img/no_images.png'}">
+          <img class="ellipse-1 clickable-box" id="profileImage" onclick="triggerFileUpload()" th:src="${user.getUserImage()} != null ? ${user.getUserImage()} : '/mypage/img/no_images.png'">
           <input type="file" id="fileInput" style="display:none" onchange="previewImage(event)">
           <p class="text-39" th:text="${user.getUserNickname()}"></p>
           <div class="uzbekistan-tashkent" th:text="${user.getUserLocal()}"></div>
@@ -117,3 +117,4 @@
 </div>
 </body>
 </html>
+
