@@ -41,6 +41,8 @@ public class UserEntity {
 
     private Boolean userAdmin;
 
+    private String userInfo;
+
 //    public UserEntity(UserDTO userDTO) {
 //        this.userEmail = userDTO.getUserEmail();
 //        this.userPassword = userDTO.getUserPassword();

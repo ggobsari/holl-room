@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/main_layout}">
+<head>
+    <meta charset="utf-8"/>
+    <!--<meta name=description content="This site was generated with Anima. www.animaapp.com"/>-->
+    <!-- <link rel="shortcut icon" type=image/png href="https://animaproject.s3.amazonaws.com/home/favicon.png" /> -->
+    <meta name="viewport" content="width=1440, maximum-scale=1.0"/>
+    <link rel="shortcut icon" type="image/png" href="https://animaproject.s3.amazonaws.com/home/favicon.png"/>
+    <meta name="og:type" content="website"/>
+    <meta name="twitter:card" content="photo"/>
+
+    <link rel="stylesheet" type="text/css" href="css/styleguide.css"/>
+    <link rel="stylesheet" type="text/css" href="css/globals.css"/>
+    <link rel="stylesheet" type="text/css" href="css/profile_inquiry.css"/>
+    <link rel="stylesheet" type="text/css" href="css/profile_shape.css"/>
+</head>
+<body style="margin: 0; background: #ffffff">
+<div layout:fragment="content">
+    <input type="hidden" id="anPageName" name="page" value="profile_inquiry"/>
+    <div class="container-center-horizontal">
+        <div class="profile_inquiry screen">
+            <div class="overlap-group" style="background-color: #f8f9fa">
+
+                <div class="overlap-group2">
+                    <div class="rectangle-15"></div>
+                    <div class="text-19 text abeezee-normal-dove-gray-22px">
+                        <a class="profile-menu" href="profile">마이프로필</a>
+                    </div>
+                    <div class="text-20 text abeezee-normal-dove-gray-22px">
+                        <a class="profile-menu" href="mywrite">내가 쓴 글</a>
+                    </div>
+                    <div class="text-21 text abeezee-normal-dove-gray-22px">
+                        <a class="profile-menu" href="interest">관심글</a>
+                    </div>
+                    <div class="text-22 text abeezee-normal-kokoda-22px">
+                        <a class="profile-menu" href="inquiry">문의하기</a>
+                    </div>
+                    <div class="text-23 text abeezee-normal-dove-gray-22px">
+                        <a class="profile-menu" href="withdrawal">회원탈퇴</a>
+                    </div>
+                    <h1 class="text-24 text abeezee-normal-black-38px">마이페이지</h1>
+                    <div class="rectangle-11"></div>
+
+                    <!-- 문의 목록 추가 -->
+                    <div class="inquiry-list-container">
+                        <table class="inquiry-list">
+                            <thead>
+                            <tr>
+                                <th>번호</th>
+                                <th>제목</th>
+                                <th>등록일</th>
+                                <th>답변완료</th>
+                                <th>답변완료일</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td><a href="inquiry1.html" class="profile-menu">문의 제목 1</a></td>
+                                <td>2024-06-20</td>
+                                <td>완료</td>
+                                <td>2024-06-21</td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td><a href="inquiry2.html" class="profile-menu">문의 제목 2</a></td>
+                                <td>2024-06-21</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <!-- 더 많은 문의 목록 추가 가능 -->
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- 문의 목록 끝 -->
+
+
+                    <!-- 페이지네이션 추가 -->
+                    <div class="pagination">
+                        <a href="#">&laquo; 이전</a>
+                        <a href="#" class="active">1</a>
+                        <a href="#">2</a>
+                        <a href="#">3</a>
+                        <a href="#">4</a>
+                        <a href="#">5</a>
+                        <a href="#">6</a>
+                        <a href="#">7</a>
+                        <a href="#">8</a>
+                        <a href="#">9</a>
+                        <a href="#">10</a>
+                        <a href="#">다음 &raquo;</a>
+                    </div>
+
+                    <!-- 검색 기능 추가 -->
+                    <div class="search-container">
+                        <select class="search-dropdown">
+                            <option value="title">제목</option>
+                            <option value="author">글쓴이</option>
+                        </select>
+                        <input type="text" class="search-input" placeholder="검색어 입력">
+                        <button class="search-button">검색</button>
+
+                    </div>
+                    <!-- 글쓰기 버튼 추가 -->
+                    <div class="button-container">
+                        <button class="write-button" onclick="location.href='write.html'">글쓰기</button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+</body>
+</html>
