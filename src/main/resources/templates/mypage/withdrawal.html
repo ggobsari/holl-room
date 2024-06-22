@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/main_layout}">
+  <head>
+    <meta charset="utf-8" />
+    <!--<meta name=description content="This site was generated with Anima. www.animaapp.com"/>-->
+    <!-- <link rel="shortcut icon" type=image/png href="https://animaproject.s3.amazonaws.com/home/favicon.png" /> -->
+    <meta name="viewport" content="width=1440, maximum-scale=1.0" />
+    <link rel="shortcut icon" type="image/png" href="https://animaproject.s3.amazonaws.com/home/favicon.png" />
+    <meta name="og:type" content="website" />
+    <meta name="twitter:card" content="photo" />
+    <link rel="stylesheet" type="text/css" href="css/styleguide.css" />
+    <link rel="stylesheet" type="text/css" href="css/globals.css" />
+    <link rel="stylesheet" type="text/css" href="css/profile_withdrawal.css" />
+    <link rel="stylesheet" type="text/css" href="css/profile_shape.css" />
+  </head>
+  <body style="margin: 0; background: #ffffff">
+    <div layout:fragment="content">
+      <input type="hidden" id="anPageName" name="page" value="profile_withdrawal" />
+      <div class="container-center-horizontal">
+        <div class="profile_withdrawal screen">
+          <div class="overlap-group" style="background-color: #f8f9fa">
+
+            <div class="overlap-group2">
+              <div class="rectangle-15"></div>
+              <div class="text-1 text abeezee-normal-dove-gray-22px">
+                <a class="profile-menu" href="profile">마이프로필</a>
+              </div>
+              <div class="text-2 text abeezee-normal-dove-gray-22px">
+                <a class="profile-menu" href="mywrite">내가 쓴 글</a>
+              </div>
+              <div class="text-3 text abeezee-normal-dove-gray-22px">
+                <a class="profile-menu" href="interest">관심글</a>
+              </div>
+              <div class="text-4 text abeezee-normal-dove-gray-22px">
+                <a class="profile-menu" href="inquiry">문의하기</a>
+              </div>
+              <div class="text-5 text abeezee-normal-kokoda-22px">
+                <a class="profile-menu" href="withdrawal">회원탈퇴</a>
+              </div>
+              <h1 class="text-6 text abeezee-normal-black-38px">마이페이지</h1>
+              <div class="rectangle-11"></div>
+
+              <!-- 회원탈퇴 내용 추가 -->
+              <div class="withdrawal-section">
+                <h2 class="withdrawal-title abeezee-normal-black-30px">회원탈퇴</h2>
+                <p class="withdrawal-description abeezee-normal-dove-gray-22px">정말로 회원탈퇴를 원하십니까? 회원탈퇴 시 모든 데이터가 삭제됩니다.</p>
+                <form action="/withdrawal" method="post" class="withdrawal-form">
+                  <label for="password" class="withdrawal-label abeezee-normal-dove-gray-22px">비밀번호 확인:</label>
+                  <input type="password" id="password" name="password" class="withdrawal-input" required>
+                  <button type="submit" class="withdrawal-button abeezee-normal-white-22px">회원탈퇴</button>
+                </form>
+              </div>
+              <!-- 회원탈퇴 내용 끝 -->
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
