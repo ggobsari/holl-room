@@ -4,7 +4,7 @@ import com.hollroom.exception.CheckApiException;
 import com.hollroom.exception.ErrorCode;
 import com.hollroom.exception.UsernameNotFoundException;
 import com.hollroom.mypage.dto.ProfileDTO;
-import com.hollroom.user.dto.UserDTO;
+import com.hollroom.user.dto.UserSignupDTO;
 import com.hollroom.user.entity.UserEntity;
 import com.hollroom.user.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +33,7 @@ public class ProfileService {
         this.userRepository = userRepository;
     }
 
-    public UserDTO getUserByEmail(String email) { //프로필 불러오기
+    public UserSignupDTO getUserByEmail(String email) { //프로필 불러오기
         UserEntity userEntity = userRepository.findByUserEmail(email).orElseThrow(
                 () -> new CheckApiException(ErrorCode.NOT_EXIST_USER)
         );
