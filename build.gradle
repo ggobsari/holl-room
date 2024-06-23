@@ -39,6 +39,7 @@ dependencies {
 	testImplementation group: 'com.h2database', name: 'h2', version: '2.1.214'
 	runtimeOnly 'com.h2database:h2'
 	implementation 'org.springframework.security:spring-security-crypto:5.7.1'
+	implementation group: 'org.webjars.npm', name: 'jquery', version: '3.7.1'
 }
 
 tasks.named('test') {
