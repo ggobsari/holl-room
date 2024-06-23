@@ -4,13 +4,10 @@ import com.hollroom.exception.CheckApiException;
 import com.hollroom.exception.ErrorCode;
 import com.hollroom.exception.UsernameNotFoundException;
 import com.hollroom.mypage.dto.ProfileDTO;
-import com.hollroom.user.dto.UserDTO;
+import com.hollroom.user.dto.UserSignupDTO;
 import com.hollroom.user.entity.UserEntity;
 import com.hollroom.user.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Profile;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -19,8 +16,6 @@ import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.sql.Timestamp;
-import java.util.Optional;
 
 @Service
 public class ProfileService {
@@ -33,7 +28,7 @@ public class ProfileService {
         this.userRepository = userRepository;
     }
 
-    public UserDTO getUserByEmail(String email) { //프로필 불러오기
+    public UserSignupDTO getUserByEmail(String email) { //프로필 불러오기
         UserEntity userEntity = userRepository.findByUserEmail(email).orElseThrow(
                 () -> new CheckApiException(ErrorCode.NOT_EXIST_USER)
         );
@@ -52,7 +47,7 @@ public class ProfileService {
             }
 
             // 로컬 정보 업데이트
-            userEntity.setUserLocal(profileDTO.getUserLocal());
+            userEntity.setUserLocation(profileDTO.getUserLocation());
 
             userRepository.save(userEntity);
             return true;
@@ -69,7 +64,7 @@ public class ProfileService {
                     .orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
             // 로컬 정보 업데이트
-            userEntity.setUserInfo(profileDTO.getUserInfo());
+            userEntity.setUserIntroduce(profileDTO.getUserIntroduce());
 
             userRepository.save(userEntity);
             return true;
