@@ -35,3 +35,4 @@ public class UserSignupDTO {
     private String userLocation;
 
 }
+
