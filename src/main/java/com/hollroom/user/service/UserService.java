@@ -73,11 +73,12 @@ public class UserService {
         userRepository.save(userEntity);
     }
     //================================================================================================================//
-    public String login(UserSignupDTO userDTO) {
 
-        String userEmail = userDTO.getUserEmail();
+    public String login(UserSignupDTO userSignupDTO) {
 
-        String userPassword = userDTO.getUserPassword();
+        String userEmail = userSignupDTO.getUserEmail();
+
+        String userPassword = userSignupDTO.getUserPassword();
 
         UserEntity userEntity = userRepository.findByUserEmail(userEmail).orElseThrow(
                 () -> new CheckApiException(ErrorCode.NOT_EXIST_USER)

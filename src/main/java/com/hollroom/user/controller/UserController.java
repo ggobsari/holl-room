@@ -5,10 +5,10 @@ import com.hollroom.user.service.UserService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
 
 @Controller //restcontroller는 데이터를 리턴, 뷰를 리턴하려면 controller로 변환
 @Slf4j
@@ -31,7 +31,7 @@ public class UserController {
 
     @GetMapping("/login")
     public String loginForm(){
-        return "login";
+        return "user/login";
     }
 
     @PostMapping("/login")
@@ -39,9 +39,9 @@ public class UserController {
         String loginResult = userService.login(userSignupDTO);
         if(loginResult != null){
             session.setAttribute("loginEmail", "로그인 성공");
-            return "main";
+            return "/main";
         } else{
-            return "login";
+            return "/login";
         }
     }
 }

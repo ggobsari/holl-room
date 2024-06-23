@@ -2,6 +2,7 @@ package com.hollroom.user.dto;
 
 import lombok.*;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @Getter
@@ -34,3 +35,4 @@ public class UserSignupDTO {
     private String userLocation;
 
 }
+
