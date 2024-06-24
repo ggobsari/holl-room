@@ -1,12 +1,14 @@
 package com.hollroom.mypage.controller;
 
-import com.hollroom.mypage.dto.ProfileDTO;
 import com.hollroom.mypage.service.ProfileService;
+import com.hollroom.user.dto.UserSignupDTO;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 import java.util.Collections;
 
 @Controller
@@ -25,8 +27,8 @@ public class ProfileController {
     public String getProfilePage(Model model) {
         // 모델에 사용자 프로필 정보를 추가
         // 로그인된 사용자 ID를 가져오는 로직 (예: SecurityContextHolder에서 가져오기)
-        String loggedInUserId = "1111@1111"; // 실제 로그인된 사용자 ID로 변경 필요
-        ProfileDTO user = (ProfileDTO) profileService.getUserByEmail(loggedInUserId);
+        String loggedInUserEmail = "1111@1111"; // 실제 로그인된 사용자 ID로 변경 필요
+        UserSignupDTO user = profileService.getUserByEmail(loggedInUserEmail);
         model.addAttribute("user", user);
         // mypage/profile.html 뷰를 반환
 //        System.out.println(user.getUserEmail());
@@ -43,9 +45,9 @@ public class ProfileController {
 
     //프로필 업데이트
     @PostMapping("/updateUser")
-    public ResponseEntity<?> updateUser(@RequestBody ProfileDTO profileDTO) {
+    public ResponseEntity<?> updateUser(@RequestBody UserSignupDTO userSignupDTO) {
         try {
-            boolean isUpdated = profileService.updateUserPassLocal(profileDTO);
+            boolean isUpdated = profileService.updateUserPassLocal(userSignupDTO);
             if (isUpdated) {
                 return ResponseEntity.ok().body(Collections.singletonMap("message", "프로필이 성공적으로 업데이트되었습니다."));
             } else {
@@ -59,9 +61,9 @@ public class ProfileController {
 
     //자기소개 업데이트
     @PostMapping("/updateUserInfo")
-    public ResponseEntity<?> updateUserInfo(@RequestBody ProfileDTO profileDTO) {
+    public ResponseEntity<?> updateUserInfo(@RequestBody UserSignupDTO userSignupDTO) {
         try {
-            boolean isUpdated = profileService.updateUserInfo(profileDTO);
+            boolean isUpdated = profileService.updateUserInfo(userSignupDTO);
             if (isUpdated) {
                 return ResponseEntity.ok().body(Collections.singletonMap("message", "프로필이 성공적으로 업데이트되었습니다."));
             } else {
@@ -73,15 +75,15 @@ public class ProfileController {
         }
     }
 
+    //    사진 업데이트
+    @PostMapping("/uploadProfileImage")
+    public ResponseEntity<?> uploadProfileImage(@RequestParam("image") MultipartFile image, @RequestPart("profile") UserSignupDTO userSignupDTO) throws IOException {
+        // Service 호출하여 이미지 업로드 및 프로필 업데이트 처리
+        profileService.saveProfileImage(image, userSignupDTO);
+        return ResponseEntity.ok().body("이미지 업로드 성공");
+    }
+}
 
-//    사진 업데이트
-@PostMapping("/uploadProfileImage")
-public ResponseEntity<?> uploadProfileImage(@RequestParam("image") MultipartFile image, @RequestPart("profile") ProfileDTO profileDTO) {
-    // Service 호출하여 이미지 업로드 및 프로필 업데이트 처리
-    profileService.saveProfileImage(image, profileDTO);
-    return ResponseEntity.ok().body("이미지 업로드 성공");
-}
-}
 
 
 

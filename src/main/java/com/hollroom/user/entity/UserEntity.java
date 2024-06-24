@@ -48,7 +48,7 @@ public class UserEntity {
 
     private Boolean ban;
 
-    private Boolean delete;
+    private Boolean is_deleted;
 
     public UserEntity(String userEmail, String userPassword, String userName, String userNickname,
                       String userIntroduce, String userPhoneNumber, Date userBirthday,
@@ -66,6 +66,6 @@ public class UserEntity {
         this.userAdmin = userAdmin;
         this.userSignupAt = userSignupAt;
         this.ban = ban;
-        this.delete = delete;
+        this.is_deleted = delete;
     }
 }

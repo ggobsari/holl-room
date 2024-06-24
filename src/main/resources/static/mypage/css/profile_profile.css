@@ -5,6 +5,12 @@
   position: relative;
   width: 1460px;
   flex-direction: column;
+  background-color: #f8f9fa;
+  border-color: blue;
+  border-style:solid;
+  border-width: 1px;
+  border-radius: 20px;
+
 }
 
 .profile_profile .overlap-group5 {
