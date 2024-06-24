@@ -11,7 +11,6 @@ import java.util.Date;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
 public class UserSignupDTO {
 
     private Long id;
@@ -24,7 +23,7 @@ public class UserSignupDTO {
 
     private String userNickname;
 
-    private String userImage;
+//    private MultipartFile userImage;
 
     private String userIntroduce;
 
