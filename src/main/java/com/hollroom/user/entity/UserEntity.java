@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
 import java.util.Date;
@@ -49,14 +51,13 @@ public class UserEntity {
     private Boolean delete;
 
     public UserEntity(String userEmail, String userPassword, String userName, String userNickname,
-                      String userImage, String userIntroduce, String userPhoneNumber, Date userBirthday,
+                      String userIntroduce, String userPhoneNumber, Date userBirthday,
                       String userGender, String userLocation, LocalDate userSignupAt, Boolean userAdmin,
                       Boolean ban, Boolean delete) {
         this.userEmail = userEmail;
         this.userPassword = userPassword;
         this.userName = userName;
         this.userNickname = userNickname;
-        this.userImage = userImage;
         this.userIntroduce = userIntroduce;
         this.userPhoneNumber = userPhoneNumber;
         this.userBirthday = userBirthday;

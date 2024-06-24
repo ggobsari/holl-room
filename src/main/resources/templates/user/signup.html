@@ -20,96 +20,139 @@
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=a3660f8de5e77b73f4c7822adeb86bec&libraries=services"></script>
-<script>
-    // 상품 이미지 미리 보기
-    function previewImage() {
-        const file = $("#image")[0].files[0];
-        // 웹은 문자열 기반이라 바이너리 데이터를 주고받으려면 base64 방식으로 인코딩을 한다.
-        // 자바스크립트의 FileReader 내장 객체를 생성
-        const reader = new FileReader();
-        // file 객체를 base64 방식으로 인코딩해서 result 속성에 저장
-        reader.readAsDataURL(file);
-        reader.onload = function() {
-            $('#preview').attr("src", reader.result);
-        }
-        return true;
-    }
-    $(document).ready(function() {
-        $('#image').change(previewImage);
-    })
 
+<script>
+    $(document).ready(function() {
+        // $('#userImage').change(previewImage);
+        // 파일 선택 시 미리보기
+        // $("#userImage").change(function () {
+        //     console.log("#userImage");
+        //     let file = this.files[0];
+        //     let reader = new FileReader();
+        //     reader.onload = function (e) {
+        //         $("#preview").attr("src", e.target.result);
+        //     };
+        //     reader.readAsDataURL(file);
+        // });
+
+        // 폼 제출 이벤트 처리
+        $('#enter').click(function (e){
+            e.preventDefault();//기본 이벤트 제거(폼 제출 방지)
+
+            let formData = new FormData();
+            let myfile = $("#userImage")[0];
+
+            //폼 데이터 추가
+            formData.append('userEmail', $('#userEmail').val());
+            formData.append('userPassword', $('#userPassword').val());
+            formData.append('userName', $('#userName').val());
+            formData.append('userNickname', $('#userNickname').val());
+            // formData.append('userImage', myfile.files[0]);
+            formData.append('userIntroduce', $('#userIntroduce').val());
+            formData.append('userPhoneNumber', $('#userPhoneNumber').val());
+            formData.append('userBirthday', $('#userBirthday').val());
+            formData.append('userGender', $('input[name=gender]:checked').val());
+            formData.append('userLocation', $('#userLocation').val());
+            for(val of formData.values()){
+                console.log(val)
+            }
+            $.ajax({
+                url: '/hollroom/signup',
+                type: 'POST',
+                data: formData,
+                contentType: false, //파일 업로드를 위해 false
+                dataType: "text",
+                processData: false,//파일 업로드를 위해 false
+                success: function (){
+                    alert('회원가입 성공');
+                    window.location.href = '/hollroom/login'; //회원가입 성공 후 리다이렉트
+                },
+                error: function (){
+                    alert('회원가입 실패');
+                }
+            })
+        })
+    });
 </script>
 
 <!-- Button trigger modal -->
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">회원가입</button>
+<button id="btn-save" type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">회원가입</button>
 
 <!-- Modal -->
 <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
-        <div style="height: 1750px" class="modal-content">
+        <div style="height: 1450px" class="modal-content">
             <div class="modal-header">
                 <h2 class="modal-title" id="exampleModalCenterTitle">회원가입</h2>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div style="height: 500px" class="member_signup">
-                <form style="height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center" th:action="@{/auth/loginProc}" th:method="POST">
+            <div style="height: 1350px" class="member_signup">
+                <form id="signupForm" style="height: 1350px; display: flex; flex-direction: column; justify-content: center; align-items: center" th:action="@{/auth/loginProc}" th:method="POST">
 
                         <div style="display: flex; justify-content: center; margin-top: 30px" class="member_email_input">
-                            <input style="width: 300px; height: 40px; border-radius: 80px; padding-left: 15px" type="text" name="email" placeholder="이메일">
+                            <input style="width: 300px; height: 40px; border-radius: 80px; padding-left: 15px" id="userEmail" type="text" name="email" placeholder="이메일">
                         </div>
 
                         <div style="display: flex; justify-content: center; margin-top: 30px" class="member_password_input">
-                            <input style="width: 300px; height: 40px; border-radius: 80px; padding-left: 15px" type="password" name="password" placeholder="비밀번호">
+                            <input style="width: 300px; height: 40px; border-radius: 80px; padding-left: 15px" id="userPassword" type="password" name="password" placeholder="비밀번호">
                         </div>
 
                         <div style="display: flex; justify-content: center; margin-top: 30px" class="member_name_input">
-                            <input style="width: 300px; height: 40px; border-radius: 80px; padding-left: 15px" type="text" name="name" placeholder="이름">
+                            <input style="width: 300px; height: 40px; border-radius: 80px; padding-left: 15px" id="userName" type="text" name="name" placeholder="이름">
                         </div>
 
                         <div style="display: flex; justify-content: center; margin-top: 30px" class="member_nickname_input">
-                            <input style="width: 300px; height: 40px; border-radius: 80px; padding-left: 15px" type="text" name="nickname" placeholder="닉네임">
+                            <input style="width: 300px; height: 40px; border-radius: 80px; padding-left: 15px" id="userNickname" type="text" name="nickname" placeholder="닉네임">
                         </div>
 
-                        <form style="display: flex; justify-content: center; margin-top: 30px" class="add_image">
-                            <p style="width: 300px; height: 40px; padding-left: 15px; margin-top: 30px; margin-bottom: 20px; text-align: center">(프로필 사진)</p>
-                            <input style="width: 300px; height: 40px" type="file" name="image" id="image" placeholder="프로필 사진 첨부">
-                        </form>
+<!--                        <div style="display: flex; justify-content: center; margin-top: 30px" class="add_image">-->
+<!--                            <p style="width: 300px; height: 40px; padding-left: 15px; margin-top: 30px; margin-bottom: 20px; text-align: center">(프로필 사진)</p>-->
+<!--                        </div>-->
 
-                        <div style="width: 300px; height: 300px; display: flex; justify-content: center; margin: auto">
-                            <img style="width: 100%; height: 100%; display: table-cell; vertical-align: middle" id="preview">
+<!--                        <div style="display: flex; justify-content: center; margin-top: 30px">-->
+<!--                            <input style="width: 300px; height: 40px" type="file" name="image" id="userImage" placeholder="프로필 사진 첨부">-->
+<!--                        </div>-->
+
+<!--                        <div style="width: 300px; height: 300px; display: flex; justify-content: center; margin: auto">-->
+<!--                            <img style="width: 300px; height: 300px; display: table-cell; vertical-align: middle" id="preview">-->
+<!--                        </div>-->
+
+                        <div style="display: flex; justify-content: center; margin-top: 30px" class="member_introduce_input">
+                            <input style="width: 300px; height: 200px; padding-left: 15px" id="userIntroduce" type="text" name="introduce" placeholder="자기소개">
                         </div>
 
-                        <div style="display: flex; justify-content: center; margin-top: 30px" class="member_nickname_input">
-                            <input style="width: 300px; height: 200px; padding-left: 15px" type="text" name="introduce" placeholder="자기소개">
+                        <div style="display: flex; justify-content: center; margin-top: 30px" class="member_phone_number_input">
+                            <input style="width: 300px; height: 40px; border-radius: 80px; padding-left: 15px" id="userPhoneNumber" type="text" name="phone_number" placeholder="휴대폰 번호">
                         </div>
 
-                        <div style="display: flex; justify-content: center; margin-top: 30px" class="member_nickname_input">
-                            <input style="width: 300px; height: 40px; border-radius: 80px; padding-left: 15px" type="text" name="phone_number" placeholder="휴대폰 번호">
-                        </div>
-
-                        <label style="display: flex; justify-content: center; margin-top: 30px" for="date">생년월일 :
+                        <label style="display: flex; justify-content: center; margin-top: 30px" for="userBirthday">생년월일 :
                             <input style="margin-left: 10px" type="date"
-                                   id="date"
+                                   id="userBirthday"
                                    max="2024-12-31"
                                    min="1900-01-01"
                                    value="2024-06-22">
                         </label>
 
-                        <div style="display: flex; justify-content: center; margin-top: 30px">
+                        <div style="display: flex; justify-content: center; margin-top: 30px" id="userGender">
                             <span style="margin-right: 50px">성별</span>
-                            <input type="radio" name="gender" value="man">남
-                            <input style="margin-left: 50px" type="radio" name="gender" value="woman">여
+                            <label>
+                                <input type="radio" name="gender" value="man">남
+                            </label>
+                            <label style="margin-left: 50px">
+                                <input type="radio" name="gender" value="woman">여
+                            </label>
                         </div>
 
                         <div style="display: flex; justify-content: center; margin-top: 30px; margin-bottom: 20px">
-                            <input style="width: 250px" type="text" id="sample5_address" placeholder="주소">
+                            <input style="width: 250px" type="text" id="userLocation" placeholder="주소">
                             <input type="button" onclick="sample5_execDaumPostcode()" value="주소 검색"><br>
                         </div>
 
-                        <div id="map" style="width:300px; height:300px; display: flex; justify-content: center; margin: auto"></div>
+                        <div id="map" style="width:300px; height:300px; display: flex; justify-content: center"></div>
 
                         <script>// 지도
                         var mapContainer = document.getElementById('map'), // 지도를 표시할 div
@@ -135,7 +178,7 @@
                                     var addr = data.address; // 최종 주소 변수
 
                                     // 주소 정보를 해당 필드에 넣는다.
-                                    document.getElementById("sample5_address").value = addr;
+                                    document.getElementById("userLocation").value = addr;
                                     // 주소로 상세 정보를 검색
                                     geocoder.addressSearch(data.address, function(results, status) {
                                         // 정상적으로 검색이 완료됐으면
@@ -161,7 +204,7 @@
 
                     <div style="" class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
-                        <button type="button" class="btn btn-primary">확인</button>
+                        <button type="button" id="enter" class="btn btn-primary">확인</button>
                     </div>
                 </form>
             </div>
