@@ -1,6 +1,8 @@
 package com.hollroom.user.dto;
 
 import lombok.*;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
 import java.util.Date;
@@ -9,7 +11,6 @@ import java.util.Date;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
 public class UserSignupDTO {
 
     private Long id;
@@ -22,12 +23,13 @@ public class UserSignupDTO {
 
     private String userNickname;
 
-    private String userImage;
+//    private MultipartFile userImage;
 
     private String userIntroduce;
 
     private String userPhoneNumber;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date userBirthday;
 
     private String userGender;
