@@ -46,17 +46,16 @@ public class UserEntity {
 
     private Boolean ban;
 
-    private Boolean delete;
+    private Boolean is_deleted;
 
     public UserEntity(String userEmail, String userPassword, String userName, String userNickname,
-                      String userImage, String userIntroduce, String userPhoneNumber, Date userBirthday,
+                      String userIntroduce, String userPhoneNumber, Date userBirthday,
                       String userGender, String userLocation, LocalDate userSignupAt, Boolean userAdmin,
                       Boolean ban, Boolean delete) {
         this.userEmail = userEmail;
         this.userPassword = userPassword;
         this.userName = userName;
         this.userNickname = userNickname;
-        this.userImage = userImage;
         this.userIntroduce = userIntroduce;
         this.userPhoneNumber = userPhoneNumber;
         this.userBirthday = userBirthday;
@@ -65,6 +64,6 @@ public class UserEntity {
         this.userAdmin = userAdmin;
         this.userSignupAt = userSignupAt;
         this.ban = ban;
-        this.delete = delete;
+        this.is_deleted = delete;
     }
 }

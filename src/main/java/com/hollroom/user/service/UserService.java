@@ -66,7 +66,7 @@ public class UserService {
             throw new CheckApiException(ErrorCode.EXIST_EMAIL);
         }
 
-        UserEntity userEntity = new UserEntity(userEmail, userPassword, userName, userNickname, userImage,
+        UserEntity userEntity = new UserEntity(userEmail, userPassword, userName, userNickname,
                 userIntroduce, userPhoneNumber, userBirthday, userGender, userLocation, userSignAt,
                 userAdmin, ban, delete);
 
