@@ -21,8 +21,13 @@ public class Controller {
         return "mypage/inquiry";  // mypage/inquiry.html 뷰를 반환
     }
 
-    @GetMapping("/withdrawal")
-    public String withdrawal() {
-        return "mypage/withdrawal";  // mypage/withdrawal.html 뷰를 반환
+    @GetMapping("/inquiry_write")
+    public String inquiry_write() {
+        return "mypage/inquiry_write";  // mypage/withdrawal.html 뷰를 반환
+    }
+
+    @GetMapping("/inquiry_content")
+    public String inquiry_content() {
+        return "mypage/inquiry_content";  // mypage/withdrawal.html 뷰를 반환
     }
 }

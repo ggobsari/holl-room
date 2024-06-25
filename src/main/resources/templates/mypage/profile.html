@@ -14,13 +14,15 @@
   <link rel="stylesheet" type="text/css" href="css/globals.css" />
   <link rel="stylesheet" type="text/css" href="css/profile_profile.css" />
   <link rel="stylesheet" type="text/css" href="css/profile_shape.css" />
+
+  <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=a3660f8de5e77b73f4c7822adeb86bec&libraries=services"></script>
   <script src="js/profile.js"></script>
 </head>
 <body>
 <div layout:fragment="content">
   <div class="container-center-horizontal">
     <div class="profile_profile screen">
-      <div class="overlap-group6" style="background-color: #f8f9fa">
+      <div class="overlap-group6" >
         <div class="content2">
           <div class="overlap-group5">
             <div class="basic-info-group">
@@ -43,10 +45,10 @@
                 </div>
                 <div class="flex-col-1">
                   <div class="text-30 abeezee-normal-black-14px">실 명</div>
-                  <input type="text" class="rectangle-18" th:value="${user.getUserName()}" readonly />
+                  <input id="realname" type="text" class="rectangle-18" th:value="${user.getUserName()}" readonly />
                 </div>
               </div>
-              <input type="text" class="rectangle-16" th:value="${user.getUserEmail()}" readonly/>
+              <input id="email" type="text" class="rectangle-16" th:value="${user.getUserEmail()}" readonly/>
               <div class="text-container abeezee-normal-black-14px">
                 <div class="text">비밀번호</div>
                 <div class="text-26">비밀번호 확인</div>
@@ -61,35 +63,37 @@
               </div>
               <div class="flex-row-3 flex-row-5">
                 <input type="text" class="rectangle" th:value="${#dates.format(user.getUserBirthday(), 'yyyy년 MM월 dd일')}" readonly />
-                <input type="text" class="rectangle-27" th:value="${user.getUserGender() ? ' 남 ' : ' 여 '}" readonly />
+                <input type="text" class="rectangle-27" th:value="${user.getUserGender()}" readonly />
               </div>
               <div class="flex-row-4 flex-row-5">
                 <div class="text-29">지역 정보</div>
               </div>
               <div class="rectangle-23"></div>
               <div class="text-36 abeezee-normal-black-14px">거주지역</div>
-              <input type="text" class="rectangle-30" id="userLocal" th:value="${user.getUserLocal()}" />
+              <input type="text" onclick="sample5_execDaumPostcode()" class="rectangle-30" id="userLocal" th:value="${user.getUserLocation()}" />
 
               <input type="hidden" id="userId" th:value="${user.getUserEmail()}" />
             </div>
 
             <div class="flex-row-5 im-web-designer-i">
-              <div id="userInfoText" th:text="${user.getUserInfo() != null ? user.getUserInfo() : '자기소개를 작성해보세요!'}"></div>
-              <textarea id="userInfoInput" rows="4" style="display:none;" th:value="${user.getUserInfo()} "></textarea>
+              <div id="userInfoText" th:text="${user.getUserIntroduce() != null ? user.getUserIntroduce() : '자기소개를 작성해보세요!'}"></div>
+              <textarea id="userInfoInput" rows="4" style="display:none;" th:value="${user.getUserIntroduce() != null ? user.getUserIntroduce() : '자기소개를 작성해보세요!'} "></textarea>
               <button id="editButton" onclick="enableEditUserInfo()">✏️</button>
               <button id="info_saveButton" onclick="saveUserInfo()" style="display:none;">확인</button>
             </div>
 
             <div class="rectangle-14"></div>
-            <div class="rectangle-31"></div>
+
+            <div id="map" class="rectangle-31"></div>
+            <div id="centerAddr"></div>
           </div>
         </div>
         <div class="content1">
           <div class="text-38">프로필</div>
-          <img class="ellipse-1 clickable-box" id="profileImage" onclick="triggerFileUpload()" th:src="${user.getUserImage()} != null ? ${user.getUserImage()} : '/mypage/img/no_images.png'">
+          <img class="ellipse-1 clickable-box" id="profileImage" onclick="triggerFileUpload()" th:src="${user.getUserImage()} != null ? ${user.getUserImage()} : 'img/no_images.png'">
           <input type="file" id="fileInput" style="display:none" onchange="previewImage(event)">
           <p class="text-39" th:text="${user.getUserNickname()}"></p>
-          <div class="uzbekistan-tashkent" th:text="${user.getUserLocal()}"></div>
+          <div class="uzbekistan-tashkent" th:text="${user.getUserLocation()}"></div>
           <div class="overlap-group4">
             <div class="rectangle-15"></div>
             <div class="text-40 abeezee-normal-kokoda-22px">
@@ -117,4 +121,3 @@
 </div>
 </body>
 </html>
-
