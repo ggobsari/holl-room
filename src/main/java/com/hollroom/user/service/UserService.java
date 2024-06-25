@@ -2,15 +2,21 @@ package com.hollroom.user.service;
 
 import com.hollroom.exception.CheckApiException;
 import com.hollroom.exception.ErrorCode;
-import com.hollroom.user.dto.UserDTO;
+import com.hollroom.user.dto.UserLoginDTO;
+import com.hollroom.user.dto.UserSignupDTO;
 import com.hollroom.user.entity.UserEntity;
 import com.hollroom.user.repository.UserRepository;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.Optional;
 
 @Service
@@ -23,48 +29,76 @@ public class UserService {
 
     private final PasswordEncoder passwordEncoder;
     //================================================================================================================//
-    public void signup(UserDTO userDTO){
+    public void signup(UserSignupDTO userSignupDTO){
         // 비밀번호 빈칸 X
-        if(userDTO.getUserPassword().isEmpty()){
+        if(userSignupDTO.getUserPassword().isEmpty()){
             throw new CheckApiException(ErrorCode.EMPTY_PASSWORD);
         }
 
-        String userEmail = userDTO.getUserEmail();
+        String userEmail = userSignupDTO.getUserEmail();
 
-        String userPassword = passwordEncoder.encode(userDTO.getUserPassword());
+        String userPassword = passwordEncoder.encode(userSignupDTO.getUserPassword());
 
-        String userName = userDTO.getUserName();
+        String userName = userSignupDTO.getUserName();
+
+        String userNickname = userSignupDTO.getUserNickname();
+
+        String userIntroduce = userSignupDTO.getUserIntroduce();
+
+        String userPhoneNumber = userSignupDTO.getUserPhoneNumber();
+
+        Date userBirthday = userSignupDTO.getUserBirthday();
+
+        String userGender = userSignupDTO.getUserGender();
+
+        String userLocation = userSignupDTO.getUserLocation();
+
+        LocalDate userSignAt = LocalDate.now();
+
+        Boolean userAdmin = false;
+
+        Boolean ban = false;
+
+        Boolean delete = false;
 
         //이메일 중복 검사
-        Optional<UserEntity> userEmailDuplicate = userRepository.findByUserEmail(userDTO.getUserEmail());
+        Optional<UserEntity> userEmailDuplicate = userRepository.findByUserEmail(userSignupDTO.getUserEmail());
 
         if(userEmailDuplicate.isPresent()){
             throw new CheckApiException(ErrorCode.EXIST_EMAIL);
         }
 
-        UserEntity userEntity = new UserEntity(userEmail, userPassword, userName);
+        UserEntity userEntity = new UserEntity(userEmail, userPassword, userName, userNickname,
+                userIntroduce, userPhoneNumber, userBirthday, userGender, userLocation, userSignAt,
+                userAdmin, ban, delete);
 
         userRepository.save(userEntity);
     }
     //================================================================================================================//
-    public String login(UserDTO userDTO) {
 
-        String userEmail = userDTO.getUserEmail();
+    public HttpSession login(UserLoginDTO userLoginDTO, HttpServletRequest request) {
 
-        String userPassword = userDTO.getUserPassword();
+        final String userNickname = "USER_NICKNAME";
+
+        String userEmail = userLoginDTO.getUserEmail();
+
+        String userPassword = userLoginDTO.getUserPassword();
 
         UserEntity userEntity = userRepository.findByUserEmail(userEmail).orElseThrow(
                 () -> new CheckApiException(ErrorCode.NOT_EXIST_USER)
         );
 
-        log.info(userEmail);
-
         if(!passwordEncoder.matches(userPassword, userEntity.getUserPassword())){
             throw new CheckApiException(ErrorCode.NOT_EQUAL_PASSWORD);
         }
+        //세션 있으면 세션 반환, 없으면 신규 세션 생성
+        HttpSession session = request.getSession();
 
-        log.info(userPassword);
+        session.setAttribute(userNickname, userEntity.getUserNickname());
 
-        return "로그인 성공!";
+        log.info(session.toString());
+
+        return session;
     }
+    //================================================================================================================//
 }

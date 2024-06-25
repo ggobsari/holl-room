@@ -1,0 +1,51 @@
+/* profile_interest.css, profile_profile.css, profile_mywrite.css, profile_inquiry.css, profile_withdrawal.css */
+.profile_shape {
+    align-items: flex-start;
+    background-color: var(--white);
+    display: flex;
+    height: 1263px;
+    justify-content: center;
+    overflow: hidden;
+    padding: 70px 0;
+    width: 1440px;
+}
+
+.profile_shape .rectangle-15 {
+    background-color: var(--gallery);
+    height: 168px;
+    position: absolute;
+    top: 10px;
+    width: 96%;
+    margin-left: 1%;
+    margin-right: 1%;
+
+
+}
+
+.profile_shape .text-1,
+.profile_shape .text-2,
+.profile_shape .text-3,
+.profile_shape .text-4,
+.profile_shape .text-5,
+.profile_shape .text-6 {
+    position: absolute;
+    white-space: nowrap;
+    letter-spacing: 0;
+    line-height: normal;
+}
+
+.profile_shape .text-1 { left: 110px; top: 122px; width: 102px; }
+.profile_shape .text-2 { left: 247px; top: 122px; width: 95px; }
+.profile_shape .text-3 { left: 384px; top: 122px; width: 61px; }
+.profile_shape .text-4 { left: 490px; top: 122px; width: 81px; }
+.profile_shape .text-5 { left: 598px; top: 122px; width: 81px; }
+.profile_shape .text-6 { left: 100px; top: 43px; width: 175px; }
+
+.profile_shape .rectangle-11 {
+    background-color: var(--kokoda);
+    height: 3px;
+    left: 598px;
+    position: absolute;
+    top: 175px;
+    width: 81px;
+}
