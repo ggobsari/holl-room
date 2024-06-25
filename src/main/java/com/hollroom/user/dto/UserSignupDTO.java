@@ -1,8 +1,8 @@
 package com.hollroom.user.dto;
 
+import com.hollroom.user.entity.UserEntity;
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
 import java.util.Date;
@@ -12,8 +12,6 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserSignupDTO {
-
-    private Long id;
 
     private String userEmail;
 
@@ -36,5 +34,24 @@ public class UserSignupDTO {
 
     private String userLocation;
 
+    private LocalDate userSignupAt;
+
+    private Boolean userAdmin;
+
+
+    public UserSignupDTO(UserEntity userEntity) {
+        this.userEmail = userEntity.getUserEmail();
+        this.userPassword = userEntity.getUserPassword();
+        this.userName = userEntity.getUserName();
+        this.userNickname = userEntity.getUserNickname();
+//        this.userImage = userEntity.getUserImage();
+        this.userIntroduce = userEntity.getUserIntroduce();
+        this.userPhoneNumber = userEntity.getUserPhoneNumber();
+        this.userBirthday = userEntity.getUserBirthday();
+        this.userGender = userEntity.getUserGender();
+        this.userLocation = userEntity.getUserLocation();
+        this.userSignupAt = userEntity.getUserSignupAt();
+        this.userAdmin = userEntity.getUserAdmin();
+    }
 }
 
