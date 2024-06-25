@@ -117,7 +117,7 @@ public class ProfileService {
     public void deactivateUser(Long userId) {
         UserEntity user = userRepository.findById(userId).orElse(null);
         if (user != null) {
-            user.setIs_deleted(true);
+            user.setIsDeleted(true);
             userRepository.save(user);
         }
     }

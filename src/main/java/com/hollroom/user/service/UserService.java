@@ -13,7 +13,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
 import java.util.Date;
@@ -30,10 +29,10 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
     //================================================================================================================//
     public void signup(UserSignupDTO userSignupDTO){
-        // 비밀번호 빈칸 X
-        if(userSignupDTO.getUserPassword().isEmpty()){
-            throw new CheckApiException(ErrorCode.EMPTY_PASSWORD);
-        }
+//        // 비밀번호 빈칸 X
+//        if(userSignupDTO.getUserPassword().isEmpty()){
+//            throw new CheckApiException(ErrorCode.EMPTY_PASSWORD);
+//        }
 
         String userEmail = userSignupDTO.getUserEmail();
 
@@ -61,12 +60,12 @@ public class UserService {
 
         Boolean delete = false;
 
-        //이메일 중복 검사
-        Optional<UserEntity> userEmailDuplicate = userRepository.findByUserEmail(userSignupDTO.getUserEmail());
-
-        if(userEmailDuplicate.isPresent()){
-            throw new CheckApiException(ErrorCode.EXIST_EMAIL);
-        }
+//        //이메일 중복 검사
+//        Optional<UserEntity> userEmailDuplicate = userRepository.findByUserEmail(userSignupDTO.getUserEmail());
+//
+//        if(userEmailDuplicate.isPresent()){
+//            throw new CheckApiException(ErrorCode.EXIST_EMAIL);
+//        }
 
         UserEntity userEntity = new UserEntity(userEmail, userPassword, userName, userNickname,
                 userIntroduce, userPhoneNumber, userBirthday, userGender, userLocation, userSignAt,
@@ -75,7 +74,14 @@ public class UserService {
         userRepository.save(userEntity);
     }
     //================================================================================================================//
-
+    public Optional<UserEntity> isNicknameDuplicate(String userNickname){
+        return userRepository.findByUserNickname(userNickname);
+    }
+    //================================================================================================================//
+    public Optional<UserEntity> isEmailAlreadyExists(String userEmail){
+        return userRepository.findByUserEmail(userEmail);
+    }
+    //================================================================================================================//
     public HttpSession login(UserLoginDTO userLoginDTO, HttpServletRequest request) {
 
         final String userNickname = "USER_NICKNAME";
@@ -94,7 +100,7 @@ public class UserService {
         //세션 있으면 세션 반환, 없으면 신규 세션 생성
         HttpSession session = request.getSession();
 
-        session.setAttribute(userNickname, userEntity.getUserNickname());
+        session.setAttribute(userNickname, userEntity);
 
         log.info(session.toString());
 

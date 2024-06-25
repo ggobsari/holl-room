@@ -13,8 +13,6 @@ import java.util.Date;
 @AllArgsConstructor
 public class UserSignupDTO {
 
-    private Long id;
-
     private String userEmail;
 
     private String userPassword;
@@ -42,12 +40,11 @@ public class UserSignupDTO {
 
 
     public UserSignupDTO(UserEntity userEntity) {
-        this.id = id;
         this.userEmail = userEntity.getUserEmail();
         this.userPassword = userEntity.getUserPassword();
         this.userName = userEntity.getUserName();
         this.userNickname = userEntity.getUserNickname();
-        this.userImage = userEntity.getUserImage();
+//        this.userImage = userEntity.getUserImage();
         this.userIntroduce = userEntity.getUserIntroduce();
         this.userPhoneNumber = userEntity.getUserPhoneNumber();
         this.userBirthday = userEntity.getUserBirthday();

@@ -19,11 +19,13 @@ public class UserEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true)
+    @Column(unique = true, nullable = false)
     private String userEmail;
 
+    @Column(nullable = false)
     private String userPassword;
 
+    @Column(nullable = false)
     private String userName;
 
     @Column(unique = true)
@@ -36,10 +38,12 @@ public class UserEntity {
     @Column(unique = true)
     private String userPhoneNumber;
 
+    @Column(nullable = false)
     private Date userBirthday;
 
     private String userGender;
 
+    @Column(nullable = false)
     private String userLocation;
 
     private LocalDate userSignupAt;
@@ -48,12 +52,12 @@ public class UserEntity {
 
     private Boolean ban;
 
-    private Boolean is_deleted;
+    private Boolean isDeleted;
 
     public UserEntity(String userEmail, String userPassword, String userName, String userNickname,
                       String userIntroduce, String userPhoneNumber, Date userBirthday,
                       String userGender, String userLocation, LocalDate userSignupAt, Boolean userAdmin,
-                      Boolean ban, Boolean delete) {
+                      Boolean ban, Boolean isDeleted) {
         this.userEmail = userEmail;
         this.userPassword = userPassword;
         this.userName = userName;
@@ -66,6 +70,6 @@ public class UserEntity {
         this.userAdmin = userAdmin;
         this.userSignupAt = userSignupAt;
         this.ban = ban;
-        this.is_deleted = delete;
+        this.isDeleted = isDeleted;
     }
 }
