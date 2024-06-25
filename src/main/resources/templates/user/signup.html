@@ -7,7 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
     <!--    <link rel="stylesheet" href="/static/css/user/login.css"/>-->
     <title>회원가입</title>
@@ -16,15 +17,120 @@
 <!-- Optional JavaScript -->
 
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=a3660f8de5e77b73f4c7822adeb86bec&libraries=services"></script>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+<script type="text/javascript"
+        src="//dapi.kakao.com/v2/maps/sdk.js?appkey=a3660f8de5e77b73f4c7822adeb86bec&libraries=services"></script>
 
 <script>
-    $(document).ready(function() {
+    $(document).ready(function () {
+        let isVerified = false;
+        let isNicknameValid = false;
+        let isEmailValid = false;
+
+        //휴대폰 번호 유효성 검사 함수
+        function validatePhoneNumber() {
+            var phoneNumberInput = document.getElementById('userPhoneNumber');
+            var phoneNumberError = document.getElementById('phone_number_error');
+            var phoneNumberValue = phoneNumberInput.value;
+
+            var phoneNumberPattern = /^\d{3}-\d{3,4}-\d{4}$/;
+
+            if (!phoneNumberPattern.test(phoneNumberValue)) {
+                phoneNumberError.style.display = 'block';
+                alert("휴대폰 번호를 확인해주세요. - 포함되어야 합니다.");
+                return false;
+            }
+            phoneNumberError.style.display = 'none';
+            return true;
+        }
+
+        //인증번호 발송 버튼 클릭 이벤트
+        $('#phoneCheck').click(function () {
+            if (!validatePhoneNumber()) {
+                return
+            }
+            var userPhoneNumber = $('#userPhoneNumber').val();
+
+            $.ajax({
+                url: '/hollroom/sendSMS',
+                type: 'POST',
+                data: {userPhoneNumber: userPhoneNumber},
+                success: function (response) {
+                    if (response) {
+                        alert("인증번호가 전송되었습니다. 입력하세요.");
+                        $('#sendSMSCheck').show();
+                    } else {
+                        alert("번호를 다시 입력해주세요.");
+                    }
+                },
+                error: function () {
+                    alert('서버 오류입니다. 다시 시도해주세요.');
+                }
+            })
+        })
+
+        $('#sendSMSCheckButton').click(function () {
+            var verificationCode = $('#sendSMSInput').val();
+            var userPhoneNumber = $('#userPhoneNumber').val();
+
+            $.ajax({
+                url: '/hollroom/verify',
+                type: 'POST',
+                data: {
+                    userPhoneNumber: userPhoneNumber,
+                    verifyCode: verificationCode
+                },
+                success: function (response) {
+                    if (response === true) {
+                        alert("인증에 성공했습니다.");
+                        isVerified = true;
+                        $('#sendSMSCheck').hide();
+                    } else {
+                        alert("인증번호가 올바르지 않습니다. 다시 확인해주세요.");
+                    }
+                },
+                error: function () {
+                    alert('서버 오류입니다. 다시 시도해주세요.');
+                }
+            })
+        })
+
+        //이메일 유효성 확인
+        function validateEmail() {
+            var emailInput = document.getElementById('userEmail');
+            // var emailDuplicated = document.getElementById('email-duplicated');
+            var emailError = document.getElementById('email-error');
+            var emailValid = document.getElementById('email-valid');
+            var emailValue = emailInput.value;
+
+            var emailPattern = /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-za-z0-9\-]+/;
+
+            if (emailPattern.test(emailValue)) {
+                // emailDuplicated.style.display = 'none';
+                emailError.style.display = 'none';
+                emailValid.style.display = 'block';
+                return true;
+            } else {
+                // emailDuplicated.style.display = 'none';
+                emailError.style.display = 'block';
+                emailValid.style.display = 'none';
+                alert("유효하지 않은 이메일 주소입니다.");
+                return false;
+            }
+
+        }
+
         // $('#userImage').change(previewImage);
         // 파일 선택 시 미리보기
         // $("#userImage").change(function () {
@@ -40,114 +146,70 @@
         // $('#emailCheck').click(function () {
         //
 
-            //닉네임 중복 확인
-            $('#idCheck').click(function () {
-                var userNickname = $('#userNickname').val();
+        //닉네임 중복 확인
+        $('#idCheck').click(function () {
+            var userNickname = $('#userNickname').val();
 
-                $.ajax({
-                    url: '/hollroom/checkNickname',
-                    type: 'GET',
-                    data: {userNickname: userNickname},
-                    success: function (response) {
-                        if (response === "닉네임이 이미 사용 중입니다.") {
-                            alert('중복된 닉네임입니다.');
-                            $('#nickname-error').css('display', 'block');
-                            $('#nickname-valid').css('display', 'none');
-                        } else {
-                            alert('사용 가능한 닉네임입니다.');
-                            $('#nickname-error').css('display', 'none');
-                            $('#nickname-valid').css('display', 'block');
-                        }
-                    },
-                    error: function () {
-                        alert('서버 오류입니다. 다시 시도해주세요.');
+            $.ajax({
+                url: '/hollroom/checkNickname',
+                type: 'GET',
+                data: {userNickname: userNickname},
+                success: function (response) {
+                    if (response === "닉네임이 이미 사용 중입니다.") {
+                        alert('중복된 닉네임입니다.');
+                        $('#nickname-error').show();
+                        $('#nickname-valid').hide();
+                        isNicknameValid = false;
+                    } else {
+                        alert('사용 가능한 닉네임입니다.');
+                        $('#nickname-error').hide();
+                        $('#nickname-valid').show();
+                        isNicknameValid = true;
                     }
-                })
+                },
+                error: function () {
+                    alert('서버 오류입니다. 다시 시도해주세요.');
+                }
+            })
+        })
+
+        // 폼 제출 이벤트 처리
+        $('#enter').click(function (e) {
+            console.log("Is verified: " + isVerified + ", Is nickname valid: " + isNicknameValid);
+            if (!isVerified || !isNicknameValid) {
+                e.preventDefault();
+                if (!isVerified) alert("휴대폰 번호를 인증해주세요.");
+                if (!isNicknameValid) alert('닉네임을 확인해주세요.');
+                return;
+            }
+
+            if (!validateEmail()) {
+                return;
+            }
+
+            var userEmail = $('#userEmail').val();
+
+            $.ajax({
+                url: '/hollroom/checkEmail',
+                type: 'GET',
+                data: {userEmail: userEmail},
+                success: function (response) {
+                    if (response === "이미 사용 중인 이메일입니다.") {
+                        alert("이미 가입되어 있는 이메일입니다.");
+                    } else{
+                        isEmailValid = true;
+                    }
+                },
+                error: function () {
+                    alert('서버 오류입니다. 다시 시도해주세요.');
+                }
             })
 
-            // 폼 제출 이벤트 처리
-            $('#enter').click(function (e) {
+            if (!validatePhoneNumber()) {
+                return;
+            }
 
-                var userEmail = $('#userEmail').val();
-
-                $.ajax({
-                    url: '/hollroom/checkEmail',
-                    type: 'GET',
-                    data: {userEmail: userEmail},
-                    success: function (response) {
-                        if (response === "이미 사용 중인 이메일입니다.") {
-                            alert('중복된 이메일입니다.');
-                        }
-                    },
-                    error: function () {
-                        alert('서버 오류입니다. 다시 시도해주세요.');
-                    }
-                })
-
-                //이메일 유효성 확인
-                function validateEmail() {
-                    var emailInput = document.getElementById('userEmail');
-                    // var emailDuplicated = document.getElementById('email-duplicated');
-                    var emailError = document.getElementById('email-error');
-                    var emailValid = document.getElementById('email-valid');
-                    var emailValue = emailInput.value;
-
-                    var emailPattern = /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-za-z0-9\-]+/;
-
-                    if (emailPattern.test(emailValue)) {
-                        // emailDuplicated.style.display = 'none';
-                        emailError.style.display = 'none';
-                        emailValid.style.display = 'block';
-                        return true;
-                    } else {
-                        // emailDuplicated.style.display = 'none';
-                        emailError.style.display = 'block';
-                        emailValid.style.display = 'none';
-                        alert("유효하지 않은 이메일 주소입니다.");
-                        return false;
-                    }
-
-                }
-
-                e.preventDefault();//기본 이벤트 제거(폼 제출 방지)
-
-                if (!validateEmail()) {
-                    return;
-                }
-
-                // var isUserEmailDuplicate = $('email-valid').is(':visible');
-                //
-                // if (!isUserEmailDuplicate) {
-                //     alert('이미 가입되어 있는 이메일 입니다.');
-                //     return false;
-
-                var isNicknameValid = $('#nickname-valid').is(':visible');
-
-                if (!isNicknameValid) {
-                    alert('닉네임을 확인해주세요.');
-                    return;
-                }
-
-                function validatePhoneNumber(){
-                    var phoneNumberInput = document.getElementById('userPhoneNumber');
-                    var phoneNumberError = document.getElementById('phone_number_error');
-                    var phoneNumberValue = phoneNumberInput.value;
-
-                    var phoneNumberPattern = /^\d{3}-\d{3,4}-\d{4}$/;
-
-                    if(phoneNumberPattern.test(phoneNumberValue)){
-                        return true;
-                    } else{
-                        phoneNumberError.style.display = 'block';
-                        alert("휴대폰 번호를 확인해주세요. - 포함되어야 합니다.")
-                        return false;
-                    }
-                }
-
-                if (!validatePhoneNumber()) {
-                    return;
-                }
-
+            if (isEmailValid === true){
                 let formData = new FormData();
                 // let myfile = $("#userImage")[0];
 
@@ -179,22 +241,25 @@
                         window.location.href = '/hollroom/login'; //회원가입 성공 후 리다이렉트
                     },
                     error: function (response) {
-                        if (response === "닉네임이 이미 사용 중입니다."){
+                        if (response === "닉네임이 이미 사용 중입니다.") {
                             alert('중복된 닉네임입니다.');
-                        } else{
+                        } else {
                             alert("회원가입 실패");
                         }
                     }
                 })
-            })
-        });
+            }
+        })
+    });
 </script>
 
 <!-- Button trigger modal -->
-<button id="btn-save" type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">회원가입</button>
+<button id="btn-save" type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">회원가입
+</button>
 
 <!-- Modal -->
-<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+     aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div style="height: 1450px" class="modal-content">
             <div class="modal-header">
@@ -204,126 +269,144 @@
                 </button>
             </div>
             <div style="height: 1350px" class="member_signup">
-                <form id="signupForm" style="height: 1350px; display: flex; flex-direction: column; justify-content: center; align-items: center" th:action="@{/auth/loginProc}" th:method="POST">
+                <form id="signupForm"
+                      style="height: 1350px; display: flex; flex-direction: column; justify-content: center; align-items: center"
+                      th:action="@{/auth/loginProc}" th:method="POST">
 
-                        <div style="display: flex; justify-content: center; margin-top: 30px" class="member_email_input">
-                            <input style="width: 300px; height: 40px; border-radius: 80px; padding-left: 15px" id="userEmail" type="text" name="email" placeholder="이메일">
-                        </div>
+                    <div style="display: flex; justify-content: center; margin-top: 30px" class="member_email_input">
+                        <input style="width: 300px; height: 40px; border-radius: 80px; padding-left: 15px"
+                               id="userEmail" type="text" name="email" placeholder="이메일">
+                    </div>
 
-<!--                        <span style="color: red; display: none; margin-top: 5px" id="email-duplicated">이미 가입되어 있는 이메일 주소입니다.</span>-->
-                        <span style="color: red; display: none; margin-top: 5px" id="email-error">유효하지 않은 이메일 주소입니다.</span>
-                        <span style="color: blue; display: none; margin-top: 5px" id="email-valid">유효한 이메일 주소입니다.</span>
+                    <!--                        <span style="color: red; display: none; margin-top: 5px" id="email-duplicated">이미 가입되어 있는 이메일 주소입니다.</span>-->
+                    <span style="color: red; display: none; margin-top: 5px" id="email-error">유효하지 않은 이메일 주소입니다.</span>
+                    <span style="color: blue; display: none; margin-top: 5px" id="email-valid">유효한 이메일 주소입니다.</span>
 
-                        <div style="display: flex; justify-content: center; margin-top: 30px" class="member_password_input">
-                            <input style="width: 300px; height: 40px; border-radius: 80px; padding-left: 15px" id="userPassword" type="password" name="password" placeholder="비밀번호">
-                        </div>
+                    <div style="display: flex; justify-content: center; margin-top: 30px" class="member_password_input">
+                        <input style="width: 300px; height: 40px; border-radius: 80px; padding-left: 15px"
+                               id="userPassword" type="password" name="password" placeholder="비밀번호">
+                    </div>
 
-                        <div style="display: flex; justify-content: center; margin-top: 30px" class="member_name_input">
-                            <input style="width: 300px; height: 40px; border-radius: 80px; padding-left: 15px" id="userName" type="text" name="name" placeholder="이름">
-                        </div>
+                    <div style="display: flex; justify-content: center; margin-top: 30px" class="member_name_input">
+                        <input style="width: 300px; height: 40px; border-radius: 80px; padding-left: 15px" id="userName"
+                               type="text" name="name" placeholder="이름">
+                    </div>
 
-                        <div style="display: flex; justify-content: center; margin-top: 30px" class="member_nickname_input">
-                            <input style="width: 200px; height: 40px; border-radius: 80px; padding-left: 15px" id="userNickname" type="text" name="nickname" placeholder="닉네임">
-                            <button style="margin-left: 10px" type="button" id="idCheck">중복확인</button>
-                        </div>
+                    <div style="display: flex; justify-content: center; margin-top: 30px" class="member_nickname_input">
+                        <input style="width: 200px; height: 40px; border-radius: 80px; padding-left: 15px"
+                               id="userNickname" type="text" name="nickname" placeholder="닉네임">
+                        <button style="margin-left: 10px" type="button" id="idCheck">중복확인</button>
+                    </div>
 
-                        <span style="color: red; display: none; margin-top: 5px" id="nickname-error" class="error-message">이미 사용 중인 닉네임입니다.</span>
-                        <span style="color: blue; display: none; margin-top: 5px" id="nickname-valid" class="valid-message">사용 가능한 닉네임입니다.</span>
+                    <span style="color: red; display: none; margin-top: 5px" id="nickname-error" class="error-message">이미 사용 중인 닉네임입니다.</span>
+                    <span style="color: blue; display: none; margin-top: 5px" id="nickname-valid" class="valid-message">사용 가능한 닉네임입니다.</span>
 
-<!--                        <div style="display: flex; justify-content: center; margin-top: 30px" class="add_image">-->
-<!--                            <p style="width: 300px; height: 40px; padding-left: 15px; margin-top: 30px; margin-bottom: 20px; text-align: center">(프로필 사진)</p>-->
-<!--                        </div>-->
+                    <!--                        <div style="display: flex; justify-content: center; margin-top: 30px" class="add_image">-->
+                    <!--                            <p style="width: 300px; height: 40px; padding-left: 15px; margin-top: 30px; margin-bottom: 20px; text-align: center">(프로필 사진)</p>-->
+                    <!--                        </div>-->
 
-<!--                        <div style="display: flex; justify-content: center; margin-top: 30px">-->
-<!--                            <input style="width: 300px; height: 40px" type="file" name="image" id="userImage" placeholder="프로필 사진 첨부">-->
-<!--                        </div>-->
+                    <!--                        <div style="display: flex; justify-content: center; margin-top: 30px">-->
+                    <!--                            <input style="width: 300px; height: 40px" type="file" name="image" id="userImage" placeholder="프로필 사진 첨부">-->
+                    <!--                        </div>-->
 
-<!--                        <div style="width: 300px; height: 300px; display: flex; justify-content: center; margin: auto">-->
-<!--                            <img style="width: 300px; height: 300px; display: table-cell; vertical-align: middle" id="preview">-->
-<!--                        </div>-->
+                    <!--                        <div style="width: 300px; height: 300px; display: flex; justify-content: center; margin: auto">-->
+                    <!--                            <img style="width: 300px; height: 300px; display: table-cell; vertical-align: middle" id="preview">-->
+                    <!--                        </div>-->
 
-                        <div style="display: flex; justify-content: center; margin-top: 30px" class="member_introduce_input">
-                            <input style="width: 300px; height: 200px; padding-left: 15px" id="userIntroduce" type="text" name="introduce" placeholder="자기소개">
-                        </div>
+                    <div style="display: flex; justify-content: center; margin-top: 30px"
+                         class="member_introduce_input">
+                        <input style="width: 300px; height: 200px; padding-left: 15px" id="userIntroduce" type="text"
+                               name="introduce" placeholder="자기소개">
+                    </div>
 
-                        <div style="display: flex; justify-content: center; margin-top: 30px" class="member_phone_number_input">
-                            <input style="width: 300px; height: 40px; border-radius: 80px; padding-left: 15px" id="userPhoneNumber" type="text" name="phone_number" placeholder="휴대폰 번호 (- 포함)">
-                        </div>
+                    <div style="display: flex; justify-content: center; margin-top: 30px"
+                         class="member_phone_number_input">
+                        <input style="width: 250px; height: 40px; border-radius: 80px; padding-left: 15px"
+                               id="userPhoneNumber" type="text" name="phone_number" placeholder="휴대폰 번호 (- 포함)">
+                        <button style="margin-left: 10px" id="phoneCheck" type="button">인증</button>
+                    </div>
 
-                        <span style="color: red; display: none; margin-top: 5px" id="phone_number_error" class="error-message">000-0000-000형식으로 입력하세요</span>
+                    <div id="sendSMSCheck" style="display: none; justify-content: center; margin-top: 30px">
+                        <input style="width: 150px; height: 40px; border-radius: 80px; padding-left: 15px"
+                               id="sendSMSInput" type="text" placeholder="인증번호 입력" maxlength="4">
+                        <button style="margin-left: 10px" id="sendSMSCheckButton" type="button">확인</button>
+                    </div>
 
-                        <label style="display: flex; justify-content: center; margin-top: 30px" for="userBirthday">생년월일 :
-                            <input style="margin-left: 10px" type="date"
-                                   id="userBirthday"
-                                   max="2024-12-31"
-                                   min="1900-01-01"
-                                   value="2024-06-22">
+                    <span style="color: red; display: none; margin-top: 5px" id="phone_number_error"
+                          class="error-message">000-0000-000형식으로 입력하세요</span>
+
+                    <label style="display: flex; justify-content: center; margin-top: 30px" for="userBirthday">생년월일 :
+                        <input style="margin-left: 10px" type="date"
+                               id="userBirthday"
+                               max="2024-12-31"
+                               min="1900-01-01"
+                               value="2024-06-22">
+                    </label>
+
+                    <div style="display: flex; justify-content: center; margin-top: 30px" id="userGender">
+                        <span style="margin-right: 50px">성별</span>
+                        <label>
+                            <input type="radio" name="gender" value="man">남
                         </label>
+                        <label style="margin-left: 50px">
+                            <input type="radio" name="gender" value="woman">여
+                        </label>
+                    </div>
 
-                        <div style="display: flex; justify-content: center; margin-top: 30px" id="userGender">
-                            <span style="margin-right: 50px">성별</span>
-                            <label>
-                                <input type="radio" name="gender" value="man">남
-                            </label>
-                            <label style="margin-left: 50px">
-                                <input type="radio" name="gender" value="woman">여
-                            </label>
-                        </div>
+                    <div style="display: flex; justify-content: center; margin-top: 30px; margin-bottom: 20px">
+                        <input style="width: 250px" type="text" id="userLocation" placeholder="주소" readonly>
+                        <input type="button" onclick="sample5_execDaumPostcode()" value="주소 검색"><br>
+                    </div>
 
-                        <div style="display: flex; justify-content: center; margin-top: 30px; margin-bottom: 20px">
-                            <input style="width: 250px" type="text" id="userLocation" placeholder="주소" readonly>
-                            <input type="button" onclick="sample5_execDaumPostcode()" value="주소 검색"><br>
-                        </div>
+                    <div id="map" style="width:300px; height:300px; display: flex; justify-content: center"></div>
 
-                        <div id="map" style="width:300px; height:300px; display: flex; justify-content: center"></div>
+                    <script>// 지도
+                    var mapContainer = document.getElementById('map'), // 지도를 표시할 div
+                        mapOption = {
+                            center: new daum.maps.LatLng(37.537187, 127.005476), // 지도의 중심좌표
+                            level: 5 // 지도의 확대 레벨
+                        };
 
-                        <script>// 지도
-                        var mapContainer = document.getElementById('map'), // 지도를 표시할 div
-                            mapOption = {
-                                center: new daum.maps.LatLng(37.537187, 127.005476), // 지도의 중심좌표
-                                level: 5 // 지도의 확대 레벨
-                            };
-
-                        //지도를 미리 생성
-                        var map = new daum.maps.Map(mapContainer, mapOption);
-                        //주소-좌표 변환 객체를 생성
-                        var geocoder = new daum.maps.services.Geocoder();
-                        //마커를 미리 생성
-                        var marker = new daum.maps.Marker({
-                            position: new daum.maps.LatLng(37.537187, 127.005476),
-                            map: map
-                        });
+                    //지도를 미리 생성
+                    var map = new daum.maps.Map(mapContainer, mapOption);
+                    //주소-좌표 변환 객체를 생성
+                    var geocoder = new daum.maps.services.Geocoder();
+                    //마커를 미리 생성
+                    var marker = new daum.maps.Marker({
+                        position: new daum.maps.LatLng(37.537187, 127.005476),
+                        map: map
+                    });
 
 
-                        function sample5_execDaumPostcode() {
-                            new daum.Postcode({
-                                oncomplete: function(data) {
-                                    var addr = data.address; // 최종 주소 변수
+                    function sample5_execDaumPostcode() {
+                        new daum.Postcode({
+                            oncomplete: function (data) {
+                                var addr = data.address; // 최종 주소 변수
 
-                                    // 주소 정보를 해당 필드에 넣는다.
-                                    document.getElementById("userLocation").value = addr;
-                                    // 주소로 상세 정보를 검색
-                                    geocoder.addressSearch(data.address, function(results, status) {
-                                        // 정상적으로 검색이 완료됐으면
-                                        if (status === daum.maps.services.Status.OK) {
+                                // 주소 정보를 해당 필드에 넣는다.
+                                document.getElementById("userLocation").value = addr;
+                                // 주소로 상세 정보를 검색
+                                geocoder.addressSearch(data.address, function (results, status) {
+                                    // 정상적으로 검색이 완료됐으면
+                                    if (status === daum.maps.services.Status.OK) {
 
-                                            var result = results[0]; //첫번째 결과의 값을 활용
+                                        var result = results[0]; //첫번째 결과의 값을 활용
 
-                                            // 해당 주소에 대한 좌표를 받아서
-                                            var coords = new daum.maps.LatLng(result.y, result.x);
-                                            // 지도를 보여준다.
-                                            mapContainer.style.display = "block";
-                                            map.relayout();
-                                            // 지도 중심을 변경한다.
-                                            map.setCenter(coords);
-                                            // 마커를 결과값으로 받은 위치로 옮긴다.
-                                            marker.setPosition(coords)
-                                        }
-                                    });
-                                }
-                            }).open();
-                        }
-                        </script>
+                                        // 해당 주소에 대한 좌표를 받아서
+                                        var coords = new daum.maps.LatLng(result.y, result.x);
+                                        // 지도를 보여준다.
+                                        mapContainer.style.display = "block";
+                                        map.relayout();
+                                        // 지도 중심을 변경한다.
+                                        map.setCenter(coords);
+                                        // 마커를 결과값으로 받은 위치로 옮긴다.
+                                        marker.setPosition(coords)
+                                    }
+                                });
+                            }
+                        }).open();
+                    }
+                    </script>
 
                     <div style="" class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
