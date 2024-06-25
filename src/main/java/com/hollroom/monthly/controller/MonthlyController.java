@@ -17,6 +17,13 @@ import java.util.List;
 public class MonthlyController {
     private final MonthlyProductService productService;
 
+    @GetMapping
+    public String showMainPage(Model model){
+        List<MonthlyProductDTO> productList = productService.readProductAll();
+        model.addAttribute("productList", productList);
+        return "monthly/monthly";
+    }
+
     @GetMapping("/product")
     public String showProductPage(Model model){
         List<MonthlyProductDTO> productList = productService.readProductAll();

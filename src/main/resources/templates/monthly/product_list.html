@@ -1,27 +1,26 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layout/main_layout}">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <script>
+
+    </script>
 </head>
 <body>
-<div layout:fragment="content" style="background-color: #cfe2ff " >
-    <h1><a th:href="@{/monthly/product/register}">매물등록하기</a></h1>
-    <div>
+    <div th:fragment="productList">
         <ul>
            <li th:each="product : ${productList}" style="display: flex">
-               <div>
+               <div style="height: 90%;">
                    이미지
                </div>
                <div>
-                   <p th:text="${product.deposit}/${product.monthly}"></p>
+                   <p th:text="|${product.deposit}/${product.monthly}|"></p>
                    <p>
-                       <span th:text="${product.pyeongCount}">평수</span>
-                       <span th:text="${product.floorCount}">층수</span>
-                       <span th:text="${product.roomCount}">방수</span>
-                       <span th:text="${product.bayCount}">창수</span>
+                       <span th:text="|${product.pyeongCount}평|">평수</span>
+                       <span th:text="|${product.floorCount}층|">층수</span>
+                       <span th:text="|방 ${product.roomCount}개|">방수</span>
+                       <span th:text="|${product.bayCount}베이|">창수</span>
                    </p>
                    <p>
                        <span th:text="${product.roomOption}">옵션</span>
@@ -33,6 +32,5 @@
            </li>
         </ul>
     </div>
-</div>
 </body>
 </html>

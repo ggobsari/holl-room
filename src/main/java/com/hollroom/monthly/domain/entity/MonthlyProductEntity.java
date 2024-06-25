@@ -22,7 +22,9 @@ public class MonthlyProductEntity {
 //    private UserEntity user;
     private int deposit;
     private int monthly;
-    private String address;
+    private int majorClassify;
+    private int middleClassify;
+    private int smallClassify;
     private int floorCount;
     private int pyeongCount;
     private int roomCount;
@@ -36,10 +38,12 @@ public class MonthlyProductEntity {
     private Date updatedAt;
     private Date deletedAt;
 
-    public MonthlyProductEntity(int deposit, int monthly, String address, int floorCount, int pyeongCount, int roomCount, int bayCount, String roomOption, String securityFacility, Date expirationDate) {
+    public MonthlyProductEntity(int deposit, int monthly, int majorClassify,int middleClassify,int smallClassify, int floorCount, int pyeongCount, int roomCount, int bayCount, String roomOption, String securityFacility, Date expirationDate) {
         this.deposit = deposit;
         this.monthly = monthly;
-        this.address = address;
+        this.majorClassify = majorClassify;
+        this.middleClassify = middleClassify;
+        this.smallClassify = smallClassify;
         this.floorCount = floorCount;
         this.pyeongCount = pyeongCount;
         this.roomCount = roomCount;
