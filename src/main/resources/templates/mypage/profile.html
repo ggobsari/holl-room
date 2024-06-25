@@ -17,6 +17,8 @@
 
   <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=a3660f8de5e77b73f4c7822adeb86bec&libraries=services"></script>
   <script src="js/profile.js"></script>
+  <script src="js/profile_geolocation.js"></script>
+  <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 </head>
 <body>
 <div layout:fragment="content">
@@ -70,9 +72,11 @@
               </div>
               <div class="rectangle-23"></div>
               <div class="text-36 abeezee-normal-black-14px">거주지역</div>
-              <input type="text" onclick="sample5_execDaumPostcode()" class="rectangle-30" id="userLocal" th:value="${user.getUserLocation()}" />
+              <input type="button" id="address_search" class="address-search-button" onclick="AddressSearch()" value="주소검색">
+              <input type="text" class="rectangle-30" id="userLocal" th:value="${user.getUserLocation()}" readonly/>
 
               <input type="hidden" id="userId" th:value="${user.getUserEmail()}" />
+
             </div>
 
             <div class="flex-row-5 im-web-designer-i">
@@ -84,8 +88,10 @@
 
             <div class="rectangle-14"></div>
 
-            <div id="map" class="rectangle-31"></div>
-            <div id="centerAddr"></div>
+            <div id="map" class="rectangle-31">
+            </div>
+            <div id="centerAddr"/>
+
           </div>
         </div>
         <div class="content1">

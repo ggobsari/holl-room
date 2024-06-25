@@ -23,7 +23,7 @@ public class UserSignupDTO {
 
     private String userNickname;
 
-//    private MultipartFile userImage;
+    private String userImage;
 
     private String userIntroduce;
 
@@ -40,6 +40,10 @@ public class UserSignupDTO {
 
     private Boolean userAdmin;
 
+    private Boolean ban;
+
+    private Boolean is_deleted;
+
 
     public UserSignupDTO(UserEntity userEntity) {
         this.id = id;
@@ -55,6 +59,7 @@ public class UserSignupDTO {
         this.userLocation = userEntity.getUserLocation();
         this.userSignupAt = userEntity.getUserSignupAt();
         this.userAdmin = userEntity.getUserAdmin();
+
     }
 }
 
