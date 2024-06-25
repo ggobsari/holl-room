@@ -19,11 +19,13 @@ public class UserEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true)
+    @Column(unique = true, nullable = false)
     private String userEmail;
 
+    @Column(nullable = false)
     private String userPassword;
 
+    @Column(nullable = false)
     private String userName;
 
     @Column(unique = true)
@@ -36,10 +38,12 @@ public class UserEntity {
     @Column(unique = true)
     private String userPhoneNumber;
 
+    @Column(nullable = false)
     private Date userBirthday;
 
     private String userGender;
 
+    @Column(nullable = false)
     private String userLocation;
 
     private LocalDate userSignupAt;

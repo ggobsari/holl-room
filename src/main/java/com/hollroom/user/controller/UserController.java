@@ -7,6 +7,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -41,6 +42,26 @@ public class UserController {
         log.info(userLoginDTO.getUserEmail());
         userService.login(userLoginDTO, request);
         return "index";
+    }
+    //닉네임 중복 확인 요청
+    @GetMapping("/checkNickname")
+    public ResponseEntity<?> checkNickname(@RequestParam("userNickname") String userNickname){
+        try {
+            userService.isNicknameDuplicate(userNickname).orElseThrow(() -> new RuntimeException("사용 가능한 닉네임입니다,"));
+            return ResponseEntity.ok().body("닉네임이 이미 사용 중입니다.");
+        } catch (Exception e){
+            return ResponseEntity.ok().body("사용 가능한 닉네임입니다.");
+        }
+    }
+    //이메일 중복 확인
+    @GetMapping("/checkEmail")
+    public ResponseEntity<?> checkEmail(@RequestParam("userEmail") String userEmail){
+        try {
+            userService.isEmailAlreadyExists(userEmail).orElseThrow(() -> new RuntimeException("사용 가능한 이메일입니다."));
+            return ResponseEntity.ok().body("이미 사용 중인 이메일입니다.");
+        } catch (Exception e){
+            return ResponseEntity.ok().body("사용 가능한 이메일입니다.");
+        }
     }
     //로그아웃
     @PostMapping("/logout")

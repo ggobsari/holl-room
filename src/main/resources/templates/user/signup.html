@@ -37,44 +37,157 @@
         //     reader.readAsDataURL(file);
         // });
 
-        // 폼 제출 이벤트 처리
-        $('#enter').click(function (e){
-            e.preventDefault();//기본 이벤트 제거(폼 제출 방지)
+        // $('#emailCheck').click(function () {
+        //
 
-            let formData = new FormData();
-            let myfile = $("#userImage")[0];
+            //닉네임 중복 확인
+            $('#idCheck').click(function () {
+                var userNickname = $('#userNickname').val();
 
-            //폼 데이터 추가
-            formData.append('userEmail', $('#userEmail').val());
-            formData.append('userPassword', $('#userPassword').val());
-            formData.append('userName', $('#userName').val());
-            formData.append('userNickname', $('#userNickname').val());
-            // formData.append('userImage', myfile.files[0]);
-            formData.append('userIntroduce', $('#userIntroduce').val());
-            formData.append('userPhoneNumber', $('#userPhoneNumber').val());
-            formData.append('userBirthday', $('#userBirthday').val());
-            formData.append('userGender', $('input[name=gender]:checked').val());
-            formData.append('userLocation', $('#userLocation').val());
-            for(val of formData.values()){
-                console.log(val)
-            }
-            $.ajax({
-                url: '/hollroom/signup',
-                type: 'POST',
-                data: formData,
-                contentType: false, //파일 업로드를 위해 false
-                dataType: "text",
-                processData: false,//파일 업로드를 위해 false
-                success: function (){
-                    alert('회원가입 성공');
-                    window.location.href = '/hollroom/login'; //회원가입 성공 후 리다이렉트
-                },
-                error: function (){
-                    alert('회원가입 실패');
-                }
+                $.ajax({
+                    url: '/hollroom/checkNickname',
+                    type: 'GET',
+                    data: {userNickname: userNickname},
+                    success: function (response) {
+                        if (response === "닉네임이 이미 사용 중입니다.") {
+                            alert('중복된 닉네임입니다.');
+                            $('#nickname-error').css('display', 'block');
+                            $('#nickname-valid').css('display', 'none');
+                        } else {
+                            alert('사용 가능한 닉네임입니다.');
+                            $('#nickname-error').css('display', 'none');
+                            $('#nickname-valid').css('display', 'block');
+                        }
+                    },
+                    error: function () {
+                        alert('서버 오류입니다. 다시 시도해주세요.');
+                    }
+                })
             })
-        })
-    });
+
+            // 폼 제출 이벤트 처리
+            $('#enter').click(function (e) {
+
+                var userEmail = $('#userEmail').val();
+
+                $.ajax({
+                    url: '/hollroom/checkEmail',
+                    type: 'GET',
+                    data: {userEmail: userEmail},
+                    success: function (response) {
+                        if (response === "이미 사용 중인 이메일입니다.") {
+                            alert('중복된 이메일입니다.');
+                        }
+                    },
+                    error: function () {
+                        alert('서버 오류입니다. 다시 시도해주세요.');
+                    }
+                })
+
+                //이메일 유효성 확인
+                function validateEmail() {
+                    var emailInput = document.getElementById('userEmail');
+                    // var emailDuplicated = document.getElementById('email-duplicated');
+                    var emailError = document.getElementById('email-error');
+                    var emailValid = document.getElementById('email-valid');
+                    var emailValue = emailInput.value;
+
+                    var emailPattern = /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-za-z0-9\-]+/;
+
+                    if (emailPattern.test(emailValue)) {
+                        // emailDuplicated.style.display = 'none';
+                        emailError.style.display = 'none';
+                        emailValid.style.display = 'block';
+                        return true;
+                    } else {
+                        // emailDuplicated.style.display = 'none';
+                        emailError.style.display = 'block';
+                        emailValid.style.display = 'none';
+                        alert("유효하지 않은 이메일 주소입니다.");
+                        return false;
+                    }
+
+                }
+
+                e.preventDefault();//기본 이벤트 제거(폼 제출 방지)
+
+                if (!validateEmail()) {
+                    return;
+                }
+
+                // var isUserEmailDuplicate = $('email-valid').is(':visible');
+                //
+                // if (!isUserEmailDuplicate) {
+                //     alert('이미 가입되어 있는 이메일 입니다.');
+                //     return false;
+
+                var isNicknameValid = $('#nickname-valid').is(':visible');
+
+                if (!isNicknameValid) {
+                    alert('닉네임을 확인해주세요.');
+                    return;
+                }
+
+                function validatePhoneNumber(){
+                    var phoneNumberInput = document.getElementById('userPhoneNumber');
+                    var phoneNumberError = document.getElementById('phone_number_error');
+                    var phoneNumberValue = phoneNumberInput.value;
+
+                    var phoneNumberPattern = /^\d{3}-\d{3,4}-\d{4}$/;
+
+                    if(phoneNumberPattern.test(phoneNumberValue)){
+                        return true;
+                    } else{
+                        phoneNumberError.style.display = 'block';
+                        alert("휴대폰 번호를 확인해주세요. - 포함되어야 합니다.")
+                        return false;
+                    }
+                }
+
+                if (!validatePhoneNumber()) {
+                    return;
+                }
+
+                let formData = new FormData();
+                // let myfile = $("#userImage")[0];
+
+                //폼 데이터 추가
+                formData.append('userEmail', $('#userEmail').val());
+                formData.append('userPassword', $('#userPassword').val());
+                formData.append('userName', $('#userName').val());
+                formData.append('userNickname', $('#userNickname').val());
+                // formData.append('userImage', myfile.files[0]);
+                formData.append('userIntroduce', $('#userIntroduce').val());
+                formData.append('userPhoneNumber', $('#userPhoneNumber').val());
+                formData.append('userBirthday', $('#userBirthday').val());
+                formData.append('userGender', $('input[name=gender]:checked').val());
+                formData.append('userLocation', $('#userLocation').val());
+
+                for (val of formData.values()) {
+                    console.log(val)
+                }
+
+                $.ajax({
+                    url: '/hollroom/signup',
+                    type: 'POST',
+                    data: formData,
+                    contentType: false, //파일 업로드를 위해 false
+                    dataType: "text",
+                    processData: false,//파일 업로드를 위해 false
+                    success: function () {
+                        alert('회원가입 성공');
+                        window.location.href = '/hollroom/login'; //회원가입 성공 후 리다이렉트
+                    },
+                    error: function (response) {
+                        if (response === "닉네임이 이미 사용 중입니다."){
+                            alert('중복된 닉네임입니다.');
+                        } else{
+                            alert("회원가입 실패");
+                        }
+                    }
+                })
+            })
+        });
 </script>
 
 <!-- Button trigger modal -->
@@ -97,6 +210,10 @@
                             <input style="width: 300px; height: 40px; border-radius: 80px; padding-left: 15px" id="userEmail" type="text" name="email" placeholder="이메일">
                         </div>
 
+<!--                        <span style="color: red; display: none; margin-top: 5px" id="email-duplicated">이미 가입되어 있는 이메일 주소입니다.</span>-->
+                        <span style="color: red; display: none; margin-top: 5px" id="email-error">유효하지 않은 이메일 주소입니다.</span>
+                        <span style="color: blue; display: none; margin-top: 5px" id="email-valid">유효한 이메일 주소입니다.</span>
+
                         <div style="display: flex; justify-content: center; margin-top: 30px" class="member_password_input">
                             <input style="width: 300px; height: 40px; border-radius: 80px; padding-left: 15px" id="userPassword" type="password" name="password" placeholder="비밀번호">
                         </div>
@@ -106,8 +223,12 @@
                         </div>
 
                         <div style="display: flex; justify-content: center; margin-top: 30px" class="member_nickname_input">
-                            <input style="width: 300px; height: 40px; border-radius: 80px; padding-left: 15px" id="userNickname" type="text" name="nickname" placeholder="닉네임">
+                            <input style="width: 200px; height: 40px; border-radius: 80px; padding-left: 15px" id="userNickname" type="text" name="nickname" placeholder="닉네임">
+                            <button style="margin-left: 10px" type="button" id="idCheck">중복확인</button>
                         </div>
+
+                        <span style="color: red; display: none; margin-top: 5px" id="nickname-error" class="error-message">이미 사용 중인 닉네임입니다.</span>
+                        <span style="color: blue; display: none; margin-top: 5px" id="nickname-valid" class="valid-message">사용 가능한 닉네임입니다.</span>
 
 <!--                        <div style="display: flex; justify-content: center; margin-top: 30px" class="add_image">-->
 <!--                            <p style="width: 300px; height: 40px; padding-left: 15px; margin-top: 30px; margin-bottom: 20px; text-align: center">(프로필 사진)</p>-->
@@ -126,8 +247,10 @@
                         </div>
 
                         <div style="display: flex; justify-content: center; margin-top: 30px" class="member_phone_number_input">
-                            <input style="width: 300px; height: 40px; border-radius: 80px; padding-left: 15px" id="userPhoneNumber" type="text" name="phone_number" placeholder="휴대폰 번호">
+                            <input style="width: 300px; height: 40px; border-radius: 80px; padding-left: 15px" id="userPhoneNumber" type="text" name="phone_number" placeholder="휴대폰 번호 (- 포함)">
                         </div>
+
+                        <span style="color: red; display: none; margin-top: 5px" id="phone_number_error" class="error-message">000-0000-000형식으로 입력하세요</span>
 
                         <label style="display: flex; justify-content: center; margin-top: 30px" for="userBirthday">생년월일 :
                             <input style="margin-left: 10px" type="date"
@@ -148,7 +271,7 @@
                         </div>
 
                         <div style="display: flex; justify-content: center; margin-top: 30px; margin-bottom: 20px">
-                            <input style="width: 250px" type="text" id="userLocation" placeholder="주소">
+                            <input style="width: 250px" type="text" id="userLocation" placeholder="주소" readonly>
                             <input type="button" onclick="sample5_execDaumPostcode()" value="주소 검색"><br>
                         </div>
 
