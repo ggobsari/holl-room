@@ -1,13 +1,14 @@
 package com.hollroom.mypage.controller;
 
 import com.hollroom.mypage.service.ProfileService;
+import com.hollroom.user.dto.UserSignupDTO;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
 import java.util.Map;
-
 @org.springframework.stereotype.Controller
 @RequestMapping("/mypage")
 public class WithdrawalController {
@@ -15,28 +16,31 @@ public class WithdrawalController {
     @Autowired
     private ProfileService profileService;
 
-    @GetMapping("/withdrawal")
-    public String withdrawal() {
-        return "mypage/withdrawal";  // mypage/withdrawal.html 뷰를 반환
+    @GetMapping("withdrawal")
+    public String interest() {
+        return "mypage/withdrawal";  //mypage/withdrawl페이지 반환
     }
 
-    // 비밀번호 확인
+
     @PostMapping("/verifypassword")
-    public ResponseEntity<Map<String, Object>> verifyPassword(@RequestParam("password") String password) {
-        Long userId = 1L; // 실제 구현에서는 현재 로그인된 사용자의 ID를 사용해야 함
-        System.out.println(userId);
-        boolean isPasswordCorrect = profileService.checkPassword(userId, password);
-        Map<String, Object> response = new HashMap<>();
-        response.put("valid", isPasswordCorrect);
-        response.put("userId", userId);
-        return ResponseEntity.ok(response);
-    }
+    public String withdraw(HttpSession session) {
+        // 세션에서 사용자 이메일을 가져옴
+        String email = (String) session.getAttribute("email");
 
-    // 회원 탈퇴
-    @PostMapping("/deleteuser")
-    public ResponseEntity<String> deleteUser(@RequestParam("userId") Long userId) {
-        profileService.deactivateUser(userId);
-        return ResponseEntity.ok("User deactivated successfully");
-    }
+        // 이메일이 없으면 로그인 페이지로 리디렉션
+        if (email == null) {
+            return "redirect:/login"; // 로그인 페이지로 리디렉션
+        }
 
+        // 이메일을 사용하여 is_deleted를 TRUE로 설정
+        boolean success = profileService.deleteUser(email);
+
+        // 성공 여부에 따라 다른 페이지로 리디렉션
+        if (success) {
+            return "redirect:/login";
+        } else {
+            return "redirect:/withdrawal";
+        }
+    }
 }
+

@@ -1,144 +1,20 @@
-document.addEventListener("DOMContentLoaded", function() {
-    document.getElementById("saveButton").addEventListener("click", function() {
+document.addEventListener("DOMContentLoaded", function () {
+
+    // 저장 버튼 클릭 시 프로필 업데이트 함수 실행
+    document.getElementById("saveButton").addEventListener("click", function () {
         if (!this.classList.contains('disabled')) {
             this.classList.add('disabled');
             updateProfile();
         }
     });
-
-    document.getElementById("info_saveButton").addEventListener("click", function() {
+    //==========================================================================
+    // 자기소개 저장 버튼 클릭 시 저장 함수 실행
+    document.getElementById("info_saveButton").addEventListener("click", function () {
         checkIntroduction();
     });
-
-    // 지도 초기화
-    var mapContainer = document.getElementById('map'),
-        mapOption = {
-            center: new kakao.maps.LatLng(33.450701, 126.570667),
-            level: 10
-        };
-
-    var map = new kakao.maps.Map(mapContainer, mapOption);
-
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(function(position) {
-            var lat = position.coords.latitude,
-                lon = position.coords.longitude;
-
-            var locPosition = new kakao.maps.LatLng(lat, lon),
-                message = '<div style="padding:5px;">여기에 계신가요?!</div>';
-
-            displayMarker(locPosition, message);
-        });
-    } else {
-        var locPosition = new kakao.maps.LatLng(33.450701, 126.570667),
-            message = 'geolocation을 사용할수 없어요..'
-
-        displayMarker(locPosition, message);
-    }
-
-    function displayMarker(locPosition, message) {
-        var marker = new kakao.maps.Marker({
-            map: map,
-            position: locPosition
-        });
-
-        var iwContent = message,
-            iwRemoveable = true;
-
-        var infowindow = new kakao.maps.InfoWindow({
-            content: iwContent,
-            removable: iwRemoveable
-        });
-
-        infowindow.open(map, marker);
-        map.setCenter(locPosition);
-    }
-
-    var geocoder = new kakao.maps.services.Geocoder();
-    var marker = new kakao.maps.Marker(),
-        infowindow = new kakao.maps.InfoWindow({zindex:1});
-
-    searchAddrFromCoords(map.getCenter(), displayCenterInfo);
-
-    kakao.maps.event.addListener(map, 'click', function(mouseEvent) {
-        searchDetailAddrFromCoords(mouseEvent.latLng, function(result, status) {
-            if (status === kakao.maps.services.Status.OK) {
-                var detailAddr = !!result[0].road_address ? '<div>도로명주소 : ' + result[0].road_address.address_name + '</div>' : '';
-                detailAddr += '<div>지번 주소 : ' + result[0].address.address_name + '</div>';
-
-                var content = '<div class="bAddr">' +
-                    '<span class="title">법정동 주소정보</span>' +
-                    detailAddr +
-                    '</div>';
-
-                marker.setPosition(mouseEvent.latLng);
-                marker.setMap(map);
-                infowindow.setContent(content);
-                infowindow.open(map, marker);
-            }
-        });
-    });
-
-    kakao.maps.event.addListener(map, 'idle', function() {
-        searchAddrFromCoords(map.getCenter(), displayCenterInfo);
-    });
-
-    function searchAddrFromCoords(coords, callback) {
-        geocoder.coord2RegionCode(coords.getLng(), coords.getLat(), callback);
-    }
-
-    function searchDetailAddrFromCoords(coords, callback) {
-        geocoder.coord2Address(coords.getLng(), coords.getLat(), callback);
-    }
-
-    function displayCenterInfo(result, status) {
-        if (status === kakao.maps.services.Status.OK) {
-            var infoDiv = document.getElementById('centerAddr');
-            for(var i = 0; i < result.length; i++) {
-                if (result[i].region_type === 'H') {
-                    infoDiv.innerHTML = result[i].address_name;
-                    break;
-                }
-            }
-        }
-    }
-
-    geocoder.addressSearch('제주특별자치도 제주시 첨단로 242', function(result, status) {
-        if (status === kakao.maps.services.Status.OK) {
-            var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
-            var marker = new kakao.maps.Marker({
-                map: map,
-                position: coords
-            });
-            var infowindow = new kakao.maps.InfoWindow({
-                content: '<div style="width:150px;text-align:center;padding:6px 0;">우리회사</div>'
-            });
-            infowindow.open(map, marker);
-            map.setCenter(coords);
-        }
-    });
-
-    window.sample5_execDaumPostcode = function() {
-        new daum.Postcode({
-            oncomplete: function(data) {
-                var addr = data.address;
-                document.getElementById("sample5_address").value = addr;
-                geocoder.addressSearch(data.address, function(results, status) {
-                    if (status === daum.maps.services.Status.OK) {
-                        var result = results[0];
-                        var coords = new daum.maps.LatLng(result.y, result.x);
-                        mapContainer.style.display = "block";
-                        map.relayout();
-                        map.setCenter(coords);
-                        marker.setPosition(coords)
-                    }
-                });
-            }
-        }).open();
-    }
 });
-
-// 비밀번호 판별
+//==========================================================================
+// 비밀번호 유효성 검사
 function validatePassword() {
     var password = document.getElementById("password").value;
     var confirmPassword = document.getElementById("confirmPassword").value;
@@ -149,6 +25,7 @@ function validatePassword() {
     return true;
 }
 
+//==========================================================================
 // 프로필 업데이트
 function updateProfile() {
     if (validatePassword()) {
@@ -172,7 +49,7 @@ function updateProfile() {
             }
         };
 
-        const updateInfo = { userLocation: userLocal, userEmail: userId };
+        const updateInfo = {userLocation: userLocal, userEmail: userId};
         if (password) {
             updateInfo.userPassword = password;
         }
@@ -183,6 +60,7 @@ function updateProfile() {
     }
 }
 
+//==========================================================================
 // 정보 수정 활성화
 function enableEditUserInfo() {
     document.getElementById('userInfoText').style.display = 'none';
@@ -191,6 +69,7 @@ function enableEditUserInfo() {
     document.getElementById('info_saveButton').style.display = 'inline';
 }
 
+//==========================================================================
 // 자기소개 저장
 function saveUserInfo() {
     var userInfoInput = document.getElementById('userInfoInput').value;
@@ -212,18 +91,20 @@ function saveUserInfo() {
             }
         }
     };
-    xhr.send(JSON.stringify({ userIntroduce: userInfoInput, userEmail: userId }));
+    xhr.send(JSON.stringify({userIntroduce: userInfoInput, userEmail: userId}));
 }
 
-// 이미지 업로드 트리거 함수
+//==========================================================================
+// 파일 업로드 트리거
 function triggerFileUpload() {
     document.getElementById("fileInput").click();
 }
 
-// 이미지 미리보기 및 업로드 함수
+//==========================================================================
+// 이미지 미리보기 및 업로드
 function previewImage(event) {
     const reader = new FileReader();
-    reader.onload = function() {
+    reader.onload = function () {
         const output = document.getElementById("profileImage");
         output.src = reader.result;
     };
@@ -231,14 +112,15 @@ function previewImage(event) {
     uploadImage(event.target.files[0]);
 }
 
-// 이미지 업로드 함수
+//==========================================================================
+// 이미지 업로드
 function uploadImage(file) {
     const formData = new FormData();
     const userId = document.getElementById("userId").value;
     formData.append("image", file);
 
-    const profileData = JSON.stringify({ userEmail: userId });
-    const blob = new Blob([profileData], { type: "application/json" });
+    const profileData = JSON.stringify({userEmail: userId});
+    const blob = new Blob([profileData], {type: "application/json"});
     formData.append("profile", blob);
 
     const xhr = new XMLHttpRequest();
@@ -251,21 +133,22 @@ function uploadImage(file) {
         }
     };
 
-    xhr.send(formData, JSON.stringify({ userEmail: userId}));
+    xhr.send(formData, JSON.stringify({userEmail: userId}));
 }
 
-//마스킹
-function maskingApply(){
+//==========================================================================
+// 마스킹 함수
+function maskingApply() {
     let emailFiled = document.getElementById("email").value;
     let realnameField = document.getElementById("realname").value;
-
+    //이메일 마스킹
     let emailValue = emailFiled.value;
     emailFiled.value = maskingFunc.email(emailValue);
-
-    //실명 마스킹
+    // 실명 마스킹
     let realnameValue = realnameField.value;
     realnameField.value = maskingFunc.name(realnameValue);
-
+    //==========================================================================
+    //실명 마스킹
     let maskingFunc = {
         checkNull: function () {
             if (typeof str == "undefined" || str == null || str == "") {
@@ -274,8 +157,8 @@ function maskingApply(){
                 return false;
             }
         },
-
-        //이메일 마스킹
+        //==========================================================================
+        // 이메일 마스킹
         email: function (str) {
             let originStr = str;
             let emailStr = originStr.match(/([a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9._-]+)/gi);
@@ -287,8 +170,8 @@ function maskingApply(){
                 return originStr.toString().replace(new RegExp('.(?=.{0,' + strLength + '}@)', 'g'), '*').replace(/.{6}$/, "******");
             }
         },
-
-        //핸드폰 번호 마스킹
+        //==========================================================================
+        // 핸드폰 번호 마스킹
         phone: function (str) {
             let originStr = str;
             let phoneStr;
@@ -319,8 +202,8 @@ function maskingApply(){
             }
             return maskingStr;
         },
-
-        //주민번호 마스킹
+        //==========================================================================
+        // 주민번호 마스킹
         rrn: function (str) {
             let originStr = str;
             let rrnStr;
@@ -344,8 +227,8 @@ function maskingApply(){
             }
             return maskingStr;
         },
-
-        //실명(이름) 마스킹
+        //==========================================================================
+        // 실명(이름) 마스킹
         name: function (str) {
             let originStr = str;
             let maskingStr;
@@ -363,8 +246,3 @@ function maskingApply(){
         }
     }
 }
-
-
-
-
-

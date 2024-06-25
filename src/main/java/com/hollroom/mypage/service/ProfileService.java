@@ -7,6 +7,7 @@ import com.hollroom.user.dto.UserSignupDTO;
 import com.hollroom.user.entity.UserEntity;
 import com.hollroom.user.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -16,6 +17,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Optional;
 
 import static groovyjarjarantlr4.v4.gui.GraphicsSupport.saveImage;
 
@@ -23,6 +25,7 @@ import static groovyjarjarantlr4.v4.gui.GraphicsSupport.saveImage;
 public class ProfileService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder; //비밀번호 인코더
+    private JdbcTemplate jdbcTemplate;
 
     @Autowired
     public ProfileService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
@@ -78,9 +81,9 @@ public class ProfileService {
     }
 
     private static final String UPLOAD_DIR = "src/main/resources/static/mypage/img/profile/";
-    public void saveProfileImage(MultipartFile image, UserSignupDTO profileDTO) {
+    public void saveProfileImage(MultipartFile image, UserSignupDTO userSignupDTO) {
         try {
-            UserEntity userEntity = userRepository.findByUserEmail(profileDTO.getUserEmail())
+            UserEntity userEntity = userRepository.findByUserEmail(userSignupDTO.getUserEmail())
                     .orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
             // 업로드 디렉토리 생성
@@ -103,23 +106,13 @@ public class ProfileService {
 
     }
 
+    //사용자 탈퇴 여부 체크
+    public boolean deleteUser(String email) {
+        String sql = "UPDATE users SET is_deleted = TRUE WHERE email = ?";
+        int rowsAffected = jdbcTemplate.update(sql, email);
 
-    //비밀번호 확인
-    public boolean checkPassword(Long userId, String password) {
-        UserEntity user = userRepository.findById(userId).orElse(null);
-        if (user != null) {
-            return passwordEncoder.matches(password, user.getUserPassword());
-        }
-        return false;
-    }
-
-    //유저탈퇴
-    public void deactivateUser(Long userId) {
-        UserEntity user = userRepository.findById(userId).orElse(null);
-        if (user != null) {
-            user.setIsDeleted(true);
-            userRepository.save(user);
-        }
+        // 업데이트가 성공적으로 이루어졌는지 확인
+        return rowsAffected > 0;
     }
 }
 
