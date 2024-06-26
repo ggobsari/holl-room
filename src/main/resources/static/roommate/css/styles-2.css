@@ -1,0 +1,302 @@
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  /* Chrome, Safari, Edge, Opera */
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  /* Firefox  */
+  -moz-appearance: textfield;
+}
+
+.ml-1 {
+  margin-left: 0.25rem !important;
+}
+
+.ml-2 {
+  margin-left: 0.5rem !important;
+}
+
+.ml-3 {
+  margin-left: 1rem !important;
+}
+
+.ml-4 {
+  margin-left: 1.5rem !important;
+}
+
+.ml-5 {
+  margin-left: 3rem !important;
+}
+
+.border-red {
+  border: 1px solid red;
+}
+
+.border-blue {
+  border: 1px solid blue;
+}
+
+td {
+  /* border: 1px solid black; */
+}
+
+.filter-list ul {
+  list-style-type: none;
+  padding-left: 2em;
+  padding-right: 2em;
+}
+
+#write-ul-1 {
+  text-align: end;
+  border-right: 1px solid #aaaaaa;
+}
+
+.filter-list li {
+  /* color: red; */
+  /* border: 1px solid yellow; */
+  line-height: 2em;
+  margin-bottom: 10px;
+  /* border: 1px solid red; */
+}
+
+section {
+  display: flex;
+}
+
+.border-primary {
+  border: 1px solid var(--bs-primary);
+}
+
+.content-margin {
+  margin-left: 1rem;
+  margin-right: 1rem;
+}
+
+#search {
+  align-content: flex-end;
+  color: 우측정렬안됨;
+}
+
+tbody > tr > td:nth-child(2) {
+  /* color: red; */
+  text-align: left !important;
+}
+
+.d-inline-block a {
+  color: black;
+}
+
+.my-btn {
+  /* border: none; */
+  line-height: 1em;
+}
+
+.my-input::after {
+  width: 100%;
+}
+
+.my-input-s {
+  border-width: 0 0 1px;
+  border-color: #dddddd;
+  /* display: inline-block; */
+  /* height: 40px; */
+  /* padding: 0 10px; */
+  /* vertical-align: middle; */
+  /* border: 1px solid #dddddd; */
+  /* width: 60%; */
+  /* color: #999999; */
+  /* border-radius: 5px; */
+  line-height: 1em;
+  width: 2em;
+  text-align: center;
+}
+
+.my-input-l {
+  border-width: 0 0 1px;
+  border-color: #dddddd;
+  /* vertical-align: middle; */
+  line-height: 1em;
+  background-color: var(--bs-light);
+}
+
+.my-input-l:after {
+  /* width: 100%; */
+  /* display: block; */
+  content: "";
+  border-bottom: 1px solid var(--bs-primary);
+  /* transform: scaleX(0);
+  transition: transform 250ms ease-in-out; */
+  transform: scale(0);
+  transition: transform 0.3s;
+  /* transform-origin: 0% 50%; */
+}
+
+.my-input-title {
+  border-width: 0 0 1px;
+  border-color: #dddddd;
+  /* vertical-align: bottom; */
+  line-height: 2em;
+  /* font-size: 1em; */
+  font-weight: bold;
+  width: 40em;
+  background-color: var(--bs-light);
+}
+
+.my-input-s:focus,
+.my-input-l:focus,
+.my-input-title:focus,
+.main-text:focus {
+  border-width: 0 0 1px;
+  border-color: var(--bs-primary);
+  /* // outline-color: 1px solid var(--bs-primary); */
+  outline: none;
+}
+
+.my-input-s:focus::after,
+.my-input-l:focus:after,
+.my-input-title:focus::after,
+.main-text:focus::after {
+  /* transition: width 0.3s ease 0s, left 0.3s ease 0s;
+  width: 0; */
+  /* transform: scaleX(1); */
+  transform: scale(1);
+}
+
+.my-paging > a {
+  text-decoration: none;
+  /* vertical-align: middle; */
+  /* padding: auto; */
+  padding: 0.2em;
+  text-align: center;
+  width: 1.5em;
+  height: 1.5em;
+  /* border: 1px solid #dddddd; */
+  color: #999999;
+  /* color: red; */
+  /* border-radius: 5px; */
+  /* vertical-align: middle; */
+}
+
+.my-paging > a:first-child {
+  /* font-size: 0.8em; */
+  border: none;
+  /* color: red; */
+  border-top-left-radius: 0.375rem;
+  border-bottom-left-radius: 0.375rem;
+}
+
+.my-paging > a:last-child {
+  /* font-size: 0.8em; */
+  border: none;
+  /* color: red; */
+  border-top-right-radius: 0.375rem;
+  border-bottom-right-radius: 0.375rem;
+}
+
+.my-paging > a:hover {
+  color: var(--bs-primary);
+}
+
+.my-select {
+  border: 1px solid #cccccc;
+  outline: none;
+  color: gray;
+}
+
+.main-text {
+  resize: none;
+  outline: none;
+  width: 40em;
+  height: 20em;
+  overflow: auto;
+  border-width: 0 0 1px;
+  border-color: #dddddd;
+  background-color: var(--bs-light);
+}
+
+/* .main-text:focus {
+  border-width: 0 0 2px;
+  border-color: var(--bs-primary);
+} */
+
+@font-face {
+  font-family: "CWDangamAsac-Bold";
+  src: url("https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/CWDangamAsac-Bold.woff")
+    format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+
+.font-eng {
+  /* font-family: "Bauhaus 93", Impact, sans-serif; */
+  font-family: "CWDangamAsac-Bold", sans-serif;
+  /* font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif; */
+  /* font-family: "Black Han Sans", sans-serif;
+  font-weight: 400;
+  font-style: normal; */
+}
+
+.font-kor {
+  /* font-family: "Gowun Dodum", sans-serif; */
+  /* font-family: "LG Smart UI Regular", sans-serif; */
+  /* font-family: "LG PC", sans-serif; */
+  /* font-family: "함초롱돋움", sans-serif; */
+  font-family: "Noto Sans KR", serif;
+  font-optical-sizing: auto;
+  /* font-weight: <weight>; */
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Cafe24Moyamoya-Regular-v1.0";
+  src: url("https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_231029@1.1/Cafe24Moyamoya-Regular-v1.0.woff2")
+    format("woff2");
+  font-weight: normal;
+  font-style: normal;
+}
+
+.font-kor-h {
+  /* font-family: "Black Han Sans", sans-serif;
+  font-weight: 400;
+  font-style: normal; */
+  font-size: 2.2em;
+  /* font-family: "Cafe24Moyamoya-Regular-v1.0", serif; */
+  font-family: "CWDangamAsac-Bold", sans-serif;
+}
+
+.floating-btn > button {
+  position: fixed;
+  right: 2em;
+  width: 3em;
+  height: 3em;
+}
+
+#floating-btn-top {
+  /* position: fixed; */
+  /* right: 2em; */
+  bottom: 2em;
+  /* width: 3em; */
+  /* height: 3em; */
+}
+
+#floating-btn-write {
+  /* position: fixed; */
+  /* right: 2em; */
+  bottom: 5.5em;
+  /* width: 3em; */
+  /* height: 3em; */
+}
+
+#floating-btn-chat {
+  /* position: fixed; */
+  /* right: 2em; */
+  bottom: 9em;
+  /* width: 3em; */
+  /* height: 3em; */
+}
+
+tbody > tr > td:nth-child(2) {
+  cursor: pointer;
+}
