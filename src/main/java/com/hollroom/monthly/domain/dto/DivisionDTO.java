@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class DivisionDTO {
     public int id;
-    public int topDivision;
-    public int mainDivision;
+    public int topDivisionCode;
+    public int mainDivisionCode;
     public String name;
 }
