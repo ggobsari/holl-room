@@ -14,7 +14,7 @@ public class MonthlyProductDTO {
     //private long user_id;
     private int deposit;
     private int monthly;
-    private String address;
+    private int divisionCode;
     private int floorCount;
     private int pyeongCount;
     private int roomCount;

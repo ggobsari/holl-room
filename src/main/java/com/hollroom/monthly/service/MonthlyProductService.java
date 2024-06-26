@@ -7,4 +7,5 @@ import java.util.List;
 public interface MonthlyProductService {
     void insertProduct(MonthlyProductDTO req);
     List<MonthlyProductDTO> readProductAll();
+    List<MonthlyProductDTO> readDivisionProduct(int divisionCode);
 }

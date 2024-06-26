@@ -33,4 +33,9 @@ public class MonthlyProductServiceImpl implements MonthlyProductService {
                 .map(e-> mapper.map(e,MonthlyProductDTO.class))
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public List<MonthlyProductDTO> readDivisionProduct(int divisionCode) {
+        return List.of();
+    }
 }

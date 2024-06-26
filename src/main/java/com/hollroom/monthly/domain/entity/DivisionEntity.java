@@ -1,9 +1,6 @@
 package com.hollroom.monthly.domain.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,9 +12,9 @@ import lombok.NoArgsConstructor;
 @Table(name = "division")
 public class DivisionEntity {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.TABLE)
     public int id;
-    public int topDivisionId;
-    public int mainDivisionNum;
+    public int topDivisionCode;
+    public int mainDivisionCode;
     public String name;
 }
