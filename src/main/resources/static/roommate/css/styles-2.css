@@ -54,11 +54,8 @@ td {
 }
 
 .filter-list li {
-  /* color: red; */
-  /* border: 1px solid yellow; */
   line-height: 2em;
   margin-bottom: 10px;
-  /* border: 1px solid red; */
 }
 
 section {
@@ -76,11 +73,9 @@ section {
 
 #search {
   align-content: flex-end;
-  color: 우측정렬안됨;
 }
 
 tbody > tr > td:nth-child(2) {
-  /* color: red; */
   text-align: left !important;
 }
 

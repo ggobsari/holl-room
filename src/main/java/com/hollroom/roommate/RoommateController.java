@@ -11,4 +11,9 @@ public class RoommateController {
     public String home() {
         return "roommate/roommate_home";
     }
+
+    @GetMapping("/write")
+    public String write() {
+        return "roommate/roommate_write";
+    }
 }
