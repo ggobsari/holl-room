@@ -19,8 +19,8 @@ public class MonthlyController {
 
     @GetMapping(value = {"/","/monthly"})
     public String showMainPage(Model model){
-        List<MonthlyProductDTO> productList = productService.readProductAll();
-        model.addAttribute("productList", productList);
+/*        List<MonthlyProductDTO> productList = productService.readProductAll();
+        model.addAttribute("productList", productList);*/
         return "monthly/monthly";
     }
 
