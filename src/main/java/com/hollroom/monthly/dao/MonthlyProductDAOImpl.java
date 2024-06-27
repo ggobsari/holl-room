@@ -21,4 +21,9 @@ public class MonthlyProductDAOImpl implements MonthlyProductDAO {
     public List<MonthlyProductEntity> readProductAll() {
         return productRepo.findAll();
     }
+
+    @Override
+    public List<MonthlyProductEntity> readDivisionProduct(int divisionCode) {
+        return List.of();
+    }
 }

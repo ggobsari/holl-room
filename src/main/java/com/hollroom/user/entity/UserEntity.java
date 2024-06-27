@@ -33,7 +33,6 @@ public class UserEntity {
 
     private String userIntroduce;
 
-    @Column(unique = true)
     private String userPhoneNumber;
 
     @Column(nullable = false)
