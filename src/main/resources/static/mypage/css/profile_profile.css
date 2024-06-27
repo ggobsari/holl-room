@@ -25,7 +25,7 @@
 }
 
 .profile_profile .basic-info {
-  color: var(--black);
+  color: var(--black-global);
   font-size: var(--font-size-s);
   font-weight: bolder;
   letter-spacing: 0;
@@ -44,8 +44,8 @@
 }
 
 .profile_profile .text-31 {
-  color: black;
-  font-size: var(--font-size-xs);
+  color: #dc3545;
+  font-size: var(--font-size-xs-global);
   font-weight: 400;
   letter-spacing: 0;
   line-height: normal;
@@ -219,7 +219,7 @@
   border-color: var(--mercury);
   border-radius: 7px;
   height: 38px;
-  width: 43px;
+  width: 60px;
 }
 
 .profile_profile .flex-row-4 {
@@ -252,8 +252,8 @@
 }
 
 .profile_profile .text-33 {
-  color: var(--dove-gray);
-  font-size: var(--font-size-xs);
+  color: var(--dove-gray-global);
+  font-size: var(--font-size-xs-global);
   font-weight: 400;
   letter-spacing: 0;
   line-height: normal;
@@ -301,7 +301,7 @@
 }
 
 .profile_profile .im-web-designer-i {
-  color: var(--dove-gray);
+  color: var(--dove-gray-global);
   font-size: var(--font-size-s);
   font-weight: 400;
   font-family: Cafe24Oneprettynight;
@@ -350,7 +350,7 @@
 }
 
 .profile_profile .text-38 {
-  color: var(--dove-gray);
+  color: var(--dove-gray-global);
   font-size: var(--font-size-xxl);
   font-weight: 400;
   letter-spacing: 0;
@@ -358,7 +358,6 @@
   position: relative;
   white-space: nowrap;
   width: 83px;
-
 
   border-color: gray;
   border-style: solid;
@@ -475,7 +474,7 @@
 }
 
 .profile_profile .rectangle-11 {
-  background-color: var(--kokoda);
+  background-color: var(--kokoda-global);
   height: 3px;
   left: 110px;
   position: relative;

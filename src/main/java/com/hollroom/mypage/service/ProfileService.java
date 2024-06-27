@@ -48,9 +48,10 @@ public class ProfileService {
             if (userSignupDTO.getUserPassword() != null) {
                 userEntity.setUserPassword(passwordEncoder.encode(userSignupDTO.getUserPassword()));
             }
-
             // 로컬 정보 업데이트
             userEntity.setUserLocation(userSignupDTO.getUserLocation());
+            // 성별 정보 업데이트
+            userEntity.setUserGender(userSignupDTO.getUserGender());
 
             userRepository.save(userEntity);
             return true;

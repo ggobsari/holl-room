@@ -71,7 +71,7 @@
 }
 
 .profile_shape .rectangle-11 {
-    background-color: var(--kokoda);
+    background-color: var(--kokoda-global);
     height: 3px;
     left: 598px;
     position: relative;
