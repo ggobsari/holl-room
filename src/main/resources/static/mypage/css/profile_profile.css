@@ -1,35 +1,20 @@
-.profile_profile .overlap-group6 {
-  height: 1169px;
-  margin-top: 1%;
-  margin-bottom: 1%;
-  position: relative;
-  width: 1460px;
-  flex-direction: column;
-  background-color: #f8f9fa;
-  border-color: blue;
-  border-style:solid;
-  border-width: 1px;
-  border-radius: 20px;
-
+@font-face {
+  font-family: 'Cafe24Oneprettynight';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_twelve@1.1/Cafe24Oneprettynight.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
 }
 
-.profile_profile .overlap-group5 {
-  height: 991px;
-  left: 93px;
-  position: absolute;
-  top: 178px;
-  width: 1289px;
+.profile_profile {
+  font-family: 'Noto Sans KR', sans-serif; /* 메뉴와 동일한 글씨체 */
+  font-size: 1em;
 }
 
 .profile_profile .basic-info-group {
   align-items: flex-start;
   display: flex;
   flex-direction: column;
-  left: 586px;
-  min-height: 623px;
-  position: absolute;
-  top: 72px;
-  width: 703px;
+  position: relative;
 }
 
 .profile_profile .flex-row {
@@ -41,10 +26,8 @@
 
 .profile_profile .basic-info {
   color: var(--black);
-  font-family: var(--font-family-abeezee-italic);
   font-size: var(--font-size-s);
-  font-style: italic;
-  font-weight: 400;
+  font-weight: bolder;
   letter-spacing: 0;
   line-height: normal;
   margin-top: 5.3px;
@@ -55,60 +38,49 @@
 .profile_profile .overlap-group1 {
   border-radius: 7px;
   height: 44px;
-  margin-left: 372px;
+  margin-left: 430px;
   position: relative;
-  width: 93px;
+  width: 120px;
 }
 
 .profile_profile .text-31 {
-  color: var(--dove-gray);
-  font-family: var(--font-family-abeezee);
+  color: black;
   font-size: var(--font-size-xs);
   font-weight: 400;
-  left: 31px;
   letter-spacing: 0;
   line-height: normal;
-  position: absolute;
-  top: 13px;
-  width: 44px;
+  position: relative;
+  white-space: nowrap;
+
+  text-align: center;
+  padding-top: 10px;
 }
 
 .profile_profile .rectangle-22 {
   border: 2px solid;
-  border-color: var(--tallow);
+  border-color: #dc3545;
   border-radius: 7px;
-  height: 44px;
-  left: 0;
-  position: absolute;
-  top: 0;
-  width: 93px;
-}
-
-.profile_profile .overlap-group {
-  align-items: flex-start;
-  background-color: var(--tallow);
-  border-radius: 7px;
-  display: flex;
-  height: 44px;
-  margin-left: 16px;
-  min-width: 93px;
-  padding: 13px 30px;
+  position: relative;
+  height: 40px;
+  width: 90px;
 }
 
 .profile_profile .text-3 {
   color: var(--white);
-  font-family: var(--font-family-abeezee-italic);
   font-size: var(--font-size-xs);
-  font-style: italic;
   font-weight: 400;
   letter-spacing: 0;
   line-height: normal;
   min-height: 16px;
   white-space: nowrap;
+
+  text-align: center;
+  padding-top: 10px;
+
 }
 
 .profile_profile .rectangle-21 {
-  background-color: var(--mercury);
+  background-color: #0d6efd;
   height: 2px;
   margin-left: 5px;
   margin-top: 14px;
@@ -259,9 +231,7 @@
 .profile_profile .text-29 {
   align-self: flex-end;
   color: var(--black);
-  font-family: var(--font-family-abeezee-italic);
   font-size: var(--font-size-s);
-  font-style: italic;
   font-weight: 400;
   letter-spacing: 0;
   line-height: normal;
@@ -283,7 +253,6 @@
 
 .profile_profile .text-33 {
   color: var(--dove-gray);
-  font-family: var(--font-family-abeezee);
   font-size: var(--font-size-xs);
   font-weight: 400;
   letter-spacing: 0;
@@ -304,144 +273,141 @@
 }
 
 .profile_profile .rectangle-23 {
-  background-color: var(--mercury);
-  height: 2px;
-  margin-left: 5px;
-  margin-top: 17px;
-  width: 670px;
+  background-color: #0d6efd;
+  border-radius: 7px;
+  position: relative;
+  margin-left: 10px;
+  height: 40px;
+  width: 90px;
 }
 
 .profile_profile .text-36 {
-  align-self: center;
   letter-spacing: 0;
   line-height: normal;
-  margin-left: 120.51px;
-  margin-top: 38px;
   min-height: 18px;
   width: 60px;
+  margin-top: 15px;
+  margin-left: 15px;
 }
 
 .profile_profile .rectangle-30 {
-  align-self: flex-end;
   border: 2px solid;
   border-color: var(--mercury);
   border-radius: 7px;
+  margin-top: 15px;
+  margin-left: 15px;
   height: 38px;
-  margin-right: 33.49px;
-  margin-top: 16px;
   width: 289px;
 }
 
 .profile_profile .im-web-designer-i {
   color: var(--dove-gray);
-  font-family: var(--font-family-abeezee-italic);
-  font-size: var(--font-size-xs);
-  font-style: italic;
+  font-size: var(--font-size-s);
   font-weight: 400;
-  left: 0;
+  font-family: Cafe24Oneprettynight;
   letter-spacing: 0;
   line-height: normal;
-  position: absolute;
-  top: 389px;
-  width: 365px;
+  position: relative;
+  width: 300px;
+  margin-top: 30px;
 
   border-color: #E2E2E2;
+  border-width: 1px;
+  border-style: dot-dash;
 
   display: flex;
   justify-content: center;
   align-items: center;
-
 }
 
 .profile_profile .rectangle-14 {
-  background-color: #e6e6e6;
-  height: 1px;
-  left: 43px;
-  position: absolute;
-  top: 462px;
-  transform: rotate(90.00deg);
-  width: 925px;
+  background-color: #0d6efd;
+  position: relative;
+  height: 10px;
+  width: 700px;
+
+  margin-bottom: 30px;
 }
 .profile_profile #centerAddr{
-  top: 623px;
-  left: 586px;
+  top: 0;
+  left: 0;
   position: absolute;
   z-index: 2;
   background-color: white;
-  border: solid 1px blue;
+  border: solid 1px black;
+  width: auto; /* 지도의 너비와 맞춤 */
+  height: auto; /* 필요한 경우 높이 조정 */
+
 }
 
 .profile_profile .rectangle-31 {
   background-color: #d9d9d9;
   height: 368px;
-  left: 586px;
   position: relative;
-  top: 623px;
   width: 362px;
   z-index: 1;
+  margin-top: 17px;
 }
 
 .profile_profile .text-38 {
   color: var(--dove-gray);
-  font-family: var(--font-family-abeezee);
   font-size: var(--font-size-xxl);
   font-weight: 400;
-  left: 234px;
   letter-spacing: 0;
   line-height: normal;
-  position: absolute;
-  top: 234px;
+  position: relative;
   white-space: nowrap;
   width: 83px;
+
+
+  border-color: gray;
+  border-style: solid;
+  border-width: 2px;
 }
 
-.profile_profile .ellipse-1 {
-  border: 5px solid;
-  border-color: var(--tallow);
+.profile_profile .ecllipse-1 {
+  margin-top: 20px;
+  border: 2px solid;
+  border-color: #6c757d;
   border-radius: 75px;
   height: 150px;
-  left: 200px;
-  position: absolute;
-  top: 310px;
+  position: relative;
   width: 150px;
 }
 
 .profile_profile .text-39 {
   color: var(--black);
-  font-family: var(--font-family-abeezee-italic);
   font-size: var(--font-size-xl);
   font-weight: 400;
+  position: relative;
+  font-family: 'Cafe24Oneprettynight';
 
-  left: 154px;
-  top: 500px;
-  position: absolute;
-
-  width: 240px;
+  width: 300px;
   text-align: center;
+
+  margin-top: 50px;
 
 }
 
 .profile_profile .uzbekistan-tashkent {
   color: var(--dove-gray);
-  font-family: var(--font-family-abeezee-italic);
-  font-size: var(--font-size-l);
-  font-style: italic;
-  font-weight: 400;
-  left: 157px;
+  font-size: var(--font-size-s);
+  font-family: 'Cafe24Oneprettynight';
+  font-weight: bold;
   letter-spacing: 0;
   line-height: normal;
-  position: absolute;
-  top: 679px;
+  position: relative;
   white-space: nowrap;
   width: 220px;
   text-align: center;
 
+  margin-top: 80px;
 }
 
 .profile_profile .overlap-group4 {
   height: 180px;
   left: 0;
-  position: absolute;
+  position: relative;
   top: 0;
   margin-left: 1%;
   width: 98%;
@@ -452,7 +418,7 @@
   left: 110px;
   letter-spacing: 0;
   line-height: normal;
-  position: absolute;
+  position: relative;
   top: 122px;
   white-space: nowrap;
   width: 102px;
@@ -462,7 +428,7 @@
   left: 247px;
   letter-spacing: 0;
   line-height: normal;
-  position: absolute;
+  position: relative;
   top: 122px;
   white-space: nowrap;
   width: 95px;
@@ -472,7 +438,7 @@
   left: 384px;
   letter-spacing: 0;
   line-height: normal;
-  position: absolute;
+  position: relative;
   top: 122px;
   white-space: nowrap;
   width: 61px;
@@ -482,7 +448,7 @@
   left: 490px;
   letter-spacing: 0;
   line-height: normal;
-  position: absolute;
+  position: relative;
   top: 122px;
   white-space: nowrap;
   width: 81px;
@@ -492,7 +458,7 @@
   left: 598px;
   letter-spacing: 0;
   line-height: normal;
-  position: absolute;
+  position: relative;
   top: 122px;
   white-space: nowrap;
   width: 81px;
@@ -502,7 +468,7 @@
   left: 100px;
   letter-spacing: 0;
   line-height: normal;
-  position: absolute;
+  position: relative;
   top: 43px;
   white-space: nowrap;
   width: 175px;
@@ -512,7 +478,7 @@
   background-color: var(--kokoda);
   height: 3px;
   left: 110px;
-  position: absolute;
+  position: relative;
   top: 174px;
   width: 110px;
 }
@@ -541,7 +507,6 @@ a {
   border: none;
   resize: none;
   text-align: center;
-  font-family: var(--font-family-abeezee-italic);
   font-size: var(--font-size-xs);
   width: 300px;
   height: 100px;
@@ -551,8 +516,7 @@ a {
   border: 1px solid rgba(0, 0, 0, 0.1);
   resize: none;
   text-align: center;
-  font-family: var(--font-family-abeezee-italic);
-  font-size: var(--font-size-xs);
+
   width: 500px;
   height: 500px;
 }
@@ -563,12 +527,11 @@ a {
   position: relative;
 }
 .profile-shape-text {
-  position: absolute;
+  position: relative;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   color: var(--dove-gray);
-  font-family: var(--font-family-abeezee);
   font-size: var(--font-size-xs);
   text-align: center;
   width: 100%;
@@ -579,21 +542,10 @@ a {
     flex-direction: column;
     height: auto;
   }
-  .profile_profile .basic-info-group {
-    left: 50%;
-    transform: translateX(-50%);
-    position: relative;
-    top: 0;
-  }
-  .profile_profile .overlap-group5 {
-    position: relative;
-    top: 0;
-    left: 0;
-  }
 }
 
 #editButton {
-  position: absolute;
+  position: relative;
   right: 0;
   border: none;
   background: transparent;
@@ -603,36 +555,42 @@ a {
 /* 추가: 숨겨진 확인 버튼 */
 #info_saveButton {
   display: none;
-  position: absolute;
+  position: relative;
   right: 0;
   border: none;
   background: transparent;
   cursor: pointer;
 
-  background-color: #a5a58d;
+  background-color: #0d6efd;
   color: white;
   border-radius: 0.4rem;
+
+  width: 45px;
 }
 
 #userInfoInput {
-  width: 75%;
-  max-width: 500px; /* 필요한 경우 너비 조정 */
+  width: 100%;
+  max-width: 300px;
 }
 
-
-
 .address-search-button {
-  position: absolute;
-  left: 450px;
-  top: 546px;
+  position: relative;
   padding: 4px 6px;
-  background-color: #4CAF50;
+  background-color: #6c757d;
   color: white;
   border: none;
   border-radius: 4px;
   cursor: pointer;
   font-size: 12px;
+  margin-top: 15px;
+  margin-left: 5px;
 }
 
-
+.content1{
+  display: flex;
+  justify-content: center; /* 수평 중앙 정렬 */
+  align-items: center; /* 수직 중앙 정렬 */
+  flex-direction: column; /* 세로 방향으로 정렬 */
+  margin-bottom: 100px;
+}
 

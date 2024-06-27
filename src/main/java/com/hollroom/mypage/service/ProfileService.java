@@ -13,13 +13,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
-import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Optional;
-
-import static groovyjarjarantlr4.v4.gui.GraphicsSupport.saveImage;
 
 @Service
 public class ProfileService {
@@ -80,6 +77,7 @@ public class ProfileService {
         }
     }
 
+    //이미지 저장 업데이트
     private static final String UPLOAD_DIR = "src/main/resources/static/mypage/img/profile/";
     public void saveProfileImage(MultipartFile image, UserSignupDTO userSignupDTO) {
         try {
@@ -106,13 +104,18 @@ public class ProfileService {
 
     }
 
-    //사용자 탈퇴 여부 체크
-    public boolean deleteUser(String email) {
-        String sql = "UPDATE users SET is_deleted = TRUE WHERE email = ?";
-        int rowsAffected = jdbcTemplate.update(sql, email);
+    //유저 탈퇴 is_deleted체크
+    public boolean withdrawal(UserSignupDTO userSignupDTO, String password) {
+        UserEntity userEntity = userRepository.findByUserEmail(userSignupDTO.getUserEmail())
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
-        // 업데이트가 성공적으로 이루어졌는지 확인
-        return rowsAffected > 0;
+        if (!passwordEncoder.matches(password, userEntity.getUserPassword())) {
+            return false;
+        } else {
+            userEntity.setIsDeleted(true);
+            userRepository.save(userEntity);
+            return true;
+        }
     }
 }
 

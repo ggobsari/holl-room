@@ -48,7 +48,7 @@ public class UserSignupDTO {
         this.userPassword = userEntity.getUserPassword();
         this.userName = userEntity.getUserName();
         this.userNickname = userEntity.getUserNickname();
-//        this.userImage = userEntity.getUserImage();
+        this.userImage = userEntity.getUserImage();
         this.userIntroduce = userEntity.getUserIntroduce();
         this.userPhoneNumber = userEntity.getUserPhoneNumber();
         this.userBirthday = userEntity.getUserBirthday();

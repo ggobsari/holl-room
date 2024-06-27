@@ -13,7 +13,7 @@
 .profile_shape .rectangle-15 {
     background-color: var(--gallery);
     height: 168px;
-    position: absolute;
+    position: relative;
     top: 10px;
     width: 96%;
     margin-left: 1%;
@@ -28,24 +28,88 @@
 .profile_shape .text-4,
 .profile_shape .text-5,
 .profile_shape .text-6 {
-    position: absolute;
+    position: relative;
     white-space: nowrap;
     letter-spacing: 0;
     line-height: normal;
 }
 
-.profile_shape .text-1 { left: 110px; top: 122px; width: 102px; }
-.profile_shape .text-2 { left: 247px; top: 122px; width: 95px; }
-.profile_shape .text-3 { left: 384px; top: 122px; width: 61px; }
-.profile_shape .text-4 { left: 490px; top: 122px; width: 81px; }
-.profile_shape .text-5 { left: 598px; top: 122px; width: 81px; }
-.profile_shape .text-6 { left: 100px; top: 43px; width: 175px; }
+.profile_shape .text-1 {
+    left: 110px;
+    top: 122px;
+    width: 102px;
+}
+
+.profile_shape .text-2 {
+    left: 247px;
+    top: 122px;
+    width: 95px;
+}
+
+.profile_shape .text-3 {
+    left: 384px;
+    top: 122px;
+    width: 61px;
+}
+
+.profile_shape .text-4 {
+    left: 490px;
+    top: 122px;
+    width: 81px;
+}
+
+.profile_shape .text-5 {
+    left: 598px;
+    top: 122px;
+    width: 81px;
+}
+
+.profile_shape .text-6 {
+    left: 100px;
+    top: 43px;
+    width: 175px;
+}
 
 .profile_shape .rectangle-11 {
     background-color: var(--kokoda);
     height: 3px;
     left: 598px;
-    position: absolute;
+    position: relative;
     top: 175px;
     width: 81px;
+}
+
+.content3 {
+    width: auto;
+    height: 96%;
+
+}
+
+.flex-row-5 {
+    display: flex;
+    align-items: flex-start;
+}
+
+.bg-light {
+    flex-grow: 1;
+}
+
+/* 작은 화면일 때 레이아웃 변경 */
+@media (max-width: 850px) {
+    .flex-row-5 {
+        flex-direction: column;
+    }
+
+    .content3 {
+        position: relative;
+        left: auto;
+        top: auto;
+        transform: none;
+        width: 0; /* 너비를 100%로 설정하여 전체 화면 차지 */
+        margin-bottom: 20px; /* 아래쪽 마진 추가 */
+    }
+
+    .bg-light {
+        width: 100%; /* 너비를 100%로 설정하여 전체 화면 차지 */
+    }
 }

@@ -2,12 +2,16 @@ package com.hollroom.mypage.controller;
 
 import com.hollroom.mypage.service.ProfileService;
 import com.hollroom.user.dto.UserSignupDTO;
+import com.hollroom.user.entity.UserEntity;
+import com.hollroom.user.service.UserService;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
 @org.springframework.stereotype.Controller
 @RequestMapping("/mypage")
@@ -16,31 +20,50 @@ public class WithdrawalController {
     @Autowired
     private ProfileService profileService;
 
-    @GetMapping("withdrawal")
-    public String interest() {
-        return "mypage/withdrawal";  //mypage/withdrawl페이지 반환
+    // 세션 체크 헬퍼 메서드
+    private boolean checkSession(HttpSession session) {
+        UserEntity user = (UserEntity) session.getAttribute("USER_NICKNAME");
+        return user != null;
     }
 
-
-    @PostMapping("/verifypassword")
-    public String withdraw(HttpSession session) {
-        // 세션에서 사용자 이메일을 가져옴
-        String email = (String) session.getAttribute("email");
-
-        // 이메일이 없으면 로그인 페이지로 리디렉션
-        if (email == null) {
-            return "redirect:/login"; // 로그인 페이지로 리디렉션
-        }
-
-        // 이메일을 사용하여 is_deleted를 TRUE로 설정
-        boolean success = profileService.deleteUser(email);
-
-        // 성공 여부에 따라 다른 페이지로 리디렉션
-        if (success) {
+    @GetMapping("/withdrawal")
+    public String interest(HttpSession session){
+        if (!checkSession(session)) {
             return "redirect:/login";
-        } else {
-            return "redirect:/withdrawal";
         }
+        return "mypage/withdrawal";  // mypage/withdrawal 페이지 반환
     }
+
+    @PostMapping("/handleWithdrawal")
+    public ResponseEntity<Map<String, Object>> handleWithdrawal(@RequestBody Map<String, String> request, HttpSession session) {
+        Map<String, Object> response = new HashMap<>();
+
+        if (!checkSession(session)) {
+            response.put("success", false);
+            response.put("message", "로그인이 필요합니다.");
+            return ResponseEntity.ok(response);
+        }
+
+        String password = request.get("password");
+        UserEntity loggedInUser = (UserEntity) session.getAttribute("USER_NICKNAME");
+        UserSignupDTO user = profileService.getUserByEmail(loggedInUser.getUserEmail());
+
+        try {
+            boolean success = profileService.withdrawal(user, password);
+            if (success) {
+                response.put("success", true);
+                response.put("message", "회원탈퇴가 성공적으로 처리되었습니다.");
+            } else {
+                response.put("success", false);
+                response.put("message", "비밀번호가 일치하지 않습니다.");
+            }
+        } catch (Exception e) {
+            response.put("success", false);
+            response.put("message", "회원탈퇴 처리에 실패했습니다.");
+        }
+
+        return ResponseEntity.ok(response);
+    }
+
 }
 
