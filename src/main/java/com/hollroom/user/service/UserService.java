@@ -94,7 +94,7 @@ public class UserService {
         //세션 있으면 세션 반환, 없으면 신규 세션 생성
         HttpSession session = request.getSession();
 
-        session.setAttribute(userNickname, userEntity.getUserNickname());
+        session.setAttribute(userNickname, userEntity);
 
         log.info(session.toString());
 
