@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hollroom.roommate">
+    <insert id="insert" parameterType="rmmt_board">
+        insert into board_roommate values(rmmt_seq.nextval, #{id},
+        #{title}, #{content}, sysdate, null,
+        #{nocturnal}, null, null, null,
+        #{smoking}, #{pet}, null, '011',
+        null, 'N', null, null)
+    </insert>
+
+    <select id="select" parameterType="int" resultType="rmmt_board">
+        select * from board_roommate
+         where roommate_id = ${tomato}
+    </select>
+
+    <select id="selectall" resultType="rmmt_board">
+        select * from board_roommate
+    </select>
+
+    <!--
+    <update id="delete" parameterType="Integer.class" resultType="Integer.class">
+        update board_roommate(title, ) set ()
+    </delete>
+
+    <select id="filteringsearch" parameterType="" resultType="">
+        SELECT * from board_roommate
+        <where>
+            <if test="nocturnal != null">
+                nocturnal = #{nocturnal}
+            </if>
+            <if test="smoking != null">
+                and smoking = #{smoking}
+            </if>
+            <if test="habits != null">
+                and sleeping_habits = #{habits}
+            </if>
+        </where>
+    </select> -->
+</mapper>
