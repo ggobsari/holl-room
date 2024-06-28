@@ -14,11 +14,12 @@ import java.util.List;
 @RequiredArgsConstructor
 public class MonthlyController {
     private final MonthlyProductService productService;
+    private static final String MAIN_READ_TYPE="MAIN";
 
     @GetMapping(value = {"/","/monthly"})
     public String showMainPage(Model model){
-/*        List<MonthlyProductDTO> productList = productService.readProductAll();
-        model.addAttribute("productList", productList);*/
+        List<MonthlyProductDTO> productList = productService.readProductAll();
+        model.addAttribute("productList", productList);
         return "monthly/monthly";
     }
 
@@ -34,17 +35,15 @@ public class MonthlyController {
         return "monthly/product_register";
     }
 
-    @GetMapping("/monthly/division?topDivision={topDivision}&mainDivision={mainDivision}")
-    public String readMainDivision(Model model,@RequestParam(value = "topDivision") String topDivision, @RequestParam(value = "mainDivision") String mainDivision) {
-        DivisionDTO division = productService.readMainDivision(topDivision,mainDivision);
-        model.addAttribute("division", division);
-        return "";
-    }
-
-    @GetMapping("/monthly/division/{topDivision}")
-    public String readSubDivision(Model model,@PathVariable String topDivision) {
-        List<DivisionDTO> divisionList = productService.readSubDivision(topDivision);
-        model.addAttribute("divisionList", divisionList);
+    @GetMapping("/monthly/division")
+    public String readDivision(Model model,@RequestParam String address,@RequestParam String type) {
+        if(type.equals(MAIN_READ_TYPE)){
+            DivisionDTO division = productService.readMainDivision(address);
+            model.addAttribute("division", division);
+        }else{
+            List<DivisionDTO> divisionList= productService.readSubDivision(address);
+            model.addAttribute("divisionList", divisionList);
+        }
         return "";
     }
 
@@ -55,10 +54,16 @@ public class MonthlyController {
         return "redirect:/monthly/product";
     }
 
-    @GetMapping("/monthly/product/division/{division}")
-    public String readDivisionProduct(Model model, @PathVariable String division){
-        List<MonthlyProductDTO> productList = productService.readDivisionProduct(division);
+    @GetMapping("/monthly/product/division/{addr}")
+    public String readDivisionProduct(Model model, @PathVariable String addr){
+        List<MonthlyProductDTO> productList = productService.readDivisionProduct(addr);
         model.addAttribute("productList", productList);
-        return "redirect:/monthly/product";
+        return "monthly/product_list";
+    }
+
+    @GetMapping("/division/{addr}")
+    @ResponseBody
+    public DivisionDTO readDivision(@PathVariable String addr) {
+        return productService.readMainDivision(addr);
     }
 }
