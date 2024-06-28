@@ -11,7 +11,7 @@
     />
     <meta name="description" content="" />
     <meta name="author" content="" />
-    <title>Modern Business - Start Bootstrap Template</title>
+    <title>Roommate Home(임시)</title>
 <!--    Favicon-->
 <!--    <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />-->
 <!--    Bootstrap icons-->
@@ -30,33 +30,7 @@
   </head>
   <body layout:fragment="content" class="d-flex flex-column h-100 bg-light font-kor">
     <main class="flex-shrink-0">
-      <div class="floating-btn">
-        <button
-          id="floating-btn-top"
-          onclick="scrollToTop()"
-          class="btn btn-primary rounded-circle"
-        >
-          <span>&#11121;</span>
-        </button>
-        <button
-          id="floating-btn-chat"
-          onclick="location.href='#'"
-          class="btn btn-primary rounded-circle"
-        >
-          <span>&#9776;</span>
-        </button>
-        <button
-          id="floating-btn-write"
-          onclick="location.href='/hollroom/roommate/write'"
-          class="btn btn-primary rounded-circle"
-        >
-          <span>&#128393;</span>
-        </button>
-      </div>
-
-      <!-- Blog preview section-->
       <section class="justify-content-center py-5">
-        <!-- Call to action -->
         <aside class="col-3 bg-dark bg-gradient rounded-3 pt-4 px-3 me-3">
           <div class="my-5 filter-list text-white">
             <ul id="filter-condition">
@@ -78,9 +52,9 @@
                 <li>
                   흡연 여부
                   <div>
-                    <input type="radio" name="smoke" id="smoke-x" />
+                    <input type="radio" name="smoking" id="smoke-x" />
                     <label for="smoke-x" class="form-check-label">비흡연자</label>&nbsp;
-                    <input type="radio" name="smoke" id="smoke-o" />
+                    <input type="radio" name="smoking" id="smoke-o" />
                     <label for="smoke-o" class="form-check-label">흡연자</label>
                   </div>
                 </li>
@@ -114,7 +88,7 @@
               <div class="mt-4 d-flex justify-content-center">
                 <button
                   type="reset"
-                  class="btn btn-outline-danger"
+                  class="btn btn-outline-warning"
                   onclick="location.href='roommate_home.html'"
                 >
                   초기화
@@ -131,8 +105,7 @@
           <h2 class="my-5 text-center font-eng">Roommate</h2>
           <div class="p-3">
             <table
-              class="table table-hover text-center"
-            >
+              class="table table-hover text-center">
               <thead>
                 <tr>
                   <th>번호</th>
@@ -143,81 +116,37 @@
               </thead>
               <tbody>
                 <tr class="table-light" role="button">
-                  <td>10</td>
+                  <td>13</td>
                   <td class="text-start">
-                    <a
-                      href="roommate_detail.html"
-                      style="text-decoration: none; color: black"
-                    >
-                      <span class="bg-primary rounded-3 px-1 text-white">
-                        MY</span
-                      >
-                      &nbsp;룸메이트 구해요
+                    <a href="roommate_detail.html"
+                       style="text-decoration: none; color: black">
+                      <span class="bg-primary rounded-3 px-1 text-white">MY</span>
+                      룸메이트 구해요
                     </a>
                   </td>
                   <td>qwer</td>
-                  <td>오늘</td>
+                  <td>6.19</td>
                 </tr>
                 <tr>
-                  <td>9</td>
+                  <td>0</td>
                   <td>
                     <span class="text-primary fw-bold">new</span>
-                    &nbsp;룸메이트 구해요
+                    &nbsp;룸메이트 구해요~
                   </td>
-                  <td>qwer</td>
+                  <td>asdf</td>
                   <td>오늘</td>
                 </tr>
-                <tr>
-                  <td>8</td>
-                  <td>
-                    <span class="text-primary fw-bold">new</span>
-                    &nbsp;룸메이트 구해요
-                  </td>
-                  <td>qwer</td>
-                  <td>오늘</td>
-                </tr>
-                <tr>
-                  <td>7</td>
-                  <td>룸메이트 구해요</td>
-                  <td>qwer</td>
-                  <td>6.18</td>
-                </tr>
-                <tr>
-                  <td>6</td>
-                  <td>룸메이트 구해요</td>
-                  <td>qwer</td>
-                  <td>6.18</td>
-                </tr>
-                <tr>
-                  <td>5</td>
-                  <td>룸메이트 구해요</td>
-                  <td>qwer</td>
-                  <td>6.18</td>
-                </tr>
-                <tr>
-                  <td>4</td>
-                  <td>룸메이트 구해요</td>
-                  <td>qwer</td>
-                  <td>6.17</td>
-                </tr>
-                <tr>
-                  <td>3</td>
-                  <td>룸메이트 구해요</td>
-                  <td>qwer</td>
-                  <td>6.17</td>
-                </tr>
-                <tr>
-                  <td>2</td>
-                  <td>룸메이트 구해요</td>
-                  <td>qwer</td>
-                  <td>6.17</td>
-                </tr>
-                <tr>
-                  <td>1</td>
-                  <td>룸메이트 구해요</td>
-                  <td>qwer</td>
-                  <td>6.17</td>
-                </tr>
+                <th:block th:each="board:${boardlist}">
+                  <tr>
+                    <td th:text="${board.roommate_id}"></td>
+                    <td th:text="${board.title}">
+                      <span class="text-primary fw-bold" hidden>new</span>
+                      &nbsp;룸메이트 구해요
+                    </td>
+                    <td th:text="${board.id}"></td><!-- 닉네임으로 수정!!! -->
+                    <td th:text="${board.created_at}">오늘</td>
+                  </tr>
+                </th:block>
               </tbody>
             </table>
 
