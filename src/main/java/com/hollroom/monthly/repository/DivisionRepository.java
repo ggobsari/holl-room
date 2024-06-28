@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface DivisionRepository extends JpaRepository<DivisionEntity, Integer> {
-    List<DivisionEntity> findByTopDivisionCodeAndName(Long topDivisionCode, String name);
+    DivisionEntity findByTopDivisionCodeAndName(Long topDivisionCode, String name);
     List<DivisionEntity> findByName(String name);
+    List<DivisionEntity> findByTopDivisionCode(Long topDivisionCode);
 }

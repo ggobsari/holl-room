@@ -36,18 +36,15 @@
             background-position: center;
             background-size: cover;
         }
-        body{
-            height: 100%;
-        }
-        main{
-            height: 100%;
-        }
         .full-body{
             width: 100%;
-            height: 100%;
+            height: 100vh;
         }
         .full-height{
-            height: 100%;
+            height: 100vh;
+        }
+        .part-scroll{
+            overflow-y: scroll;
         }
         #showProductBtn{
             width: 90px;
@@ -114,7 +111,9 @@
                         </div>
                     </div>
                 </div>
-<!--                <div th:replace="~{/monthly/product_list :: productList}"></div>-->
+                <div class="part-scroll" style="height: 100vh;">
+                    <div th:replace="~{/monthly/product_list :: productList}"></div>
+                </div>
             </div>
         </div>
     </div>

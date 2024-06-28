@@ -19,7 +19,11 @@ public class MonthlyProductDAOImpl implements MonthlyProductDAO {
 
     @Override
     public List<MonthlyProductEntity> readProductAll() {
-        return productRepo.findAll();
+        List<MonthlyProductEntity> list = productRepo.findAll().subList(0,10);
+        for(MonthlyProductEntity entity : list){
+            System.out.println(entity);
+        }
+        return list;
     }
 
     @Override
