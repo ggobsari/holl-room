@@ -2,24 +2,21 @@
 @import url("https://fonts.googleapis.com/css?family=ABeeZee:400");
 
 :root {
-  --black: #000000;
-  --dove-gray: #6c6c6c;
+  --black-global: #000000;
+  --dove-gray-global: #6c6c6c;
   --gallery: #f0f0f0;
-  --kokoda: #6b705c;
+  --kokoda-global: #6b705c;
   --mercury: #e5e5e5;
   --tallow: #a5a58d;
   --white: #ffffff;
 
   --font-size-l: 24px;
-  --font-size-m: 22px;
+  --font-size-m-global: 22px;
   --font-size-s: 18px;
   --font-size-xl: 28px;
-  --font-size-xs: 14px;
+  --font-size-xs-global: 14px;
   --font-size-xxl: 30px;
   --font-size-xxxl: 38px;
-
-  --font-family-abeezee: "ABeeZee", Helvetica;
-  --font-family-abeezee-italic: "ABeeZee-Italic", Helvetica;
 }
 
 * {
@@ -37,11 +34,10 @@ a {
 }
 
 .container-center-horizontal {
-  display: flex;
-  flex-direction: row;
   justify-content: center;
+  flex-direction: row;
   pointer-events: none;
-  width: 75%;
+  width: 100%;
   margin-left: auto;
   margin-right: auto;
   margin-top: 1%;
@@ -50,6 +46,7 @@ a {
 .container-center-horizontal > * {
   pointer-events: auto;
   display: flex;
+  justify-content: center;
 }
 
 .clickable-box {
@@ -66,6 +63,27 @@ a {
   color: inherit; /* 클릭한 후에도 기본 텍스트 색상 유지 */
 }
 
+.nav-menu {
+  display: flex;
+  align-items: center;
+  padding: 10px 15px;
+  color: #ffffff;
+  font-size: 0.9em;
+  transition: background-color 0.3s, color 0.3s;
+}
 
+.nav-menu i {
+  margin-right: 10px;
+  font-size: 1.2em;
+}
 
+.nav-menu:hover {
+  background-color: #0056b3;
+  color: #ffffff;
+}
 
+.nav-menu.active {
+  background-color: #0d6efd;
+  color: #ffffff;
+  font-weight: bold;
+}

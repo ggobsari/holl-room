@@ -2,6 +2,9 @@ package com.hollroom.mypage.controller;
 
 import com.hollroom.mypage.service.ProfileService;
 import com.hollroom.user.dto.UserSignupDTO;
+import com.hollroom.user.entity.UserEntity;
+import jakarta.servlet.http.HttpSession;
+import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,30 +19,19 @@ import java.util.Collections;
 public class ProfileController {
 
     private final ProfileService profileService;
-
     // ProfileService를 주입받는 생성자
     public ProfileController(ProfileService profileService) {
         this.profileService = profileService;
     }
 
-    // 프로필 페이지를 반환하는 메서드
+    //프로필 정보 불러오기
     @GetMapping("/profile")
-    public String getProfilePage(Model model) {
-        // 모델에 사용자 프로필 정보를 추가
-        // 로그인된 사용자 ID를 가져오는 로직 (예: SecurityContextHolder에서 가져오기)
-        String loggedInUserEmail = "1111@1111"; // 실제 로그인된 사용자 ID로 변경 필요
-        UserSignupDTO user = profileService.getUserByEmail(loggedInUserEmail);
-        model.addAttribute("user", user);
-        // mypage/profile.html 뷰를 반환
-//        System.out.println(user.getUserEmail());
-//        System.out.println(user.getUserNickname());
-//        System.out.println(user.getUserName());
-//        System.out.println(user.getUserPhoneNumber());
-//        System.out.println(user.getUserBirthday());
-//        System.out.println(user.getUserGender());
-//        System.out.println(user.getUserLocal());
-//        System.out.println(user.getUserInfo());
-//        System.out.println(user.getUserImage());
+    public String getProfile(Model model, HttpSession session) {
+        UserEntity user = (UserEntity) session.getAttribute("USER_NICKNAME");
+        if (user == null) {
+            return "redirect:/login";
+        }
+        model.addAttribute("profile", profileService.getUserByEmail(user.getUserEmail()));
         return "mypage/profile";
     }
 

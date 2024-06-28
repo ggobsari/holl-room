@@ -55,7 +55,7 @@
 }
 
 .profile_interest .rectangle-11 {
-  background-color: var(--kokoda);
+  background-color: var(--kokoda-global);
   height: 3px;
   left: 384px;
   position: absolute;

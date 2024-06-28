@@ -6,124 +6,126 @@
     <meta charset="utf-8"/>
     <!--<meta name=description content="This site was generated with Anima. www.animaapp.com"/>-->
     <!-- <link rel="shortcut icon" type=image/png href="https://animaproject.s3.amazonaws.com/home/favicon.png" /> -->
-    <meta name="viewport" content="width=1440, maximum-scale=1.0"/>
+    <meta name="viewport" content="width=1440, initial-scale =1.0"/>
     <link rel="shortcut icon" type="image/png" href="https://animaproject.s3.amazonaws.com/home/favicon.png"/>
     <meta name="og:type" content="website"/>
     <meta name="twitter:card" content="photo"/>
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link rel="stylesheet" type="text/css" href="css/styles.css"/>
+    <link rel="stylesheet" type="text/css" href="css/styleguide.css"/>
+    <link rel="stylesheet" type="text/css" href="css/globals.css"/>
+    <link rel="stylesheet" type="text/css" href="css/profile_inquiry.css"/>
+    <link rel="stylesheet" type="text/css" href="css/profile_shape.css"/>
+    <link rel="stylesheet" type="text/css" href="css/styles-2.css"/>
+    <!--Java Script-->
 
-    <link rel="stylesheet" type="text/css" href="css/inquiry_write/inquiry_write.css"/>
-    <link rel="stylesheet" type="text/css" href="css/inquiry_write/styleguide.css"/>
-    <link rel="stylesheet" type="text/css" href="css/inquiry_write/globals.css"/>
+
+    <style>
+        @import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap");
+    </style>
 </head>
-<body style="margin: 0; background: #ffffff">
-<div layout:fragment="content">
-    <input type="hidden" id="anPageName" name="page" value="inquiry_write"/>
-    <div class="container-center-horizontal">
-        <div class="inquiry_write screen">
-            <div class="overlap-group10" style="background-color: #f8f9fa">
-                <div class="overlap-group5">
-                    <div class="text-1-2 text-1-3 abeezee-normal-dove-gray-22px">
-                        <a class="profile-menu" href="profile">마이프로필</a>
+<body class="d-flex flex-column font-kor">
+<main class="flex-shrink-0">
+    <div layout:fragment="content">
+        <!-- Page content-->
+        <section class="py-5 flex-row-5">
+            <div class="container px-5 d-flex">
+                <!-- 메뉴 -->
+                <!--<div class="main-content bg-light rounded-3 py-5 px-4 px-md-5 mb-5">-->
+                <aside class="col-3 bg-dark bg-gradient rounded-3 pt-4 px-3 me-3 content3">
+                    <div class="my-5 filter-list text-white">
+                        <h2 class="text-center mb-4" style="font-size: 1.5em; font-weight: bold;">마이페이지</h2>
+                        <ul class="nav flex-column">
+                            <li class="nav-item">
+                                <a class="nav-menu" href="profile">
+                                    <i class="bi bi-person-circle"></i> 마이프로필
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-menu " href="mywrite">
+                                    <i class="bi bi-pencil-square"></i> 내가 쓴 글
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-menu" href="interest">
+                                    <i class="bi bi-bookmark-heart"></i> 즐겨찾기
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-menu active" href="inquiry">
+                                    <i class="bi bi-question-circle"></i> 문의하기
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-menu" href="withdrawal">
+                                    <i class="bi bi-x-circle"></i> 회원탈퇴
+                                </a>
+                            </li>
+                        </ul>
                     </div>
-                    <div class="text-2-1 abeezee-normal-dove-gray-22px">
-                        <a class="profile-menu" href="mywrite">내가 쓴 글</a>
-                    </div>
-                    <div class="text-3-1 abeezee-normal-dove-gray-22px">
-                        <a class="profile-menu" href="interest">관심글</a>
-                    </div>
-                    <div class="text-4 text-7">
-                        <a class="profile-menu" href="inquiry">문의하기</a>
-                    </div>
-                    <div class="text-5 text-7 abeezee-normal-dove-gray-22px">
-                        <a class="profile-menu" href="withdrawal">회원탈퇴</a>
-                    </div>
-                    <h1 class="text-6 text-7">마이페이지</h1>
-                    <div class="rectangle-11"></div>
-                </div>
+                </aside>
 
-                <div class="overlap-group6">
-                    <div class="basic-info-group">
-                        <div class="text">문의하기</div>
-                        <div class="overlap-group">
-                            <div class="rectangle-21"></div>
-                            <div class="text-1 text-7 abeezee-normal-white-18-7px">저 장</div>
-                        </div>
-                        <div class="flex-row">
-                            <div class="text-2 text-7 abeezee-normal-black-18-7px">이메일 주소*</div>
-                            <div class="rectangle-15-1"></div>
-                            <div class="rectangle-36"></div>
-                        </div>
-                        <div class="flex-row-1">
-                            <div class="text-2 text-7 abeezee-normal-black-18-7px">문의 유형*</div>
-                            <div class="rectangle-31"></div>
-                        </div>
-                        <div class="flex-row-2">
-                            <div class="text-2 text-7 abeezee-normal-black-18-7px">파일 첨부</div>
-                            <div class="rectangle-3"></div>
-                        </div>
-                        <div class="flex-row-3">
-                            <div class="text-2 text-7 abeezee-normal-black-18-7px">제목*</div>
-                            <div class="rectangle-3"></div>
-                        </div>
-                        <div class="flex-row-4">
-                            <div class="text-1-1 text-1-3 abeezee-normal-black-18-7px">내용*</div>
-                            <div class="overlap-group-1">
-                                <div class="text-3 text-7 abeezee-normal-white-18-7px">저 장</div>
+                <!-- 내가 쓴글 목록 -->
+                <div class="border-primary col-7 p-4 bg-white rounded-3">
+                    <div class="p-3">
+                        <div class="mb-5">
+                            <hr class="mb-5 w-100"/>
+                            <div class="d-flex justify-content-center filter-list">
+                                <ul id="write-ul-1">
+                                    <li>이메일<span class="text-primary">*</span></li>
+                                    <br>
+                                    <li><label>파일 첨부</label></li>
+                                </ul>
+                                <ul name="!!값">
+                                    <li style="width: 500px">
+                                        <input type="text" class="rectangle-41 form-control"/>
+                                    </li>
+                                    <br>
+                                    <li>
+                                        <input type="text" class="rectangle-41 form-control"/>
+                                    </li>
+                                </ul>
                             </div>
-                        </div>
-                        <div class="flex-row-5">
-                            <div class="rectangle"></div>
-                            <div class="rectangle"></div>
-                        </div>
-                    </div>
-                    <div class="basic-info-group-1">
-                        <div class="text">문의하기</div>
-                        <div class="overlap-group">
-                            <div class="rectangle-21"></div>
-                            <div class="text-1 text-7 abeezee-normal-white-18-7px">저 장</div>
-                        </div>
-                        <div class="flex-row">
-                            <div class="text-2 text-7 abeezee-normal-black-18-7px">이메일 주소*</div>
-                            <div class="rectangle-15-1 abeezee-normal-black-18-7px">11●●@●11●</div>
-                            <div class="rectangle-36"></div>
-                        </div>
-                        <div class="flex-row-1">
-                            <div class="text-2 text-7 abeezee-normal-black-18-7px">문의 유형*</div>
-                            <div class="rectangle-31"></div>
-                        </div>
-                        <div class="flex-row-6">
-                            <div class="text-2 text-7 abeezee-normal-black-18-7px">파일 첨부</div>
-                            <div class="rectangle-3"></div>
-                        </div>
-                        <div class="flex-row-7">
-                            <div class="text-2 text-7 abeezee-normal-black-18-7px">제목*</div>
-                            <div class="rectangle-3"></div>
-                        </div>
-                        <div class="flex-row-8">
-                            <div class="text-1-1 text-1-3 abeezee-normal-black-18-7px">내용*</div>
-                            <div class="overlap-group-1">
-                                <div class="text-3 text-7 abeezee-normal-white-18-7px">저 장</div>
-                            </div>
-                        </div>
-                        <div class="flex-row-9">
-                        </div>
-                    </div>
-                    <div class="text-23 text-7">이메일수정</div>
-                    <div class="button-follow">
-                        <div class="overlap-group4">
-                            <div class="text-24 valign-text-middle text-7">문의하기</div>
-                        </div>
-                        <div class="text-25 valign-text-middle text-7">
 
-                        </div>
-                        <div class="text-26 valign-text-middle text-7">
-                            목 록
+                            <hr class="mb-5"/>
+
+                            <div class="d-flex flex-column align-items-center">
+                                <input
+                                        type="text"
+                                        name=""
+                                        id="#"
+                                        size="60"
+                                        class="my-input-title"
+                                        placeholder="제목을 작성해주세요"
+                                        required
+                                />
+                                <textarea
+                                        name=""
+                                        id=""
+                                        class="mt-3 main-text"
+                                        maxlength="1000"
+                                        placeholder="본문을 1000자 이내로 작성해주세요"
+                                        required
+                                ></textarea>
+                            </div>
+                            <div class="mt-4 d-flex justify-content-center">
+                                <button
+                                        type="button"
+                                        class="btn btn-outline-danger"
+                                        onclick="location.href='/hollroom/mypage/inquiry'"
+                                >
+                                    뒤로 가기
+                                </button>
+                                <button type="submit" class="ml-3 btn btn-outline-primary">
+                                    올리기
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </section>
     </div>
-</div>
+</main>
 </body>
 </html>
