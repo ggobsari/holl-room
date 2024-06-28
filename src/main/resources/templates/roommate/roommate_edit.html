@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/main_layout}">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>Modern Business - Start Bootstrap Template</title>
+    <!-- Favicon-->
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+    <!-- Bootstrap icons-->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css"
+      rel="stylesheet"
+    />
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link rel="stylesheet" type="text/css" href="css/styles-2.css"  />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap"
+      rel="stylesheet"
+    />
+
+    <script th:inline="javascript">
+      const mapping = /*[[${mapping}]]*/;
+      let board = null;
+      if (mapping == "edit") {
+        board = /*[[${board}]]*/;
+        alert(board.title);
+
+        /* 필수 속성 세팅 */
+
+        document.querySelector("#2title").value = board.title;
+        document.querySelector("#2content").value = board.content;
+
+        if (board.nocturnal == 'Y') {
+          document.querySelector("2#evening").checked = true;
+        } else {
+          document.querySelector("2#morning").checked = true;
+        }
+      }
+
+      window.onload = function () {
+        document.querySelector("#floating-btn-write").hidden = true;
+      }
+    </script>
+  </head>
+  <body layout:fragment="content" class="d-flex flex-column h-100 bg-light font-kor">
+    <main class="flex-shrink-0">
+
+      <section class="justify-content-center py-5">
+        <div class="border-primary col-7 bg-white rounded-3">
+          <div class="mb-5 content-margin">
+            <h3 class="fw-bolder my-5 text-center text-primary font-kor-h">
+              모집글 작성
+            </h3>
+            <hr class="mb-5 w-100" />
+            <form name="register_form" action="/hollroom/roommate/edit" method="post">
+              <div class="d-flex justify-content-center filter-list">
+                <ul id="2write-ul-1">
+                  <li>활동 시간대<span class="text-primary">*</span></li>
+                  <li>
+                    <label>기상 시간대</label>
+                  </li>
+                  <li>
+                    <label>취침 시간대</label>
+                  </li>
+                  <li>
+                    <div>기상 알람 개수</div>
+                  </li>
+                  <li>흡연 여부<span class="text-primary">*</span></li>
+                  <li>반려동물<span class="text-primary">*</span></li>
+                  <li>잠버릇<span class="text-primary">*</span></li>
+                  <li>방 청소 주기</li>
+                  <li>소음에 민감한 정도</li>
+                </ul>
+                <ul><!-- !!값 -->
+                  <li>
+                    <input type="number" id="2id" value="3" hidden />
+                    <div>
+                      <input type="radio" id="2morning" name="nocturnal" value="N" required/>
+                      <label for="2morning" class="form-check-label">
+                        아침형
+                      </label>&nbsp;&nbsp;
+                      <input type="radio" id="2evening" name="nocturnal" value="Y" required/>
+                      <label for="2evening" class="form-check-label">
+                        저녁형
+                    </label>
+                    </div>
+                  </li>
+                  <li>
+                    <div>
+                      <select name="" id="2wakeup_from" class="my-select rounded-2">
+                        <th:block th:each="num:${#numbers.sequence(0,23)}">
+                          <option th:value="${num}" th:text="${num}"></option>
+                        </th:block>
+                      </select>
+                      <span>시에서&nbsp;</span>
+                      <select name="" id="2wakeup_to" class="my-select rounded-2">
+                        <th:block th:each="num:${#numbers.sequence(0,23)}">
+                          <option th:value="${num}" th:text="${num}"></option>
+                        </th:block>
+                      </select>
+                      <span>시 사이</span>
+                      <input type="text" id="2wakeup_at" name="wakeup_at" hidden />
+                    </div>
+                  </li>
+                  <li>
+                    <div>
+                      <select name="" id="2sleep_from" class="my-select rounded-2" size="1">
+                        <th:block th:each="num:${#numbers.sequence(0,23)}">
+                          <option th:value="${num}" th:text="${num}"></option>
+                        </th:block>
+                      </select>
+                      <span>시에서&nbsp;</span>
+                      <select name="" id="2sleep_to" class="my-select rounded-2" size="1">
+                        <th:block th:each="num:${#numbers.sequence(0,23)}">
+                          <option th:value="${num}" th:text="${num}"></option>
+                        </th:block>
+                      </select>
+                      <span>시 사이</span>
+                      <input type="text" id="2sleep_at" name="sleep_at" hidden />
+                    </div>
+                  </li>
+                  <li>
+                    <div>
+                      <input type="number" id="2alarm" name="alarm" class="my-input-s" size="2" min="0" />
+                      <span>개</span>
+                    </div>
+                  </li>
+                  <li>
+                    <div>
+                      <input type="radio" id="2notsmoke" name="smoking" value="N" required />
+                      <label for="2notsmoke" class="form-check-label">비흡연자</label>&nbsp;
+                      <input type="radio" id="2smoke" name="smoking" value="Y" required/>
+                      <label for="2smoke" class="form-check-label">흡연자</label>
+                    </div>
+                  </li>
+                  <li>
+                    <div>
+                      <input type="radio" id="2pet-no" name="pet" value="N" required/>
+                      <label for="2pet-no" class="form-check-label">없음</label>&nbsp;
+                      <input type="radio" id="2pet-yes" name="pet" value="Y" required/>
+                      <label for="2pet-yes" class="form-check-label">있음</label>
+                    </div>
+                  </li>
+                  <li>
+                    <div>
+                      <input type="checkbox" id="2habit1" name="sleeping_habits" value="habit-1" />
+                      <label for="2habit1">코골이</label>&nbsp;&nbsp;
+                      <input type="checkbox" id="2habit2" name="sleeping_habits" value="habit-2" />
+                      <label for="2habit2">이갈이</label>&nbsp;&nbsp;
+                      <input type="checkbox" id="2habit3" name="sleeping_habits" value="habit-3" />
+                      <label for="2habit3">잠꼬대</label>&nbsp;&nbsp;
+                    </div>
+                  </li>
+                  <li>
+                    <div>
+                      <button
+                        type="button"
+                        id="2btn-change-txt"
+                        class="my-btn btn btn-sm btn-outline-primary">
+                        하루
+                      </button>
+                      <span>&nbsp;에&nbsp;</span>
+                      <input type="number" size="1" class="my-input-s" />
+                      <span>번</span>
+                      <input type="text" name="cleaning_cycle" hidden />
+                    </div>
+                  </li>
+                  <li>
+                    <div class="">
+                      <input
+                        class=""
+                        name="noise"
+                        type="radio"
+                        id="2sensitive-2"
+                        value="2"
+                      />
+                      <label class="" for="2sensitive-2">민감한 편이다</label>&nbsp;&nbsp;
+                      <input
+                        class=""
+                        name="noise"
+                        type="radio"
+                        id="2sensitive-1"
+                        value="1"
+                      />
+                      <label class="" for="2sensitive-1">약간 신경쓴다</label>&nbsp;&nbsp;
+                      <input
+                        class=""
+                        name="noise"
+                        type="radio"
+                        id="2sensitive-0"
+                        value="0"
+                      />
+                      <label class="" for="2sensitive-0">둔감하다</label>&nbsp;&nbsp;
+                    </div>
+                  </li>
+                </ul>
+              </div>
+              <hr class="mb-5" />
+              <div class="d-flex flex-column align-items-center">
+                <input
+                  type="text"
+                  name="title"
+                  size="60"
+                  class="my-input-title"
+                  placeholder="제목을 작성해주세요"
+                  required
+                />
+                <textarea
+                  name="content"
+                  class="mt-3 main-text"
+                  maxlength="1000"
+                  placeholder="본문을 1000자 이내로 작성해주세요"
+                  required
+                ></textarea>
+              </div>
+              <div class="mt-4 d-flex justify-content-center">
+                <button
+                  type="button"
+                  class="btn btn-outline-danger"
+                  onclick="location.href='/hollroom/roommate/home'"
+                >
+                  뒤로 가기
+                </button>
+                <input type="submit" onsubmit="return setValues()" class="ml-3 btn btn-outline-primary" value="올리기">
+              </div>
+            </form>
+          </div>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

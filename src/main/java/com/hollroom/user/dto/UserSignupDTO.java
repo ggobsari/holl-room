@@ -21,7 +21,7 @@ public class UserSignupDTO {
 
     private String userNickname;
 
-//    private MultipartFile userImage;
+    private String userImage;
 
     private String userIntroduce;
 
@@ -38,13 +38,17 @@ public class UserSignupDTO {
 
     private Boolean userAdmin;
 
+    private Boolean ban;
+
+    private Boolean is_deleted;
+
 
     public UserSignupDTO(UserEntity userEntity) {
         this.userEmail = userEntity.getUserEmail();
         this.userPassword = userEntity.getUserPassword();
         this.userName = userEntity.getUserName();
         this.userNickname = userEntity.getUserNickname();
-//        this.userImage = userEntity.getUserImage();
+        this.userImage = userEntity.getUserImage();
         this.userIntroduce = userEntity.getUserIntroduce();
         this.userPhoneNumber = userEntity.getUserPhoneNumber();
         this.userBirthday = userEntity.getUserBirthday();
@@ -52,6 +56,7 @@ public class UserSignupDTO {
         this.userLocation = userEntity.getUserLocation();
         this.userSignupAt = userEntity.getUserSignupAt();
         this.userAdmin = userEntity.getUserAdmin();
+
     }
 }
 

@@ -4,10 +4,21 @@ input::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
-
 input[type="number"] {
   /* Firefox  */
   -moz-appearance: textfield;
+}
+
+body::-webkit-scrollbar {
+  width: 8px;
+}
+body::-webkit-scrollbar-thumb {
+  height: 30%;
+  background: rgb(129, 195, 197);
+  border-radius: 10px;
+}
+body::-webkit-scrollbar-track {
+  background: rgba(33, 122, 244, 0.1);
 }
 
 .ml-1 {
@@ -195,6 +206,7 @@ tbody > tr > td:nth-child(2) {
 }
 
 .my-select {
+  height: 2rem;
   border: 1px solid #cccccc;
   outline: none;
   color: gray;

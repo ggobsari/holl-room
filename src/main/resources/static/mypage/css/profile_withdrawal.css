@@ -55,13 +55,14 @@
 }
 
 .profile_withdrawal .rectangle-11 {
-  background-color: var(--kokoda);
+  background-color: var(--kokoda-global);
   height: 3px;
   left: 598px;
   position: absolute;
   top: 175px;
   width: 81px;
 }
+
 
 .profile_withdrawal .text {
   letter-spacing: 0;
@@ -120,4 +121,14 @@
 
 .withdrawal-button:hover {
   background-color: #444444;
+}
+
+.no-bullets {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+.text-box {
+  text-align: justify;
+  line-height: 1.6;
 }

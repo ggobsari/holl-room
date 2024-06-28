@@ -1,7 +1,8 @@
-document.getElementById('withdrawalForm').addEventListener('submit', function(event) {
-    event.preventDefault();
-
-    var password = document.getElementById('password').value;
+function withdrawUser() {
+    const password = prompt("비밀번호를 입력해주세요:");
+    if (!password) {
+        return; // 비밀번호를 입력하지 않으면 탈퇴 진행 안함
+    }
 
     fetch('http://localhost:8090/hollroom/mypage/verifypassword', {
         method: 'POST',
@@ -33,7 +34,7 @@ document.getElementById('withdrawalForm').addEventListener('submit', function(ev
                 alert('비밀번호가 다릅니다.');
             }
         });
-});
+}
 
 function getCookie(name) {
     let cookieValue = null;

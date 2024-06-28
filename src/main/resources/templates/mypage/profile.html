@@ -1,123 +1,213 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout/main_layout}">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-  <meta name="description" content="Start your development with a Design System for Bootstrap 4.">
-  <meta name="author" content="Creative Tim">
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
 
-  <title>HollRoomMypageProfile</title>
+    <title>Modern Business - Start Bootstrap Template</title>
 
-  <link rel="stylesheet" type="text/css" href="css/styleguide.css" />
-  <link rel="stylesheet" type="text/css" href="css/globals.css" />
-  <link rel="stylesheet" type="text/css" href="css/profile_profile.css" />
-  <link rel="stylesheet" type="text/css" href="css/profile_shape.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <!-- Favicon-->
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico"/>
+    <!-- Bootstrap icons-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet"/>
+     <!--Core theme CSS (includes Bootstrap)-->
+    <link href="css/styles.css" rel="stylesheet"/>
+    <link rel="stylesheet" type="text/css" href="css/styleguide.css"/>
+    <link rel="stylesheet" type="text/css" href="css/globals.css"/>
+    <link rel="stylesheet" type="text/css" href="css/profile_profile.css"/>
+    <link rel="stylesheet" type="text/css" href="css/profile_shape.css"/>
+    <link rel="stylesheet" type="text/css" href="css/styles-2.css"/>
 
-  <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=a3660f8de5e77b73f4c7822adeb86bec&libraries=services"></script>
-  <script src="js/profile.js"></script>
+    <!--js-->
+    <script type="text/javascript"
+            src="//dapi.kakao.com/v2/maps/sdk.js?appkey=a3660f8de5e77b73f4c7822adeb86bec&libraries=services"></script>
+    <script src="js/profile.js"></script>
+    <script src="js/profile_geolocation.js"></script>
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+
+    <style>
+        @import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap");
+    </style>
 </head>
-<body>
-<div layout:fragment="content">
-  <div class="container-center-horizontal">
-    <div class="profile_profile screen">
-      <div class="overlap-group6" >
-        <div class="content2">
-          <div class="overlap-group5">
-            <div class="basic-info-group">
-              <div class="flex-row">
-                <div class="basic-info">내 정보</div>
-                <div class="overlap-group1 clickable-box" onclick="resetPage()">
-                  <div class="text-31">취 소</div>
-                  <div class="rectangle-22"></div>
-                </div>
-                <div class="overlap-group clickable-box" id="saveButton">
-                  <div class="text-3">저 장</div>
-                </div>
-              </div>
-              <div class="rectangle-21"></div>
-              <div class="flex-row-1 flex-row-5">
-                <div class="flex-col abeezee-normal-black-14px">
-                  <div class="text-28">닉네임</div>
-                  <input type="text" class="rectangle-9" th:value="${user.getUserNickname()}" readonly />
-                  <div class="text-27">이메일</div>
-                </div>
-                <div class="flex-col-1">
-                  <div class="text-30 abeezee-normal-black-14px">실 명</div>
-                  <input id="realname" type="text" class="rectangle-18" th:value="${user.getUserName()}" readonly />
-                </div>
-              </div>
-              <input id="email" type="text" class="rectangle-16" th:value="${user.getUserEmail()}" readonly/>
-              <div class="text-container abeezee-normal-black-14px">
-                <div class="text">비밀번호</div>
-                <div class="text-26">비밀번호 확인</div>
-              </div>
-              <div class="flex-row-2 flex-row-5">
-                <input type="password" class="rectangle" id="password" />
-                <input type="password" class="rectangle" id="confirmPassword" />
-              </div>
-              <div class="text-container-1 abeezee-normal-black-14px">
-                <div class="text">생년월일</div>
-                <div class="text">성별</div>
-              </div>
-              <div class="flex-row-3 flex-row-5">
-                <input type="text" class="rectangle" th:value="${#dates.format(user.getUserBirthday(), 'yyyy년 MM월 dd일')}" readonly />
-                <input type="text" class="rectangle-27" th:value="${user.getUserGender()}" readonly />
-              </div>
-              <div class="flex-row-4 flex-row-5">
-                <div class="text-29">지역 정보</div>
-              </div>
-              <div class="rectangle-23"></div>
-              <div class="text-36 abeezee-normal-black-14px">거주지역</div>
-              <input type="text" onclick="sample5_execDaumPostcode()" class="rectangle-30" id="userLocal" th:value="${user.getUserLocation()}" />
+<body class="d-flex flex-column font-kor">
+<main class="flex-shrink-0">
+    <div layout:fragment="content">
+        <!-- Page content-->
+        <section class="py-5 flex-row-5">
+            <div class="container px-5 d-flex">
+                <!-- 메뉴 -->
+                <!--<div class="main-content bg-light rounded-3 py-5 px-4 px-md-5 mb-5">-->
+                <aside class="col-3 bg-dark bg-gradient rounded-3 pt-4 px-3 me-3 content3">
+                    <div class="my-5 filter-list text-white">
+                        <h2 class="text-center mb-4" style="font-size: 1.5em; font-weight: bold;">마이페이지</h2>
+                        <ul class="nav flex-column">
+                            <li class="nav-item">
+                                <a class="nav-menu active" href="profile">
+                                    <i class="bi bi-person-circle"></i> 마이프로필
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-menu" href="mywrite">
+                                    <i class="bi bi-pencil-square"></i> 내가 쓴 글
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-menu" href="interest">
+                                    <i class="bi bi-bookmark-heart"></i> 즐겨찾기
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-menu" href="inquiry">
+                                    <i class="bi bi-question-circle"></i> 문의하기
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-menu" href="withdrawal">
+                                    <i class="bi bi-x-circle"></i> 회원탈퇴
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </aside>
 
-              <input type="hidden" id="userId" th:value="${user.getUserEmail()}" />
-            </div>
 
-            <div class="flex-row-5 im-web-designer-i">
-              <div id="userInfoText" th:text="${user.getUserIntroduce() != null ? user.getUserIntroduce() : '자기소개를 작성해보세요!'}"></div>
-              <textarea id="userInfoInput" rows="4" style="display:none;" th:value="${user.getUserIntroduce() != null ? user.getUserIntroduce() : '자기소개를 작성해보세요!'} "></textarea>
-              <button id="editButton" onclick="enableEditUserInfo()">✏️</button>
-              <button id="info_saveButton" onclick="saveUserInfo()" style="display:none;">확인</button>
-            </div>
+                <!-- 컨텐츠-->
+                <div class="border-primary col-7 p-4 bg-white rounded-3">
+                    <div class="p-3">
+                        <div class="d-inline-block">
+                            <div class="d-flex justify-content-end mx-auto">
+                                <div class="p-3 container-center-horizontal profile_profile screen border rounded p-3 text-box">
+                                    <!--프로필 카드-->
+                                    <div class="content1">
+                                        <h2 class="my-5 font-eng" style="font-size: 40px">MyProfile</h2>
+                                        <!--사진-->
+                                        <img class="ecllipse-1 clickable-box" id="profileImage"
+                                             onclick="triggerFileUpload()"
+                                             th:src="${(profile.userImage != null) ? profile.userImage : 'img/no_images.png'}">
+                                        <input type="file" id="fileInput" style="display:none"
+                                               onchange="previewImage(event)">
+                                        <!--닉네임-->
+                                        <p class="text-39" th:text="${profile.userNickname}"></p>
+                                        <!--자기소개-->
+                                        <div class="flex-row-5 im-web-designer-i">
+                                            <div id="userInfoText"
+                                                 th:text="${profile.userIntroduce != null ? profile.userIntroduce : '자기소개를 작성해보세요!'}"></div>
+                                            <textarea id="userInfoInput" rows="4" style="display:none;"
+                                                      th:value="${profile.userIntroduce != null ? profile.userIntroduce : '자기소개를 작성해보세요!'}"></textarea>
+                                            <button id="editButton" onclick="enableEditUserInfo()">✏️</button>
+                                            <button id="info_saveButton" onclick="saveUserInfo()"
+                                                    style="display:none;">확인
+                                            </button>
+                                        </div>
+                                        <!--거주지역-->
+                                        <div class="uzbekistan-tashkent" th:text="${profile.userLocation}"></div>
+                                    </div>
 
-            <div class="rectangle-14"></div>
+                                    <!--경계선-->
+                                    <div class="rectangle-14"></div>
 
-            <div id="map" class="rectangle-31"></div>
-            <div id="centerAddr"></div>
-          </div>
-        </div>
-        <div class="content1">
-          <div class="text-38">프로필</div>
-          <img class="ellipse-1 clickable-box" id="profileImage" onclick="triggerFileUpload()" th:src="${user.getUserImage()} != null ? ${user.getUserImage()} : 'img/no_images.png'">
-          <input type="file" id="fileInput" style="display:none" onchange="previewImage(event)">
-          <p class="text-39" th:text="${user.getUserNickname()}"></p>
-          <div class="uzbekistan-tashkent" th:text="${user.getUserLocation()}"></div>
-          <div class="overlap-group4">
-            <div class="rectangle-15"></div>
-            <div class="text-40 abeezee-normal-kokoda-22px">
-              <a class="profile-menu" href="profile">마이프로필</a>
+
+                                    <!--상세정보-->
+                                    <div class="content2">
+                                        <div class="overlap-group5">
+                                            <div class="flex-row">
+                                                <div class="basic-info">상세 정보</div>
+                                                <div class="overlap-group1 clickable-box flex-row-5"
+                                                     onclick="resetPage()">
+                                                    <div class="rectangle-22" id="cancelButton">
+                                                        <div class="text-31">취 소</div>
+                                                    </div>
+                                                    <div class="rectangle-23 clickable-box" id="saveButton">
+                                                        <div class="text-3">저 장</div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <div class="rectangle-21"></div>
+                                            <div class="flex-row-1 flex-row-5">
+                                                <div class="flex-col abeezee-normal-black-14px">
+                                                    <div class="text-28">닉네임</div>
+                                                    <input type="text" class="rectangle-9 form-control"
+                                                           th:value="${profile.userNickname}" readonly/>
+                                                    <div class="text-27">이메일</div>
+                                                </div>
+                                                <div class="flex-col-1">
+
+                                                    <!--실 명-->
+                                                    <div class="text-30 abeezee-normal-black-14px">실 명</div>
+                                                    <input id="realname" type="text" class="rectangle-18 form-control"
+                                                           th:value="${profile.userName}" readonly
+                                                           onload="maskName()"/>
+                                                </div>
+                                            </div>
+                                            <input id="email" type="text" class="rectangle-16 form-control"
+                                                   th:value="${profile.userEmail}" readonly onload="maskEmail()"/>
+                                            <div class="text-container abeezee-normal-black-14px">
+                                                <div class="text">비밀번호</div>
+                                                <div class="text-26">비밀번호 확인</div>
+                                            </div>
+                                            <div class="flex-row-2 flex-row-5">
+                                                <input type="password" class="rectangle form-control" id="password"/>
+                                                <input type="password" class="rectangle form-control"
+                                                       id="confirmPassword"/>
+                                            </div>
+                                            <div class="text-container-1 abeezee-normal-black-14px">
+                                                <div class="text">생년월일</div>
+                                                <div class="text">성별</div>
+                                            </div>
+                                            <div class="flex-row-3 flex-row-5">
+                                                <input type="text" class="rectangle form-control"
+                                                       th:value="${#dates.format(profile.userBirthday, 'yyyy년 MM월 dd일')}"
+                                                       readonly/>
+                                                <input type="text" class="rectangle-27 form-control"
+                                                       th:value="${profile.userGender == null ? '' : (profile.userGender == 'man' ? '남' : (profile.userGender == 'woman' ? '여' : ''))}"
+                                                       readonly/>
+                                            </div>
+                                            <div class="flex-row-4 flex-row-5">
+                                                <div class="basic-info">지역 정보</div>
+                                            </div>
+                                            <div class="rectangle-21"></div>
+                                            <div class="flex-row-5">
+                                                <div id="map" class="rectangle-31">
+                                                    <div id="centerAddr"></div>
+                                                </div>
+                                                <div>
+                                                    <div class="flex-row-5">
+                                                        <div class="text-36 abeezee-normal-black-14px">거주지역</div>
+                                                        <input type="button" id="address_search"
+                                                               class="address-search-button"
+                                                               onclick="AddressSearch()" value="주소검색">
+                                                    </div>
+                                                    <input type="text" class="rectangle-30 form-control" id="userLocal"
+                                                           th:value="${profile.userLocation}" readonly/>
+                                                </div>
+
+                                                <input type="hidden" id="userId" th:value="${profile.userEmail}"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="text-41 abeezee-normal-dove-gray-22px">
-              <a class="profile-menu" href="mywrite">내가 쓴 글</a>
-            </div>
-            <div class="text-42 abeezee-normal-dove-gray-22px">
-              <a class="profile-menu" href="interest">관심글</a>
-            </div>
-            <div class="text-43 abeezee-normal-dove-gray-22px">
-              <a class="profile-menu" href="inquiry">문의하기</a>
-            </div>
-            <div class="text-44 abeezee-normal-dove-gray-22px">
-              <a class="profile-menu" href="withdrawal">회원탈퇴</a>
-            </div>
-            <h1 class="text-45 abeezee-normal-black-38px">마이페이지</h1>
-            <div class="rectangle-11"></div>
-          </div>
-        </div>
-      </div>
+        </section>
     </div>
-  </div>
-</div>
+</main>
+
+<!-- Bootstrap core JS-->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Core theme JS-->
+<script src="js/scripts.js"></script>
+<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
+<!-- * *                               SB Forms JS                               * *-->
+<!-- * * Activate your form at https://startbootstrap.com/solution/contact-forms * *-->
+<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
+<script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
 </body>
 </html>
