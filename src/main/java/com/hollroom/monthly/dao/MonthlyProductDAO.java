@@ -9,5 +9,5 @@ import java.util.List;
 public interface MonthlyProductDAO {
     void insertProduct(MonthlyProductEntity entity);
     List<MonthlyProductEntity> readProductAll();
-    List<MonthlyProductEntity> readDivisionProduct(int divisionCode);
+    List<MonthlyProductEntity> readDivisionProduct(Long divisionCode);
 }

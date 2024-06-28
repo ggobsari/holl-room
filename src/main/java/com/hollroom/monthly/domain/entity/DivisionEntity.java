@@ -14,7 +14,7 @@ public class DivisionEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.TABLE)
     public int id;
-    public int topDivisionCode;
-    public int mainDivisionCode;
+    public Long topDivisionCode;
+    public Long mainDivisionCode;
     public String name;
 }
