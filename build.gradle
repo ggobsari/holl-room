@@ -39,8 +39,14 @@ dependencies {
 	testImplementation group: 'com.h2database', name: 'h2', version: '2.1.214'
 	runtimeOnly 'com.h2database:h2'
 	implementation 'org.springframework.security:spring-security-crypto:5.7.1'
+	implementation 'org.modelmapper:modelmapper:3.2.0'
 	implementation group: 'org.webjars.npm', name: 'jquery', version: '3.7.1'
+
 	implementation group: 'org.modelmapper', name: 'modelmapper', version: '2.4.0'
+
+//  휴대폰 번호 문자 인증
+	implementation 'net.nurigo:sdk:4.3.0'
+
 }
 
 tasks.named('test') {

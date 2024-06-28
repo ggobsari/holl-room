@@ -14,16 +14,16 @@ public class MonthlyProductDTO {
     //private long user_id;
     private int deposit;
     private int monthly;
-    private String address;
-    private int floor_count;
-    private int pyeong_count;
-    private int room_count;
-    private int bay_count;
-    private String room_option;
-    private String security_facility;
+    private int divisionCode;
+    private int floorCount;
+    private int pyeongCount;
+    private int roomCount;
+    private int bayCount;
+    private String roomOption;
+    private String securityFacility;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private Date expiration_date;
-    private Date created_at;
-    private Date updated_at;
-    private Date deleted_at;
+    private Date expirationDate;
+    private Date createdAt;
+    private Date updatedAt;
+    private Date deletedAt;
 }

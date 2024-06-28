@@ -9,15 +9,26 @@ import com.hollroom.user.repository.UserRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
+import kotlinx.serialization.json.JsonObject;
 import lombok.RequiredArgsConstructor;
+import lombok.Value;
 import lombok.extern.slf4j.Slf4j;
+import net.nurigo.sdk.NurigoApp;
+import net.nurigo.sdk.message.exception.NurigoEmptyResponseException;
+import net.nurigo.sdk.message.exception.NurigoMessageNotReceivedException;
+import net.nurigo.sdk.message.exception.NurigoUnknownException;
+import net.nurigo.sdk.message.model.Message;
+import net.nurigo.sdk.message.request.SingleMessageSendingRequest;
+import net.nurigo.sdk.message.response.SingleMessageSentResponse;
+import net.nurigo.sdk.message.service.DefaultMessageService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Optional;
+import java.util.Random;
 
 @Service
 @RequiredArgsConstructor
@@ -30,10 +41,10 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
     //================================================================================================================//
     public void signup(UserSignupDTO userSignupDTO){
-        // 비밀번호 빈칸 X
-        if(userSignupDTO.getUserPassword().isEmpty()){
-            throw new CheckApiException(ErrorCode.EMPTY_PASSWORD);
-        }
+//        // 비밀번호 빈칸 X
+//        if(userSignupDTO.getUserPassword().isEmpty()){
+//            throw new CheckApiException(ErrorCode.EMPTY_PASSWORD);
+//        }
 
         String userEmail = userSignupDTO.getUserEmail();
 
@@ -59,23 +70,31 @@ public class UserService {
 
         Boolean ban = false;
 
-        Boolean delete = false;
+        Boolean isDelete = false;
 
-        //이메일 중복 검사
-        Optional<UserEntity> userEmailDuplicate = userRepository.findByUserEmail(userSignupDTO.getUserEmail());
-
-        if(userEmailDuplicate.isPresent()){
-            throw new CheckApiException(ErrorCode.EXIST_EMAIL);
-        }
+//        //이메일 중복 검사
+//        Optional<UserEntity> userEmailDuplicate = userRepository.findByUserEmail(userSignupDTO.getUserEmail());
+//
+//        if(userEmailDuplicate.isPresent()){
+//            throw new CheckApiException(ErrorCode.EXIST_EMAIL);
+//        }
 
         UserEntity userEntity = new UserEntity(userEmail, userPassword, userName, userNickname,
                 userIntroduce, userPhoneNumber, userBirthday, userGender, userLocation, userSignAt,
-                userAdmin, ban, delete);
+                userAdmin, ban, isDelete);
 
         userRepository.save(userEntity);
     }
     //================================================================================================================//
+    public Optional<UserEntity> isNicknameDuplicate(String userNickname){
+        return userRepository.findByUserNickname(userNickname);
+    }
+    //================================================================================================================//
+    public Optional<UserEntity> isEmailAlreadyExists(String userEmail){
+        return userRepository.findByUserEmail(userEmail);
+    }
 
+    //================================================================================================================//
     public HttpSession login(UserLoginDTO userLoginDTO, HttpServletRequest request) {
 
         final String userNickname = "USER_NICKNAME";

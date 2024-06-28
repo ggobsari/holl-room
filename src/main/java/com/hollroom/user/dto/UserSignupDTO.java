@@ -13,8 +13,6 @@ import java.util.Date;
 @AllArgsConstructor
 public class UserSignupDTO {
 
-    private Long id;
-
     private String userEmail;
 
     private String userPassword;
@@ -42,7 +40,6 @@ public class UserSignupDTO {
 
 
     public UserSignupDTO(UserEntity userEntity) {
-        this.id = id;
         this.userEmail = userEntity.getUserEmail();
         this.userPassword = userEntity.getUserPassword();
         this.userName = userEntity.getUserName();
