@@ -1,14 +1,12 @@
 package com.hollroom.monthly.controller;
 
+import com.hollroom.monthly.domain.dto.DivisionDTO;
 import com.hollroom.monthly.domain.dto.MonthlyProductDTO;
 import com.hollroom.monthly.service.MonthlyProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -36,6 +34,20 @@ public class MonthlyController {
         return "monthly/product_register";
     }
 
+    @GetMapping("/monthly/division?topDivision={topDivision}&mainDivision={mainDivision}")
+    public String readMainDivision(Model model,@RequestParam(value = "topDivision") String topDivision, @RequestParam(value = "mainDivision") String mainDivision) {
+        DivisionDTO division = productService.readMainDivision(topDivision,mainDivision);
+        model.addAttribute("division", division);
+        return "";
+    }
+
+    @GetMapping("/monthly/division/{topDivision}")
+    public String readSubDivision(Model model,@PathVariable String topDivision) {
+        List<DivisionDTO> divisionList = productService.readSubDivision(topDivision);
+        model.addAttribute("divisionList", divisionList);
+        return "";
+    }
+
     @PostMapping("/monthly/product/register")
     public String registerProduct(MonthlyProductDTO product){
         productService.insertProduct(product);
@@ -43,9 +55,9 @@ public class MonthlyController {
         return "redirect:/monthly/product";
     }
 
-    @GetMapping("/monthly/product/division/{divisionCode}")
-    public String readDivisionProduct(Model model, @PathVariable int divisionCode){
-        List<MonthlyProductDTO> productList = productService.readDivisionProduct(divisionCode);
+    @GetMapping("/monthly/product/division/{division}")
+    public String readDivisionProduct(Model model, @PathVariable String division){
+        List<MonthlyProductDTO> productList = productService.readDivisionProduct(division);
         model.addAttribute("productList", productList);
         return "redirect:/monthly/product";
     }

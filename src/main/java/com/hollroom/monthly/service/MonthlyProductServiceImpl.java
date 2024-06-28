@@ -1,8 +1,10 @@
 package com.hollroom.monthly.service;
 
 import com.hollroom.monthly.dao.MonthlyProductDAO;
+import com.hollroom.monthly.domain.dto.DivisionDTO;
 import com.hollroom.monthly.domain.dto.MonthlyProductDTO;
 import com.hollroom.monthly.domain.entity.MonthlyProductEntity;
+import com.hollroom.monthly.repository.DivisionRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,6 +21,7 @@ import java.util.stream.Collectors;
 public class MonthlyProductServiceImpl implements MonthlyProductService {
     private final MonthlyProductDAO dao;
     private final ModelMapper mapper;
+    private final DivisionRepository divisionRepo;
 
     @Override
     public void insertProduct(MonthlyProductDTO dto) {
@@ -35,7 +38,22 @@ public class MonthlyProductServiceImpl implements MonthlyProductService {
     }
 
     @Override
-    public List<MonthlyProductDTO> readDivisionProduct(int divisionCode) {
-        return List.of();
+    public DivisionDTO readMainDivision(String topDivision,String mainDivision) {
+
+        return null;
+    }
+
+    @Override
+    public List<DivisionDTO> readSubDivision(String topDivision) {
+        return null;
+    }
+
+    @Override
+    public List<MonthlyProductDTO> readDivisionProduct(String division) {
+        Long divisionCode = divisionRepo.findByName(division).get(0).mainDivisionCode;
+        return dao.readDivisionProduct(divisionCode)
+                .stream()
+                .map(e->mapper.map(e,MonthlyProductDTO.class))
+                .collect(Collectors.toList());
     }
 }

@@ -23,7 +23,7 @@ public class MonthlyProductDAOImpl implements MonthlyProductDAO {
     }
 
     @Override
-    public List<MonthlyProductEntity> readDivisionProduct(int divisionCode) {
-        return List.of();
+    public List<MonthlyProductEntity> readDivisionProduct(Long divisionCode) {
+        return productRepo.findByDivisionCode(divisionCode);
     }
 }
