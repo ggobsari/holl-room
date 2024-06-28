@@ -9,14 +9,22 @@
   <meta name="description" content="Start your development with a Design System for Bootstrap 4.">
   <meta name="author" content="Creative Tim">
   <title>HollRoomCommunityReadPage</title>
-
+  <script
+          src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
   <!-- Docs CSS -->
   <link type="text/css" href="/hollroom/common/css/styles_list2.css" rel="stylesheet">
   <link type="text/css" href="/hollroom/common/css/styles_list3.css" rel="stylesheet">
+
+
 </head>
 
 <body>
 <div layout:fragment="content" style="background-color: #cfe2ff " >
+  <script type="text/javascript" th:inline="javascript">
+    let category = /*[[${category}]]*/;
+    $("#category").val(category).attr("selected","selected");
+
+  </script>
     <!--<section class="section section-components pb-0" id="section-components">-->
       <div class="container" style="background-color: #f2f2f2; width: 1200px;">
         <form action="" method="post" >
@@ -42,7 +50,7 @@
           <div class="row">
             <div class="col-lg-4 col-sm-6">
               <div class="form-group">
-                <input type="text" value="게시글번호" class="form-control" disabled />
+                <input type="text" th:value="${readinfo.postId}" class="form-control" disabled />
               </div>
             </div>
           </div>
@@ -52,7 +60,8 @@
           <div class="row">
             <div class="col-lg-4 col-sm-6">
               <div class="form-group">
-                <input type="text" value="작성날짜" class="form-control" disabled />
+               <!-- <input type="text" value="작성날짜" class="form-control" disabled />-->
+                <div th:text="${readinfo.updatedAt}"></div>
               </div>
             </div>
           </div>
@@ -62,7 +71,7 @@
           <div class="row">
             <div class="col-lg-4 col-sm-6">
               <div class="form-group">
-                <input type="text" value="Regular" class="form-control" disabled/>
+                <input type="text" th:value="${readinfo.title}" class="form-control" disabled/>
               </div>
             </div>
           </div>
@@ -73,7 +82,7 @@
           <div class="row">
             <div class="col-lg-4 col-sm-6">
               <div class="form-group">
-                <input type="text" value="작성자" class="form-control" disabled />
+                <input type="text" th:value="${readinfo.userNickname}" class="form-control" disabled />
               </div>
             </div>
           </div>
@@ -83,7 +92,7 @@
           </div>
           <div class="row">
             <div class="col-lg-4 col-sm-6">
-              <select class="form-select" name="category">
+              <select class="form-select" name="category" id="category">
                 <option value="자유">자유</option>
                 <option value="꿀팁">꿀팁</option>
                 <option value="질문">질문</option>
@@ -97,9 +106,9 @@
             <label class="text-uppercase font-weight-bold">첨부파일</label>
           </div>
         <div class="row">
-          <div class="col-lg-12 col-sm-6">
+          <div class="col-lg-12 col-sm-6" th:each="file:${fileList}">
           <!--등록한 첨부파일 이미지 출력-->
-            <img src="">
+            <img th:src="@{/imageload/}+${file.fileStoreName}" width="300">
 
           </div>
 
@@ -110,14 +119,15 @@
           </div>
           <div class="form-group mb-4">
             <div style="width: 1150px; height: 400px; border: solid 1px white; background-color: white">
-              여기에다가 본문 내용을 출력할 수 있도록
+              <div th:text="${readinfo.content}"></div>
             </div>
           </div>
           <div>
-            <button class="btn btn-1 btn-success" type="button">목록</button>
-            <input type="button" class="btn btn-primary" value="수정"/>
-            <button class="btn btn-1 btn-danger" type="button">삭제</button>
-
+            <button type="button" class="btn btn-1 btn-success" th:onclick="|location.href='@{/community/list(category=all,page=0)}'|">목록</button>
+            <span th:if="${session.USER_NICKNAME!=null and session.USER_NICKNAME.id==readinfo.id}">
+              <input type="button" class="btn btn-primary" value="수정" th:onclick="|location.href='@{/community/read(postId=${readinfo.postId},action=UPDATE)}'|"/>
+              <button type="button" class="btn btn-1 btn-danger" >삭제</button>
+            </span>
           </div>
         </form>
         <div>

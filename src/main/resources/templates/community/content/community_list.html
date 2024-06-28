@@ -1,35 +1,56 @@
 <!doctype html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/main_layout}">
 
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>HollRoom Community</title>
   <link rel="stylesheet" href="/hollroom/common/css/styles_list.css" />
+  <script
+          src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+  <script type="text/javascript" th:inline="javascript">
+    let category = /*[[${category}]]*/
 
+    $(document).ready(function (){
+      $("#category").val(category).attr("selected","selected");
+      $("#category").change(function (){
+        location.href="/hollroom/community/list?category="+$(this).val()+"&page=0"
+      });
+
+    });
+
+
+  </script>
 </head>
 
 <body>
-
+<div layout:fragment="content" style="background-color: #cfe2ff;" >
   <!--  Body Wrapper -->
+
+
   <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
     data-sidebar-position="fixed" data-header-position="fixed">
-
-    <form action="" method="post">
+    <div style="margin-left: 25%">
+    <form action="/hollroom/community/search" method="post">
       <div class="d-sm-flex d-block align-items-center justify-content-between mb-9">
         <div>
           <input type="text" name="search" /> <input type="submit" value="검색">
 
-          <select class="form-select" name="tag">
-            <option value="1">자유</option>
-            <option value="2">꿀팁</option>
-            <option value="3">질문</option>
-            <option value="4">자취레시피</option>
+          <select class="form-select" id= "category" name="category" style="background-color: white">
+            <option value="all">전체</option>
+            <option value="자유">자유</option>
+            <option value="꿀팁">꿀팁</option>
+            <option value="질문">질문</option>
+            <option value="자취레시피">자취레시피</option>
           </select>
         </div>
       </div>
     </form>
-    <div style="margin: 100px;"></div>
+    </div>
+    <!--<div style="margin: 100px;">ffff</div>-->
+    <div style="margin-left: 25%">
           <div class="col-lg-8 d-flex align-items-stretch">
             <div class="card w-100">
               <div class="card-body p-4">
@@ -59,25 +80,26 @@
                       </tr>
                     </thead>
                     <tbody>
-                      <tr>
-                        <td class="border-bottom-0"><h6 class="fw-semibold mb-0">1</h6></td>
+                      <tr th:each="commuBoard:${communityList.communityResponseDTOList}">
+                        <td class="border-bottom-0"><h6 class="fw-semibold mb-0" th:text="${commuBoard.postId}"></h6></td>
                         <td class="border-bottom-0">
-                            <h6 class="fw-semibold mb-1">흰둥삼</h6>
-                            <span class="fw-normal">hdd01</span>
+                            <h6 class="fw-semibold mb-1" th:text="${commuBoard.userNickname}"></h6>
+                            <span class="fw-normal"></span>
                         </td>
-                        <td class="border-bottom-0">
-                          <p class="mb-0 fw-normal">컵라면 주먹밥</p>
+                        <td class="border-bottom-0"><a th:href="@{/community/read(postId=${commuBoard.postId},action='READ')}">
+                          <p class="mb-0 fw-normal" th:text="${commuBoard.title}"></p>
+                        </a>
                         </td>
                         <td class="border-bottom-0">
                           <div class="d-flex align-items-center gap-2">
-                            <span>자취레시피</span>
+                            <span th:text="${commuBoard.category}"></span>
                           </div>
                         </td>
                         <td class="border-bottom-0">
-                          <h6 class="fw-semibold mb-0 fs-4">2024-06-20</h6>
+                          <h6 class="fw-semibold mb-0 fs-4" th:text="${#dates.format(commuBoard.updatedAt, 'yyyy-MM-dd')}"></h6>
                         </td>
                         <td class="border-bottom-0">
-                          <h6 class="fw-semibold mb-0 fs-4">1</h6>
+                          <h6 class="fw-semibold mb-0 fs-4" th:text="${commuBoard.viewCount}"></h6>
                         </td>
                       </tr>
 
@@ -99,9 +121,9 @@
                                   <span class="sr-only">Previous</span>
                                 </a>
                               </li>
-                              <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                              <li class="page-item"><a class="page-link" href="#">2</a></li>
-                              <li class="page-item"><a class="page-link" href="#">3</a></li>
+                              <li class="page-item active"><a class="page-link" href="/hollroom/community/list?category=all&page=0">1</a></li>
+                              <li class="page-item"><a class="page-link" href="/hollroom/community/list?category=all&page=1">2</a></li>
+                              <li class="page-item"><a class="page-link" href="/hollroom/community/list?category=all&page=2">3</a></li>
                               <li class="page-item">
                                 <a class="page-link" href="#" aria-label="Next">
                                   <span aria-hidden="true">&raquo;</span>
@@ -118,13 +140,14 @@
               </div>
             </div>
           </div>
+    </div>
         </div>
-
+  <div style="margin-left: 25%">
   <ul>
-    <li><a href="" class="page-link">글쓰기</a></li>
+    <li><a href="/hollroom/community/write" class="page-link">글쓰기</a></li>
   </ul>
-
-
+  </div>
+</div>
 </body>
 
 </html>

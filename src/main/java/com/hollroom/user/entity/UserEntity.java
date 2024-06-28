@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
 import java.util.Date;
@@ -14,6 +16,7 @@ import java.util.Date;
 @NoArgsConstructor
 public class UserEntity {
     @Id
+    //    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_sequence") @SequenceGenerator(name = "user_sequence", sequenceName = "USER_SEQ", allocationSize = 1)
     private Long id;
 
