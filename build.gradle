@@ -47,6 +47,10 @@ dependencies {
 //  휴대폰 번호 문자 인증
 	implementation 'net.nurigo:sdk:4.3.0'
 
+//	소셜
+	implementation 'com.fasterxml.jackson.core:jackson-databind'
+//	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client' //시큐리티 의존하기 때문에 제거
+
 }
 
 tasks.named('test') {
