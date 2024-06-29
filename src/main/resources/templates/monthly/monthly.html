@@ -9,8 +9,9 @@
     <script type="text/javascript">
         let showProduct = true;
         let productList;
+        let divisions=[];
         $(document).ready(function (){
-            productList = $("#productList")
+            productList=$("#productList");
             $("#showProductBtn").on("click",function (){
                showProduct = !showProduct;
                if(showProduct)
@@ -19,6 +20,48 @@
                    productList.show();
             });
         })
+
+        function getProductList(address){
+            $.ajax({
+                type:"get",
+                url:"/hollroom/monthly/product/division/"+address
+            }).done((fragment)=>{
+                console.log(fragment);
+                $("#product-list").html(fragment);
+            });
+        }
+
+        function getSubDivision(address){
+            $.ajax({
+                type:"get",
+                url:"/hollroom/monthly/division",
+                data:{
+                    address:address,
+                    type:"SUB",
+                }
+            }).done((fragment)=>{
+                console.log(fragment);
+                $("#division-list").html(fragment);
+            });
+        }
+
+        function addAddress(division){
+            divisions.push(division);
+            let address = divisions[0];
+            for(let i = 1 ;i < divisions.length;i++)
+                address += " "+divisions[i];
+            getSubDivision(address);
+            getProductList(address);
+        }
+
+        function popAddress(){
+            divisions.pop();
+            let address = divisions.length !== 0?divisions[0]:"한국";
+            for(let i = 1 ;i < divisions.length;i++)
+                address += " "+divisions[i];
+            getSubDivision(address);
+            getProductList(address);
+        }
     </script>
     <style type="text/css">
         .display-flex{
@@ -36,18 +79,15 @@
             background-position: center;
             background-size: cover;
         }
-        body{
-            height: 100%;
-        }
-        main{
-            height: 100%;
-        }
         .full-body{
             width: 100%;
-            height: 100%;
+            height: 100vh;
         }
         .full-height{
-            height: 100%;
+            height: 100vh;
+        }
+        .part-scroll{
+            overflow-y: scroll;
         }
         #showProductBtn{
             width: 90px;
@@ -78,22 +118,14 @@
 <body>
 <div layout:fragment="content" style="background-color: #cfe2ff;" class="display-flex full-body" >
     <div class="left-div">
-        월세지도 영역
-        서울시
-        <table>
-            <tr>
-                <td>종로구</td>
-                <td>중구</td>
-                <td>용산구</td>
-                <td>성동구</td>
-            </tr>
-            <tr>
-                <td>광진구</td>
-                <td>동대문구</td>
-                <td>중랑구</td>
-                <td>성북구</td>
-            </tr>
-        </table>
+        <h1>월세지도 영역</h1>
+
+        <div id="division-list" >
+            <div th:replace="~{/monthly/division_list :: divisionList}"></div>
+        </div>
+        <div>
+            <button type="button" onclick="popAddress()">뒤로가기</button>
+        </div>
     </div>
     <div>
         <div class="display-flex right-div full-height">
@@ -114,7 +146,9 @@
                         </div>
                     </div>
                 </div>
-<!--                <div th:replace="~{/monthly/product_list :: productList}"></div>-->
+                <div id="product-list" class="part-scroll" style="height: 100vh;">
+                    <div th:replace="~{/monthly/product_list :: productList}"></div>
+                </div>
             </div>
         </div>
     </div>
