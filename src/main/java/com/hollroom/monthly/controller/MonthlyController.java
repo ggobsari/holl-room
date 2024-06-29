@@ -19,7 +19,9 @@ public class MonthlyController {
     @GetMapping(value = {"/","/monthly"})
     public String showMainPage(Model model){
         List<MonthlyProductDTO> productList = productService.readProductAll();
+        List<DivisionDTO> divisionList =productService.readSubDivision("한국");
         model.addAttribute("productList", productList);
+        model.addAttribute("divisionList", divisionList);
         return "monthly/monthly";
     }
 
@@ -36,7 +38,9 @@ public class MonthlyController {
     }
 
     @GetMapping("/monthly/division")
-    public String readDivision(Model model,@RequestParam String address,@RequestParam String type) {
+    public String readDivision(Model model,@RequestParam(value = "address") String address,@RequestParam(value = "type") String type) {
+        System.out.println("주소 : "+address);
+        System.out.println("타입 : "+type);
         if(type.equals(MAIN_READ_TYPE)){
             DivisionDTO division = productService.readMainDivision(address);
             model.addAttribute("division", division);
@@ -44,7 +48,7 @@ public class MonthlyController {
             List<DivisionDTO> divisionList= productService.readSubDivision(address);
             model.addAttribute("divisionList", divisionList);
         }
-        return "";
+        return "monthly/division_list";
     }
 
     @PostMapping("/monthly/product/register")
@@ -56,6 +60,7 @@ public class MonthlyController {
 
     @GetMapping("/monthly/product/division/{addr}")
     public String readDivisionProduct(Model model, @PathVariable String addr){
+        System.out.println(addr);
         List<MonthlyProductDTO> productList = productService.readDivisionProduct(addr);
         model.addAttribute("productList", productList);
         return "monthly/product_list";
