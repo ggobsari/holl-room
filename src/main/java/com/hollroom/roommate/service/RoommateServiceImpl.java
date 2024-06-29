@@ -2,7 +2,7 @@ package com.hollroom.roommate.service;
 
 import com.hollroom.roommate.dao.RoommateDAO;
 import com.hollroom.roommate.dto.RoommateDTO;
-import jakarta.transaction.Transactional;
+import com.hollroom.roommate.dto.RoommateUserDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,20 +21,15 @@ public class RoommateServiceImpl implements RoommateService {
         return dao.register(board);
     }
 
-//    @Override
-//    public int delete(int roommate_id) {
-//        return 0;
-//    }
-//
-//    @Override
-//    public List<RoommateDTO> search(String keyword) {
-//        return List.of();
-//    }
-//
-//    @Override
-//    public List<RoommateDTO> search(String tag, String keyword) {
-//        return List.of();
-//    }
+    @Override
+    public int deleteBoard(int roommate_id) {
+        return dao.delete(roommate_id);
+    }
+
+    @Override
+    public int editBoard(RoommateDTO board) {
+        return dao.update(board);
+    }
 
     @Override
     public RoommateDTO getBoard(int roommate_id) {
@@ -42,7 +37,17 @@ public class RoommateServiceImpl implements RoommateService {
     }
 
     @Override
+    public RoommateDTO getBoardById(int roommate_id) {
+        return dao.selectById(roommate_id);
+    }
+
+    @Override
     public List<RoommateDTO> getBoardList() {
         return dao.getBoardList();
+    }
+
+    @Override
+    public RoommateUserDTO getUserInfo(int id) {
+        return dao.selectUser(id);
     }
 }

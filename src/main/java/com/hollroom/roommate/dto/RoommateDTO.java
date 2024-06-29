@@ -1,9 +1,11 @@
 package com.hollroom.roommate.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.apache.ibatis.type.Alias;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 
@@ -16,6 +18,9 @@ public class RoommateDTO {
     private int id;
     private String title;
     private String content;
+//    @JsonFormat(pattern = "yy-MM-dd", timezone = "Asia/Seoul")
+//    @DateTimeFormat(pattern = "yyyy-MM-dd")
+//    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd", timezone="Asia/Seoul")
     private Date created_at;
     private String chat_room_id;
     private char nocturnal;
@@ -30,4 +35,5 @@ public class RoommateDTO {
     private char deleted;
     private Date deleted_at;
     private Date updated_at;
+    private String user_nickname;
 }

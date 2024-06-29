@@ -2,7 +2,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     //취소 버튼 클릭 시 새로고침
     document.getElementById('cancelButton').addEventListener('click', function() {
-        window.location.href = "http://localhost:8090/hollroom/mypage/profile";
+        window.location.href = "http://localhost:8090/hollroom/mypage/profile";  //!!!!
     });
     // 저장 버튼 클릭 시 프로필 업데이트 함수 실행
     document.getElementById("saveButton").addEventListener("click", function () {
@@ -35,7 +35,7 @@ function updateProfile() {
         const password = document.getElementById("password").value;
 
         const xhr = new XMLHttpRequest();
-        xhr.open("POST", "http://localhost:8090/hollroom/mypage/updateUser", true);
+        xhr.open("POST", "http://localhost:8090/hollroom/mypage/updateUser", true); //!!!!!!!
         xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
         xhr.onreadystatechange = function () {
             if (xhr.readyState == 4) {
@@ -77,7 +77,7 @@ function saveUserInfo() {
     const userId = document.getElementById("userId").value;
 
     const xhr = new XMLHttpRequest();
-    xhr.open("POST", "http://localhost:8090/hollroom/mypage/updateUserInfo", true);
+    xhr.open("POST", "http://localhost:8090/hollroom/mypage/updateUserInfo", true); //!!!!!!
     xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
     xhr.onreadystatechange = function () {
         if (xhr.readyState == 4) {
@@ -125,7 +125,7 @@ function uploadImage(file) {
     formData.append("profile", blob);
 
     const xhr = new XMLHttpRequest();
-    xhr.open("POST", "http://localhost:8090/hollroom/mypage/uploadProfileImage", true);
+    xhr.open("POST", "http://localhost:8090/hollroom/mypage/uploadProfileImage", true);  //!!!!
     xhr.onreadystatechange = function () {
         if (xhr.readyState == 4 && xhr.status == 200) {
             alert("이미지 업로드 성공!");

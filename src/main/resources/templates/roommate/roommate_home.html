@@ -11,19 +11,7 @@
     />
     <meta name="description" content="" />
     <meta name="author" content="" />
-    <title>Roommate Home(임시)</title>
-<!--    Favicon-->
-<!--    <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />-->
-<!--    Bootstrap icons-->
-<!--    <link-->
-<!--      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css"-->
-<!--      rel="stylesheet"-->
-<!--    />-->
-<!--    Core theme CSS (includes Bootstrap)-->
-<!--    <link href="css/styles.css" rel="stylesheet" />-->
-<!--    <link href="css/styles-2.css" rel="stylesheet" />-->
-<!--    <link rel="stylesheet" type="text/css" href="/hollroom/roommate/css/styles-2.css"  />-->
-    <link rel="stylesheet" type="text/css" href="css/styles-2.css"  />
+    <title>룸메이트</title>
     <style>
       @import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap");
     </style>
@@ -115,49 +103,64 @@
                 </tr>
               </thead>
               <tbody>
-                <tr class="table-light" role="button">
-                  <td>13</td>
-                  <td class="text-start">
-                    <a href="roommate_detail.html"
-                       style="text-decoration: none; color: black">
-                      <span class="bg-primary rounded-3 px-1 text-white">MY</span>
-                      룸메이트 구해요
-                    </a>
-                  </td>
-                  <td>qwer</td>
-                  <td>6.19</td>
-                </tr>
-                <tr>
-                  <td>0</td>
-                  <td>
-                    <span class="text-primary fw-bold">new</span>
-                    &nbsp;룸메이트 구해요~
-                  </td>
-                  <td>asdf</td>
-                  <td>오늘</td>
-                </tr>
+<!--                <tr class="table-light" role="button">-->
+<!--                  <td>13</td>-->
+<!--                  <td class="text-start">-->
+<!--                    <a href="/hollroom/roommate/detail"-->
+<!--                       style="text-decoration: none; color: black">-->
+<!--                      <span class="bg-primary rounded-3 px-1 text-white">MY</span>-->
+<!--                      룸메이트 구해요-->
+<!--                    </a>-->
+<!--                  </td>-->
+<!--                  <td>qwer</td>-->
+<!--                  <td>6.19</td>-->
+<!--                </tr>-->
+<!--                <tr>-->
+<!--                  <td>0</td>-->
+<!--                  <td>-->
+<!--                    <span class="text-primary fw-bold">new</span>-->
+<!--                    &nbsp;룸메이트 구해요~-->
+<!--                  </td>-->
+<!--                  <td>asdf</td>-->
+<!--                  <td>오늘</td>-->
+<!--                </tr>-->
+<!--<span class="text-primary fw-bold" hidden>new</span>-->
+<!--&nbsp;룸메이트 구해요-->
+<!--                <tr>-->
+<!--                  <td>9</td>-->
+<!--                  <td>-->
+<!--                    <a href="/hollroom/roommate/detail">-->
+<!--                      룸메이트 구해요-->
+<!--                    </a>-->
+<!--                  </td>-->
+<!--                  <td>9</td>&lt;!&ndash; 닉네임으로 수정!!! &ndash;&gt;-->
+<!--                  <td>오늘</td>-->
+<!--                </tr>-->
                 <th:block th:each="board:${boardlist}">
                   <tr>
                     <td th:text="${board.roommate_id}"></td>
-                    <td th:text="${board.title}">
-                      <span class="text-primary fw-bold" hidden>new</span>
-                      &nbsp;룸메이트 구해요
+                    <td>
+                      <a
+                        th:text="${board.title}"
+                        th:href="@{/roommate/detail(roommate_id=${board.roommate_id})}"
+                        class="my-paging-a">
+                      </a>
                     </td>
-                    <td th:text="${board.id}"></td><!-- 닉네임으로 수정!!! -->
-                    <td th:text="${board.created_at}">오늘</td>
+                    <td th:text="${board.user_nickname}"></td>
+                    <td th:text="${#dates.format(board.created_at,'MM-dd')}"></td>
                   </tr>
                 </th:block>
               </tbody>
             </table>
 
-            <div class="d-flex justify-content-center mb-5 my-paging">
-              <a href="#" class="">&#5130;</a>
-              <a href="#" class="">1</a>
-              <a href="#" class="">2</a>
-              <a href="#" class="">3</a>
-              <a href="#" class="">&#5125;</a>
-            </div>
-            <div class="d-inline-block">
+<!--            <div class="d-flex justify-content-center mb-5 my-paging">-->
+<!--              <a href="#" class="">&#5130;</a>-->
+<!--              <a href="#" class="">1</a>-->
+<!--              <a href="#" class="">2</a>-->
+<!--              <a href="#" class="">3</a>-->
+<!--              <a href="#" class="">&#5125;</a>-->
+<!--            </div>-->
+            <div class="d-inline-block ">
               <div class="d-flex justify-content-end mx-auto">
                 <select name="" id="" class="my-select rounded-2">
                   <option value="">제목 + 내용</option>

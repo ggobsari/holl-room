@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/main_layout}">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>글 상세보기</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css"
+      rel="stylesheet"
+    />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap"
+      rel="stylesheet"
+    />
+
+    <script th:inline="javascript">
+      window.onload = function () {
+        function myfunc() {
+          alert("!");
+          document.querySelector("#h3").innerText = "changed";
+        }
+
+        const board = /*[[${board}]]*/;
+        alert(board.title);
+        //alert(board);
+        fillValuesForDetail(board.nocturnal, board.smoking, board.pet, board.noise,
+                board.wakeup_at, board.sleep_at, board.alarm, );
+
+        //fillValues(board.title, board.content, board.nocturnal, board.wakeup_at, board.alarm, board.sleep_at,
+        //            board.smoking, board.pet, board.cleaning_cycle, board.sleeping_habits, board.noise)
+
+        //UserEntity user = (UserEntity) session.getAttribute("USER_NICKNAME");
+        //const user = ${session.USER_NICKNAME};
+        //alert(user);
+
+        const elements = document.querySelectorAll(
+          "#detail-ul-2 > li input, #detail-ul-2 > li select"
+        );
+        for (const elem of elements) {
+          elem.disabled = true;
+        }
+      };
+    </script>
+  </head>
+  <body layout:fragment="content" class="d-flex flex-column h-100 bg-light font-kor">
+    <main class="flex-shrink-0">
+      <section class="justify-content-center py-5">
+        <!-- <aside class="col-2 bg-primary bg-gradient rounded-3 p-4 me-3">
+        </aside> -->
+
+        <div class="border-primary col-7 bg-white rounded-3">
+          <div class="mb-5 content-margin">
+            <div>
+              <input type="checkbox" id="myself" hidden>
+              <th:block th:if="${session.USER_NICKNAME.id == board.id}">
+                <h3
+                  th:text="${board.title}"
+                  class="fw-bolder mt-5 mb-4 text-center font-kor">
+                  <span class="ml-4 px-2 bg-warning rounded-3 text-white fw-normal"><!--여기!!-->
+                    내 글
+                  </span>
+  <!--                &nbsp;&nbsp;룸메이트 구해요-->
+                </h3>
+              </th:block>
+              <th:block th:if="${session.USER_NICKNAME.id != board.id}">
+                <h3 th:text="${board.title}" class="fw-bolder mt-5 mb-4 text-center font-kor"></h3>
+              </th:block>
+            </div>
+            <hr class="w-100" />
+            <div class="mb-5 d-flex justify-content-between">
+              <div class="ml-4">
+                <span>작성자</span>
+                <span
+                  th:if="${session.USER_NICKNAME.id == board.id}"
+                  th:text="'나'"
+                  class="text-warning fw-bold">
+                </span>
+                <span
+                    th:if="${session.USER_NICKNAME.id != board.id}"
+                    th:text="${user.user_nickname}"
+                    class="text-warning fw-bold">
+                </span>
+              </div>
+              <div class="mx-4">
+                <span class="">작성일</span>
+                <span
+                  th:text="${#dates.format(board.created_at,'MM-dd')}"
+                  class="text-warning">
+                </span><!--2024. 6. 1-->
+              </div>
+            </div>
+              <div class="mb-5 d-flex justify-content-center filter-list">
+                <ul id="detail-ul-1"><!--name="!!항목명"-->
+                  <li>
+                    <div>성별</div>
+                  </li>
+                  <li>
+                    <div>지역</div>
+                  </li>
+                  <li>
+                    <div>연령대</div>
+                  </li>
+                  <li>활동 시간대<span class="text-primary">*</span></li>
+                  <li>
+                    <label>기상 시간대</label><!--name="!!기상 시간대가 언제인가요?"-->
+                  </li>
+                  <li>
+                    <label>취침 시간대</label>
+                  </li>
+                  <li>
+                    <div>기상 알람 개수</div>
+                  </li>
+                  <li>흡연 여부<span class="text-primary">*</span></li>
+                  <li>반려동물<span class="text-primary">*</span></li>
+                  <li>잠버릇<span class="text-primary">*</span></li>
+                  <li>방 청소 주기</li>
+                  <li>소음에 민감한 정도</li>
+                </ul>
+                <ul id="detail-ul-2"><!--!!값-->
+                  <li>
+                    <span th:if="${user.user_gender != 'man'}" th:text="'여자'"></span><!--!!수정-->
+                    <span th:if="${user.user_gender == 'man'}" th:text="'남자'"></span>
+                  </li>
+                  <li>
+                    <span th:text="${user.user_location}"></span>
+                  </li>
+                  <li>
+                    <span>20대</span>
+                  </li>
+                  <li>
+                    <div>
+                        <label th:if="${board.nocturnal == 'N'.charAt(0)}" th:text="'아침형'"></label>
+                        <label th:if="${board.nocturnal == 'Y'.charAt(0)}" th:text="'저녁형'"></label>
+                    </div>
+                  </li>
+                  <li>
+                    <div>
+                      <select id="d-wakeup-from" class="my-select rounded-2" required>
+                        <option value="">-</option>
+                        <th:block th:each="num:${#numbers.sequence(0,9)}">
+                          <option th:value="'0'+${num}" th:text="${num}"></option>
+                        </th:block>
+                        <th:block th:each="num:${#numbers.sequence(10,23)}">
+                          <option th:value="${num}" th:text="${num}"></option>
+                        </th:block>
+                      </select>
+                      <span>시에서&nbsp;&nbsp;</span>
+                      <select id="d-wakeup-to" class="my-select rounded-2" required>
+                        <option value="">-</option>
+                        <th:block th:each="num:${#numbers.sequence(0,9)}">
+                          <option th:value="'0'+${num}" th:text="${num}"></option>
+                        </th:block>
+                        <th:block th:each="num:${#numbers.sequence(10,23)}">
+                          <option th:value="${num}" th:text="${num}"></option>
+                        </th:block>
+                      </select>
+                      <span>시 사이</span>
+                    </div>
+                  </li>
+                  <li>
+                    <div>
+                      <select id="d-sleep-from" class="my-select rounded-2" required>
+                        <option value="">-</option>
+                        <th:block th:each="num:${#numbers.sequence(0,9)}">
+                          <option th:value="'0'+${num}" th:text="${num}"></option>
+                        </th:block>
+                        <th:block th:each="num:${#numbers.sequence(10,23)}">
+                          <option th:value="${num}" th:text="${num}"></option>
+                        </th:block>
+                      </select>
+                      <span>시에서&nbsp;&nbsp;</span>
+                      <select id="d-sleep-to" class="my-select rounded-2" required>
+                        <option value="">-</option>
+                        <th:block th:each="num:${#numbers.sequence(0,9)}">
+                          <option th:value="'0'+${num}" th:text="${num}"></option>
+                        </th:block>
+                        <th:block th:each="num:${#numbers.sequence(10,23)}">
+                          <option th:value="${num}" th:text="${num}"></option>
+                        </th:block>
+                      </select>
+                      <span>시 사이</span>
+                    </div>
+                  </li>
+                  <li>
+                    <div>
+                      <input type="text" class="my-input-s" size="2" />
+                      <span>개</span>
+                    </div>
+                  </li>
+                  <li>
+                    <div>
+                      <label th:if="${board.smoking == 'N'.charAt(0)}" th:text="'❌'"></label>
+                      <label th:if="${board.smoking == 'Y'.charAt(0)}" th:text="'⭕'"></label>
+                    </div>
+                  </li>
+                  <li>
+                    <div>
+                      <label th:if="${board.pet == 'N'.charAt(0)}" th:text="'❌'"></label>
+                      <label th:if="${board.pet == 'Y'.charAt(0)}" th:text="'⭕'"></label>
+                    </div>
+                  </li>
+                  <li>
+                    <div class="">
+                      <label id="d-habit"></label>
+<!--                      <input class="" type="checkbox" id="d-habit-1" />-->
+<!--                      <label name="d-habit" hidden>코골이</label>&nbsp;&nbsp;-->
+<!--                      <input class="" type="checkbox" id="d-habit-2" />-->
+<!--                      <label name="d-habit" hidden>이갈이</label>&nbsp;&nbsp;-->
+<!--                      <input class="" type="checkbox" id="d-habit-3" />-->
+<!--                      <label name="d-habit" hidden>잠꼬대</label>&nbsp;&nbsp;-->
+                    </div>
+                  </li>
+                  <li>
+                    <div>
+                      <button
+                        type="button"
+                        id="d-btn-change-txt"
+                        class="my-btn btn btn-sm btn-outline-primary"
+                      >
+                        하루
+                      </button>
+                      <span>&nbsp;에&nbsp;</span>
+                      <input type="number" size="1" class="my-input-s" value="" />
+                      <span>번</span>
+                    </div>
+                  </li>
+                  <li>
+                    <div class="">
+<!--                      <input-->
+<!--                        class=""-->
+<!--                        name="noise"-->
+<!--                        type="radio"-->
+<!--                        id="d-sensitive-2"-->
+<!--                        value=""-->
+<!--                      />-->
+                      <label th:if="${board.noise == '2'}" th:text="'민감한 편이다'"></label>
+<!--                      <input-->
+<!--                        class=""-->
+<!--                        name="noise"-->
+<!--                        type="radio"-->
+<!--                        id="d-sensitive-1"-->
+<!--                        value=""-->
+<!--                      />-->
+                      <label th:if="${board.noise == '1'}" th:text="'약간 신경쓴다'"></label>
+<!--                      <input-->
+<!--                        class=""-->
+<!--                        name="noise"-->
+<!--                        type="radio"-->
+<!--                        id="d-sensitive-0"-->
+<!--                        value=""-->
+<!--                      />-->
+                      <label th:if="${board.noise == 0}" th:text="'둔감하다'"></label>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+              <!-- <hr class="mb-5" /> -->
+              <div class="d-flex flex-column align-items-center">
+                <!-- <input
+                  type="text"
+                  name=""
+                  id=""
+                  size="60"
+                  class="my-input-title"
+                  placeholder="제목을 작성해주세요"
+                  required
+                />
+                <textarea
+                  name=""
+                  id=""
+                  class="mt-3 main-text"
+                  maxlength="1000"
+                  placeholder="본문을 1000자 이내로 작성해주세요"
+                  required
+                ></textarea> -->
+                <div class="ml-5 main-text-size"
+                  th:text="${board.content}">
+                </div>
+              </div>
+              <div class="mt-5 d-flex justify-content-center">
+                <button
+                    type="button"
+                    class="btn btn-outline-danger"
+                    th:onclick="|location.href='@{/roommate/delete(roommate_id=${board.roommate_id})}'|"
+                    th:if="${session.USER_NICKNAME.id == board.id}"
+                >
+                  삭제하기
+                </button>
+                <button
+                    type="button"
+                    class="ml-3 btn btn-outline-warning"
+                    onclick="location.href='/hollroom/roommate/home'"
+                >
+                  뒤로 가기
+                </button>
+                <button
+                  type="button"
+                  class="ml-3 btn btn-outline-warning"
+                  th:onclick="|location.href='@{/roommate/edit(roommate_id=${board.roommate_id})}'|"
+                  th:if="${session.USER_NICKNAME.id == board.id}"
+                >
+                  수정하기
+                </button>
+                <button
+                  type="submit" class="ml-3 btn btn-outline-primary"
+                  th:if="${session.USER_NICKNAME.id != board.id}">
+                  작성자에게 채팅 보내기
+                </button>
+              </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer-->
+<!--    <footer class="bg-dark py-4 mt-auto">-->
+<!--      <div class="container px-5">-->
+<!--        <div-->
+<!--          class="row align-items-center justify-content-between flex-column flex-sm-row"-->
+<!--        >-->
+<!--          <div class="col-auto">-->
+<!--            <div class="small m-0 text-white">-->
+<!--              Copyright &copy; 취업하라2024-->
+<!--            </div>-->
+<!--          </div>-->
+<!--          <div class="col-auto">-->
+<!--            <a class="link-light small" href="#!">Privacy</a>-->
+<!--            <span class="text-white mx-1">&middot;</span>-->
+<!--            <a class="link-light small" href="#!">Terms</a>-->
+<!--            <span class="text-white mx-1">&middot;</span>-->
+<!--            <a class="link-light small" href="#!">Contact</a>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </footer>-->
+    <!-- Bootstrap core JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Core theme JS-->
+<!--    <script src="js/scripts.js"></script>-->
+<!--    <script src="js/scripts-2.js"></script>-->
+  </body>
+</html>

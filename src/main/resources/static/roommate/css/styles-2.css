@@ -9,15 +9,18 @@ input[type="number"] {
   -moz-appearance: textfield;
 }
 
-body::-webkit-scrollbar {
+body::-webkit-scrollbar,
+select::-webkit-scrollbar {
   width: 8px;
 }
-body::-webkit-scrollbar-thumb {
+body::-webkit-scrollbar-thumb,
+select::-webkit-scrollbar-thumb {
   height: 30%;
   background: rgb(129, 195, 197);
   border-radius: 10px;
 }
-body::-webkit-scrollbar-track {
+body::-webkit-scrollbar-track,
+select::-webkit-scrollbar-track {
   background: rgba(33, 122, 244, 0.1);
 }
 
@@ -47,10 +50,6 @@ body::-webkit-scrollbar-track {
 
 .border-blue {
   border: 1px solid blue;
-}
-
-td {
-  /* border: 1px solid black; */
 }
 
 .filter-list ul {
@@ -170,7 +169,7 @@ tbody > tr > td:nth-child(2) {
   transform: scale(1);
 }
 
-.my-paging > a {
+.my-paging-a {
   text-decoration: none;
   /* vertical-align: middle; */
   /* padding: auto; */
@@ -288,7 +287,7 @@ tbody > tr > td:nth-child(2) {
   /* height: 3em; */
 }
 
-#floating-btn-write {
+#floating-btn-chat {
   /* position: fixed; */
   /* right: 2em; */
   bottom: 5.5em;
@@ -296,7 +295,7 @@ tbody > tr > td:nth-child(2) {
   /* height: 3em; */
 }
 
-#floating-btn-chat {
+#floating-btn-register {
   /* position: fixed; */
   /* right: 2em; */
   bottom: 9em;

@@ -7,25 +7,66 @@
     <insert id="insert" parameterType="rmmt_board">
         insert into board_roommate values(rmmt_seq.nextval, #{id},
         #{title}, #{content}, sysdate, null,
-        #{nocturnal}, null, null, null,
-        #{smoking}, #{pet}, null, '011',
-        null, 'N', null, null)
+        #{nocturnal}, #{wakeup_at}, #{alarm}, #{sleep_at},
+        #{smoking}, #{pet}, #{cleaning_cycle}, #{sleeping_habits},
+        #{noise}, 'N', null, null, #{user_nickname})
     </insert>
 
     <select id="select" parameterType="int" resultType="rmmt_board">
-        select * from board_roommate
-         where roommate_id = ${tomato}
+        select *
+         from board_roommate
+         where roommate_id = #{tomato}
     </select>
+
+    <select id="selectbyid" parameterType="int" resultType="rmmt_board">
+        select br.*, ue.user_nickname
+         from board_roommate br, user_entity ue
+         where br.id = ue.id
+             and roommate_id = #{tomato}
+    </select>
+<!--    <select id="selectbyid" parameterType="int" resultType="rmmt_board">-->
+<!--        select *-->
+<!--         from board_roommate -->
+<!--         where roommate_id = #{tomato}-->
+<!--    </select>-->
 
     <select id="selectall" resultType="rmmt_board">
-        select * from board_roommate
+        select *
+         from board_roommate
+         order by roommate_id desc
     </select>
 
-    <!--
-    <update id="delete" parameterType="Integer.class" resultType="Integer.class">
-        update board_roommate(title, ) set ()
+    <select id="selectuser" parameterType="int" resultType="rmmt_user">
+        select *
+         from user_entity
+         where id = #{tomato}
+    </select>
+
+<!--    <update id="update" parameterType="rmmt_board">-->
+<!--        update board_roommate-->
+<!--         set roommate_id=#{roommate_id}, id=#{id}, title=#{title}, content=#{content},-->
+<!--             created_at=#{created_at}, chat_room_id=#{chat_room_id}, nocturnal=#{nocturnal},-->
+<!--             wakeup_at=#{wakeup_at}, alarm=#{alarm}, sleep_at=#{sleep_at},-->
+<!--             smoking=#{smoking}, pet=#{pet}, cleaning_cycle=#{cleaning_cycle},-->
+<!--             sleeping_habits=#{sleeping_habits}, noise=#{noise},-->
+<!--             deleted=#{deleted}, deleted_at=#{deleted_at}, updated_at=#{updated_at},-->
+<!--             user_nickname=#{user_nickname}-->
+<!--    </update>-->
+    <update id="update" parameterType="rmmt_board">
+        update board_roommate
+         set title=#{title}, content=#{content}, nocturnal=#{nocturnal},
+             wakeup_at=#{wakeup_at}, alarm=#{alarm}, sleep_at=#{sleep_at},
+             smoking=#{smoking}, pet=#{pet}, cleaning_cycle=#{cleaning_cycle},
+             noise=#{noise}, updated_at=sysdate
+         where roommate_id=#{roommate_id}
+    </update>
+
+    <delete id="delete" parameterType="int">
+        delete from board_roommate
+         where roommate_id = #{tomato}
     </delete>
 
+    <!--
     <select id="filteringsearch" parameterType="" resultType="">
         SELECT * from board_roommate
         <where>

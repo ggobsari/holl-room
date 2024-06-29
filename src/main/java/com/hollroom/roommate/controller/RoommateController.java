@@ -1,10 +1,10 @@
 package com.hollroom.roommate.controller;
 
 import com.hollroom.roommate.dto.RoommateDTO;
+import com.hollroom.roommate.dto.RoommateUserDTO;
 import com.hollroom.roommate.service.RoommateService;
-import jakarta.transaction.Transactional;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,7 +20,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @SessionAttributes
 @RequestMapping("/roommate")
-public class RoommateController {
+public class RoommateController {  // 1.04
     @Autowired
     RoommateService service;
 
@@ -28,6 +28,19 @@ public class RoommateController {
     public String test() {
         return "roommate/test";
     }
+//    @GetMapping("/jdbc/test")
+//    public String jdbcTest() {
+//        System.out.println("*************개수 : " + dao.templateCount());
+//        return "redirect:/";
+//    }
+//    @GetMapping("/mybatis/test")
+//    public String mybatisTest() {
+//        List<RoommateDTO> boardlist = dao.select();
+//        for (int i = 0; i < 10; i++) {
+//            System.out.println(boardlist.get(i));
+//        }
+//        return "redirect:/";
+//    }
 
     @GetMapping("/home")
     public String homePage(Model model) {
@@ -36,14 +49,28 @@ public class RoommateController {
         return "roommate/roommate_home";
     }
 
+    @GetMapping("/detail")
+    public String detailPage(int roommate_id, Model model, HttpSession session) {
+        System.out.println("################ detail 실행");
+        System.out.println(roommate_id);
+        RoommateDTO board = service.getBoardById(roommate_id);
+        System.out.println(board);
+//        UserEntity user = (UserEntity) session.getAttribute("USER_NICKNAME");
+        RoommateUserDTO user = service.getUserInfo(board.getId());
+        System.out.println(user);
+        model.addAttribute("board", board);
+        model.addAttribute("user", user);
+        return "roommate/roommate_detail";
+    }
+
     @GetMapping("/register")
-    public String registerPage() {
+    public String registerPage() {  // Model model
         return "roommate/roommate_register";
     }
 
     @PostMapping("/register")
     public String register(RoommateDTO board) {
-        System.out.println("################ register 실행");
+        System.out.println("################ register Post 실행");
         System.out.println(board);
         int result = service.register(board);
         System.out.println("################ " + result + " 개 등록 성공");
@@ -51,37 +78,32 @@ public class RoommateController {
     }
 
     @GetMapping("/edit")
-    public String editPage(Model model) {
-        RoommateDTO board = service.getBoard(1);
-        System.out.println(board);
+    public String editPage(int roommate_id, Model model) {
+        System.out.println("################ edit Get 실행");
+        RoommateDTO board = service.getBoard(roommate_id);
+        System.out.println("edit board : " + board);
         model.addAttribute("board", board);
         model.addAttribute("mapping", "edit");
-        return "roommate/roommate_edit";
+        return "roommate/roommate_register";
     }
-//
-//    @PostMapping("/edit")
-//    public String edit(RoommateDTO board) {
-//        System.out.println("################ edit 실행");
-//        System.out.println(board);
-//        int result = service.editBoard(board);
-//        System.out.println("################ " + result + " 개 수정 성공");
-//        return "redirect:/roommate/home";
-//    }
-//
-//    @GetMapping("/delete")
-//    public String delete(int roommate_id) {
-//        System.out.println("################ delete 실행");
-//        System.out.println(roommate_id);
-//        int result = service.deleteBoard(board);
-//        System.out.println("################ " + result + " 개 삭제 성공");
-//        return "redirect:/roommate/home";
-//    }
-//    public int deleteBoard(int roommate_id) {
-//        return dao.delete(roommate_id);
-//    }
-//    public int deleteee(int roommate_id) {
-//        return sessionTemplate.deletee("com.hollroom.roommate.delete", roommate_id);
-//    }
+
+    @PostMapping("/edit")
+    public String edit(RoommateDTO board) {
+        System.out.println("################ edit Post 실행");
+        System.out.println(board);
+        int result = service.editBoard(board);
+        System.out.println("################ " + result + " 개 수정 성공");
+        return "redirect:/roommate/home";
+    }
+
+    @GetMapping("/delete")
+    public String deleteBoard(int roommate_id) {
+        System.out.println("################ delete 실행");
+        System.out.println(roommate_id);
+        int result = service.deleteBoard(roommate_id);
+        System.out.println("################ " + result + " 개 삭제 성공");
+        return "redirect:/roommate/home";
+    }
 
 //    @GetMapping("/search")
 //    public String search() {
@@ -105,7 +127,7 @@ public class RoommateController {
 //
 //    }
 //
-//    //chattinController로??
+//    //chattingController로??
 //    @GetMapping("/chat")
 //    public String chatPage() {
 //        return "/roommate/roommate_chat";

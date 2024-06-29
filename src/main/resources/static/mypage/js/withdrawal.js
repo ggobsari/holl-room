@@ -11,7 +11,7 @@ function handleWithdrawal(event) {
     const password = document.getElementById('password').value;
 
     const xhr = new XMLHttpRequest();
-    xhr.open('POST', 'http://localhost:8090/hollroom/mypage/handleWithdrawal', true);
+    xhr.open('POST', 'http://localhost:8090/hollroom/mypage/handleWithdrawal', true);  //!!!!
     xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
 
     xhr.onreadystatechange = function () {
