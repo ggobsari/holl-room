@@ -22,22 +22,22 @@ public class UserController {
     //================================================================================================================//
     private final UserService userService;
     //================================================================================================================//
-        //회원가입 페이지 요청
-    @GetMapping("/signup")
-    public String signupForm(){
-        return "user/signup";
-    }
+//        //회원가입 페이지 요청
+//    @GetMapping("/signup")
+//    public String signupForm(){
+//        return "user/signup";
+//    }
     //회원가입 요청
     @PostMapping("/signup")
     public String signup(UserSignupDTO userSignupDTO){
         userService.signup(userSignupDTO);
         return "user/login";
     }
-    //로그인 페이지 요청
-    @GetMapping("/login")
-    public String loginForm(){
-        return "user/login";
-    }
+//    //로그인 페이지 요청
+//    @GetMapping("/login")
+//    public String loginForm(){
+//        return "user/login";
+//    }
     //로그인 요청
     @PostMapping("/login")
     public String login(UserLoginDTO userLoginDTO, HttpServletRequest request){

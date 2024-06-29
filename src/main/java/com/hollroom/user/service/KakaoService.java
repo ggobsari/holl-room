@@ -5,10 +5,11 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hollroom.user.config.KakaoConfig;
 import com.hollroom.user.dto.KakaoDTO;
-import com.hollroom.user.entity.KakaoEntity;
-import com.hollroom.user.repository.KakaoRepository;
+import com.hollroom.user.entity.UserEntity;
+import com.hollroom.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.catalina.User;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,6 +18,8 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalDate;
+import java.util.Date;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -24,31 +27,41 @@ import java.time.LocalDate;
 @Slf4j
 public class KakaoService {
     //================================================================================================================//
-    private final KakaoRepository kakaoRepository;
+//    private final KakaoRepository kakaoRepository;
 
     private final KakaoConfig kakaoConfig;
+
+    private final UserRepository userRepository;
     //================================================================================================================//
-    public KakaoEntity saveKakaoUser(KakaoDTO kakaoDTO){
+    public void saveKakaoUser(KakaoDTO kakaoDTO){
         String email = kakaoDTO.getKakao_account().getEmail();
-        KakaoEntity existingUser = kakaoRepository.findByKakaoUserEmail(email);
 
-        if (existingUser != null) {// 기존 사용자 정보 업데이트 필요 시 업데이트 가능
-            existingUser.setKakaoUserNickname(kakaoDTO.getKakao_account().getProfile().getNickname());
-            return kakaoRepository.save(existingUser);
-        }
+        Optional<UserEntity> optionalUser = userRepository.findByUserEmail(email);
 
-        KakaoEntity kakaoEntity = new KakaoEntity();
-        kakaoEntity.setKakaoUserEmail(email);
-        kakaoEntity.setKakaoUserNickname(kakaoDTO.getKakao_account().getProfile().getNickname());
-        kakaoEntity.setKakaoUserSignupAt(LocalDate.now());
-        kakaoEntity.setKakaoUserAdmin(false);
-        kakaoEntity.setKakaoUserBan(false);
-        kakaoEntity.setKakaoUserIsDeleted(false);
+        if(optionalUser.isPresent()){
+            // 사용자 정보가 이미 존재하면 로그인 성공을 반환하고 업데이트
+            UserEntity existingUser = optionalUser.get();
 
-        try {
-            return kakaoRepository.save(kakaoEntity);
-        } catch (Exception e){
-            return null;
+            existingUser.setUserNickname(kakaoDTO.getKakao_account().getProfile().getNickname());
+
+            userRepository.save(existingUser);
+        } else{
+            UserEntity user = new UserEntity();
+            user.setUserEmail(email);
+            user.setUserNickname(kakaoDTO.getKakao_account().getProfile().getNickname());
+            user.setUserName(null);
+            user.setUserImage(null);
+            user.setUserIntroduce(null);
+            user.setUserPhoneNumber(null);
+            user.setUserLocation(null);
+            user.setUserBirthday(null);
+            user.setUserSignupAt(LocalDate.now());
+            user.setUserAdmin(false);
+            user.setBan(false);
+            user.setIsDeleted(false);
+            user.setLoginType("kakao");
+
+            userRepository.save(user);
         }
     }
     //================================================================================================================//
