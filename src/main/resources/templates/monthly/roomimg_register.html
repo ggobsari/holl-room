@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form th:action="@{/monthly/roomimg/register}" method="post" enctype="multipart/form-data">
+    <div>
+        매물사진
+        <input type="file" name="roomImg" multiple="multiple"/>
+    </div>
+    <button type="submit">사진등록</button>
+</form>
+</body>
+</html>

@@ -1,5 +1,6 @@
 package com.hollroom.monthly.domain.entity;
 
+import com.hollroom.community.domain.entity.AttachFileEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -20,6 +21,7 @@ public class MonthlyProductEntity {
     private long id;
 //    @ManyToOne
 //    private UserEntity user;
+    private String imgUrl;
     private int deposit;
     private int monthly;
     private Long divisionCode;
@@ -35,6 +37,14 @@ public class MonthlyProductEntity {
     @UpdateTimestamp
     private Date updatedAt;
     private Date deletedAt;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "id")
+    private AttachFileEntity attachEntity;
+
+    public void updateImgUrl(String imgUrl) {
+        this.imgUrl = imgUrl;
+    }
 
     public MonthlyProductEntity(int deposit, int monthly, Long divisionCode, int floorCount, int pyeongCount, int roomCount, int bayCount, String roomOption, String securityFacility, Date expirationDate) {
         this.deposit = deposit;
