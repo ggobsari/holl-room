@@ -2,7 +2,7 @@
     <ul>
         <li class="product-box" th:each="product : ${productList}" style="display: flex">
             <div class="horizontal-center">
-                <img style="width: 180px; height: 130px; margin-left: 10px; margin-right: 10px" th:src="@{/imageload/}+${product.imgUrl}"/>
+                <img style="width: 180px; height: 130px; margin-left: 10px; margin-right: 10px" th:src="@{/imageload/}+${product.roomImg}"/>
             </div>
             <div >
                 <h4 th:text="|월세 ${product.deposit}/${product.monthly}|"></h4>

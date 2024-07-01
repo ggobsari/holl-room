@@ -6,7 +6,8 @@ import com.hollroom.community.repository.AttachFileRepository;
 import com.hollroom.community.service.FileUploadService;
 import com.hollroom.monthly.dao.MonthlyProductDAO;
 import com.hollroom.monthly.domain.dto.DivisionDTO;
-import com.hollroom.monthly.domain.dto.MonthlyProductDTO;
+import com.hollroom.monthly.domain.dto.MonthlyProductRequestDTO;
+import com.hollroom.monthly.domain.dto.MonthlyProductResponseDTO;
 import com.hollroom.monthly.domain.entity.DivisionEntity;
 import com.hollroom.monthly.domain.entity.MonthlyProductEntity;
 import com.hollroom.monthly.repository.DivisionRepository;
@@ -32,30 +33,39 @@ public class MonthlyProductServiceImpl implements MonthlyProductService {
     private final FileUploadService fileUploadService;
 
     @Override
-    public void insertProduct(MonthlyProductDTO dto) {
+    public void insertProduct(MonthlyProductRequestDTO dto) {
+        // 매물 dto를 entity로 변환
         MonthlyProductEntity entity = mapper.map(dto, MonthlyProductEntity.class);
+
+        // 매물 dao에 entity를 보내서 monthly_product 테이블에 저장
         dao.insertProduct(entity);
+
         try {
+            // post로 받아온 dto의 MultipartFile을, fileUploadService을 이용해 storeFileName 생성
             String storeFileName = fileUploadService.uploadFile(dto.getRoomImg());
+
+            // 생성한 storeFileName을 사용해서 AttachFileEntity 생성
             AttachFileEntity attachFileEntity = new AttachFileEntity(
                     null, // autoIncreament
                     TabType.MONTHLY_PRODUCT, // tabType
                     dto.getRoomImg().getOriginalFilename(), // originalName
                     storeFileName, // storeName
-                    entity.getId() // postId
+                    entity.getId() // postId(매물자체 Id)
             );
+
+            // AttachFileRepository으로 생성한 Entity를 저장
             attachFileRepo.save(attachFileEntity);
-            entity.updateImgUrl(storeFileName);
+
         } catch (IOException e){
             e.printStackTrace();
         }
     }
 
     @Override
-    public List<MonthlyProductDTO> readProductAll() {
+    public List<MonthlyProductResponseDTO> readProductAll() {
         return dao.readProductAll()
                 .stream()
-                .map(e-> mapper.map(e,MonthlyProductDTO.class))
+                .map(this::convertEntityToDTO)
                 .collect(Collectors.toList());
     }
 
@@ -74,13 +84,15 @@ public class MonthlyProductServiceImpl implements MonthlyProductService {
     }
 
     @Override
-    public List<MonthlyProductDTO> readDivisionProduct(String addr) {
+    public List<MonthlyProductResponseDTO> readDivisionProduct(String addr) {
         Long divisionCode = getMainDivisionFromAddress(addr).mainDivisionCode;
         return dao.readDivisionProduct(divisionCode)
                 .stream()
                 .map(this::convertEntityToDTO)
                 .collect(Collectors.toList());
     }
+
+
 
     private DivisionEntity getMainDivisionFromAddress(String addr) {
         String[] divisions= addr.split(" ");
@@ -92,9 +104,10 @@ public class MonthlyProductServiceImpl implements MonthlyProductService {
         return main;
     }
 
-    private MonthlyProductDTO convertEntityToDTO(MonthlyProductEntity entity) {
-        MonthlyProductDTO dto = mapper.map(entity,MonthlyProductDTO.class);
-
+    private MonthlyProductResponseDTO convertEntityToDTO(MonthlyProductEntity entity) {
+        MonthlyProductResponseDTO dto = mapper.map(entity,MonthlyProductResponseDTO.class);
+        dto.setRoomImg(attachFileRepo.findByPostIdAndTabType(dto.getId(),TabType.MONTHLY_PRODUCT).get(0).getFileStoreName());
         return dto;
     }
+
 }

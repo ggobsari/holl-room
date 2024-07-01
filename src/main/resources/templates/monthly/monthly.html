@@ -86,6 +86,16 @@
             getProductList(address);
         }
 
+        let prevPath = null;
+        function seoulAddress(division,path){
+            if(prevPath){
+                prevPath.classList.remove('division-select');
+            }
+            path.classList.add('division-select');
+            prevPath=path;
+            getProductList("서울시 "+division);
+        }
+
         function popAddress(){
             divisions.pop();
             let address = divisions.length !== 0?divisions[0]:"한국";
@@ -181,6 +191,9 @@
         .map{
             width: 10%;
             height: 10%;
+        }
+        .division-select{
+            fill: #378fbf;
         }
         .division:hover{
             fill:lightcoral;

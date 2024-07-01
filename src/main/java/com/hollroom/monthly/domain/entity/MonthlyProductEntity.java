@@ -18,10 +18,9 @@ import java.util.Date;
 public class MonthlyProductEntity {
     @Id
     @GeneratedValue
-    private long id;
+    private Long id;
 //    @ManyToOne
 //    private UserEntity user;
-    private String imgUrl;
     private int deposit;
     private int monthly;
     private Long divisionCode;
@@ -37,25 +36,4 @@ public class MonthlyProductEntity {
     @UpdateTimestamp
     private Date updatedAt;
     private Date deletedAt;
-
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "id")
-    private AttachFileEntity attachEntity;
-
-    public void updateImgUrl(String imgUrl) {
-        this.imgUrl = imgUrl;
-    }
-
-    public MonthlyProductEntity(int deposit, int monthly, Long divisionCode, int floorCount, int pyeongCount, int roomCount, int bayCount, String roomOption, String securityFacility, Date expirationDate) {
-        this.deposit = deposit;
-        this.monthly = monthly;
-        this.divisionCode = divisionCode;
-        this.floorCount = floorCount;
-        this.pyeongCount = pyeongCount;
-        this.roomCount = roomCount;
-        this.bayCount = bayCount;
-        this.roomOption = roomOption;
-        this.securityFacility = securityFacility;
-        this.expirationDate = expirationDate;
-    }
 }

@@ -1,9 +1,7 @@
 package com.hollroom.monthly.controller;
 
 import com.hollroom.community.service.FileUploadService;
-import com.hollroom.monthly.domain.dto.DivisionDTO;
-import com.hollroom.monthly.domain.dto.MonthlyProductDTO;
-import com.hollroom.monthly.domain.dto.RoomImgDTO;
+import com.hollroom.monthly.domain.dto.*;
 import com.hollroom.monthly.service.MonthlyProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -22,18 +20,14 @@ public class MonthlyController {
 
     @GetMapping(value = {"/","/monthly"})
     public String showMainPage(Model model){
-        List<MonthlyProductDTO> productList = productService.readProductAll();
-        List<DivisionDTO> divisionList =productService.readSubDivision("한국");
-        //injectTempImgUrl(productList);
+        List<MonthlyProductResponseDTO> productList = productService.readProductAll();
         model.addAttribute("productList", productList);
-        model.addAttribute("divisionList", divisionList);
-
         return "monthly/monthly";
     }
 
     @GetMapping("/monthly/product")
     public String showProductPage(Model model){
-        List<MonthlyProductDTO> productList = productService.readProductAll();
+        List<MonthlyProductResponseDTO> productList = productService.readProductAll();
         model.addAttribute("productList", productList);
         return "monthly/product_list";
     }
@@ -58,16 +52,15 @@ public class MonthlyController {
     }
 
     @PostMapping("/monthly/product/register")
-    public String registerProduct(MonthlyProductDTO product){
+    public String registerProduct(MonthlyProductRequestDTO product){
         productService.insertProduct(product);
-        System.out.println(product);
         return "redirect:/monthly/product";
     }
 
     @GetMapping("/monthly/product/division/{addr}")
     public String readDivisionProduct(Model model, @PathVariable String addr){
         System.out.println(addr);
-        List<MonthlyProductDTO> productList = productService.readDivisionProduct(addr);
+        List<MonthlyProductResponseDTO> productList = productService.readDivisionProduct(addr);
         //injectTempImgUrl(productList);
         model.addAttribute("productList", productList);
         return "monthly/product_list";
@@ -77,23 +70,5 @@ public class MonthlyController {
     @ResponseBody
     public DivisionDTO readDivision(@PathVariable String addr) {
         return productService.readMainDivision(addr);
-    }
-
-    @GetMapping("/monthly/roomimg/register")
-    public String showRoomImg(){
-        return "monthly/roomimg_register";
-    }
-
-    @PostMapping("/monthly/roomimg/register")
-    public String registerRoomImg(RoomImgDTO roomImg) throws Exception{
-        fileUploadService.uploadFile(roomImg.getRoomImg());
-        return "redirect:/monthly/roomimg/register";
-    }
-
-    public void injectTempImgUrl(List<MonthlyProductDTO> productList){
-        Random rand = new Random();
-        for(int i=0;i<productList.size();i++){
-            productList.get(i).setImgUrl(""+(rand.nextInt(10)+1));
-        }
     }
 }
