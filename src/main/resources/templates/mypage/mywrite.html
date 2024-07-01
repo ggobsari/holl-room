@@ -4,32 +4,25 @@
       layout:decorate="~{layout/main_layout}">
 <head>
     <meta charset="utf-8"/>
-    <!--<meta name=description content="This site was generated with Anima. www.animaapp.com"/>-->
-    <!-- <link rel="shortcut icon" type=image/png href="https://animaproject.s3.amazonaws.com/home/favicon.png" /> -->
-    <meta name="viewport" content="width=1440, initial-scale =1.0"/>
+    <meta name="viewport" content="width=1440, initial-scale=1.0"/>
     <link rel="shortcut icon" type="image/png" href="https://animaproject.s3.amazonaws.com/home/favicon.png"/>
-    <meta name="og:type" content="website"/>
-    <meta name="twitter:card" content="photo"/>
-    <!-- Core theme CSS (includes Bootstrap)-->
     <link href="css/styles.css" rel="stylesheet"/>
     <link rel="stylesheet" type="text/css" href="css/styleguide.css"/>
     <link rel="stylesheet" type="text/css" href="css/globals.css"/>
     <link rel="stylesheet" type="text/css" href="css/profile_mywrite.css"/>
     <link rel="stylesheet" type="text/css" href="css/profile_shape.css"/>
     <link rel="stylesheet" type="text/css" href="css/styles-2.css"/>
-
     <style>
         @import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap");
     </style>
+    <!--JavaScript 파일-->
+    <script src="js/mywrite.js"></script>
 </head>
 <body class="d-flex flex-column font-kor">
 <main class="flex-shrink-0">
     <div layout:fragment="content">
-        <!-- Page content-->
         <section class="py-5 flex-row-5">
             <div class="container px-5 d-flex">
-                <!-- 메뉴 -->
-                <!--<div class="main-content bg-light rounded-3 py-5 px-4 px-md-5 mb-5">-->
                 <aside class="col-3 bg-dark bg-gradient rounded-3 pt-4 px-3 me-3 content3">
                     <div class="my-5 filter-list text-white">
                         <h2 class="text-center mb-4" style="font-size: 1.5em; font-weight: bold;">마이페이지</h2>
@@ -40,17 +33,17 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-menu active" href="mywrite">
+                                <a class="nav-menu active" href="mywrite?category=all&page=0">
                                     <i class="bi bi-pencil-square"></i> 내가 쓴 글
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-menu" href="interest">
+                                <a class="nav-menu" href="interest?category=all&page=0">
                                     <i class="bi bi-bookmark-heart"></i> 즐겨찾기
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-menu" href="inquiry">
+                                <a class="nav-menu" href="inquiry?category=all&page=0">
                                     <i class="bi bi-question-circle"></i> 문의하기
                                 </a>
                             </li>
@@ -62,159 +55,35 @@
                         </ul>
                     </div>
                 </aside>
-
-                <!-- 내가 쓴글 목록 -->
                 <div class="border-primary col-7 p-4 bg-white rounded-3">
                     <div class="p-3">
+                        <select class="form-select" id="category" name="category" style="background-color: white; width: auto" th:data-category="${category}">
+                            <option value="all" th:selected="${category == 'all'}">전체</option>
+                            <option value="자유" th:selected="${category == '자유'}">자유</option>
+                            <option value="꿀팁" th:selected="${category == '꿀팁'}">꿀팁</option>
+                            <option value="질문" th:selected="${category == '질문'}">질문</option>
+                            <option value="자취레시피" th:selected="${category == '자취레시피'}">자취레시피</option>
+                        </select>
+
                         <table class="table table-hover text-center">
                             <thead>
                             <tr>
                                 <th>번호</th>
                                 <th>제목</th>
-                                <th>작성일</th>
+                                <th>카테고리</th>
                                 <th>등록일</th>
                                 <th>조회수</th>
                             </tr>
                             </thead>
-                            <tbody>
-                            <tr class="table-light" role="button">
-                                <td>10</td>
-                                <td class="text-start">
-                                    <a href="roommate_detail.html" style="text-decoration: none; color: black">
-                                        룸메이트 구해요
-                                    </a>
-                                </td>
-                                <td>qwer</td>
-                                <td>오늘</td>
-                            </tr>
-                            <tr>
-                                <td>9</td>
-                                <td>
-                                    <span class="text-primary fw-bold">new</span>
-                                    &nbsp;룸메이트 구해요
-                                </td>
-                                <td>qwer</td>
-                                <td>오늘</td>
-                            </tr>
-                            <tr>
-                                <td>8</td>
-                                <td>
-                                    <span class="text-primary fw-bold">new</span>
-                                    &nbsp;룸메이트 구해요
-                                </td>
-                                <td>qwer</td>
-                                <td>오늘</td>
-                            </tr>
-                            <tr>
-                                <td>7</td>
-                                <td>룸메이트 구해요</td>
-                                <td>qwer</td>
-                                <td>6.18</td>
-                            </tr>
-                            <tr>
-                                <td>6</td>
-                                <td>룸메이트 구해요</td>
-                                <td>qwer</td>
-                                <td>6.18</td>
-                            </tr>
-                            <tr>
-                                <td>5</td>
-                                <td>룸메이트 구해요</td>
-                                <td>qwer</td>
-                                <td>6.18</td>
-                            </tr>
-                            <tr>
-                                <td>4</td>
-                                <td>룸메이트 구해요</td>
-                                <td>qwer</td>
-                                <td>6.17</td>
-                            </tr>
-                            <tr>
-                                <td>3</td>
-                                <td>룸메이트 구해요</td>
-                                <td>qwer</td>
-                                <td>6.17</td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>룸메이트 구해요</td>
-                                <td>qwer</td>
-                                <td>6.17</td>
-                            </tr>
-                            <tr>
-                                <td>1</td>
-                                <td>룸메이트 구해요</td>
-                                <td>qwer</td>
-                                <td>6.17</td>
-                            </tr>
-                            <tr>
-                                <td>5</td>
-                                <td>룸메이트 구해요</td>
-                                <td>qwer</td>
-                                <td>6.18</td>
-                            </tr>
-                            <tr>
-                                <td>5</td>
-                                <td>룸메이트 구해요</td>
-                                <td>qwer</td>
-                                <td>6.18</td>
-                            </tr>
-                            <tr>
-                                <td>5</td>
-                                <td>룸메이트 구해요</td>
-                                <td>qwer</td>
-                                <td>6.18</td>
-                            </tr>
-                            <tr>
-                                <td>5</td>
-                                <td>룸메이트 구해요</td>
-                                <td>qwer</td>
-                                <td>6.18</td>
-                            </tr>
-                            <tr>
-                                <td>5</td>
-                                <td>룸메이트 구해요</td>
-                                <td>qwer</td>
-                                <td>6.18</td>
-                            </tr>
-                            <tr>
-                                <td>5</td>
-                                <td>룸메이트 구해요</td>
-                                <td>qwer</td>
-                                <td>6.18</td>
-                            </tr>
-                            <tr>
-                                <td>5</td>
-                                <td>룸메이트 구해요</td>
-                                <td>qwer</td>
-                                <td>6.18</td>
-                            </tr>
-                            <tr>
-                                <td>5</td>
-                                <td>룸메이트 구해요</td>
-                                <td>qwer</td>
-                                <td>6.18</td>
-                            </tr>
-                            <tr>
-                                <td>5</td>
-                                <td>룸메이트 구해요</td>
-                                <td>qwer</td>
-                                <td>6.18</td>
-                            </tr>
-                            <tr>
-                                <td>5</td>
-                                <td>룸메이트 구해요</td>
-                                <td>qwer</td>
-                                <td>6.18</td>
-                            </tr>
+                            <tbody id="post-list">
+                            <!-- 게시글 목록 -->
+
+
                             </tbody>
                         </table>
-
                         <div class="d-flex justify-content-center mb-5 my-paging">
                             <a href="#" class="">&#5130;</a>
-                            <a href="#" class="">1</a>
-                            <a href="#" class="">2</a>
-                            <a href="#" class="">3</a>
+                            <!-- 페이지 링크  -->
                             <a href="#" class="">&#5125;</a>
                         </div>
                         <div class="d-inline-block">
@@ -234,7 +103,7 @@
                                 ><img
                                         src="assets/icon_search.png"
                                         style="width: 23px; height: 23px"
-                                        alt=""
+                                        alt="검색 아이콘"
                                 /></a>
                             </div>
                         </div>
