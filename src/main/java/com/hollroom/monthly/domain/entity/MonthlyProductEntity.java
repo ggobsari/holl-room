@@ -1,5 +1,6 @@
 package com.hollroom.monthly.domain.entity;
 
+import com.hollroom.community.domain.entity.AttachFileEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -17,7 +18,7 @@ import java.util.Date;
 public class MonthlyProductEntity {
     @Id
     @GeneratedValue
-    private long id;
+    private Long id;
 //    @ManyToOne
 //    private UserEntity user;
     private int deposit;
@@ -35,17 +36,4 @@ public class MonthlyProductEntity {
     @UpdateTimestamp
     private Date updatedAt;
     private Date deletedAt;
-
-    public MonthlyProductEntity(int deposit, int monthly, Long divisionCode, int floorCount, int pyeongCount, int roomCount, int bayCount, String roomOption, String securityFacility, Date expirationDate) {
-        this.deposit = deposit;
-        this.monthly = monthly;
-        this.divisionCode = divisionCode;
-        this.floorCount = floorCount;
-        this.pyeongCount = pyeongCount;
-        this.roomCount = roomCount;
-        this.bayCount = bayCount;
-        this.roomOption = roomOption;
-        this.securityFacility = securityFacility;
-        this.expirationDate = expirationDate;
-    }
 }

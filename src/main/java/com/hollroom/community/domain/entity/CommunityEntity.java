@@ -46,9 +46,6 @@ public class CommunityEntity {
     @JoinColumn(name = "userId")
     private UserEntity user;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "postId")
-    private List<AttachFileEntity> attachFileEntities = new ArrayList<>();
 
     //제목, 카테고리, 본문내용, 작성자, 조회수(insert)
     public CommunityEntity(String title, String content, int viewCount, String category, UserEntity user) {
@@ -65,6 +62,5 @@ public class CommunityEntity {
         this.viewCount = viewCount;
         this.category = category;
         this.user = user;
-        this.attachFileEntities = attachFileEntities;
     }
 }
