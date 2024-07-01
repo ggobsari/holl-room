@@ -2,89 +2,155 @@
 <html lang="ko"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
-    <head>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-        <meta name="description" content="" />
-        <meta name="author" content="" />
-        <title>HOLLROOM</title>
-        <!-- Favicon-->
-        <link rel="icon" type="image/x-icon" href="http://localhost:8090/hollroom/layout/assets/favicon.ico" />
-        <!-- Bootstrap icons-->
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
-        <!-- Core theme CSS (includes Bootstrap)-->
-        <link rel="stylesheet" type="text/css" href="/hollroom/common/css/styles.css"  />
-    </head>
-    <body class="d-flex flex-column">
-        <main class="flex-shrink-0">
-            <!-- Navigation-->
-            <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-                <div class="container px-5">
-                    <a class="navbar-brand" href="index.html">홀룸</a>
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
-                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                            <li class="nav-item"><a class="nav-link" href="#home">홈</a></li>
-                            <li class="nav-item"><a class="nav-link" th:href="@{/monthly}">월세지도</a></li>
-                            <li class="nav-item"><a class="nav-link" href="/hollroom/roommate/home">룸메이트</a></li>
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" id="navbarDropdownBlog" href="#community" role="button" data-bs-toggle="dropdown" aria-expanded="false">커뮤니티</a>
-                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownBlog">
-                                    <li><a class="dropdown-item" href="/hollroom/community/list?category=all&page=0">자유 게시판</a></li>
-                                    <li><a class="dropdown-item" href="#withorder">함께주문</a></li>
-                                </ul>
-                            </li>
-                            <li class="nav-item"><a class="nav-link" href="/hollroom/mypage/profile">마이페이지</a></li>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>HOLLROOM</title>
+    <!-- Favicon-->
+    <link rel="icon" type="image/x-icon" href="http://localhost:8090/hollroom/layout/assets/favicon.ico" />
+    <!-- Bootstrap icons-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link rel="stylesheet" type="text/css" href="/hollroom/common/css/styles.css"  />
+</head>
+<body class="d-flex flex-column">
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-KyZXEAg3QhqLMpG8r+XOaudjU6pjsAV9mEJiEN1QLF5ItIf1+pF7BkD4jo1qFJfQ" crossorigin="anonymous"></script>
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script type="text/javascript"
+        src="//dapi.kakao.com/v2/maps/sdk.js?appkey=a3660f8de5e77b73f4c7822adeb86bec&libraries=services"></script>
+<!--<script src="/user/js/login.js"></script>-->
+<main class="flex-shrink-0">
+    <!-- Navigation-->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container px-5">
+            <a style="position: absolute; left: 20px" class="navbar-brand" href="index.html">홀룸</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                    <li class="nav-item"><a class="nav-link" href="#home">홈</a></li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/monthly}">월세지도</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/hollroom/roommate/home">룸메이트</a></li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" id="navbarDropdownBlog" href="#community" role="button" data-bs-toggle="dropdown" aria-expanded="false">커뮤니티</a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownBlog">
+                            <li><a class="dropdown-item" href="/hollroom/community/list?category=all&page=0">자유 게시판</a></li>
+                            <li><a class="dropdown-item" href="#withorder">함께주문</a></li>
                         </ul>
+                    </li>
+                    <li class="nav-item"><a class="nav-link" href="/hollroom/mypage/profile">마이페이지</a></li>
+                </ul>
+
+                <div style="position: absolute; right: 20px;">
+                    <!-- Button trigger modal -->
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#loginModal" onclick="openLoginModal()">로그인</button>
+
+                    <!-- Modal -->
+                    <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalCenterTitle"
+                         aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div style="width: 600px; height: 600px" class="modal-content">
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </nav>
 
-            <div class="floating-btn">
-                <button
-                        id="floating-btn-top"
-                        onclick="scrollToTop()"
-                        class="btn btn-primary rounded-circle"
-                >
-                    <span>&#11121;</span>
-                </button>
-                <button
-                        id="floating-btn-chat"
-                        onclick="location.href='#'"
-                        class="btn btn-primary rounded-circle"
-                >
-                    <span>&#9776;</span>
-                </button>
-                <button
-                        id="floating-btn-write"
-                        onclick="location.href='/hollroom/roommate/register'"
-                        class="btn btn-primary rounded-circle"
-                >
-                    <span>&#128393;</span>
-                </button>
-            </div>
+                    <!-- Button trigger modal -->
+                    <button style="margin-left: 10px" id="btn-save" type="button" class="btn btn-primary" data-toggle="modal" data-target="#signupModal" onclick="openSignupModal()">회원가입
+                    </button>
 
-
-            <th:block layout:fragment="content"></th:block>
-        </main>
-        <!-- Footer-->
-        <footer class="bg-dark py-4 mt-auto">
-            <div class="container px-5">
-                <div class="row align-items-center justify-content-between flex-column flex-sm-row">
-                    <div class="col-auto"><div class="small m-0 text-white">Copyright &copy; Your Website 2023</div></div>
-                    <div class="col-auto">
-                        <a class="link-light small" href="#!">Privacy</a>
-                        <span class="text-white mx-1">&middot;</span>
-                        <a class="link-light small" href="#!">Terms</a>
-                        <span class="text-white mx-1">&middot;</span>
-                        <a class="link-light small" href="#!">Contact</a>
+                    <!-- Modal -->
+                    <div class="modal fade" id="signupModal" tabindex="-1" role="dialog" aria-labelledby="signupModalCenterTitle"
+                         aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div style="height: 1100px" class="modal-content">
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-        </footer>
-        <!-- Bootstrap core JS-->
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-        <!-- Core theme JS-->
-        <script src="/hollroom/roommate/js/script.js"></script>
-    </body>
+        </div>
+    </nav>
+
+    <div class="floating-btn">
+        <button
+                id="floating-btn-top"
+                onclick="scrollToTop()"
+                class="btn btn-primary rounded-circle"
+        >
+            <span>&#11121;</span>
+        </button>
+        <button
+                id="floating-btn-chat"
+                onclick="location.href='#'"
+                class="btn btn-primary rounded-circle"
+        >
+            <span>&#9776;</span>
+        </button>
+        <button
+                id="floating-btn-write"
+                onclick="location.href='/hollroom/roommate/register'"
+                class="btn btn-primary rounded-circle"
+        >
+            <span>&#128393;</span>
+        </button>
+    </div>
+
+
+    <th:block layout:fragment="content"></th:block>
+</main>
+<!-- Footer-->
+<footer class="bg-dark py-4 mt-auto">
+    <div class="container px-5">
+        <div class="row align-items-center justify-content-between flex-column flex-sm-row">
+            <div class="col-auto"><div class="small m-0 text-white">Copyright &copy; Your Website 2023</div></div>
+            <div class="col-auto">
+                <a class="link-light small" href="#!">Privacy</a>
+                <span class="text-white mx-1">&middot;</span>
+                <a class="link-light small" href="#!">Terms</a>
+                <span class="text-white mx-1">&middot;</span>
+                <a class="link-light small" href="#!">Contact</a>
+            </div>
+        </div>
+    </div>
+</footer>
+<!-- Bootstrap core JS-->
+<!--<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>-->
+<!-- Core theme JS-->
+<!--<script src="/hollroom/roommate/js/script.js"></script>-->
+<script>
+    function openLoginModal(){
+        $('#loginModal .modal-content').load("/hollroom/login", function (){
+            $.getScript("/hollroom/user/js/login.js")
+                .done(function (){
+                    console.log('로그인 스크립트 로드 성공');
+                })
+                .fail(function (){
+                    console.error("로그인 스크립트 로드 실패");
+                });
+        });
+    }
+
+    function openSignupModal(){
+        $('#signupModal .modal-content').load("/hollroom/signup", function (){
+            $.getScript("/hollroom/user/js/signup.js")
+                .done(function (){
+                    console.log('회원가입 스크립트 로드 성공');
+                })
+                .fail(function (){
+                    console.error("회원가입 스크립트 로드 실패");
+                });
+        });
+    }
+
+    function scrollToTop() {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+</script>
+</body>
 </html>
