@@ -15,6 +15,7 @@ import java.time.LocalDateTime;
 public class VerificationCode {
 
     @Id
+    //@GeneratedValue(strategy = GenerationType.IDENTITY)
     @GeneratedValue
     private Long id;
 

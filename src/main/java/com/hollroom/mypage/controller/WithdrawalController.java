@@ -26,6 +26,7 @@ public class WithdrawalController {
         return user != null;
     }
 
+    //회원탈퇴 페이지 컨트롤러
     @GetMapping("/withdrawal")
     public String interest(HttpSession session){
         if (!checkSession(session)) {
@@ -34,6 +35,7 @@ public class WithdrawalController {
         return "mypage/withdrawal";  // mypage/withdrawal 페이지 반환
     }
 
+    //회원탈퇴 컨트롤러
     @PostMapping("/handleWithdrawal")
     public ResponseEntity<Map<String, Object>> handleWithdrawal(@RequestBody Map<String, String> request, HttpSession session) {
         Map<String, Object> response = new HashMap<>();

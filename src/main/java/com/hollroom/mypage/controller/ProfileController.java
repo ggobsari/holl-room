@@ -67,7 +67,7 @@ public class ProfileController {
         }
     }
 
-    //    사진 업데이트
+    //사진 업데이트
     @PostMapping("/uploadProfileImage")
     public ResponseEntity<?> uploadProfileImage(@RequestParam("image") MultipartFile image, @RequestPart("profile") UserSignupDTO userSignupDTO) throws IOException {
         // Service 호출하여 이미지 업로드 및 프로필 업데이트 처리
