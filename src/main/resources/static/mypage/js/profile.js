@@ -147,7 +147,7 @@ function maskMaking(){
     nameInput.value = maskingFunc.name(nameInput.value);
 }
 //===============================================================================
-// 실명 마스킹
+//마스킹
 let maskingFunc = {
     checkNull: function (str) {
         if (typeof str == "undefined" || str == null || str == "") {
@@ -164,9 +164,29 @@ let maskingFunc = {
         let strLength;
         if (this.checkNull(originStr) == true || this.checkNull(emailStr) == true) {
             return originStr;
-        } else {
-            strLength = emailStr.toString().split('@')[0].length - 3;
-            return originStr.toString().replace(new RegExp('.(?=.{0,' + strLength + '}@)', 'g'), '●').replace(/.{6}$/, "●●●●●●");
+        }else {
+            let maskedEmails = emailStr.map(email => {
+                const [localPart, domainPart] = email.split('@');
+                const localPartLength = localPart.length;
+
+                // 마스킹할 인덱스 설정 (0부터 시작하기 때문에 1, 3, 4, 5, 7, 9에 해당)
+                const maskIndices = new Set([1, 3, 4, 6, 9].filter(index => index < localPartLength));
+
+                // 문자열을 배열로 변환한 후 지정된 인덱스를 마스킹
+                const maskedLocalPart = localPart.split('').map((char, index) =>
+                    maskIndices.has(index) ? '●' : char
+                ).join('');
+
+                return `${maskedLocalPart}@${domainPart}`;
+            });
+
+            // 마스킹된 이메일 주소를 원래 문자열에 삽입
+            let maskedStr = originStr;
+            emailStr.forEach((email, index) => {
+                maskedStr = maskedStr.replace(email, maskedEmails[index]);
+            });
+
+            return maskedStr;
         }
     },
     //==========================================================================
@@ -239,7 +259,8 @@ let maskingFunc = {
         if (strLength < 3) {
             maskingStr = originStr.replace(/(?<=.{1})./gi, "●");
         } else {
-            maskingStr = originStr.replace(/(?<=.{2})./gi, "●");
+            const middleIndex = Math.floor(strLength / 2);
+            return originStr.substring(0, middleIndex) + "●" + originStr.substring(middleIndex + 1);
         }
         return maskingStr;
     }

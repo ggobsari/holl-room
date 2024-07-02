@@ -6,16 +6,16 @@
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=1440, initial-scale=1.0"/>
     <link rel="shortcut icon" type="image/png" href="https://animaproject.s3.amazonaws.com/home/favicon.png"/>
-    <link rel="stylesheet" type="text/css" href="css/styles.css"/>
-    <link rel="stylesheet" type="text/css" href="css/styleguide.css"/>
-    <link rel="stylesheet" type="text/css" href="css/globals.css"/>
-    <link rel="stylesheet" type="text/css" href="css/profile_shape.css"/>
-    <link rel="stylesheet" type="text/css" href="css/styles-2.css"/>
-    <link rel="stylesheet" type="text/css" href="css/profile_inquiry.css"/>
-    <script src="js/inquiry_write.js" ></script>
+    <link rel="stylesheet" type="text/css" href="http://localhost:8090/hollroom/mypage/css/styles.css"/>
+    <link rel="stylesheet" type="text/css" href="http://localhost:8090/hollroom/mypage/css/styleguide.css"/>
+    <link rel="stylesheet" type="text/css" href="http://localhost:8090/hollroom/mypage/css/globals.css"/>
+    <link rel="stylesheet" type="text/css" href="http://localhost:8090/hollroom/mypage/css/profile_shape.css"/>
+    <link rel="stylesheet" type="text/css" href="http://localhost:8090/hollroom/mypage/css/styles-2.css"/>
+    <link rel="stylesheet" type="text/css" href="http://localhost:8090/hollroom/mypage/css/profile_inquiry.css"/>
     <style>
         @import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap");
     </style>
+    <script src="js/inquiry_detail.js" ></script>
 </head>
 <body class="d-flex flex-column font-kor">
 <main class="flex-shrink-0">
@@ -32,17 +32,20 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-menu" href="mywrite?category=all&page=0">
+                                <a class="nav-menu"
+                                   href="http://localhost:8090/hollroom/mypage/mywrite?category=all&page=0">
                                     <i class="bi bi-pencil-square"></i> 내가 쓴 글
                                 </a>
                             </li>
                             <!--<li class="nav-item">
-                                <a class="nav-menu" href="interest?category=all&page=0">
+                                <a class="nav-menu"
+                                   href="http://localhost:8090/hollroom/mypage/interest?category=all&page=0">
                                     <i class="bi bi-bookmark-heart"></i> 즐겨찾기
                                 </a>
                             </li>-->
                             <li class="nav-item">
-                                <a class="nav-menu active" href="inquiry?category=all&page=0">
+                                <a class="nav-menu active"
+                                   href="http://localhost:8090/hollroom/mypage/inquiry?category=all&page=0">
                                     <i class="bi bi-question-circle"></i> 문의하기
                                 </a>
                             </li>
@@ -60,33 +63,30 @@
                         <div class="mb-5">
                             <hr class="mb-5 w-100"/>
                             <form id="upload-form" enctype="multipart/form-data">
-                                <div class="d-flex justify-content-center filter-list">
+                                <div class="d-flex filter-list" style="margin-left: 8%">
                                     <ul id="write-ul-1">
-                                        <li>이메일<span class="text-primary">*</span></li>
-                                        <br>
-                                        <li><label>파일 첨부</label></li>
+                                        <li><label>첨부 파일</label></li>
                                     </ul>
-                                    <ul name="!!값">
-                                        <li style="width: 500px">
-                                            <input id="email" type="text" class="rectangle-41 form-control" th:value="${profile.userEmail}"/>
+                                    <input type="hidden" id="post-id" th:value="${inquiry.getPostId()}"/>
+                                    <!--첨부 파일 목록-->
+                                    <ul id="file-list" name="file-list" class="mt-2">
+                                        <li th:each="file : ${inquiry.files}">
+                                            <a th:href="@{/mypage/img/profile/{filename}(filename=${file.fileName})}" th:text="${file.fileName}"></a>
                                         </li>
-                                        <br>
-                                        <li>
-                                            <input type="file" id="file-input" data-tabtype="03" class="rectangle-41 form-control" multiple style="display:none"/>
-                                            <button type="button" class="btn btn-outline-primary" onclick="document.getElementById('file-input').click();">파일 선택</button>
-                                        </li>
-                                        <div id="file-list" class="mt-2"></div>
                                     </ul>
                                 </div>
                                 <hr class="mb-5 w-100"/>
                                 <div class="d-flex flex-column align-items-center">
-                                    <input type="text" id="title" name="title" size="60" class="my-input-title" placeholder="제목을 작성해주세요" required/>
-                                    <textarea id="content" name="content" class="mt-3 main-text" maxlength="1000" placeholder="본문을 1000자 이내로 작성해주세요" required></textarea>
+                                    <div id="title" name="title" class="my-input-title"
+                                         th:text="${inquiry.getTitle()}" readonly></div>
+                                    <textarea id="content" name="content" class="mt-3 main-text"
+                                              th:text="${inquiry.getContent()}" readonly></textarea>
                                     <input type="hidden" id="category" name="category" value="문의"/>
                                 </div>
                                 <div class="mt-4 d-flex justify-content-center">
-                                    <button type="button" class="btn btn-outline-danger" onclick="location.href='/hollroom/mypage/inquiry?category=all&page=0'">뒤로 가기</button>
-                                    <button id="upload-button" type="button" class="ml-3 btn btn-outline-primary">올리기</button>
+                                    <button type="button" class="btn btn-outline-danger"
+                                            onclick="location.href='/hollroom/mypage/inquiry?category=all&page=0'">뒤로 가기
+                                    </button>
                                 </div>
                             </form>
                         </div>

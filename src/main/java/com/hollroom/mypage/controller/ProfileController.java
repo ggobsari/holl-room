@@ -4,7 +4,7 @@ import com.hollroom.mypage.service.ProfileService;
 import com.hollroom.user.dto.UserSignupDTO;
 import com.hollroom.user.entity.UserEntity;
 import jakarta.servlet.http.HttpSession;
-import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,13 +16,10 @@ import java.util.Collections;
 
 @Controller
 @RequestMapping("/mypage")
+@RequiredArgsConstructor
 public class ProfileController {
 
     private final ProfileService profileService;
-    // ProfileService를 주입받는 생성자
-    public ProfileController(ProfileService profileService) {
-        this.profileService = profileService;
-    }
 
     //프로필 정보 불러오기
     @GetMapping("/profile")
@@ -67,7 +64,7 @@ public class ProfileController {
         }
     }
 
-    //    사진 업데이트
+    //사진 업데이트
     @PostMapping("/uploadProfileImage")
     public ResponseEntity<?> uploadProfileImage(@RequestParam("image") MultipartFile image, @RequestPart("profile") UserSignupDTO userSignupDTO) throws IOException {
         // Service 호출하여 이미지 업로드 및 프로필 업데이트 처리
