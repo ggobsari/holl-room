@@ -53,6 +53,8 @@ public class UserService {
 
         String userLocation = userSignupDTO.getUserLocation();
 
+        String loginType = "basic";
+
         LocalDate userSignAt = LocalDate.now();
 
         Boolean userAdmin = false;
@@ -69,7 +71,7 @@ public class UserService {
 //        }
 
         UserEntity userEntity = new UserEntity(userEmail, userPassword, userName, userNickname,
-                userIntroduce, userPhoneNumber, userBirthday, userGender, userLocation, userSignAt,
+                userIntroduce, userPhoneNumber, userBirthday, userGender, userLocation, loginType, userSignAt,
                 userAdmin, ban, isDelete);
 
         userRepository.save(userEntity);
