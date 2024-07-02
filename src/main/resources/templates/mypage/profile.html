@@ -74,7 +74,6 @@
                     </div>
                 </aside>
 
-
                 <!-- 컨텐츠-->
                 <div class="border-primary col-7 p-4 bg-white rounded-3">
                     <div class="p-3">
@@ -135,13 +134,14 @@
                                                            th:value="${profile.userNickname}" readonly/>
                                                     <div class="text-27">이메일</div>
                                                 </div>
+                                                <!--실명-->
                                                 <div class="flex-col-1">
-
-                                                    <!--실 명-->
                                                     <div class="text-30 abeezee-normal-black-14px">실 명</div>
-                                                    <input id="realname" type="text" class="rectangle-18 form-control"
-                                                           th:value="${profile.userName}" readonly
+                                                    <input type="text" class="rectangle-18 form-control" id="username"
+                                                           th:value="${profile.userName}" th:if="${profile.userName != null}" readonly
                                                            onload="maskName()"/>
+                                                    <input id="realname" type="text" class="rectangle-18 form-control"
+                                                           th:if="${profile.userName == null}" placeholder="실명을 입력하세요"/>
                                                 </div>
                                             </div>
                                             <input id="email" type="text" class="rectangle-16 form-control"
@@ -160,13 +160,35 @@
                                                 <div class="text">성별</div>
                                             </div>
                                             <div class="flex-row-3 flex-row-5">
-                                                <input type="text" class="rectangle form-control"
-                                                       th:value="${#dates.format(profile.userBirthday, 'yyyy년 MM월 dd일')}"
-                                                       readonly/>
+                                                <!--생년월일-->
+                                                <input type="date" class="rectangle form-control" id="birthday"
+                                                       th:value="${profile.userBirthday != null ? #dates.format(profile.userBirthday, 'yyyy-MM-dd') : ''}"
+                                                       th:if="${profile.userBirthday != null}" readonly />
+                                                <input type="date" class="rectangle form-control" id="birthday"
+                                                       th:if="${profile.userBirthday == null}" placeholder="생년월일을 입력하세요" />
+
+                                                <!--성별-->
                                                 <input type="text" class="rectangle-27 form-control"
-                                                       th:value="${profile.userGender == null ? '' : (profile.userGender == 'man' ? '남' : (profile.userGender == 'woman' ? '여' : '남'))}"
-                                                       readonly/>
+                                                       th:value="${profile.userGender == 'M' ? '남' : (profile.userGender == 'W' ? '여' : '')}"
+                                                       th:if="${profile.userGender != null}" readonly />
+                                                <select class="rectangle-27 form-control" id="gender"
+                                                        th:if="${profile.userGender == null}">
+                                                    <option value="">성별</option>
+                                                    <option value="M">남</option>
+                                                    <option value="W">여</option>
+                                                </select>
                                             </div>
+
+                                            <!-- 휴대폰 번호 -->
+                                            <div class="text-container-1 abeezee-normal-black-14px">
+                                                <div class="text" style="width: 100px">휴대폰 번호</div>
+                                            </div>
+                                            <div class="flex-row-3 flex-row-5">
+                                                <input type="text" class="rectangle form-control" id="phoneNumber" onload="phoneMask()"
+                                                       th:value="${profile.userPhoneNumber != null ? profile.userPhoneNumber : ''}"
+                                                       th:readonly="${profile.userPhoneNumber != null}" placeholder="휴대폰 번호를 입력하세요 ( - 포함)"/>
+                                            </div>
+
                                             <div class="flex-row-4 flex-row-5">
                                                 <div class="basic-info">지역 정보</div>
                                             </div>

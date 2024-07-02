@@ -13,6 +13,32 @@ document.addEventListener("DOMContentLoaded", function () {
     });
     //마스킹 함수 실행
     maskMaking();
+
+    var realname = document.getElementById('realname');
+    if (!realname.value) {
+        realname.placeholder = "실명을 입력하세요";
+        realname.style.borderColor = '#dc3545';
+
+    }
+    var birthday = document.getElementById('birthday');
+    if (!birthday.value) {
+        birthday.placeholder = "생년월일을 입력하세요";
+        birthday.style.borderColor = '#dc3545';
+    }
+    var gender = document.getElementById('gender');
+    if (!gender.value) {
+        gender.style.borderColor = '#dc3545';
+    }
+    var phoneNumber = document.getElementById('phoneNumber');
+    if (!phoneNumber.value) {
+        phoneNumber.style.borderColor = '#dc3545';
+    }
+
+    var location = document.getElementById('userLocal');
+    if (!location.value) {
+        location.placeholder = "주소검색을 해주세요"
+        location.style.borderColor = '#dc3545';
+    }
 });
 //==========================================================================
 // 비밀번호 유효성 검사
@@ -31,8 +57,13 @@ function validatePassword() {
 function updateProfile() {
     if (validatePassword()) {
         const userId = document.getElementById("userId").value;
-        const userLocal = document.getElementById("userLocal").value;
-        const password = document.getElementById("password").value;
+        const userRealname = document.getElementById("realname") ? document.getElementById("realname").value : '';
+        const userLocal = document.getElementById("userLocal") ? document.getElementById("userLocal").value : '';
+        const password = document.getElementById("password") ? document.getElementById("password").value : '';
+        const birthday = document.getElementById("birthday") ? document.getElementById("birthday").value : '';
+        const phoneNumber = document.getElementById("phoneNumber") ? document.getElementById("phoneNumber").value : '';
+        const genderElement = document.getElementById("gender");
+        const gender = genderElement ? genderElement.value : '';
 
         const xhr = new XMLHttpRequest();
         xhr.open("POST", "http://localhost:8090/hollroom/mypage/updateUser", true);
@@ -50,9 +81,21 @@ function updateProfile() {
             }
         };
 
-        const updateInfo = {userLocation: userLocal, userEmail: userId};
+        console.log(userLocal, userId, birthday, password, gender);
+        const updateInfo = {
+            userLocation: userLocal,
+            userEmail: userId,
+            userPhoneNumber: phoneNumber,
+            userBirthday: birthday,
+        };
         if (password) {
             updateInfo.userPassword = password;
+        }
+        if(userRealname){
+            updateInfo.userName = userRealname;
+        }
+        if(gender){
+            updateInfo.userGender = gender;
         }
 
         xhr.send(JSON.stringify(updateInfo));
@@ -137,14 +180,17 @@ function uploadImage(file) {
     xhr.send(formData, JSON.stringify({userEmail: userId}));
 }
 //===============================================================================
-//마스킹 함수
+//마스킹 함수 실행
 function maskMaking(){
     //이메일 마스킹
     const emailInput = document.getElementById("email");
     emailInput.value = maskingFunc.email(emailInput.value);
     //실명 마스킹
-    const nameInput = document.getElementById("realname");
+    const nameInput = document.getElementById("username");
     nameInput.value = maskingFunc.name(nameInput.value);
+    //휴대폰 번호 마스킹
+    const phonenumInput = document.getElementById("phoneNumber");
+    phonenumInput.value = maskingFunc.phone(phonenumInput.value);
 }
 //===============================================================================
 //마스킹
@@ -265,3 +311,4 @@ let maskingFunc = {
         return maskingStr;
     }
 }
+//==============================================================================================

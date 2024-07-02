@@ -44,14 +44,29 @@ public class ProfileService {
             UserEntity userEntity = userRepository.findByUserEmail(userSignupDTO.getUserEmail())
                     .orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
+            // 로컬 정보 업데이트
+            userEntity.setUserLocation(userSignupDTO.getUserLocation());
             // 비밀번호 업데이트
             if (userSignupDTO.getUserPassword() != null) {
                 userEntity.setUserPassword(passwordEncoder.encode(userSignupDTO.getUserPassword()));
             }
-            // 로컬 정보 업데이트
-            userEntity.setUserLocation(userSignupDTO.getUserLocation());
             // 성별 정보 업데이트
-            userEntity.setUserGender(userSignupDTO.getUserGender());
+            if(userSignupDTO.getUserGender() != null) {
+                userEntity.setUserGender(userSignupDTO.getUserGender());
+            }
+            //생년월일 정보 업데이트
+            if(userSignupDTO.getUserBirthday() != null) {
+                userEntity.setUserBirthday(userSignupDTO.getUserBirthday());
+            }
+            // 실명 정보 업데이트
+            if(userSignupDTO.getUserName() != null) {
+                userEntity.setUserName(userSignupDTO.getUserName());
+            }
+            //핸드폰 정보 업데이트
+            if(userSignupDTO.getUserPhoneNumber() != null){
+                userEntity.setUserPhoneNumber(userSignupDTO.getUserPhoneNumber());
+            }
+
 
             userRepository.save(userEntity);
             return true;
