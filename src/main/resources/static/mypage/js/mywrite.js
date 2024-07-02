@@ -43,9 +43,9 @@ document.addEventListener('DOMContentLoaded', function () {
         postList.innerHTML = posts.map(post => `
             <tr>
                 <td>${post.postId}</td>
-                <td><a href="/community/read?postId=${post.postId}">${post.title}</a></td>
+                <td><a href="/hollroom/community/read?postId=${post.postId}&action=READ">${post.title}</a></td>
                 <td>${post.category}</td>
-                <td>${post.updatedAt}</td>
+                <td>${post.updatedAt.split(' ')[0]}</td>
                 <td>${post.viewCount}</td>
             </tr>
         `).join('');
@@ -75,8 +75,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
             pagination.innerHTML += pages;
 
-            // 현재 페이지가 3보다 클 때 다음 화살표 추가
-            if (currentPage > 3) {
+            // 총 페이지가 3보다 클 때 다음 화살표 추가
+            if (totalPages > 3) {
                 const nextLink = document.createElement('a');
                 nextLink.href = '#';
                 nextLink.innerHTML = '&#5125;'; // 다음 화살표

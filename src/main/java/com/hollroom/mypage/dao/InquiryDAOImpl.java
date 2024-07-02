@@ -19,8 +19,8 @@ public class InquiryDAOImpl implements InquiryDAO {
     private final InquiryAttachRepository attachRepository;
 
     //문의글 목록
-    public Page<InquiryEntity> findAll(Pageable pageable) {
-        return inquiryRepository.findAll(pageable);
+    public Page<InquiryEntity> findByUserId(Long userId, Pageable pageable) {
+        return inquiryRepository.findByUserId(userId, pageable);
     }
     //==============================================================================================
     //문의글 업로드

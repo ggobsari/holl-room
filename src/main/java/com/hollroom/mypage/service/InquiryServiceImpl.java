@@ -6,20 +6,20 @@ import com.hollroom.mypage.domain.dto.InquiryAttatchDTO;
 import com.hollroom.mypage.domain.dto.InquiryDTO;
 import com.hollroom.mypage.domain.entity.InquiryAttatchEntity;
 import com.hollroom.mypage.domain.entity.InquiryEntity;
-import com.hollroom.mypage.repository.InquiryAttachRepository;
 import com.hollroom.user.entity.UserEntity;
-import com.hollroom.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -27,23 +27,18 @@ import java.util.stream.Collectors;
 public class InquiryServiceImpl implements InquiryService {
 
     @Autowired
-    private InquiryAttachRepository inquiryAttachRepository;
     private final InquiryDAO inquiryDAO;
-    private final UserRepository userRepository;
+
 
     //문의글 목록
     @Override
-    public Page<InquiryDTO> getInquiries(Pageable pageable) {
-        return inquiryDAO.findAll(pageable).map(inquiryEntity -> {
-            InquiryDTO inquiryDTO = new InquiryDTO();
-            inquiryDTO.setPostId(inquiryEntity.getPostId());
-            inquiryDTO.setTitle(inquiryEntity.getTitle());
-            inquiryDTO.setCategory(inquiryEntity.getCategory());
-            inquiryDTO.setCreatedAt(inquiryEntity.getCreatedAt());
-            inquiryDTO.setAnswered(inquiryEntity.getAnswerContnet() != null);
-            inquiryDTO.setAnsweredAt(inquiryEntity.getAnswerAt());
-            return inquiryDTO;
-        });
+    public Map<String, Object> getInquiriesByUserId(Long userId, int page) {
+        PageRequest pageRequest = PageRequest.of(page, 20, Sort.by(Sort.Direction.DESC,"updatedAt"));
+        Map<String, Object> result = new HashMap<>();
+        var postPage = inquiryDAO.findByUserId(userId, pageRequest);
+        result.put("posts", postPage.getContent());
+        result.put("totalPages", postPage.getTotalPages());
+        return result;
     }
 
     //문의글 업로드

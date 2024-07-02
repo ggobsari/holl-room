@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.Map;
 
 
 @Controller
@@ -35,18 +36,28 @@ public class InquiryController {
         return user != null;
     }
 
-    //문의하기 글목록
+    //문의하기 컨트롤러
     @GetMapping("/inquiry")
-    public String getInquiryList(@RequestParam(defaultValue = "0") int page, Model model, HttpSession session) {
+    public String inquiry(HttpSession session) {
         if (!checkSession(session)) {
             return "redirect:/login";
         }
+        return "mypage/inquiry"; //interest 반환
+    }
 
-        Pageable pageable = PageRequest.of(page, 20); // 한 페이지에 10개씩 표시
-        Page<InquiryDTO> inquiryPage = inquiryService.getInquiries(pageable);
+    //문의하기 글목록 컨트롤러
+    @GetMapping("/inquiryposts")
+    public ResponseEntity<?> getMyPosts(@RequestParam(name = "page", defaultValue = "0") int page,
+                                        HttpSession session, Model model) {
+        UserEntity user = (UserEntity) session.getAttribute("USER_NICKNAME");
+        Long userId = user.getId();
 
-        model.addAttribute("inquiryPage", inquiryPage);
-        return "mypage/inquiry";
+
+        Map<String, Object> result = inquiryService.getInquiriesByUserId(userId, page);
+        model.addAttribute("posts", result.get("posts"));
+        model.addAttribute("totalPages", result.get("totalPages"));
+
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     //문의하기 글쓰기버튼 컨트롤러

@@ -8,10 +8,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.Map;
 
 public interface InquiryService {
     //문의글 목록
-    Page<InquiryDTO> getInquiries(Pageable pageable);
+    Map<String, Object> getInquiriesByUserId(Long userId, int page);
     //문의글 업로드
     InquiryEntity saveInquiry(InquiryDTO inquiryDTO) throws Exception;
     //첨부파일 업로드

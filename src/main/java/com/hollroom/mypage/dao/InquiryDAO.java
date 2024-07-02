@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface InquiryDAO {
     //문의글 목록
-    Page<InquiryEntity> findAll(Pageable pageable);
+    Page<InquiryEntity> findByUserId(Long userId, Pageable pageable);
     //문의글 업로드
     void saveInquiry(InquiryEntity inquiryEntity) throws Exception;
     //첨부파일저장
