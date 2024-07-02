@@ -11,7 +11,11 @@
         let showProduct = true;
         let productList;
         let divisions=[];
+        let divisionPosX={};
+        let divisionPosY={};
+        let avgPriceBox;
         $(document).ready(function (){
+            avgPriceBox=$("#avg-price-box")
             productList=$("#productList");
             $("#showProductBtn").on("click",function (){
                showProduct = !showProduct;
@@ -43,12 +47,16 @@
                 x /= (n + 1);
                 y /= (n + 1);
 
+                divisionPosX[path.attr('id')]=x;
+                divisionPosY[path.attr('id')]=y;
                 // Add the text element
                 svg.append("text")
                     .attr("x", x)
                     .attr("y", y)
                     .attr("text-anchor", "middle")
-                    .attr("dy", ".35em")
+                    .attr("dy", ".35em") // 텍스트 색상 설정
+                    .attr("font-size", "26px")
+                    .attr("font-weight","bold")
                     .text(path.attr('title'));
             });
         });
@@ -105,10 +113,29 @@
             getProductList(address);
         }
     </script>
+    <script th:inline="javascript">
+        function showAvgPrice(id){
+            let trendMap= [[${trendMap}]];
+            avgPriceBox.css("display","flex");
+            const path = $('#'+id);
+            let x = path.offset().left;
+            let y = path.offset().top-100;
+            avgPriceBox.css("top",y+"px");
+            avgPriceBox.css("left",x+"px");
+            avgPriceBox.text("평균 "+trendMap[id].priceAvg);
+        }
+
+        function hideAvgPrice(){
+            avgPriceBox.css("display","none");
+        }
+    </script>
+
     <style type="text/css">
         .display-flex{
             display: flex;
-            justify-content: flex-start;
+        }
+        .content-box{
+            justify-content: space-between;
         }
         .right-div{
             background-position: center;
@@ -117,9 +144,9 @@
             align-items: center;
         }
         .left-div{
-            margin-right: auto;
             background-position: center;
             background-size: cover;
+            flex-grow: 1;
         }
         .full-body{
             width: 100%;
@@ -189,8 +216,12 @@
             display: block;
         }
         .map{
-            width: 10%;
-            height: 10%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+            width: 100%;
         }
         .division-select{
             fill: #378fbf;
@@ -202,25 +233,28 @@
             width: 625px;
             height: 442px;
         }
+        #avg-price-box{
+            display: none;
+            position: absolute;
+            width: 200px;
+            height: 100px;
+            background-color: white;
+            border-radius: 5%;
+            box-shadow: 0 0 0 1px black;
+            justify-content: center;
+            align-items: center;
+            font-size: 26px;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
-<div layout:fragment="content" style="background-color: #cfe2ff;" class="display-flex full-body" >
+<div layout:fragment="content" style="background-color: #cfe2ff;" class="display-flex full-body content-box" >
     <div class="left-div">
-        <h1>월세지도 영역</h1>
-
-        <div id="division-list" >
-            <div th:replace="~{/monthly/division_list :: divisionList}"></div>
+        <div class="map">
+            <div th:replace="~{/monthly/seoul_divisions :: map}"></div>
+            <div id="avg-price-box"></div>
         </div>
-        <div>
-            <button type="button" onclick="popAddress()">뒤로가기</button>
-        </div>
-        <div th:replace="~{/monthly/seoul_divisions :: map}" class="map"></div>
-<!--        <div class="image-container">-->
-<!--            <img src="/hollroom/images/monthly_img/seoul_divisions.svg"/>-->
-<!--            <img class="hover-image" src="/hollroom/images/monthly_img/map_1.png"/>-->
-<!--            <div class="hover-content">Hovered!</div>-->
-<!--        </div>-->
     </div>
     <div>
         <div class="display-flex right-div full-height">
