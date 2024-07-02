@@ -18,7 +18,7 @@
          where roommate_id = #{tomato}
     </select>
 
-    <select id="selectbyid" parameterType="int" resultType="rmmt_board">
+    <select id="selectById" parameterType="int" resultType="rmmt_board">
         select br.*, ue.user_nickname
          from board_roommate br, user_entity ue
          where br.id = ue.id
@@ -30,13 +30,13 @@
 <!--         where roommate_id = #{tomato}-->
 <!--    </select>-->
 
-    <select id="selectall" resultType="rmmt_board">
+    <select id="selectAll" resultType="rmmt_board">
         select *
          from board_roommate
          order by roommate_id desc
     </select>
 
-    <select id="selectuser" parameterType="int" resultType="rmmt_user">
+    <select id="selectUser" parameterType="int" resultType="rmmt_user">
         select *
          from user_entity
          where id = #{tomato}
@@ -66,19 +66,47 @@
          where roommate_id = #{tomato}
     </delete>
 
-    <!--
-    <select id="filteringsearch" parameterType="" resultType="">
-        SELECT * from board_roommate
+    <select id="search" parameterType="Map" resultType="rmmt_board">
+        select * from board_roommate
         <where>
-            <if test="nocturnal != null">
-                nocturnal = #{nocturnal}
+            <if test="category == 'all' and searchword != ''">
+                title like '%' || #{searchword} || '%' OR content like '%' || #{searchword} || '%'
             </if>
-            <if test="smoking != null">
-                and smoking = #{smoking}
+            <if test="category == 'title' and searchword != ''">
+                title like '%' || #{searchword} || '%'
             </if>
-            <if test="habits != null">
-                and sleeping_habits = #{habits}
+            <if test="category == 'content' and searchword != ''">
+                content like '%' || #{searchword} || '%'
+            </if>
+            <if test="category == 'user' and searchword != ''">
+                user_nickname like '%' || #{searchword} || '%'
             </if>
         </where>
-    </select> -->
+        order by roommate_id desc
+    </select>
+
+    <select id="searchByConditions" parameterType="Map" resultType="rmmt_board">
+        select * from board_roommate
+        <where>
+            <if test="nocturnal != 'A'">
+                and nocturnal = #{nocturnal}
+            </if>
+            <if test="smoking != 'A'">
+                and smoking = #{smoking}
+            </if>
+            <if test="pet != 'A'">
+                and pet = #{pet}
+            </if>
+            <if test="habit1 == 'Y'">
+                and sleeping_habits not like '%' || '1' || '%'
+            </if>
+            <if test="habit2 == 'Y'">
+                and sleeping_habits not like '%' || '2' || '%'
+            </if>
+            <if test="habit3 == 'Y'">
+                and sleeping_habits not like '%' || '3' || '%'
+            </if>
+        </where>
+        order by roommate_id desc
+    </select>
 </mapper>

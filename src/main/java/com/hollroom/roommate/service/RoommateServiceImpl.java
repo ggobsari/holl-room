@@ -7,7 +7,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 //@Transactional
@@ -43,7 +45,45 @@ public class RoommateServiceImpl implements RoommateService {
 
     @Override
     public List<RoommateDTO> getBoardList() {
-        return dao.getBoardList();
+        return dao.selectAll();
+    }
+
+    @Override
+    public List<RoommateDTO> getSearchResult(String category, String searchWord) {
+        Map<String, String> data = new HashMap<>();
+        data.put("category", category);
+        data.put("searchword", searchWord);
+        System.out.println("service / category : " + data.get("category"));
+        System.out.println("service / searchword : " + data.get("searchword"));
+        return dao.search(data);
+    }
+
+    @Override
+    public List<RoommateDTO> getFilteredResult(RoommateDTO data) {
+        Map<String, Character> conditions = new HashMap<>();
+        conditions.put("nocturnal", data.getNocturnal());
+        conditions.put("smoking", data.getSmoking());
+        conditions.put("pet", data.getPet());
+        conditions.put("habit1", 'N');
+        conditions.put("habit2", 'N');
+        conditions.put("habit3", 'N');
+        String habits = data.getSleeping_habits();
+        if (habits != null) {
+            String[] arr = habits.split(",");
+            for (int i = 0; i < arr.length; i++) {
+                for (int j = 1; j <= 3; j++) {
+                    if (arr[i].equals(String.valueOf(j))) {
+                        String key = "habit" + String.valueOf(j);
+                        conditions.put(key, 'Y');
+                        System.out.println("habit" + String.valueOf(j));
+                    }
+                }
+            }
+            System.out.println("1 : " + conditions.get("habit1"));
+            System.out.println("2 : " + conditions.get("habit2"));
+            System.out.println("3 : " + conditions.get("habit3"));
+        }
+        return dao.dynamicSearch(conditions);
     }
 
     @Override

@@ -26,62 +26,63 @@
               <li></li>
               <li></li>
             </ul>
-            <form action="">
+            <form action="/hollroom/roommate/search" method="post">
               <ul class="">
                 <li>
-                  활동 시간대
-                  <div>
-                    <input type="radio" name="active" id="morning" />
-                    <label for="morning" class="form-check-label">아침형</label>&nbsp;&nbsp;
-                    <input type="radio" name="active" id="evening" />
-                    <label for="evening" class="form-check-label align">저녁형</label>
+                  활동 시간대<br/>
+                  <div class="mt-2 btn-group">
+                    <input type="radio" class="btn-check col-6" name="nocturnal" id="h-morning" value="N" required><!-- autocomplete="off" -->
+                    <label class="btn btn-outline-light" for="h-morning">아침형</label>
+                    <input type="radio" class="btn-check col-6" name="nocturnal" id="h-evening" value="Y">
+                    <label class="btn btn-outline-light" for="h-evening">저녁형</label>
+                    <input type="radio" class="btn-check col-6" name="nocturnal" id="h-active-all" value="A">
+                    <label class="btn btn-outline-light" for="h-active-all">상관 없음</label><!--우측끝에 (X)표시 배지 달기-->
                   </div>
                 </li>
                 <li>
-                  흡연 여부
-                  <div>
-                    <input type="radio" name="smoking" id="smoke-x" />
-                    <label for="smoke-x" class="form-check-label">비흡연자</label>&nbsp;
-                    <input type="radio" name="smoking" id="smoke-o" />
-                    <label for="smoke-o" class="form-check-label">흡연자</label>
+                  흡연 여부<br/>
+                  <div class="mt-2 btn-group">
+                    <input type="radio" class="btn-check col-6" name="smoking" id="h-smoke" value="N" required>
+                    <label class="btn btn-outline-light" for="h-smoke">비흡연자</label>
+                    <input type="radio" class="btn-check col-6" name="smoking" id="h-not-smoke" value="Y">
+                    <label class="btn btn-outline-light" for="h-not-smoke">흡연자</label>
+                    <input type="radio" class="btn-check col-6" name="smoking" id="h-smoking-all" value="A">
+                    <label class="btn btn-outline-light" for="h-smoking-all">상관 없음</label>
+<!--                    <button class="btn btn-outline-warning" type="button">조건 삭제</button>-->
                   </div>
                 </li>
                 <li>
-                  반려동물
-                  <div>
-                    <input type="radio" name="pet" id="pet-x" />
-                    <label for="pet-x" class="form-check-label">없음</label>&nbsp;
-                    <input type="radio" name="pet" id="pet-o" />
-                    <label for="pet-o" class="form-check-label">있음</label>
+                  반려동물<br/>
+                  <div class="mt-2 btn-group">
+                    <input type="radio" class="btn-check col-6" name="pet" id="h-no-pet" value="N" required>
+                    <label class="btn btn-outline-light" for="h-no-pet">없음</label><!--없었으면 좋겠어요-->
+                    <input type="radio" class="btn-check col-6" name="pet" id="h-has-pet" value="Y">
+                    <label class="btn btn-outline-light" for="h-has-pet">있음</label><!--있어도 괜찮아요-->
+                    <input type="radio" class="btn-check col-6" name="pet" id="h-pet-all" value="A">
+                    <label class="btn btn-outline-light" for="h-pet-all">상관 없음</label>
                   </div>
                 </li>
                 <li>
                   잠버릇
-                  <div class="">
-                    <div>
-                      <input class="" type="checkbox" id="habit-1" value="" />
-                      <label class="" for="habit-1">코골이 제외</label>
-                    </div>
-                    <div>
-                      <input class="" type="checkbox" id="habit-2" value="" />
-                      <label class="" for="habit-2">이갈이 제외</label>
-                    </div>
-                    <div>
-                      <input class="" type="checkbox" id="habit-3" value="" />
-                      <label class="" for="habit-3">잠꼬대 제외</label>
-                    </div>
+                  <div class="" role="group"><!-- aria-label="Basic checkbox toggle button group" -->
+                    <input type="checkbox" class="btn-check" id="h-habit-1" name="sleeping_habits" value="1">
+                    <label class="btn btn-outline-light" for="h-habit-1">코골이 제외하기</label><br/>
+                    <input type="checkbox" class="btn-check" id="h-habit-2" name="sleeping_habits" value="2">
+                    <label class="btn btn-outline-light" for="h-habit-2">이갈이 제외하기</label><br/>
+                    <input type="checkbox" class="btn-check" id="h-habit-3" name="sleeping_habits" value="3">
+                    <label class="btn btn-outline-light" for="h-habit-3">잠꼬대 제외하기</label>
                   </div>
                 </li>
               </ul>
               <div class="mt-4 d-flex justify-content-center">
                 <button
                   type="reset"
-                  class="btn btn-outline-warning"
-                  onclick="location.href='roommate_home.html'"
+                  class="btn btn-danger"
+                  onclick="location.href='/hollroom/roommate/home'"
                 >
                   초기화
                 </button>
-                <button type="submit" class="ml-2 btn btn-outline-light">
+                <button type="submit" class="ml-2 btn btn-primary">
                   조건 검색
                 </button>
               </div>
@@ -133,7 +134,7 @@
 <!--                      룸메이트 구해요-->
 <!--                    </a>-->
 <!--                  </td>-->
-<!--                  <td>9</td>&lt;!&ndash; 닉네임으로 수정!!! &ndash;&gt;-->
+<!--                  <td>9</td>-->
 <!--                  <td>오늘</td>-->
 <!--                </tr>-->
                 <th:block th:each="board:${boardlist}">
@@ -162,23 +163,26 @@
 <!--            </div>-->
             <div class="d-inline-block ">
               <div class="d-flex justify-content-end mx-auto">
-                <select name="" id="" class="my-select rounded-2">
-                  <option value="">제목 + 내용</option>
-                  <option value="">제목</option>
-                  <option value="">내용</option>
-                  <option value="">작성자</option>
+                <select
+                  name=""
+                  id="search-category"
+                  class="my-select rounded-2">
+                  <option value="all">제목 + 내용</option>
+                  <option value="title">제목</option>
+                  <option value="content">내용</option>
+                  <option value="user">작성자</option>
                 </select>
                 <input
+                  id="search-word"
                   class="ml-2 my-input-l"
                   type="text"
                   placeholder="검색어를 입력하세요"
                 />
-                <a class="ml-2" href="#"
-                  ><img
-                    src="assets/icon_search.png"
-                    style="width: 23px; height: 23px"
-                    alt=""
-                /></a>
+                <img
+                  src="/hollroom/images/icon_search.png"
+                  onclick="clickSearch()"
+                  style="width: 23px; height: 23px"
+                  alt=""/>
               </div>
             </div>
           </div>

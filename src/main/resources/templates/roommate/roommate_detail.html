@@ -32,10 +32,10 @@
         }
 
         const board = /*[[${board}]]*/;
-        alert(board.title);
+        //alert(board.title);
         //alert(board);
-        fillValuesForDetail(board.nocturnal, board.smoking, board.pet, board.noise,
-                board.wakeup_at, board.sleep_at, board.alarm, );
+        fillValuesForDetail(board.title, board.content, board.nocturnal, board.wakeup_at, board.alarm, board.sleep_at,
+                board.smoking, board.pet, board.cleaning_cycle, board.sleeping_habits, board.noise);
 
         //fillValues(board.title, board.content, board.nocturnal, board.wakeup_at, board.alarm, board.sleep_at,
         //            board.smoking, board.pet, board.cleaning_cycle, board.sleeping_habits, board.noise)
@@ -113,10 +113,10 @@
                   </li>
                   <li>활동 시간대<span class="text-primary">*</span></li>
                   <li>
-                    <label>기상 시간대</label><!--name="!!기상 시간대가 언제인가요?"-->
+                    <label>기상 시간대<span class="text-primary">*</span></label><!--name="!!기상 시간대가 언제인가요?"-->
                   </li>
                   <li>
-                    <label>취침 시간대</label>
+                    <label>취침 시간대<span class="text-primary">*</span></label>
                   </li>
                   <li>
                     <div>기상 알람 개수</div>
@@ -194,31 +194,24 @@
                   </li>
                   <li>
                     <div>
-                      <input type="text" class="my-input-s" size="2" />
-                      <span>개</span>
+                      <label id="d-alarm"></label>
                     </div>
                   </li>
                   <li>
                     <div>
                       <label th:if="${board.smoking == 'N'.charAt(0)}" th:text="'❌'"></label>
-                      <label th:if="${board.smoking == 'Y'.charAt(0)}" th:text="'⭕'"></label>
+                      <label th:if="${board.smoking == 'Y'.charAt(0)}" th:text="'○'"></label>
                     </div>
                   </li>
                   <li>
                     <div>
                       <label th:if="${board.pet == 'N'.charAt(0)}" th:text="'❌'"></label>
-                      <label th:if="${board.pet == 'Y'.charAt(0)}" th:text="'⭕'"></label>
+                      <label th:if="${board.pet == 'Y'.charAt(0)}" th:text="'○'"></label>
                     </div>
                   </li>
                   <li>
                     <div class="">
                       <label id="d-habit"></label>
-<!--                      <input class="" type="checkbox" id="d-habit-1" />-->
-<!--                      <label name="d-habit" hidden>코골이</label>&nbsp;&nbsp;-->
-<!--                      <input class="" type="checkbox" id="d-habit-2" />-->
-<!--                      <label name="d-habit" hidden>이갈이</label>&nbsp;&nbsp;-->
-<!--                      <input class="" type="checkbox" id="d-habit-3" />-->
-<!--                      <label name="d-habit" hidden>잠꼬대</label>&nbsp;&nbsp;-->
                     </div>
                   </li>
                   <li>
@@ -226,42 +219,14 @@
                       <button
                         type="button"
                         id="d-btn-change-txt"
-                        class="my-btn btn btn-sm btn-outline-primary"
-                      >
-                        하루
+                        class="my-btn btn btn-sm btn-outline-primary">
                       </button>
                       <span>&nbsp;에&nbsp;</span>
-                      <input type="number" size="1" class="my-input-s" value="" />
-                      <span>번</span>
+                      <span id="d-cleaning"></span>
                     </div>
                   </li>
                   <li>
-                    <div class="">
-<!--                      <input-->
-<!--                        class=""-->
-<!--                        name="noise"-->
-<!--                        type="radio"-->
-<!--                        id="d-sensitive-2"-->
-<!--                        value=""-->
-<!--                      />-->
-                      <label th:if="${board.noise == '2'}" th:text="'민감한 편이다'"></label>
-<!--                      <input-->
-<!--                        class=""-->
-<!--                        name="noise"-->
-<!--                        type="radio"-->
-<!--                        id="d-sensitive-1"-->
-<!--                        value=""-->
-<!--                      />-->
-                      <label th:if="${board.noise == '1'}" th:text="'약간 신경쓴다'"></label>
-<!--                      <input-->
-<!--                        class=""-->
-<!--                        name="noise"-->
-<!--                        type="radio"-->
-<!--                        id="d-sensitive-0"-->
-<!--                        value=""-->
-<!--                      />-->
-                      <label th:if="${board.noise == 0}" th:text="'둔감하다'"></label>
-                    </div>
+                    <label id="d-sensitive"></label>
                   </li>
                 </ul>
               </div>

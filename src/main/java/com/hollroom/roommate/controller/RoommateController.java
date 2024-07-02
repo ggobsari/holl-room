@@ -20,7 +20,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @SessionAttributes
 @RequestMapping("/roommate")
-public class RoommateController {  // 1.04
+public class RoommateController {  // 1.2
     @Autowired
     RoommateService service;
 
@@ -105,29 +105,26 @@ public class RoommateController {  // 1.04
         return "redirect:/roommate/home";
     }
 
-//    @GetMapping("/search")
-//    public String search() {
-//
-//    }
-//
-//    @GetMapping("/search")
-//    public String search(@ char nocturnal, char smoking, char pet, String sleeping_habits) {
-//        List<RoommateDTO> boardlist = service.search(nocturnal, smoking, pet, sleeping_habits);
-//        return "";
-//    }
-//    public List<RoommateDTO> search(...) {
-//        char noct, ... ;
-//        if (nocturnal == null) {
-//            noct = ;
-//        }
-//        //char[] habitsArr = sleeping_habits.toCharArr();
-//        return dao.search(...);
-//    }
-//    public List<RoommateDTO> search(...) {
-//
-//    }
-//
-//    //chattingController로??
+    @GetMapping("/search")
+    public String search(String category, String searchWord, Model model) {
+        System.out.println("################ search Get 실행");
+        System.out.println("category : " + category);
+        System.out.println("searchWord : " + searchWord);
+        List<RoommateDTO> boardlist = service.getSearchResult(category, searchWord);
+        model.addAttribute("boardlist", boardlist);
+        return "roommate/roommate_home";
+    }
+
+    @PostMapping("/search")
+    public String search(RoommateDTO data, Model model) {
+        System.out.println("################ search Post 실행");
+        System.out.println(data);
+        List<RoommateDTO> boardlist = service.getFilteredResult(data);
+        model.addAttribute("boardlist", boardlist);
+        return "roommate/roommate_home";
+    }
+
+//    //chattingController??
 //    @GetMapping("/chat")
 //    public String chatPage() {
 //        return "/roommate/roommate_chat";
