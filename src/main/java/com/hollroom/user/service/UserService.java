@@ -9,26 +9,15 @@ import com.hollroom.user.repository.UserRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
-import kotlinx.serialization.json.JsonObject;
 import lombok.RequiredArgsConstructor;
-import lombok.Value;
 import lombok.extern.slf4j.Slf4j;
-import net.nurigo.sdk.NurigoApp;
-import net.nurigo.sdk.message.exception.NurigoEmptyResponseException;
-import net.nurigo.sdk.message.exception.NurigoMessageNotReceivedException;
-import net.nurigo.sdk.message.exception.NurigoUnknownException;
-import net.nurigo.sdk.message.model.Message;
-import net.nurigo.sdk.message.request.SingleMessageSendingRequest;
-import net.nurigo.sdk.message.response.SingleMessageSentResponse;
-import net.nurigo.sdk.message.service.DefaultMessageService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Optional;
-import java.util.Random;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -120,4 +109,39 @@ public class UserService {
         return session;
     }
     //================================================================================================================//
+    public Optional<UserEntity> findByUserEmail(String email){
+        return userRepository.findByUserEmail(email);
+    }
+    //================================================================================================================//
+    public String createPasswordResetToken(UserEntity user){
+        String code = UUID.randomUUID().toString();
+        user.setResetToken(code);
+        userRepository.save(user);
+        return code;
+    }
+    //================================================================================================================//
+    public boolean verifyResetToken(String code){
+        Optional<UserEntity> optionalUser = userRepository.findByResetToken(code);
+        if(optionalUser.isPresent()){
+            UserEntity user = optionalUser.get();
+            user.setResetToken(null);
+            userRepository.save(user);
+            return true;
+        } else{
+            return false;
+        }
+    }
+    //================================================================================================================//
+    public void updatePassword(String email, String newPassword){
+        Optional<UserEntity> optionalUser = findByUserEmail(email);
+        log.info(String.valueOf(optionalUser));
+        if(optionalUser.isPresent()){
+            UserEntity user = optionalUser.get();
+            user.setUserPassword(passwordEncoder.encode(newPassword));
+            user.setResetToken(null);  // 토큰을 다시 null로 설정
+            userRepository.save(user);
+        } else{
+            log.info("가입되어 있지 않은 회원입니다.");
+        }
+    }
 }

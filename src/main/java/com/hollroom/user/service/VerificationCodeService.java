@@ -1,5 +1,6 @@
 package com.hollroom.user.service;
 
+import com.hollroom.user.config.VerificationCodeConfig;
 import com.hollroom.user.entity.VerificationCode;
 import com.hollroom.user.repository.VerificationCodeRepository;
 import lombok.RequiredArgsConstructor;
@@ -23,12 +24,14 @@ import java.util.Random;
 public class VerificationCodeService {
     //================================================================================================================//
     private final VerificationCodeRepository verificationCodeRepository;
+
+    private final VerificationCodeConfig verificationCodeConfig;
     //================================================================================================================//
     public SingleMessageSentResponse sendSMS(String userPhoneNumber) {
         log.info(userPhoneNumber);
 
-        DefaultMessageService messageService = NurigoApp.INSTANCE.initialize("NCSBDJNL6CHPVPLN",
-                "ML5C78U6YW9HBCLV4NLBXH11JPJXYZGY", "https://api.coolsms.co.kr");
+        DefaultMessageService messageService = NurigoApp.INSTANCE.initialize(verificationCodeConfig.getApi_key(),
+                verificationCodeConfig.getApi_secret_key(), "https://api.coolsms.co.kr");
 
         Message message = new Message();
 

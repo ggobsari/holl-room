@@ -51,6 +51,11 @@ dependencies {
 	implementation 'com.fasterxml.jackson.core:jackson-databind'
 //	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client' //시큐리티 의존하기 때문에 제거
 
+	implementation group: 'com.mysql', name: 'mysql-connector-j', version: '8.4.0'
+	implementation group: 'org.springframework', name: 'spring-jdbc', version: '6.1.10'
+
+//	이메일 인증
+	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-mail', version: '3.0.5'
 }
 
 tasks.named('test') {

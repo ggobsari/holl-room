@@ -25,7 +25,8 @@ public class AttachFileEntity {
 
     private Long postId;
 
-    public AttachFileEntity(TabType tabType, String fileOriginalName, String fileStoreName) {
+    public AttachFileEntity(Long postId, TabType tabType, String fileOriginalName, String fileStoreName) {
+        this.postId = postId;
         this.tabType = tabType;
         this.fileOriginalName = fileOriginalName;
         this.fileStoreName = fileStoreName;

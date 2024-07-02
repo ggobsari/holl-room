@@ -1,14 +1,15 @@
 package com.hollroom.monthly.service;
 
 import com.hollroom.monthly.domain.dto.DivisionDTO;
-import com.hollroom.monthly.domain.dto.MonthlyProductDTO;
+import com.hollroom.monthly.domain.dto.MonthlyProductRequestDTO;
+import com.hollroom.monthly.domain.dto.MonthlyProductResponseDTO;
 
 import java.util.List;
 
 public interface MonthlyProductService {
-    void insertProduct(MonthlyProductDTO req);
-    List<MonthlyProductDTO> readProductAll();
-    DivisionDTO readMainDivision(String topDivision,String mainDivision);
-    List<DivisionDTO> readSubDivision(String topDivision);
-    List<MonthlyProductDTO> readDivisionProduct(String division);
+    void insertProduct(MonthlyProductRequestDTO req);
+    List<MonthlyProductResponseDTO> readProductAll();
+    DivisionDTO readMainDivision(String addr);
+    List<DivisionDTO> readSubDivision(String addr);
+    List<MonthlyProductResponseDTO> readDivisionProduct(String addr);
 }

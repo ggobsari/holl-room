@@ -4,22 +4,15 @@
       layout:decorate="~{layout/main_layout}">
 <head>
     <meta charset="utf-8"/>
-    <!--<meta name=description content="This site was generated with Anima. www.animaapp.com"/>-->
-    <!-- <link rel="shortcut icon" type=image/png href="https://animaproject.s3.amazonaws.com/home/favicon.png" /> -->
-    <meta name="viewport" content="width=1440, initial-scale =1.0"/>
+    <meta name="viewport" content="width=1440, initial-scale=1.0"/>
     <link rel="shortcut icon" type="image/png" href="https://animaproject.s3.amazonaws.com/home/favicon.png"/>
-    <meta name="og:type" content="website"/>
-    <meta name="twitter:card" content="photo"/>
-    <!-- Core theme CSS (includes Bootstrap)-->
     <link rel="stylesheet" type="text/css" href="css/styles.css"/>
     <link rel="stylesheet" type="text/css" href="css/styleguide.css"/>
     <link rel="stylesheet" type="text/css" href="css/globals.css"/>
-    <link rel="stylesheet" type="text/css" href="css/profile_inquiry.css"/>
     <link rel="stylesheet" type="text/css" href="css/profile_shape.css"/>
     <link rel="stylesheet" type="text/css" href="css/styles-2.css"/>
-    <!--Java Script-->
-
-
+    <link rel="stylesheet" type="text/css" href="css/profile_inquiry.css"/>
+    <script src="js/inquiry_write.js" ></script>
     <style>
         @import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap");
     </style>
@@ -27,11 +20,8 @@
 <body class="d-flex flex-column font-kor">
 <main class="flex-shrink-0">
     <div layout:fragment="content">
-        <!-- Page content-->
         <section class="py-5 flex-row-5">
             <div class="container px-5 d-flex">
-                <!-- 메뉴 -->
-                <!--<div class="main-content bg-light rounded-3 py-5 px-4 px-md-5 mb-5">-->
                 <aside class="col-3 bg-dark bg-gradient rounded-3 pt-4 px-3 me-3 content3">
                     <div class="my-5 filter-list text-white">
                         <h2 class="text-center mb-4" style="font-size: 1.5em; font-weight: bold;">마이페이지</h2>
@@ -42,17 +32,17 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-menu " href="mywrite">
+                                <a class="nav-menu" href="mywrite?category=all&page=0">
                                     <i class="bi bi-pencil-square"></i> 내가 쓴 글
                                 </a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-menu" href="interest">
+                            <!--<li class="nav-item">
+                                <a class="nav-menu" href="interest?category=all&page=0">
                                     <i class="bi bi-bookmark-heart"></i> 즐겨찾기
                                 </a>
-                            </li>
+                            </li>-->
                             <li class="nav-item">
-                                <a class="nav-menu active" href="inquiry">
+                                <a class="nav-menu active" href="inquiry?category=all&page=0">
                                     <i class="bi bi-question-circle"></i> 문의하기
                                 </a>
                             </li>
@@ -65,61 +55,40 @@
                     </div>
                 </aside>
 
-                <!-- 내가 쓴글 목록 -->
                 <div class="border-primary col-7 p-4 bg-white rounded-3">
                     <div class="p-3">
                         <div class="mb-5">
                             <hr class="mb-5 w-100"/>
-                            <div class="d-flex justify-content-center filter-list">
-                                <ul id="write-ul-1">
-                                    <li>이메일<span class="text-primary">*</span></li>
-                                    <br>
-                                    <li><label>파일 첨부</label></li>
-                                </ul>
-                                <ul name="!!값">
-                                    <li style="width: 500px">
-                                        <input type="text" class="rectangle-41 form-control"/>
-                                    </li>
-                                    <br>
-                                    <li>
-                                        <input type="text" class="rectangle-41 form-control"/>
-                                    </li>
-                                </ul>
-                            </div>
-
-                            <hr class="mb-5"/>
-
-                            <div class="d-flex flex-column align-items-center">
-                                <input
-                                        type="text"
-                                        name=""
-                                        id="#"
-                                        size="60"
-                                        class="my-input-title"
-                                        placeholder="제목을 작성해주세요"
-                                        required
-                                />
-                                <textarea
-                                        name=""
-                                        id=""
-                                        class="mt-3 main-text"
-                                        maxlength="1000"
-                                        placeholder="본문을 1000자 이내로 작성해주세요"
-                                        required
-                                ></textarea>
-                            </div>
-                            <div class="mt-4 d-flex justify-content-center">
-                                <button
-                                        type="button"
-                                        class="btn btn-outline-danger"
-                                        onclick="location.href='/hollroom/mypage/inquiry'"
-                                >
-                                    뒤로 가기
-                                </button>
-                                <button type="submit" class="ml-3 btn btn-outline-primary">
-                                    올리기
-                                </button>
-                            </div>
+                            <form id="upload-form" enctype="multipart/form-data">
+                                <div class="d-flex justify-content-center filter-list">
+                                    <ul id="write-ul-1">
+                                        <li>이메일<span class="text-primary">*</span></li>
+                                        <br>
+                                        <li><label>파일 첨부</label></li>
+                                    </ul>
+                                    <ul name="!!값">
+                                        <li style="width: 500px">
+                                            <input id="email" type="text" class="rectangle-41 form-control" th:value="${profile.userEmail}"/>
+                                        </li>
+                                        <br>
+                                        <li>
+                                            <input type="file" id="file-input" data-tabtype="03" class="rectangle-41 form-control" multiple style="display:none"/>
+                                            <button type="button" class="btn btn-outline-primary" onclick="document.getElementById('file-input').click();">파일 선택</button>
+                                        </li>
+                                        <div id="file-list" class="mt-2"></div>
+                                    </ul>
+                                </div>
+                                <hr class="mb-5 w-100"/>
+                                <div class="d-flex flex-column align-items-center">
+                                    <input type="text" id="title" name="title" size="60" class="my-input-title" placeholder="제목을 작성해주세요" required/>
+                                    <textarea id="content" name="content" class="mt-3 main-text" maxlength="1000" placeholder="본문을 1000자 이내로 작성해주세요" required></textarea>
+                                    <input type="hidden" id="category" name="category" value="문의"/>
+                                </div>
+                                <div class="mt-4 d-flex justify-content-center">
+                                    <button type="button" class="btn btn-outline-danger" onclick="location.href='/hollroom/mypage/inquiry?category=all&page=0'">뒤로 가기</button>
+                                    <button id="upload-button" type="button" class="ml-3 btn btn-outline-primary">올리기</button>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>
