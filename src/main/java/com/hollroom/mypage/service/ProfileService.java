@@ -102,7 +102,6 @@ public class ProfileService {
         } catch (Exception e) {
             e.printStackTrace(); // 서버 콘솔에 에러 출력
         }
-
     }
 
     //유저 탈퇴 is_deleted체크
