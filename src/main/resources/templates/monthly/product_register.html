@@ -1,14 +1,15 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/main_layout}">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
 <body>
-<div>
+<div layout:fragment="content">
     <h1>매물등록 페이지</h1>
-    <form th:action="@{/monthly/product/register}" method="post">
+    <form th:action="@{/monthly/product/register}" method="post" enctype="multipart/form-data">
         <div>
             <label for="deposit">보증금</label>
             <input id="deposit" name="deposit" type="number"/>
@@ -48,6 +49,10 @@
         <div>
             <label for="expiration_date">계약 종료일</label>
             <input id="expiration_date" name="expirationDate" type="date"/>
+        </div>
+        <div>
+            매물사진
+            <input type="file" name="roomImg" multiple="multiple"/>
         </div>
         <button type="submit">매물등록</button>
     </form>
