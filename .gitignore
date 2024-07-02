@@ -24,7 +24,7 @@ bin/
 *.iml
 *.ipr
 out/
-application.properties
+*.properties
 !**/src/main/**/out/
 !**/src/test/**/out/
 
@@ -37,4 +37,4 @@ application.properties
 
 ### VS Code ###
 .vscode/
-application.properties
+*.properties
