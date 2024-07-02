@@ -27,7 +27,10 @@ public class CommunityResponseDTO {
     private String content;
     @JsonFormat(shape= JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss초", timezone="Asia/Seoul")
     private Date updatedAt; //수정일
+    private Date createdAt;
     private int viewCount;
+
+
 
 
 //    private List<MultipartFile> files;

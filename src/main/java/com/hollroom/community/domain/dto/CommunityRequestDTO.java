@@ -20,6 +20,7 @@ public class CommunityRequestDTO {
     private String content;
     private int viewCount;
     private List<MultipartFile> files;
+
     private Long postId;
 
     public List<MultipartFile> getFiles(){

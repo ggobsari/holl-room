@@ -3,247 +3,120 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout/main_layout}">
 <head>
-  <meta charset="utf-8"/>
-  <!--<meta name=description content="This site was generated with Anima. www.animaapp.com"/>-->
-  <!-- <link rel="shortcut icon" type=image/png href="https://animaproject.s3.amazonaws.com/home/favicon.png" /> -->
-  <meta name="viewport" content="width=1440, initial-scale =1.0"/>
-  <link rel="shortcut icon" type="image/png" href="https://animaproject.s3.amazonaws.com/home/favicon.png"/>
-  <meta name="og:type" content="website"/>
-  <meta name="twitter:card" content="photo"/>
-  <!-- Core theme CSS (includes Bootstrap)-->
-  <link href="css/styles.css" rel="stylesheet"/>
-  <link rel="stylesheet" type="text/css" href="css/styleguide.css"/>
-  <link rel="stylesheet" type="text/css" href="css/globals.css"/>
-  <link rel="stylesheet" type="text/css" href="css/profile_interest.css"/>
-  <link rel="stylesheet" type="text/css" href="css/profile_shape.css"/>
-  <link rel="stylesheet" type="text/css" href="css/styles-2.css"/>
+    <meta charset="utf-8"/>
+    <!--<meta name=description content="This site was generated with Anima. www.animaapp.com"/>-->
+    <!-- <link rel="shortcut icon" type=image/png href="https://animaproject.s3.amazonaws.com/home/favicon.png" /> -->
+    <meta name="viewport" content="width=1440, initial-scale =1.0"/>
+    <link rel="shortcut icon" type="image/png" href="https://animaproject.s3.amazonaws.com/home/favicon.png"/>
+    <meta name="og:type" content="website"/>
+    <meta name="twitter:card" content="photo"/>
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link href="css/styles.css" rel="stylesheet"/>
+    <link rel="stylesheet" type="text/css" href="css/styleguide.css"/>
+    <link rel="stylesheet" type="text/css" href="css/globals.css"/>
+    <link rel="stylesheet" type="text/css" href="css/profile_interest.css"/>
+    <link rel="stylesheet" type="text/css" href="css/profile_shape.css"/>
+    <link rel="stylesheet" type="text/css" href="css/styles-2.css"/>
 
-  <style>
-    @import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap");
-  </style>
+    <style>
+        @import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap");
+    </style>
 </head>
 <body class="d-flex flex-column font-kor">
 <main class="flex-shrink-0">
-  <div layout:fragment="content">
-    <!-- Page content-->
-    <section class="py-5 flex-row-5">
-      <div class="container px-5 d-flex">
-        <!-- 메뉴 -->
-        <!--<div class="main-content bg-light rounded-3 py-5 px-4 px-md-5 mb-5">-->
-        <aside class="col-3 bg-dark bg-gradient rounded-3 pt-4 px-3 me-3 content3">
-          <div class="my-5 filter-list text-white">
-            <h2 class="text-center mb-4" style="font-size: 1.5em; font-weight: bold;">마이페이지</h2>
-            <ul class="nav flex-column">
-              <li class="nav-item">
-                <a class="nav-menu" href="profile">
-                  <i class="bi bi-person-circle"></i> 마이프로필
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-menu " href="mywrite">
-                  <i class="bi bi-pencil-square"></i> 내가 쓴 글
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-menu active" href="interest">
-                  <i class="bi bi-bookmark-heart"></i> 즐겨찾기
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-menu" href="inquiry">
-                  <i class="bi bi-question-circle"></i> 문의하기
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-menu" href="withdrawal">
-                  <i class="bi bi-x-circle"></i> 회원탈퇴
-                </a>
-              </li>
-            </ul>
-          </div>
-        </aside>
+    <div layout:fragment="content">
+        <!-- Page content-->
+        <section class="py-5 flex-row-5">
+            <div class="container px-5 d-flex">
+                <!-- 메뉴 -->
+                <!--<div class="main-content bg-light rounded-3 py-5 px-4 px-md-5 mb-5">-->
+                <aside class="col-3 bg-dark bg-gradient rounded-3 pt-4 px-3 me-3 content3">
+                    <div class="my-5 filter-list text-white">
+                        <h2 class="text-center mb-4" style="font-size: 1.5em; font-weight: bold;">마이페이지</h2>
+                        <ul class="nav flex-column">
+                            <li class="nav-item">
+                                <a class="nav-menu" href="profile">
+                                    <i class="bi bi-person-circle"></i> 마이프로필
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-menu " href="mywrite?category=all&page=0">
+                                    <i class="bi bi-pencil-square"></i> 내가 쓴 글
+                                </a>
+                            </li>
+                            <!--<li class="nav-item">
+                                <a class="nav-menu active" href="interest?category=all&page=0">
+                                    <i class="bi bi-bookmark-heart"></i> 즐겨찾기
+                                </a>
+                            </li>-->
+                            <li class="nav-item">
+                                <a class="nav-menu" href="inquiry?category=all&page=0">
+                                    <i class="bi bi-question-circle"></i> 문의하기
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-menu" href="withdrawal">
+                                    <i class="bi bi-x-circle"></i> 회원탈퇴
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </aside>
 
-        <!-- 내가 쓴글 목록 -->
-        <div class="border-primary col-7 p-4 bg-white rounded-3">
-          <div class="p-3">
-            <table class="table table-hover text-center">
-              <thead>
-              <tr>
-                <th>번호</th>
-                <th>제목</th>
-                <th>작성일</th>
-                <th>작성자</th>
-                <th>등록일</th>
-                <th>조회수</th>
-              </tr>
-              </thead>
-              <tbody>
-              <tr class="table-light" role="button">
-                <td>10</td>
-                <td class="text-start">
-                  <a href="roommate_detail.html" style="text-decoration: none; color: black">
-                    룸메이트 구해요
-                  </a>
-                </td>
-                <td>qwer</td>
-                <td>오늘</td>
-              </tr>
-              <tr>
-                <td>9</td>
-                <td>
-                  <span class="text-primary fw-bold">new</span>
-                  &nbsp;룸메이트 구해요
-                </td>
-                <td>qwer</td>
-                <td>오늘</td>
-              </tr>
-              <tr>
-                <td>8</td>
-                <td>
-                  <span class="text-primary fw-bold">new</span>
-                  &nbsp;룸메이트 구해요
-                </td>
-                <td>qwer</td>
-                <td>오늘</td>
-              </tr>
-              <tr>
-                <td>7</td>
-                <td>룸메이트 구해요</td>
-                <td>qwer</td>
-                <td>6.18</td>
-              </tr>
-              <tr>
-                <td>6</td>
-                <td>룸메이트 구해요</td>
-                <td>qwer</td>
-                <td>6.18</td>
-              </tr>
-              <tr>
-                <td>5</td>
-                <td>룸메이트 구해요</td>
-                <td>qwer</td>
-                <td>6.18</td>
-              </tr>
-              <tr>
-                <td>4</td>
-                <td>룸메이트 구해요</td>
-                <td>qwer</td>
-                <td>6.17</td>
-              </tr>
-              <tr>
-                <td>3</td>
-                <td>룸메이트 구해요</td>
-                <td>qwer</td>
-                <td>6.17</td>
-              </tr>
-              <tr>
-                <td>2</td>
-                <td>룸메이트 구해요</td>
-                <td>qwer</td>
-                <td>6.17</td>
-              </tr>
-              <tr>
-                <td>1</td>
-                <td>룸메이트 구해요</td>
-                <td>qwer</td>
-                <td>6.17</td>
-              </tr>
-              <tr>
-                <td>5</td>
-                <td>룸메이트 구해요</td>
-                <td>qwer</td>
-                <td>6.18</td>
-              </tr>
-              <tr>
-                <td>5</td>
-                <td>룸메이트 구해요</td>
-                <td>qwer</td>
-                <td>6.18</td>
-              </tr>
-              <tr>
-                <td>5</td>
-                <td>룸메이트 구해요</td>
-                <td>qwer</td>
-                <td>6.18</td>
-              </tr>
-              <tr>
-                <td>5</td>
-                <td>룸메이트 구해요</td>
-                <td>qwer</td>
-                <td>6.18</td>
-              </tr>
-              <tr>
-                <td>5</td>
-                <td>룸메이트 구해요</td>
-                <td>qwer</td>
-                <td>6.18</td>
-              </tr>
-              <tr>
-                <td>5</td>
-                <td>룸메이트 구해요</td>
-                <td>qwer</td>
-                <td>6.18</td>
-              </tr>
-              <tr>
-                <td>5</td>
-                <td>룸메이트 구해요</td>
-                <td>qwer</td>
-                <td>6.18</td>
-              </tr>
-              <tr>
-                <td>5</td>
-                <td>룸메이트 구해요</td>
-                <td>qwer</td>
-                <td>6.18</td>
-              </tr>
-              <tr>
-                <td>5</td>
-                <td>룸메이트 구해요</td>
-                <td>qwer</td>
-                <td>6.18</td>
-              </tr>
-              <tr>
-                <td>5</td>
-                <td>룸메이트 구해요</td>
-                <td>qwer</td>
-                <td>6.18</td>
-              </tr>
-              </tbody>
-            </table>
+                <!-- 내가 쓴글 목록 -->
+                <div class="border-primary col-7 p-4 bg-white rounded-3">
+                    <div class="p-3">
+                        <table class="table table-hover text-center">
+                            <thead>
+                            <tr>
+                                <th>번호</th>
+                                <th>제목</th>
+                                <th>작성일</th>
+                                <th>작성자</th>
+                                <th>등록일</th>
+                                <th>조회수</th>
+                            </tr>
+                            </thead>
+                            <tbody>
 
-            <div class="d-flex justify-content-center mb-5 my-paging">
-              <a href="#" class="">&#5130;</a>
-              <a href="#" class="">1</a>
-              <a href="#" class="">2</a>
-              <a href="#" class="">3</a>
-              <a href="#" class="">&#5125;</a>
+
+
+                            </tbody>
+                        </table>
+
+                        <div class="d-flex justify-content-center mb-5 my-paging">
+                            <a href="#" class="">&#5130;</a>
+                            <a href="#" class="">1</a>
+                            <a href="#" class="">2</a>
+                            <a href="#" class="">3</a>
+                            <a href="#" class="">&#5125;</a>
+                        </div>
+                        <div class="d-inline-block">
+                            <div class="d-flex justify-content-end mx-auto">
+                                <select name="" id="" class="my-select rounded-2">
+                                    <option value="">제목 + 내용</option>
+                                    <option value="">제목</option>
+                                    <option value="">내용</option>
+                                    <option value="">작성자</option>
+                                </select>
+                                <input
+                                        class="ml-2 my-input-l"
+                                        type="text"
+                                        placeholder="검색어를 입력하세요"
+                                />
+                                <a class="ml-2" href="#"
+                                ><img
+                                        src="assets/icon_search.png"
+                                        style="width: 23px; height: 23px"
+                                        alt=""
+                                /></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="d-inline-block">
-              <div class="d-flex justify-content-end mx-auto">
-                <select name="" id="" class="my-select rounded-2">
-                  <option value="">제목 + 내용</option>
-                  <option value="">제목</option>
-                  <option value="">내용</option>
-                  <option value="">작성자</option>
-                </select>
-                <input
-                        class="ml-2 my-input-l"
-                        type="text"
-                        placeholder="검색어를 입력하세요"
-                />
-                <a class="ml-2" href="#"
-                ><img
-                        src="assets/icon_search.png"
-                        style="width: 23px; height: 23px"
-                        alt=""
-                /></a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-  </div>
+        </section>
+    </div>
 </main>
 </body>
 </html>
