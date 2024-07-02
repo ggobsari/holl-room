@@ -8,8 +8,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface CommunityRepository extends JpaRepository<CommunityEntity,Long> {
-    Page<CommunityEntity> findByCategory(String category, Pageable pageRequest);
+    Page<CommunityEntity> findByCategoryAndDeleted(String category,String deleted,Pageable pageRequest);
+    Page<CommunityEntity> findByDeleted(String deleted,Pageable pageRequest);
 //    Page<CommunityEntity> findByCategoryAndTitleContaining(String category, String title, Pageable pageRequest);
+
     CommunityEntity findByPostId(Long postId);
 
 }
