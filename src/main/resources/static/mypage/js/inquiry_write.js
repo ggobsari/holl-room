@@ -6,6 +6,10 @@ document.addEventListener('DOMContentLoaded', function () {
             uploadInquiry();
         }
     });
+
+    //이메일 마스킹
+    const emailInput = document.getElementById("email");
+    emailInput.value = maskingFunc.email(emailInput.value);
 });
 //=============================================================================================================
 // 파일첨부 초기화
@@ -84,3 +88,47 @@ function uploadInquiry() {
 
     xhr.send(formData);
 }
+//=============================================================================================================
+//마스킹
+let maskingFunc = {
+    checkNull: function (str) {
+        if (typeof str == "undefined" || str == null || str == "") {
+            return true;
+        } else {
+            return false;
+        }
+    },
+    //==========================================================================
+    // 이메일 마스킹
+    email: function (str) {
+        let originStr = str;
+        let emailStr = originStr.match(/([a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9._-]+)/gi);
+        let strLength;
+        if (this.checkNull(originStr) == true || this.checkNull(emailStr) == true) {
+            return originStr;
+        }else {
+            let maskedEmails = emailStr.map(email => {
+                const [localPart, domainPart] = email.split('@');
+                const localPartLength = localPart.length;
+
+                // 마스킹할 인덱스 설정 (0부터 시작하기 때문에 1, 3, 4, 5, 7, 9에 해당)
+                const maskIndices = new Set([1, 3, 4, 6, 9].filter(index => index < localPartLength));
+
+                // 문자열을 배열로 변환한 후 지정된 인덱스를 마스킹
+                const maskedLocalPart = localPart.split('').map((char, index) =>
+                    maskIndices.has(index) ? '●' : char
+                ).join('');
+
+                return `${maskedLocalPart}@${domainPart}`;
+            });
+
+            // 마스킹된 이메일 주소를 원래 문자열에 삽입
+            let maskedStr = originStr;
+            emailStr.forEach((email, index) => {
+                maskedStr = maskedStr.replace(email, maskedEmails[index]);
+            });
+
+            return maskedStr;
+        }
+    }
+    }
