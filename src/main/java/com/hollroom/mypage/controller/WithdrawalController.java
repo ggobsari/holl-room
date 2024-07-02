@@ -3,14 +3,11 @@ package com.hollroom.mypage.controller;
 import com.hollroom.mypage.service.ProfileService;
 import com.hollroom.user.dto.UserSignupDTO;
 import com.hollroom.user.entity.UserEntity;
-import com.hollroom.user.service.UserService;
-import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 @org.springframework.stereotype.Controller
@@ -26,6 +23,7 @@ public class WithdrawalController {
         return user != null;
     }
 
+    //회원탈퇴 페이지 컨트롤러
     @GetMapping("/withdrawal")
     public String interest(HttpSession session){
         if (!checkSession(session)) {
@@ -34,6 +32,7 @@ public class WithdrawalController {
         return "mypage/withdrawal";  // mypage/withdrawal 페이지 반환
     }
 
+    //회원탈퇴 컨트롤러
     @PostMapping("/handleWithdrawal")
     public ResponseEntity<Map<String, Object>> handleWithdrawal(@RequestBody Map<String, String> request, HttpSession session) {
         Map<String, Object> response = new HashMap<>();
@@ -64,6 +63,5 @@ public class WithdrawalController {
 
         return ResponseEntity.ok(response);
     }
-
 }
 

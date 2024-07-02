@@ -1,32 +1,92 @@
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     //글쓰기 버튼 활성화
-    document.getElementById('write-button').addEventListener('click', function() {
+    document.getElementById('write-button').addEventListener('click', function () {
         window.location.href = "http://localhost:8090/hollroom/mypage/inquiry_write";
-    });
-});
+    })
+    //==============================================================================================================
+    let category = 'all';
+    let currentPage = 0;
+    const pageSize = 20;  // 한 페이지당 포스트 수
 
+    const postList = document.getElementById('inquiry-table-body');
+    const pagination = document.querySelector('.my-paging');
 
-//글 목록 불러오기
-$(document).ready(function() {
-    $.ajax({
-        url: 'http://localhost:8090/hollroom/mypage/inquiry',
-        method: 'GET',
-        success: function(data) {
-            var tableBody = $('#inquiry-table-body');
-            tableBody.empty();
-            data.forEach(function(inquiry) {
-                var row = `<tr>
-                    <td>${inquiry.answerId}</td>
-                    <td>${inquiry.community.title}</td>
-                    <td>${inquiry.community.createdAt}</td>
-                    <td>${inquiry.answerText ? '답변 완료' : '미답변'}</td>
-                    <td>${inquiry.answerDate ? inquiry.answerDate : 'N/A'}</td>
-                </tr>`;
-                tableBody.append(row);
-            });
-        },
-        error: function(error) {
-            console.error('Error fetching data', error);
+    loadInquiries(category, currentPage);
+
+    function loadInquiries(category, page) {
+        //서버에서 문의목록 데이터 가져오기
+        fetch(`/hollroom/mypage/inquiryposts?category=${category}&page=${page}&size=${pageSize}`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (Array.isArray(data.posts)) {
+                    renderInquiries(data.posts, data.totalPosts, page);
+                    renderPagination(data.totalPages, page);
+                } else {
+                    console.error('Error: Expected array but received:', data.posts);
+                }
+            })
+            .catch(error => console.error('Error fetching inquiries:', error));
+    }
+    //문의글 목록 삽입
+    function renderInquiries(inquiries, totalPosts, currentPage) {
+        postList.innerHTML = inquiries.map((inquiry, index) => `
+            <tr>
+                <td>${totalPosts - (currentPage * pageSize + index)}</td>
+                <td><a href="/hollroom/mypage/inquiry/${inquiry.postId}">${inquiry.title}</a></td>
+                <td>${inquiry.createdAt.split(' ')[0]}</td>
+                <td>${inquiry.answered ? '예' : ''}</td>
+                <td>${inquiry.answeredAt ? inquiry.answeredAt.split(' ')[0] : ''}</td>
+            </tr>
+        `).join('');
+    }
+    //페이지네이션
+    function renderPagination(totalPages, currentPage) {
+        pagination.innerHTML = '';
+
+        if (totalPages > 1) {
+            // 현 페이지수가 3페이지보다 많을 경우 이전 페이지 링크 추가
+            if (currentPage > 3) {
+                const prevLink = document.createElement('a');
+                prevLink.href = '#';
+                prevLink.innerHTML = '&#5130;';
+                prevLink.addEventListener('click', function (event) {
+                    event.preventDefault();
+                    loadInquiries(category, currentPage - 1);
+                });
+                pagination.appendChild(prevLink);
+            }
+            //페이지 번호 링크 삽입
+            const pages = Array.from({length: totalPages}, (_, i) => `
+                <a href="#" class="${i === currentPage ? 'active' : ''}">${i + 1}</a>
+            `).join('');
+
+            pagination.innerHTML += pages;
+            //총 페이지수가 3보다 클 경우 다음 페이지 링크 추가
+            if (totalPages > 3) {
+                const nextLink = document.createElement('a');
+                nextLink.href = '#';
+                nextLink.innerHTML = '&#5125;';
+                nextLink.addEventListener('click', function (event) {
+                    event.preventDefault();
+                    loadInquiries(category, currentPage + 1);
+                });
+                pagination.appendChild(nextLink);
+            }
         }
-    });
+
+        pagination.querySelectorAll('a').forEach((pageLink, i) => {
+            if (!pageLink.innerHTML.includes('&#')) {
+                pageLink.addEventListener('click', function (event) {
+                    event.preventDefault();
+                    loadInquiries(category, i);
+                });
+            }
+        });
+    }
 });
+

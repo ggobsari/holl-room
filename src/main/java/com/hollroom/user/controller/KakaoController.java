@@ -2,7 +2,7 @@ package com.hollroom.user.controller;
 
 import com.hollroom.user.config.KakaoConfig;
 import com.hollroom.user.dto.KakaoDTO;
-import com.hollroom.user.entity.KakaoEntity;
+//import com.hollroom.user.entity.KakaoEntity;
 import com.hollroom.user.entity.UserEntity;
 import com.hollroom.user.service.KakaoService;
 import com.hollroom.user.service.UserService;
@@ -28,8 +28,8 @@ public class KakaoController {
     public ResponseEntity<Void> kakaoLogin(@RequestParam("code") String code, HttpSession session){
         String accessToken = kakaoService.getAccessToken(code);
         KakaoDTO kakaoUser = kakaoService.getKakaoUserInfo(accessToken);
-        KakaoEntity kakaoEntity = kakaoService.saveKakaoUser(kakaoUser);
-        session.setAttribute("kakao", kakaoEntity);
-        return ResponseEntity.status(302).header("Location", "/hollroom").build();
+        kakaoService.saveKakaoUser(kakaoUser);
+        session.setAttribute("kakao", kakaoUser);
+        return ResponseEntity.status(302).header("Location", "/hollroom/login").build();
     }
 }

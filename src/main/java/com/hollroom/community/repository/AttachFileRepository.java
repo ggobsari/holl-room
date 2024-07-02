@@ -1,5 +1,6 @@
 package com.hollroom.community.repository;
 
+import com.hollroom.common.TabType;
 import com.hollroom.community.domain.entity.AttachFileEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 

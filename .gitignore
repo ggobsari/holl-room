@@ -1,6 +1,7 @@
 HELP.md
 .gradle
 build/
+**/application.properties
 !gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**/build/
 !**/src/test/**/build/
@@ -23,6 +24,7 @@ bin/
 *.iml
 *.ipr
 out/
+*.properties
 !**/src/main/**/out/
 !**/src/test/**/out/
 
@@ -35,5 +37,5 @@ out/
 
 ### VS Code ###
 .vscode/
+*.properties
 
-application.properties

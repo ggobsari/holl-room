@@ -1,7 +1,6 @@
 package com.hollroom.monthly.dao;
 
 
-import com.hollroom.monthly.domain.dto.MonthlyProductDTO;
 import com.hollroom.monthly.domain.entity.MonthlyProductEntity;
 
 import java.util.List;
