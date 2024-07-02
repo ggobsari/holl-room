@@ -88,7 +88,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // 지도에 마커와 인포윈도우를 표시하는 함수입니다
     function displayMarker(locPosition, message) {
         // 마커 이미지 설정
-        var imageSrc = 'http://localhost:8090/hollroom/mypage/img/map-marker-icon_34392.png', //!!!! // 빨간색 마커 이미지 URL 서버 연결하면 바꾸기!!!
+        var imageSrc = 'http://localhost:8090/hollroom/mypage/img/map-marker-icon_34392.png', // 빨간색 마커 이미지 URL 서버 연결하면 바꾸기!!!
             imageSize = new kakao.maps.Size(35, 39), // 마커 이미지의 크기
             imageOption = {offset: new kakao.maps.Point(16, 42)}; // 마커 이미지의 옵션, 마커의 좌표와 일치시킬 부분 설정
 
@@ -121,7 +121,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // 지도에 마커와 인포윈도우를 표시하는 함수입니다
     function displayMarker(locPosition, message) {
         // 마커 이미지 설정
-        var imageSrc = 'http://localhost:8090/hollroom/mypage/img/map-marker-icon_34392.png',  //!!!!
+        var imageSrc = 'http://localhost:8090/hollroom/mypage/img/map-marker-icon_34392.png',
             // 빨간색 마커 이미지 URL 서버 연결하면 바꾸기!!!
             imageSize = new kakao.maps.Size(35, 39), // 마커 이미지의 크기
             imageOption = {offset: new kakao.maps.Point(16, 42)}; // 마커 이미지의 옵션, 마커의 좌표와 일치시킬 부분 설정
@@ -167,7 +167,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                         var result = results[0]; //첫번째 결과의 값을 활용
 
-                        var imageSrc = 'http://localhost:8090/hollroom/mypage/img/map-marker-icon_34392.png',  //!!!!
+                        var imageSrc = 'http://localhost:8090/hollroom/mypage/img/map-marker-icon_34392.png',
                             // 빨간색 마커 이미지 URL 서버 연결하면 바꾸기!!!
                             imageSize = new kakao.maps.Size(35, 39), // 마커 이미지의 크기
                             imageOption = {offset: new kakao.maps.Point(16, 42)}; // 마커 이미지의 옵션, 마커의 좌표와 일치시킬 부분 설정

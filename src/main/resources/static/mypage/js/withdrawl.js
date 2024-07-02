@@ -4,7 +4,7 @@ function withdrawUser() {
         return; // 비밀번호를 입력하지 않으면 탈퇴 진행 안함
     }
 
-    fetch('http://localhost:8090/hollroom/mypage/verifypassword', {  //!!!!
+    fetch('http://localhost:8090/hollroom/mypage/verifypassword', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -16,7 +16,7 @@ function withdrawUser() {
         .then(data => {
             if (data.valid) {
                 if (confirm('정말로 회원을 탈퇴하시겠습니까?')) {
-                    fetch('http://localhost:8090/hollroom/mypage/deleteuser', {  //!!!!
+                    fetch('http://localhost:8090/hollroom/mypage/deleteuser', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
