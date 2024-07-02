@@ -1,9 +1,5 @@
 package com.hollroom.mypage.service;
 
-
-import com.hollroom.mypage.domain.dto.MywriteDTO;
-
-import java.util.List;
 import java.util.Map;
 
 public interface MywriteService {

@@ -1,7 +1,5 @@
 package com.hollroom.mypage.controller;
 
-import com.hollroom.community.domain.entity.CommunityEntity;
-import com.hollroom.mypage.domain.dto.MywriteDTO;
 import com.hollroom.mypage.service.MywriteService;
 import com.hollroom.user.entity.UserEntity;
 import jakarta.servlet.http.HttpSession;
@@ -14,8 +12,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.security.Principal;
-import java.util.List;
 import java.util.Map;
 
 
@@ -41,7 +37,7 @@ public class MywriteController {
         return "mypage/mywrite"; //interest 반환
     }
 
-    //내가쓴글 컨트롤러
+    //내가쓴글 목록 컨트롤러
     @GetMapping("/mypost")
     public ResponseEntity<?> getMyPosts(@RequestParam(name = "page", defaultValue = "0") int page,
                              @RequestParam(name = "category", defaultValue = "all") String category,
@@ -66,19 +62,4 @@ public class MywriteController {
         }
         return "mypage/interest"; //interest 반환
     }
-
-//    //즐겨찾기 컨트롤러
-//    @GetMapping("/interest")
-//    public ModelAndView InterestPage(@RequestParam("category") String category, @RequestParam("page") String page, HttpSession session){
-//        if(!checkSession(session)){
-//            ModelAndView mav = new ModelAndView("redirect:/login");
-//        }
-//        ModelAndView mav = new ModelAndView("mypage/interest");
-//        CommunityPagingDTO pagingDTO = mywriteService.communityList(category, page);
-//
-//        mav.addObject("communityList", pagingDTO);
-//        mav.addObject("category", category);
-//
-//        return mav;
-//    }
 }

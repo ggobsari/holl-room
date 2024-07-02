@@ -1,7 +1,5 @@
 package com.hollroom.mypage.controller;
 
-
-import com.hollroom.community.service.FileUploadService;
 import com.hollroom.mypage.domain.dto.InquiryAttatchDTO;
 import com.hollroom.mypage.domain.dto.InquiryDTO;
 import com.hollroom.mypage.domain.entity.InquiryEntity;

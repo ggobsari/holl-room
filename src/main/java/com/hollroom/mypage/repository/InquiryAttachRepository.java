@@ -1,6 +1,5 @@
 package com.hollroom.mypage.repository;
 
-import com.hollroom.community.domain.entity.AttachFileEntity;
 import com.hollroom.mypage.domain.entity.InquiryAttatchEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 

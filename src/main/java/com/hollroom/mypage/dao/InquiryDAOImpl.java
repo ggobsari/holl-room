@@ -1,20 +1,12 @@
 package com.hollroom.mypage.dao;
 
-import com.hollroom.community.domain.entity.AttachFileEntity;
-import com.hollroom.community.repository.AttachFileRepository;
-import com.hollroom.mypage.dao.InquiryDAO;
-import com.hollroom.mypage.domain.dto.InquiryDTO;
 import com.hollroom.mypage.domain.entity.InquiryAttatchEntity;
 import com.hollroom.mypage.domain.entity.InquiryEntity;
 import com.hollroom.mypage.repository.InquiryAttachRepository;
 import com.hollroom.mypage.repository.InquiryRepository;
-import com.hollroom.user.entity.UserEntity;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -25,9 +17,6 @@ public class InquiryDAOImpl implements InquiryDAO {
 
     private final InquiryRepository inquiryRepository;
     private final InquiryAttachRepository attachRepository;
-
-    @PersistenceContext
-    private EntityManager entityManager;
 
     //문의글 목록
     public Page<InquiryEntity> findAll(Pageable pageable) {
