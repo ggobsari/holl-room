@@ -54,8 +54,9 @@ public class InquiryController {
 
 
         Map<String, Object> result = inquiryService.getInquiriesByUserId(userId, page);
-        model.addAttribute("posts", result.get("posts"));
-        model.addAttribute("totalPages", result.get("totalPages"));
+        model.addAttribute("posts", result.get("posts")); //게시물 정보
+        model.addAttribute("totalPages", result.get("totalPages")); //총 게시물 페이지수
+        model.addAttribute("totalPosts", result.get("totalPosts")); //총 게시물 개수
 
         return new ResponseEntity<>(result, HttpStatus.OK);
     }

@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', function () {
     //==============================================================================================================
     let category = 'all';
     let currentPage = 0;
+    const pageSize = 20;  // 한 페이지당 포스트 수
 
     const postList = document.getElementById('inquiry-table-body');
     const pagination = document.querySelector('.my-paging');
@@ -13,11 +14,17 @@ document.addEventListener('DOMContentLoaded', function () {
     loadInquiries(category, currentPage);
 
     function loadInquiries(category, page) {
-        fetch(`inquiryposts?category=${category}&page=${page}`)
-            .then(response => response.json())
+        //서버에서 문의목록 데이터 가져오기
+        fetch(`/hollroom/mypage/inquiryposts?category=${category}&page=${page}&size=${pageSize}`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
             .then(data => {
                 if (Array.isArray(data.posts)) {
-                    renderInquiries(data.posts);
+                    renderInquiries(data.posts, data.totalPosts, page);
                     renderPagination(data.totalPages, page);
                 } else {
                     console.error('Error: Expected array but received:', data.posts);
@@ -25,11 +32,11 @@ document.addEventListener('DOMContentLoaded', function () {
             })
             .catch(error => console.error('Error fetching inquiries:', error));
     }
-
-    function renderInquiries(posts) {
-        postList.innerHTML = posts.map(inquiry => `
+    //문의글 목록 삽입
+    function renderInquiries(inquiries, totalPosts, currentPage) {
+        postList.innerHTML = inquiries.map((inquiry, index) => `
             <tr>
-                <td>${inquiry.postId}</td>
+                <td>${totalPosts - (currentPage * pageSize + index)}</td>
                 <td><a href="/hollroom/mypage/inquiry/${inquiry.postId}">${inquiry.title}</a></td>
                 <td>${inquiry.createdAt.split(' ')[0]}</td>
                 <td>${inquiry.answered ? '예' : ''}</td>
@@ -37,11 +44,12 @@ document.addEventListener('DOMContentLoaded', function () {
             </tr>
         `).join('');
     }
-
+    //페이지네이션
     function renderPagination(totalPages, currentPage) {
         pagination.innerHTML = '';
 
         if (totalPages > 1) {
+            // 현 페이지수가 3페이지보다 많을 경우 이전 페이지 링크 추가
             if (currentPage > 3) {
                 const prevLink = document.createElement('a');
                 prevLink.href = '#';
@@ -52,13 +60,13 @@ document.addEventListener('DOMContentLoaded', function () {
                 });
                 pagination.appendChild(prevLink);
             }
-
-            const pages = Array.from({ length: totalPages }, (_, i) => `
+            //페이지 번호 링크 삽입
+            const pages = Array.from({length: totalPages}, (_, i) => `
                 <a href="#" class="${i === currentPage ? 'active' : ''}">${i + 1}</a>
             `).join('');
 
             pagination.innerHTML += pages;
-
+            //총 페이지수가 3보다 클 경우 다음 페이지 링크 추가
             if (totalPages > 3) {
                 const nextLink = document.createElement('a');
                 nextLink.href = '#';

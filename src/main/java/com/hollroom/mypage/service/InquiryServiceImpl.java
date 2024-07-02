@@ -38,6 +38,7 @@ public class InquiryServiceImpl implements InquiryService {
         var postPage = inquiryDAO.findByUserId(userId, pageRequest);
         result.put("posts", postPage.getContent());
         result.put("totalPages", postPage.getTotalPages());
+        result.put("totalPosts", postPage.getTotalElements());
         return result;
     }
 
