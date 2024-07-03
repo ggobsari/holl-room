@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class DivisionDTO {
-    public int id;
+    public Integer id;
     public Long topDivisionCode;
     public Long mainDivisionCode;
     public String name;

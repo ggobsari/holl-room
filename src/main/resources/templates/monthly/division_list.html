@@ -1,3 +1,0 @@
-<div th:fragment="divisionList">
-    <button type="button" th:each="division : ${divisionList}" th:divisionName="${division.name}" th:onclick="addAddress(this.getAttribute('divisionName'))">[[${division.name}]]</button>
-</div>
