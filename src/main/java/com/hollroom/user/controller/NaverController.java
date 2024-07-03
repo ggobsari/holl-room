@@ -3,6 +3,7 @@ package com.hollroom.user.controller;
 import com.hollroom.user.config.NaverConfig;
 import com.hollroom.user.dto.NaverDTO;
 import com.hollroom.user.service.NaverService;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -32,13 +33,15 @@ public class NaverController {
     }
 
     @GetMapping("/login")
-    public ResponseEntity<?> naverCallback(@RequestParam("code") String code, @RequestParam("state") String state){
+    public ResponseEntity<?> naverCallback(@RequestParam("code") String code, @RequestParam("state") String state,
+                                           HttpServletRequest request){
         log.info(code);
         log.info(state);
         String accessToken = naverService.getAccessToken(code, state);
         NaverDTO naverDTO = naverService.getUserProfile(accessToken);
         log.info(naverDTO.toString());
-        naverService.saveOrUpdateUser(naverDTO);
-        return ResponseEntity.ok("네이버 로그인 성공");
+        naverService.saveOrUpdateUser(naverDTO, request);
+        String redirectUrl = "http://localhost:8090/hollroom/community/list?category=all&page=0";
+        return ResponseEntity.status(302).header("Location", redirectUrl).build();
     }
 }
