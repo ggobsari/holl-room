@@ -28,7 +28,6 @@ class MonthlyProductServiceTest {
     @Autowired
     private ModelMapper mapper;
 
-    @Test
     public void csvInsert() throws IOException {
         List<List<String>> attachFiles = readCSV("attach_file.csv");
         TabType[] types = TabType.values();

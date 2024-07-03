@@ -3,6 +3,7 @@ package com.hollroom.user.controller;
 import com.hollroom.user.config.GoogleConfig;
 import com.hollroom.user.dto.GoogleDTO;
 import com.hollroom.user.service.GoogleService;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -32,12 +33,13 @@ public class GoogleController {
     }
 
     @GetMapping("/google/login")
-    public ResponseEntity<?> googleCallback(@RequestParam("code") String code, HttpServletResponse response) throws IOException{
+    public ResponseEntity<?> googleCallback(@RequestParam("code") String code, HttpServletRequest request){
         String accessToken = googleService.getAccessToken(code);
         GoogleDTO googleDTO = googleService.getUserProfile(accessToken);
         log.info("GoogleDTO: {}", googleDTO);
-        googleService.saveOrUpdateUser(googleDTO);
-        return ResponseEntity.ok("구글 로그인 성공");
+        googleService.saveOrUpdateUser(googleDTO, request);
+        String redirectUrl = "http://localhost:8090/hollroom/community/list?category=all&page=0";
+        return ResponseEntity.status(302).header("Location", redirectUrl).build();
     }
 
 }
