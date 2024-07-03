@@ -1,16 +1,19 @@
 package com.hollroom.roommate.dao;
 
 import com.hollroom.roommate.dto.RoommateDTO;
-import org.mybatis.spring.SqlSessionTemplate;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.hollroom.roommate.dto.RoommateUserDTO;
 
 import java.util.List;
+import java.util.Map;
 
 public interface RoommateDAO {
-    int register(RoommateDTO dto);
-//    int delete(int roommate_id);
-//    List<RoommateDTO> search(String keyword);
-//    List<RoommateDTO> search(String tag, String keyword);
+    int register(RoommateDTO board);
+    int update(RoommateDTO board);
     RoommateDTO select(int roommate_id);
-    List<RoommateDTO> getBoardList();
+    RoommateDTO selectById(int roommate_id);
+    List<RoommateDTO> selectAll();
+    List<RoommateDTO> search(Map<String, String> data);
+    List<RoommateDTO> dynamicSearch(Map<String, Character> conditions);
+    int delete(int roommate_id);
+    RoommateUserDTO selectUser(int id);
 }

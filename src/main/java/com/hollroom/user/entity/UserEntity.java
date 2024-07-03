@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -14,6 +15,7 @@ import java.util.Date;
 @Getter
 @Setter
 @NoArgsConstructor
+@ToString///////
 public class UserEntity {
     @Id
     //    @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,13 +25,10 @@ public class UserEntity {
     @Column(unique = true, nullable = false)
     private String userEmail;
 
-    @Column(nullable = false)
     private String userPassword;
 
-    @Column(nullable = false)
     private String userName;
 
-    @Column(unique = true)
     private String userNickname;
 
     private String userImage;
@@ -38,15 +37,15 @@ public class UserEntity {
 
     private String userPhoneNumber;
 
-    @Column(nullable = false)
     private Date userBirthday;
 
     private String userGender;
 
-    @Column(nullable = false)
     private String userLocation;
 
     private LocalDate userSignupAt;
+
+    private String loginType;
 
     private Boolean userAdmin;
 
@@ -58,7 +57,7 @@ public class UserEntity {
 
     public UserEntity(String userEmail, String userPassword, String userName, String userNickname,
                       String userIntroduce, String userPhoneNumber, Date userBirthday,
-                      String userGender, String userLocation, LocalDate userSignupAt, Boolean userAdmin,
+                      String userGender, String userLocation, String loginType, LocalDate userSignupAt, Boolean userAdmin,
                       Boolean ban, Boolean isDeleted) {
         this.userEmail = userEmail;
         this.userPassword = userPassword;
@@ -69,6 +68,7 @@ public class UserEntity {
         this.userBirthday = userBirthday;
         this.userGender = userGender;
         this.userLocation = userLocation;
+        this.loginType = loginType;
         this.userAdmin = userAdmin;
         this.userSignupAt = userSignupAt;
         this.ban = ban;

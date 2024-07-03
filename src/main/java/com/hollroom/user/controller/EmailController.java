@@ -45,7 +45,7 @@ public class EmailController {
         if (userService.verifyResetToken(verifyCodeRequestDTO.getCode())) {
             return "이메일 확인 완료.";
         } else {
-            return "유효하지 않은 토큰입니다.";
+            return "유효하지 않은 코드입니다.";
         }
     }
 
