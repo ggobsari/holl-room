@@ -25,7 +25,7 @@ public class MonthlyProductEntity {
     private int monthly;
     private Long divisionCode;
     private int floorCount;
-    private int pyeongCount;
+    private Float pyeongCount;
     private int roomCount;
     private int bayCount;
     private String roomOption;
