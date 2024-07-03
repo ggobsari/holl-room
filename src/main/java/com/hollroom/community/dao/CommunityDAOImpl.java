@@ -45,7 +45,7 @@ public class CommunityDAOImpl implements CommunityDAO{
     @Override
     public CommunityPagingEntityDTO pagingFindAll(String page) {
         CommunityPagingEntityDTO pagingEntityDTO = new CommunityPagingEntityDTO();
-        PageRequest pageRequest = PageRequest.of(Integer.parseInt(page),3, Sort.Direction.DESC,"postId");
+        PageRequest pageRequest = PageRequest.of(Integer.parseInt(page),10, Sort.Direction.DESC,"postId");
         //삭제된 게시글은 불러오지 않도록 메소드 변경
         Page<CommunityEntity> pages = communityRepository.findByDeleted(null,pageRequest);
 
@@ -65,12 +65,18 @@ public class CommunityDAOImpl implements CommunityDAO{
     @Override
     public CommunityPagingEntityDTO pagingFindCategory(String category, String page) {
         CommunityPagingEntityDTO pagingEntityDTO = new CommunityPagingEntityDTO();
-        PageRequest pageRequest = PageRequest.of(Integer.parseInt(page),3, Sort.Direction.DESC,"postId");
+        PageRequest pageRequest = PageRequest.of(Integer.parseInt(page),10, Sort.Direction.DESC,"postId");
         //삭제된 게시글은 불러오지 않도록 메소드 변경
         Page<CommunityEntity> pages = communityRepository.findByCategoryAndDeleted(category,null,pageRequest);
 
         pagingEntityDTO.setCommunityEntities(pages.getContent());
         pagingEntityDTO.setTotalPages(pages.getTotalPages());
+        pagingEntityDTO.setNowPageNumber(pages.getNumber());
+        pagingEntityDTO.setPageSize(pages.getSize());
+        pagingEntityDTO.setHasNextPage(pages.hasNext());
+        pagingEntityDTO.setHasPreviousPage(pages.hasPrevious());
+        pagingEntityDTO.setFirstPage(pages.isFirst());
+        pagingEntityDTO.setLastPage(pages.isLast());
         return pagingEntityDTO;
     }
 
@@ -142,6 +148,16 @@ public class CommunityDAOImpl implements CommunityDAO{
         deleteEntity.setDeleteAt(deleteEntity.getDeleteAt());
 
         commentsRepository.save(deleteEntity);
+    }
+
+    @Override
+    public List<CommunityEntity> searchSimple(String content) {
+        return communityRepository.findByContentContaining(content);
+    }
+
+    @Override
+    public List<CommunityEntity> search(CommunityEntity entity) {
+        return communityRepository.findByCategoryAndContentContaining(entity.getCategory(),entity.getContent());
     }
 
 

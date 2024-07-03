@@ -67,4 +67,9 @@ public class CommunityEntity {
 //        this.user = user;
 //        this.attachFileEntities = attachFileEntities;
 //    }
+    //검색 기능에서 DTO->Entity로 전환
+    public CommunityEntity(String category, String content) {
+        this.category = category;
+        this.content = content;
+    }
 }

@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 public class DivisionEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.TABLE)
-    public int id;
+    public Integer id;
     public Long topDivisionCode;
     public Long mainDivisionCode;
     public String name;
