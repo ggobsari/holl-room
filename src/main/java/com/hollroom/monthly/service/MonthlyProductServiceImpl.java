@@ -35,14 +35,12 @@ public class MonthlyProductServiceImpl implements MonthlyProductService {
     public void insertProduct(MonthlyProductRequestDTO dto) {
         // 매물 dto를 entity로 변환
         MonthlyProductEntity entity = mapper.map(dto, MonthlyProductEntity.class);
-
         // 매물 dao에 entity를 보내서 monthly_product 테이블에 저장
         dao.insertProduct(entity);
 
         try {
             // post로 받아온 dto의 MultipartFile을, fileUploadService을 이용해 storeFileName 생성
             String storeFileName = fileUploadService.uploadFile(dto.getRoomImg());
-
             // 생성한 storeFileName을 사용해서 AttachFileEntity 생성
             AttachFileEntity attachFileEntity = new AttachFileEntity(
                     null, // autoIncreament
@@ -77,8 +75,11 @@ public class MonthlyProductServiceImpl implements MonthlyProductService {
     }
 
     private MonthlyProductResponseDTO convertEntityToDTO(MonthlyProductEntity entity) {
+        System.out.println("에러1-1");
         MonthlyProductResponseDTO dto = mapper.map(entity,MonthlyProductResponseDTO.class);
+        System.out.println("에러1-2");
         dto.setRoomImg(attachFileRepo.findByPostIdAndTabType(dto.getId(),TabType.MONTHLY_PRODUCT).get(0).getFileStoreName());
+        System.out.println("에러1-3");
         return dto;
     }
 

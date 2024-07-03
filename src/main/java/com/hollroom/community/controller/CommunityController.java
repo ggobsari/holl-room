@@ -51,7 +51,7 @@ public class CommunityController {
     public ModelAndView listPage(@RequestParam("category") String category, @RequestParam("page") String page){
         ModelAndView mav = new ModelAndView("community/content/community_list");
         CommunityPagingDTO pagingDTO = service.communityList(category, page);
-        System.out.println("list값 확인::"+ pagingDTO);
+//        System.out.println("list값 확인::"+ pagingDTO);
         //페이징 처리 시 필요한 값들
         System.out.println("=============================================================================");
         System.out.println("전체 페이지 수=>"+pagingDTO.getTotalPages());
@@ -66,8 +66,8 @@ public class CommunityController {
         //시작페이지(startPage), 마지막페이지(endPage) 값 계산
         // 하단에 노출시킬 페이지 수는 3개
         int pageLimit = 3;
-        int startPage = (((int) (Math.ceil((double) pagingDTO.getNowPageNumber() / pageLimit))) -1) * pageLimit +1;
-        int endPage = ((startPage + pageLimit - 1) < pagingDTO.getTotalPages() ? (startPage + pageLimit - 1) : pagingDTO.getTotalPages());
+        int startPage = (((int) (Math.ceil((double) (pagingDTO.getNowPageNumber()+1) / pageLimit))) -1) * pageLimit+1;
+        int endPage = ((startPage + pageLimit -1) < pagingDTO.getTotalPages() ? (startPage + pageLimit -1) : pagingDTO.getTotalPages());
 
         mav.addObject("startPage", startPage);
         mav.addObject("endPage", endPage);
@@ -77,14 +77,19 @@ public class CommunityController {
 
         return mav;
     }
-//    @PostMapping("/search")
-//    public ModelAndView search(@RequestParam("category") String category, @RequestParam("search") String search){
-//        //서치 한 뒤엔, 무조건 첫번째 페이지를 보여줄?
-//        ModelAndView mav = new ModelAndView("community/content/community_list");
-//
-//
-//        return mav;
-//    }
+    @PostMapping("/search")
+    public ModelAndView search(@RequestParam("category") String category, @RequestParam("search") String search){
+//        System.out.println("검색 매핑 확인::"+category+","+search);
+        ModelAndView mav = new ModelAndView("community/content/community_search_list");
+
+        List<CommunityResponseDTO> searchedDTOlist = service.search(category,search);
+//        System.out.println("검색한 결과>>>>>>>>>>>"+searchedDTOlist);
+
+        mav.addObject("communityList", searchedDTOlist);
+        mav.addObject("category", category);
+
+        return mav;
+    }
 
 
     @GetMapping("/read") //조회수 업데이트 추가하기
@@ -94,7 +99,7 @@ public class CommunityController {
         TabType type = TabType.COMMUNITY;
         List<CommunityFileDTO> fileList = service.fileList(postId,type);
         CommunityResponseDTO readinfo = service.read(postId);
-        System.out.println(fileList+","+readinfo);
+//        System.out.println(fileList+","+readinfo);
 
         String view = "";
         List<CommentsResponseDTO> commentsList = null;
