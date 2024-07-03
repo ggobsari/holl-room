@@ -5,7 +5,6 @@ import jakarta.servlet.http.HttpSession;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-@org.springframework.stereotype.Controller
 @RequestMapping("/mypage")
 public class Controller {
     // 세션 체크 헬퍼 메서드
