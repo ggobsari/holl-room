@@ -22,7 +22,11 @@ public class MonthlyController {
     @GetMapping(value = {"/","/monthly"})
     public String showMainPage(Model model){
         List<MonthlyProductResponseDTO> productList = productService.readProductAll();
+        System.out.println("에러1");
         Map<Long,MonthlyTrendDTO> trendMap = trendService.readMonthlyTrendsByAddress("서울시");
+        System.out.println("에러2");
+        System.out.println("트렌드 맵 사이즈 == "+trendMap.size());
+        System.out.println( "프로덕트 리스트 사이즈 == "+productList.size());
         model.addAttribute("productList", productList);
         model.addAttribute("trendMap", trendMap);
         return "monthly/monthly";
