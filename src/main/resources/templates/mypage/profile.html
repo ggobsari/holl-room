@@ -140,7 +140,7 @@
                                                     <input type="text" class="rectangle-18 form-control" id="username"
                                                            th:value="${profile.userName}" th:if="${profile.userName != null}" readonly
                                                            onload="maskName()"/>
-                                                    <input id="realname" type="text" class="rectangle-18 form-control"
+                                                    <input id="realname" type="text" class="rectangle-18 form-control" style="border-color: #dc3545"
                                                            th:if="${profile.userName == null}" placeholder="실명을 입력하세요"/>
                                                 </div>
                                             </div>
@@ -161,17 +161,17 @@
                                             </div>
                                             <div class="flex-row-3 flex-row-5">
                                                 <!--생년월일-->
-                                                <input type="date" class="rectangle form-control" id="birthday"
+                                                <input type="date" class="rectangle form-control"
                                                        th:value="${profile.userBirthday != null ? #dates.format(profile.userBirthday, 'yyyy-MM-dd') : ''}"
                                                        th:if="${profile.userBirthday != null}" readonly />
-                                                <input type="date" class="rectangle form-control" id="birthday"
+                                                <input type="date" class="rectangle form-control" id="birthday" style="border-color: #dc3545"
                                                        th:if="${profile.userBirthday == null}" placeholder="생년월일을 입력하세요" />
 
                                                 <!--성별-->
                                                 <input type="text" class="rectangle-27 form-control"
                                                        th:value="${profile.userGender == 'M' ? '남' : (profile.userGender == 'W' ? '여' : '')}"
                                                        th:if="${profile.userGender != null}" readonly />
-                                                <select class="rectangle-27 form-control" id="gender"
+                                                <select class="rectangle-27 form-control" id="gender" style="border-color: #dc3545"
                                                         th:if="${profile.userGender == null}">
                                                     <option value="">성별</option>
                                                     <option value="M">남</option>
@@ -184,9 +184,10 @@
                                                 <div class="text" style="width: 100px">휴대폰 번호</div>
                                             </div>
                                             <div class="flex-row-3 flex-row-5">
-                                                <input type="text" class="rectangle form-control" id="phoneNumber" onload="phoneMask()"
-                                                       th:value="${profile.userPhoneNumber != null ? profile.userPhoneNumber : ''}"
-                                                       th:readonly="${profile.userPhoneNumber != null}" placeholder="휴대폰 번호를 입력하세요 ( - 포함)"/>
+                                                <input type="text" class="rectangle form-control" id="userPhoneNumber"
+                                                       th:value="${profile.userPhoneNumber}" th:if="${profile.userPhoneNumber != null}" readonly/>
+                                                <input type="text" class="rectangle form-control" id="phoneNumber" style="border-color: #dc3545"
+                                                       th:if = "${profile.userPhoneNumber == null}" placeholder="휴대폰 번호를 입력하세요 ( - 포함)"/>
                                             </div>
 
                                             <div class="flex-row-4 flex-row-5">
@@ -205,7 +206,8 @@
                                                                onclick="AddressSearch()" value="주소검색">
                                                     </div>
                                                     <input type="text" class="rectangle-30 form-control" id="userLocal"
-                                                           th:value="${profile.userLocation}" readonly/>
+                                                           th:value="${profile.userLocation}"  placeholder="주소를 검색하세요"
+                                                           readonly/>
                                                 </div>
 
                                                 <input type="hidden" id="userId" th:value="${profile.userEmail}"/>

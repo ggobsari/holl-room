@@ -13,32 +13,6 @@ document.addEventListener("DOMContentLoaded", function () {
     });
     //마스킹 함수 실행
     maskMaking();
-
-    var realname = document.getElementById('realname');
-    if (!realname.value) {
-        realname.placeholder = "실명을 입력하세요";
-        realname.style.borderColor = '#dc3545';
-
-    }
-    var birthday = document.getElementById('birthday');
-    if (!birthday.value) {
-        birthday.placeholder = "생년월일을 입력하세요";
-        birthday.style.borderColor = '#dc3545';
-    }
-    var gender = document.getElementById('gender');
-    if (!gender.value) {
-        gender.style.borderColor = '#dc3545';
-    }
-    var phoneNumber = document.getElementById('phoneNumber');
-    if (!phoneNumber.value) {
-        phoneNumber.style.borderColor = '#dc3545';
-    }
-
-    var location = document.getElementById('userLocal');
-    if (!location.value) {
-        location.placeholder = "주소검색을 해주세요"
-        location.style.borderColor = '#dc3545';
-    }
 });
 //==========================================================================
 // 비밀번호 유효성 검사
@@ -85,7 +59,6 @@ function updateProfile() {
         const updateInfo = {
             userLocation: userLocal,
             userEmail: userId,
-            userPhoneNumber: phoneNumber,
             userBirthday: birthday,
         };
         if (password) {
@@ -96,6 +69,9 @@ function updateProfile() {
         }
         if(gender){
             updateInfo.userGender = gender;
+        }
+        if(phoneNumber){
+            updateInfo.userPhoneNumber = phoneNumber
         }
 
         xhr.send(JSON.stringify(updateInfo));
@@ -189,7 +165,7 @@ function maskMaking(){
     const nameInput = document.getElementById("username");
     nameInput.value = maskingFunc.name(nameInput.value);
     //휴대폰 번호 마스킹
-    const phonenumInput = document.getElementById("phoneNumber");
+    const phonenumInput = document.getElementById("userPhoneNumber");
     phonenumInput.value = maskingFunc.phone(phonenumInput.value);
 }
 //===============================================================================
