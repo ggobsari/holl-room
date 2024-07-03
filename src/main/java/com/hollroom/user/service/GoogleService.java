@@ -8,6 +8,7 @@ import com.hollroom.user.dto.GoogleDTO;
 import com.hollroom.user.entity.UserEntity;
 //import com.hollroom.user.repository.GoogleRepository;
 import com.hollroom.user.repository.UserRepository;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -83,7 +84,7 @@ public class GoogleService {
         }
     }
     //================================================================================================================//
-    public void saveOrUpdateUser(GoogleDTO googleDTO){
+    public HttpSession saveOrUpdateUser(GoogleDTO googleDTO, HttpServletRequest request){
         Optional<UserEntity> optionalUser = userRepository.findByUserEmail(googleDTO.getEmail());
 
         UserEntity user;
@@ -111,6 +112,13 @@ public class GoogleService {
 
         userRepository.save(user);
 
-        httpSession.setAttribute("user", user);
+        HttpSession session = request.getSession();
+
+        session.setAttribute("USER_NICKNAME", user);
+
+        log.info(String.valueOf(session));
+
+        return session;
+
     }
 }

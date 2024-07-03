@@ -45,27 +45,4 @@ public class EmailService {
             throw new RuntimeException("이메일 전송 중 오류 발생", e);
         }
     }
-//    public void sendResetEmail(String email, String code){
-//        SimpleMailMessage message = new SimpleMailMessage();
-//        message.setTo(email);
-//        message.setSubject("비밀번호 재설정 요청");
-//        message.setText("비밀번호 재설정을 위해 다음 코드를 사용하세요:" + code);
-//        log.info("Sending password reset email to: {}", email);
-//        log.info("token: {}", code);
-////        try {
-////            log.info("Email message: {}", message);
-////            mailSender.send(message); //여기가 문제인거 같음
-////            log.info("Password reset email sent to: {}", email);
-////        } catch (Exception e) {
-////            log.error("Failed to send email", e);
-////        }
-//        try {
-//            mailSender.send(message);
-//            log.info("Password reset email sent to: {}", email);
-//        } catch (MailException e) {
-//            log.error("Failed to send email due to mail exception: ", e);
-//        } catch (Exception e) {
-//            log.error("Failed to send email due to unknown exception: ", e);
-//        }
-//    }
 }

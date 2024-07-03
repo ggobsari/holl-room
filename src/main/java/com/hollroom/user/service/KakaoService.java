@@ -7,6 +7,8 @@ import com.hollroom.user.config.KakaoConfig;
 import com.hollroom.user.dto.KakaoDTO;
 import com.hollroom.user.entity.UserEntity;
 import com.hollroom.user.repository.UserRepository;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.catalina.User;
@@ -33,10 +35,12 @@ public class KakaoService {
 
     private final UserRepository userRepository;
     //================================================================================================================//
-    public void saveKakaoUser(KakaoDTO kakaoDTO){
+    public HttpSession saveKakaoUser(KakaoDTO kakaoDTO, HttpServletRequest request){
         String email = kakaoDTO.getKakao_account().getEmail();
 
         Optional<UserEntity> optionalUser = userRepository.findByUserEmail(email);
+
+        HttpSession session = request.getSession();
 
         if(optionalUser.isPresent()){
             // 사용자 정보가 이미 존재하면 로그인 성공을 반환하고 업데이트
@@ -45,6 +49,8 @@ public class KakaoService {
             existingUser.setUserNickname(kakaoDTO.getKakao_account().getProfile().getNickname());
 
             userRepository.save(existingUser);
+
+            session.setAttribute("USER_NICKNAME", existingUser);
         } else{
             UserEntity user = new UserEntity();
             user.setUserEmail(email);
@@ -62,7 +68,11 @@ public class KakaoService {
             user.setLoginType("kakao");
 
             userRepository.save(user);
+
+            session.setAttribute("USER_NICKNAME", user);
         }
+
+        return session;
     }
     //================================================================================================================//
     public String getAccessToken(String code){
