@@ -171,6 +171,9 @@
             background-color: white;
             border: 1px black solid;
             border-right: none;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
         #productList{
             width: 500px;
@@ -246,12 +249,24 @@
             font-size: 26px;
             font-weight: bold;
         }
+        .monthly-map-text{
+            font-size: 40px;
+            font-weight: bold;
+            text-align: center;
+            width: 700px;
+            border-bottom: 1px solid gray;
+        }
+        .arrow-img{
+            width: 64px;
+            height: 64px;
+        }
     </style>
 </head>
 <body>
 <div layout:fragment="content" style="background-color: #cfe2ff;" class="display-flex full-body content-box" >
     <div class="left-div">
         <div class="map">
+            <div class="monthly-map-text">서울시 평균월세지도</div>
             <div th:replace="~{/monthly/seoul_divisions :: map}"></div>
             <div id="avg-price-box"></div>
         </div>
@@ -259,7 +274,7 @@
     <div>
         <div class="display-flex right-div full-height">
             <div id="showProductBtn" >
-                펼치기/닫기
+                <img src="/hollroom/images/arrow.png" class="arrow-img">
             </div>
             <div id="productList" class="display-flex full-height">
                 <div>
