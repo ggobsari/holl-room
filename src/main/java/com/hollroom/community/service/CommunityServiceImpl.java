@@ -190,5 +190,24 @@ public class CommunityServiceImpl implements CommunityService{
         communityDAO.commentDelete(Long.parseLong(commentId));
     }
 
+    @Override
+    public List<CommunityResponseDTO> search(String category, String search) {
+        List<CommunityResponseDTO> communityResponseDTOList = null;
+        List<CommunityEntity> searchedEntity = null;
+        if (category.equals("all")){
+            searchedEntity = communityDAO.searchSimple(search);
+        }else{
+            CommunityEntity entity = new CommunityEntity(category,search);
+            searchedEntity = communityDAO.search(entity);
+        }
+        ModelMapper mapper = new ModelMapper();
+        communityResponseDTOList = searchedEntity.stream()
+                .map(searchEntity -> mapper.map(searchEntity,CommunityResponseDTO.class))
+                .collect(Collectors.toList());
+
+        return communityResponseDTOList;
+
+    }
+
 
 }

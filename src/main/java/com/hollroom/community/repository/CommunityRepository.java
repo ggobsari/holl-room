@@ -13,5 +13,7 @@ public interface CommunityRepository extends JpaRepository<CommunityEntity,Long>
 //    Page<CommunityEntity> findByCategoryAndTitleContaining(String category, String title, Pageable pageRequest);
 
     CommunityEntity findByPostId(Long postId);
+    List<CommunityEntity> findByCategoryAndContentContaining(String category,String content);
+    List<CommunityEntity> findByContentContaining(String content);
 
 }

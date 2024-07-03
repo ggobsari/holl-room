@@ -46,5 +46,9 @@ public interface CommunityDAO {
     //해당 댓글 삭제(비활성화)
     void commentDelete(Long commentId);
 
+    //게시글 검색(페이징X) 카테고리가 전체일 때와 전체가 아닐 때
+    List<CommunityEntity> searchSimple(String content);
+    List<CommunityEntity> search(CommunityEntity entity);
+
 
 }
