@@ -73,9 +73,17 @@ public class ProfileController {
         return ResponseEntity.ok().body("이미지 업로드 성공");
     }
 
+    //닉네임 중복검사
     @GetMapping("/checkNickname")
     public ResponseEntity<Boolean> checkNickname(@RequestParam String nickname) {
         boolean isTaken = profileService.isNicknameTaken(nickname);
+        return new ResponseEntity<>(isTaken, HttpStatus.OK);
+    }
+
+    //휴대폰 번호 중복검사
+    @GetMapping("/checkPhoneNum")
+    public ResponseEntity<Boolean> checkPhoneNum(@RequestParam String phoneNum) {
+        boolean isTaken = profileService.isPhoneNumTaken(phoneNum);
         return new ResponseEntity<>(isTaken, HttpStatus.OK);
     }
 }

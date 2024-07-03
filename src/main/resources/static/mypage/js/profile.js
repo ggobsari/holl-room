@@ -11,8 +11,6 @@ document.addEventListener("DOMContentLoaded", function () {
             updateProfile();
         }
     });
-    //마스킹 함수 실행
-    maskMaking();
     //거주지역 데이터확인 후 테두리 색상 변경
     const userLocalInput = document.getElementById("userLocal");
     if (!userLocalInput.value) {
@@ -29,6 +27,20 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         });
     }
+    //휴대폰번호 중복검사(버튼이 있다면 함수실행가능)
+    if(document.getElementById("checkPhoneNumButton")) {
+        document.getElementById("checkPhoneNumButton").addEventListener("click", function () {
+            const phoneNum = document.getElementById("phoneNumberInput").value;
+            if (phoneNum) {
+                checkPhoneNum(phoneNum);
+            } else {
+                alert("휴대폰 번호를 입력하세요.");
+            }
+        });
+    }
+
+    //마스킹 함수 실행
+    maskMaking();
 
 });
 //==========================================================================
@@ -52,7 +64,7 @@ function updateProfile() {
         const userLocal = document.getElementById("userLocal") ? document.getElementById("userLocal").value : '';
         const password = document.getElementById("password") ? document.getElementById("password").value : '';
         const birthday = document.getElementById("birthday") ? document.getElementById("birthday").value : '';
-        const phoneNumber = document.getElementById("phoneNumber") ? document.getElementById("phoneNumberInput").value : '';
+        const phoneNumber = document.getElementById("phoneNumberInput") ? document.getElementById("phoneNumberInput").value : '';
         const nickName = document.getElementById("userNickName") ? document.getElementById("userNickName").value : '';
         const genderElement = document.getElementById("gender");
         const gender = genderElement ? genderElement.value : '';
@@ -180,14 +192,20 @@ function uploadImage(file) {
 //마스킹 함수 실행
 function maskMaking(){
     //이메일 마스킹
-    const emailInput = document.getElementById("email");
-    emailInput.value = maskingFunc.email(emailInput.value);
+    if(document.getElementById("email")) {
+        const emailInput = document.getElementById("email");
+        emailInput.value = maskingFunc.email(emailInput.value);
+    }
     //실명 마스킹
-    const nameInput = document.getElementById("username");
-    nameInput.value = maskingFunc.name(nameInput.value);
+    if(document.getElementById("username")) {
+        const nameInput = document.getElementById("username");
+        nameInput.value = maskingFunc.name(nameInput.value);
+    }
     //휴대폰 번호 마스킹
-    const phonenumInput = document.getElementById("userPhoneNumberMasked");
-    phonenumInput.value = maskingFunc.phone(phonenumInput.value);
+    if(document.getElementById("userPhoneNumberMasked")) {
+        const phonenumInput = document.getElementById("userPhoneNumberMasked");
+        phonenumInput.value = maskingFunc.phone(phonenumInput.value);
+    }
 }
 //===============================================================================
 //마스킹
@@ -322,6 +340,28 @@ function checkNickname(nickname) {
                 resultElement.style.color = "red";
             } else {
                 resultElement.textContent = "사용 가능한 닉네임입니다.";
+                resultElement.style.color = "green";
+            }
+        } else if (xhr.readyState == 4) {
+            alert("닉네임 중복 검사에 실패했습니다. 서버 응답: " + xhr.responseText);
+        }
+    };
+    xhr.send();
+}
+//==============================================================================================
+// 닉네임 중복 검사 함수
+function checkPhoneNum(phoneNum) {
+    const xhr = new XMLHttpRequest();
+    xhr.open("GET", "http://localhost:8090/hollroom/mypage/checkPhoneNum?phoneNum=" + encodeURIComponent(phoneNum), true);
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState == 4 && xhr.status == 200) {
+            const isTaken = JSON.parse(xhr.responseText);
+            const resultElement = document.getElementById("phoneNumCheckResult");
+            if (isTaken) {
+                resultElement.textContent = "이미 등록된 번호입니다.";
+                resultElement.style.color = "red";
+            } else {
+                resultElement.textContent = "등록되지 않은 번호입니다.";
                 resultElement.style.color = "green";
             }
         } else if (xhr.readyState == 4) {

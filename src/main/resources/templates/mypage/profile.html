@@ -82,7 +82,9 @@
                                 <div class="p-3 container-center-horizontal profile_profile screen border rounded p-3 text-box">
                                     <!--프로필 카드-->
                                     <div class="content1">
-                                        <h2 class="my-5 font-eng" style="font-size: 40px">MyProfile</h2>
+                                        <h2 class="my-5 font-eng" style="font-size: 40px">
+                                            M<span style="color: #0d6efd;">y</span>P<span style="color: #0d6efd;">ro</span>fil<span style="color: #0d6efd;">e</span>
+                                        </h2>
                                         <!--사진-->
                                         <img class="ecllipse-1 clickable-box" id="profileImage"
                                              onclick="triggerFileUpload()"
@@ -189,7 +191,12 @@
 
                                             <!-- 휴대폰 번호 -->
                                             <div class="text-container-1 abeezee-normal-black-14px">
-                                                <div class="text" style="width: 100px">휴대폰 번호</div>
+                                                <div class="text flex-row-5" style="width: 350px" >
+                                                    휴대폰 번호
+                                                    <button type="button" id="checkPhoneNumButton" class="btn btn-outline-secondary address-search-button"
+                                                            th:if="${profile.userPhoneNumber == null}" style="margin-top:0; margin-right: 7px; padding-top: 1px; padding-bottom: 1px;">중복 확인</button>
+                                                    <p id="phoneNumCheckResult"></p>
+                                                </div>
                                             </div>
                                             <div class="flex-row-3 flex-row-5">
                                                 <input type="text" class="rectangle form-control" id="userPhoneNumberMasked"
