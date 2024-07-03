@@ -5,6 +5,7 @@ import com.hollroom.user.dto.UserSignupDTO;
 import com.hollroom.user.entity.UserEntity;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -70,6 +71,12 @@ public class ProfileController {
         // Service 호출하여 이미지 업로드 및 프로필 업데이트 처리
         profileService.saveProfileImage(image, userSignupDTO);
         return ResponseEntity.ok().body("이미지 업로드 성공");
+    }
+
+    @GetMapping("/checkNickname")
+    public ResponseEntity<Boolean> checkNickname(@RequestParam String nickname) {
+        boolean isTaken = profileService.isNicknameTaken(nickname);
+        return new ResponseEntity<>(isTaken, HttpStatus.OK);
     }
 }
 

@@ -66,6 +66,9 @@ public class ProfileService {
             if(userSignupDTO.getUserPhoneNumber() != null){
                 userEntity.setUserPhoneNumber(userSignupDTO.getUserPhoneNumber());
             }
+            if(userSignupDTO.getUserNickname() != null){
+                userEntity.setUserNickname(userSignupDTO.getUserNickname());
+            }
 
 
             userRepository.save(userEntity);
@@ -131,6 +134,12 @@ public class ProfileService {
             userRepository.save(userEntity);
             return true;
         }
+    }
+
+    //유저 닉네임 중복 검사
+    public boolean isNicknameTaken(String nickname) {
+        Optional<UserEntity> user = userRepository.findByUserNickname(nickname);
+        return user.isPresent();
     }
 }
 

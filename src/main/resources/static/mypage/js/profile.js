@@ -13,12 +13,29 @@ document.addEventListener("DOMContentLoaded", function () {
     });
     //마스킹 함수 실행
     maskMaking();
+    //거주지역 데이터확인 후 테두리 색상 변경
+    const userLocalInput = document.getElementById("userLocal");
+    if (!userLocalInput.value) {
+        userLocalInput.style.borderColor = '#dc3545';
+    }
+    //닉네임중복검사(버튼이 있다면 함수실행가능)
+    if(document.getElementById("checkNicknameButton")) {
+        document.getElementById("checkNicknameButton").addEventListener("click", function () {
+            const nickname = document.getElementById("userNickName").value;
+            if (nickname) {
+                checkNickname(nickname);
+            } else {
+                alert("닉네임을 입력하세요.");
+            }
+        });
+    }
+
 });
 //==========================================================================
 // 비밀번호 유효성 검사
 function validatePassword() {
     var password = document.getElementById("password").value;
-    var confirmPassword = document.getElementById("confirmPassword").value;
+    var confirmPassword = document.getElementById("confirmPasswordInput").value;
     if (password != confirmPassword) {
         alert("비밀번호와 비밀번호 확인이 일치하지 않습니다.");
         return false;
@@ -35,7 +52,8 @@ function updateProfile() {
         const userLocal = document.getElementById("userLocal") ? document.getElementById("userLocal").value : '';
         const password = document.getElementById("password") ? document.getElementById("password").value : '';
         const birthday = document.getElementById("birthday") ? document.getElementById("birthday").value : '';
-        const phoneNumber = document.getElementById("phoneNumber") ? document.getElementById("phoneNumber").value : '';
+        const phoneNumber = document.getElementById("phoneNumber") ? document.getElementById("phoneNumberInput").value : '';
+        const nickName = document.getElementById("userNickName") ? document.getElementById("userNickName").value : '';
         const genderElement = document.getElementById("gender");
         const gender = genderElement ? genderElement.value : '';
 
@@ -55,7 +73,6 @@ function updateProfile() {
             }
         };
 
-        console.log(userLocal, userId, birthday, password, gender);
         const updateInfo = {
             userLocation: userLocal,
             userEmail: userId,
@@ -73,6 +90,10 @@ function updateProfile() {
         if(phoneNumber){
             updateInfo.userPhoneNumber = phoneNumber
         }
+        if(nickName){
+            updateInfo.userNickname = nickName;
+        }
+
 
         xhr.send(JSON.stringify(updateInfo));
     } else {
@@ -165,7 +186,7 @@ function maskMaking(){
     const nameInput = document.getElementById("username");
     nameInput.value = maskingFunc.name(nameInput.value);
     //휴대폰 번호 마스킹
-    const phonenumInput = document.getElementById("userPhoneNumber");
+    const phonenumInput = document.getElementById("userPhoneNumberMasked");
     phonenumInput.value = maskingFunc.phone(phonenumInput.value);
 }
 //===============================================================================
@@ -288,3 +309,24 @@ let maskingFunc = {
     }
 }
 //==============================================================================================
+// 닉네임 중복 검사 함수
+function checkNickname(nickname) {
+    const xhr = new XMLHttpRequest();
+    xhr.open("GET", "http://localhost:8090/hollroom/mypage/checkNickname?nickname=" + encodeURIComponent(nickname), true);
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState == 4 && xhr.status == 200) {
+            const isTaken = JSON.parse(xhr.responseText);
+            const resultElement = document.getElementById("nicknameCheckResult");
+            if (isTaken) {
+                resultElement.textContent = "이미 사용 중인 닉네임입니다.";
+                resultElement.style.color = "red";
+            } else {
+                resultElement.textContent = "사용 가능한 닉네임입니다.";
+                resultElement.style.color = "green";
+            }
+        } else if (xhr.readyState == 4) {
+            alert("닉네임 중복 검사에 실패했습니다. 서버 응답: " + xhr.responseText);
+        }
+    };
+    xhr.send();
+}

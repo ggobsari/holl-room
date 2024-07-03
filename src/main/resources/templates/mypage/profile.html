@@ -25,8 +25,8 @@
     <!--js-->
     <script type="text/javascript"
             src="//dapi.kakao.com/v2/maps/sdk.js?appkey=a3660f8de5e77b73f4c7822adeb86bec&libraries=services"></script>
-    <script src="js/profile.js"></script>
     <script src="js/profile_geolocation.js"></script>
+    <script src="js/profile.js"></script>
     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 
     <style>
@@ -129,9 +129,17 @@
                                             <div class="rectangle-21"></div>
                                             <div class="flex-row-1 flex-row-5">
                                                 <div class="flex-col abeezee-normal-black-14px">
-                                                    <div class="text-28">닉네임</div>
+                                                    <div class="text-28 flex-row-5" style="width: 300px">
+                                                        닉네임
+                                                       <button type="button" id="checkNicknameButton" class="btn btn-outline-secondary address-search-button"
+                                                               th:if="${profile.userNickname == null}" style="margin-top:0; margin-right: 7px; padding-top: 1px; padding-bottom: 1px;">중복 확인</button>
+                                                        <p id="nicknameCheckResult"></p>
+
+                                                    </div>
                                                     <input type="text" class="rectangle-9 form-control"
-                                                           th:value="${profile.userNickname}" readonly/>
+                                                           th:value="${profile.userNickname}" th:if="${profile.userNickname != null}" readonly/>
+                                                    <input type="text" class="rectangle-9 form-control" id="userNickName" style="border-color: #dc3545"
+                                                           th:if="${profile.userNickname == null}" placeholder="닉네임을 입력하세요"/>
                                                     <div class="text-27">이메일</div>
                                                 </div>
                                                 <!--실명-->
@@ -153,7 +161,7 @@
                                             <div class="flex-row-2 flex-row-5">
                                                 <input type="password" class="rectangle form-control" id="password"/>
                                                 <input type="password" class="rectangle form-control"
-                                                       id="confirmPassword"/>
+                                                       id="confirmPasswordInput"/>
                                             </div>
                                             <div class="text-container-1 abeezee-normal-black-14px">
                                                 <div class="text">생년월일</div>
@@ -184,9 +192,9 @@
                                                 <div class="text" style="width: 100px">휴대폰 번호</div>
                                             </div>
                                             <div class="flex-row-3 flex-row-5">
-                                                <input type="text" class="rectangle form-control" id="userPhoneNumber"
+                                                <input type="text" class="rectangle form-control" id="userPhoneNumberMasked"
                                                        th:value="${profile.userPhoneNumber}" th:if="${profile.userPhoneNumber != null}" readonly/>
-                                                <input type="text" class="rectangle form-control" id="phoneNumber" style="border-color: #dc3545"
+                                                <input type="text" class="rectangle form-control" id="phoneNumberInput" style="border-color: #dc3545"
                                                        th:if = "${profile.userPhoneNumber == null}" placeholder="휴대폰 번호를 입력하세요 ( - 포함)"/>
                                             </div>
 
@@ -206,8 +214,9 @@
                                                                onclick="AddressSearch()" value="주소검색">
                                                     </div>
                                                     <input type="text" class="rectangle-30 form-control" id="userLocal"
-                                                           th:value="${profile.userLocation}"  placeholder="주소를 검색하세요"
+                                                           th:value="${profile.userLocation}" placeholder="주소를 검색해주세요"
                                                            readonly/>
+
                                                 </div>
 
                                                 <input type="hidden" id="userId" th:value="${profile.userEmail}"/>
