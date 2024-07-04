@@ -77,16 +77,35 @@ public class CommunityController {
 
         return mav;
     }
-    @PostMapping("/search")
-    public ModelAndView search(@RequestParam("category") String category, @RequestParam("search") String search){
-//        System.out.println("검색 매핑 확인::"+category+","+search);
+    @GetMapping("/search")
+    public ModelAndView search(@RequestParam("category") String category, @RequestParam("fieldOption") String fieldOption,
+                               @RequestParam("search") String search, @RequestParam("page") String page){
+//        System.out.println("검색 매핑 확인::"+category+","+search+","+fieldOption+","+page);
         ModelAndView mav = new ModelAndView("community/content/community_search_list");
 
-        List<CommunityResponseDTO> searchedDTOlist = service.search(category,search);
-//        System.out.println("검색한 결과>>>>>>>>>>>"+searchedDTOlist);
+        CommunityPagingDTO pagingDTO = service.deepSearch(category,fieldOption,search,page);
 
-        mav.addObject("communityList", searchedDTOlist);
+        System.out.println("=============================================================================");
+        System.out.println("전체 페이지 수=>"+pagingDTO.getTotalPages());
+        System.out.println("현재 페이지 번호=>"+pagingDTO.getNowPageNumber());
+        System.out.println("한 페이지에 출력되는 데이터=>"+pagingDTO.getPageSize());
+        System.out.println("다음 페이지 존재 여부=>"+pagingDTO.isHasNextPage());
+        System.out.println("이전 페이지 존재 여부=>"+pagingDTO.isHasPreviousPage());
+        System.out.println("첫번째 페이지 인가? =>"+pagingDTO.isFirstPage());
+        System.out.println("마지막 페이지 인가? =>"+pagingDTO.isLastPage());
+        System.out.println("=============================================================================");
+
+        int pageLimit = 3;
+        int startPage = (((int) (Math.ceil((double) (pagingDTO.getNowPageNumber()+1) / pageLimit))) -1) * pageLimit+1;
+        int endPage = ((startPage + pageLimit -1) < pagingDTO.getTotalPages() ? (startPage + pageLimit -1) : pagingDTO.getTotalPages());
+
+        mav.addObject("startPage", startPage);
+        mav.addObject("endPage", endPage);
+
+        mav.addObject("communityList", pagingDTO);
         mav.addObject("category", category);
+        mav.addObject("fieldOption", fieldOption);
+        mav.addObject("search", search);
 
         return mav;
     }

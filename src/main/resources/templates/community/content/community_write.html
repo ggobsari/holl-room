@@ -11,19 +11,20 @@
   <title>HollRoomCommunityWritePage</title>
 
   <!-- Docs CSS -->
-  <link type="text/css" href="/hollroom/common/css/styles_list2.css" rel="stylesheet">
+  <!--<link type="text/css" href="/hollroom/common/css/styles_list2.css" rel="stylesheet">-->
 </head>
 
 <body>
-<div layout:fragment="content" style="background-color: #cfe2ff " >
+<div layout:fragment="content" style="background-color: white; padding-top: 20px; padding-bottom: 20px; " >
     <!--<section class="section section-components pb-0" id="section-components">-->
-      <div class="container" style="background-color: #f2f2f2; width: 1200px;">
+      <div class="container" style="background-color: white; width: 1200px; border:0.1px #0d6efd solid;
+       border-radius: 1%; padding-top: 20px; padding-bottom: 20px;">
         <form action="/hollroom/community/write" method="post" enctype="multipart/form-data">
           <div class="row justify-content-center">
             <div class="col-lg-12">
               <!-- Basic elements -->
               <h2 class="mb-5">
-                <span>게시글 등록</span>
+                <span style="font-family: 'CWDangamAsac-Bold', sans-serif; font-size: 1.5em">Post Registration</span>
               </h2>
               <!-- Buttons -->
               <!--<h3 class="h4 text-success font-weight-bold mb-4">Buttons</h3>-->
@@ -111,7 +112,8 @@
             <label class="text-uppercase font-weight-bold">본문 내용</label>
           </div>
           <div class="form-group mb-4">
-            <textarea class="form-control form-control-alternative" name="content" rows="10" cols="80" placeholder="내용을 작성해 주세요"></textarea>
+            <textarea class="form-control form-control-alternative" name="content" rows="10" cols="80" placeholder="내용을 작성해 주세요"
+                      style="background-color: #212529; border: #212529 solid; border-radius: 1%; color: white"></textarea>
           </div>
           <div>
             <button class="btn btn-1 btn-success" type="submit">등록</button>

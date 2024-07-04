@@ -41,5 +41,8 @@ public interface CommunityService {
     //게시글 검색 (페이징X)
     List<CommunityResponseDTO> search(String category, String search);
 
+    //게시글 상세 조건 검색 (페이징O)
+    CommunityPagingDTO deepSearch(String category, String fieldOption, String content,String page);
+
 
 }

@@ -16,4 +16,12 @@ public interface CommunityRepository extends JpaRepository<CommunityEntity,Long>
     List<CommunityEntity> findByCategoryAndContentContaining(String category,String content);
     List<CommunityEntity> findByContentContaining(String content);
 
+    //그런데 삭제된 글은 불러오지 않도록 하기
+    //조건 검색
+    Page<CommunityEntity> findByDeletedAndTitleContaining(String deleted,String title,Pageable pageRequest);
+    Page<CommunityEntity> findByDeletedAndContentContaining(String deleted,String content,Pageable pageRequest);
+
+    //카테고리 포함 조건검색
+    Page<CommunityEntity> findByDeletedAndCategoryAndTitleContaining(String deleted,String category,String title,Pageable pageRequest);
+    Page<CommunityEntity> findByDeletedAndCategoryAndContentContaining(String deleted,String category,String content,Pageable pageRequest);
 }

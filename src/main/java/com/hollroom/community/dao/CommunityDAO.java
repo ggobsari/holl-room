@@ -50,5 +50,23 @@ public interface CommunityDAO {
     List<CommunityEntity> searchSimple(String content);
     List<CommunityEntity> search(CommunityEntity entity);
 
+    //카테고리는 제외된 검색(페이징) - 제목
+    CommunityPagingEntityDTO deepSearchTitle(String content, String page);
+
+    //카테고리는 제외된 검색(페이징) - 본문내용
+    CommunityPagingEntityDTO deepSearchContent(String content, String page);
+
+    //카테고리는 제외된 검색(페이징) - 작성자
+    CommunityPagingEntityDTO deepSearchWriter(String content, String page);
+
+    //카테고리가 포함된 검색(페이징) - 제목
+    CommunityPagingEntityDTO deepSearchCateTitle(String category, String content, String page);
+
+    //카테고리가 포함된 검색(페이징) - 본문내용
+    CommunityPagingEntityDTO deepSearchCateContent(String category, String content, String page);
+
+    //카테고리가 포함된 검색(페이징) - 작성자
+    CommunityPagingEntityDTO deepSearchCateWriter(String category, String content, String page);
+
 
 }

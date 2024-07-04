@@ -159,6 +159,92 @@ public class CommunityDAOImpl implements CommunityDAO{
     public List<CommunityEntity> search(CommunityEntity entity) {
         return communityRepository.findByCategoryAndContentContaining(entity.getCategory(),entity.getContent());
     }
+    //조건 검색 메소드들
+    @Override
+    public CommunityPagingEntityDTO deepSearchTitle(String content, String page) {
+        CommunityPagingEntityDTO pagingEntityDTO = new CommunityPagingEntityDTO();
+        PageRequest pageRequest = PageRequest.of(Integer.parseInt(page),10, Sort.Direction.DESC,"postId");
+
+        Page<CommunityEntity> pages = communityRepository.findByDeletedAndTitleContaining(null,content,pageRequest);
+
+        pagingEntityDTO.setCommunityEntities(pages.getContent());
+        pagingEntityDTO.setTotalPages(pages.getTotalPages());
+        pagingEntityDTO.setNowPageNumber(pages.getNumber());
+        pagingEntityDTO.setPageSize(pages.getSize());
+        pagingEntityDTO.setHasNextPage(pages.hasNext());
+        pagingEntityDTO.setHasPreviousPage(pages.hasPrevious());
+        pagingEntityDTO.setFirstPage(pages.isFirst());
+        pagingEntityDTO.setLastPage(pages.isLast());
+        return pagingEntityDTO;
+    }
+
+    @Override
+    public CommunityPagingEntityDTO deepSearchContent(String content, String page) {
+        CommunityPagingEntityDTO pagingEntityDTO = new CommunityPagingEntityDTO();
+        PageRequest pageRequest = PageRequest.of(Integer.parseInt(page),10, Sort.Direction.DESC,"postId");
+
+        Page<CommunityEntity> pages = communityRepository.findByDeletedAndContentContaining(null,content,pageRequest);
+
+        pagingEntityDTO.setCommunityEntities(pages.getContent());
+        pagingEntityDTO.setTotalPages(pages.getTotalPages());
+        pagingEntityDTO.setNowPageNumber(pages.getNumber());
+        pagingEntityDTO.setPageSize(pages.getSize());
+        pagingEntityDTO.setHasNextPage(pages.hasNext());
+        pagingEntityDTO.setHasPreviousPage(pages.hasPrevious());
+        pagingEntityDTO.setFirstPage(pages.isFirst());
+        pagingEntityDTO.setLastPage(pages.isLast());
+        return pagingEntityDTO;
+    }
+
+    @Override
+    public CommunityPagingEntityDTO deepSearchWriter(String content, String page) {
+        CommunityPagingEntityDTO pagingEntityDTO = new CommunityPagingEntityDTO();
+//        PageRequest pageRequest = PageRequest.of(Integer.parseInt(page),10, Sort.Direction.DESC,"postId");
+        return null;
+    }
+
+    @Override
+    public CommunityPagingEntityDTO deepSearchCateTitle(String category, String content, String page) {
+        CommunityPagingEntityDTO pagingEntityDTO = new CommunityPagingEntityDTO();
+        PageRequest pageRequest = PageRequest.of(Integer.parseInt(page),10, Sort.Direction.DESC,"postId");
+
+        Page<CommunityEntity> pages = communityRepository.findByDeletedAndCategoryAndTitleContaining(null,category,content,pageRequest);
+
+        pagingEntityDTO.setCommunityEntities(pages.getContent());
+        pagingEntityDTO.setTotalPages(pages.getTotalPages());
+        pagingEntityDTO.setNowPageNumber(pages.getNumber());
+        pagingEntityDTO.setPageSize(pages.getSize());
+        pagingEntityDTO.setHasNextPage(pages.hasNext());
+        pagingEntityDTO.setHasPreviousPage(pages.hasPrevious());
+        pagingEntityDTO.setFirstPage(pages.isFirst());
+        pagingEntityDTO.setLastPage(pages.isLast());
+        return pagingEntityDTO;
+    }
+
+    @Override
+    public CommunityPagingEntityDTO deepSearchCateContent(String category, String content, String page) {
+        CommunityPagingEntityDTO pagingEntityDTO = new CommunityPagingEntityDTO();
+        PageRequest pageRequest = PageRequest.of(Integer.parseInt(page),10, Sort.Direction.DESC,"postId");
+
+        Page<CommunityEntity> pages = communityRepository.findByDeletedAndCategoryAndContentContaining(null,category,content,pageRequest);
+
+        pagingEntityDTO.setCommunityEntities(pages.getContent());
+        pagingEntityDTO.setTotalPages(pages.getTotalPages());
+        pagingEntityDTO.setNowPageNumber(pages.getNumber());
+        pagingEntityDTO.setPageSize(pages.getSize());
+        pagingEntityDTO.setHasNextPage(pages.hasNext());
+        pagingEntityDTO.setHasPreviousPage(pages.hasPrevious());
+        pagingEntityDTO.setFirstPage(pages.isFirst());
+        pagingEntityDTO.setLastPage(pages.isLast());
+        return pagingEntityDTO;
+    }
+
+    @Override
+    public CommunityPagingEntityDTO deepSearchCateWriter(String category, String content, String page) {
+        CommunityPagingEntityDTO pagingEntityDTO = new CommunityPagingEntityDTO();
+//        PageRequest pageRequest = PageRequest.of(Integer.parseInt(page),10, Sort.Direction.DESC,"postId");
+        return null;
+    }
 
 
 }
