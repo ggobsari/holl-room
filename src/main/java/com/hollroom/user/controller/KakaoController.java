@@ -21,9 +21,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Slf4j
 @RequiredArgsConstructor
 public class KakaoController {
-
+    //================================================================================================================//
     private final KakaoService kakaoService;
-
+    //================================================================================================================//
     @GetMapping("/kakao")
     @ResponseBody
     public ResponseEntity<Void> kakaoLogin(@RequestParam("code") String code, HttpServletRequest request){

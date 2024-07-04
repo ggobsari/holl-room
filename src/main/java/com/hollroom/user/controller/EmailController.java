@@ -21,11 +21,11 @@ import java.util.Optional;
 @Slf4j
 @RequiredArgsConstructor
 public class EmailController {
-
+    //================================================================================================================//
     private final EmailService emailService;
 
     private final UserService userService;
-
+    //================================================================================================================//
     @PostMapping("/forgotPassword")
     public String forgotPassword(@RequestBody ForgotPasswordRequestDTO forgotPasswordRequestDTO) {
         Optional<UserEntity> user = userService.findByUserEmail(forgotPasswordRequestDTO.getEmail());

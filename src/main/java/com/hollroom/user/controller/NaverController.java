@@ -32,7 +32,7 @@ public class NaverController {
         response.sendRedirect(url);
     }
 
-    @GetMapping("/login")
+    @GetMapping("/naver/login")
     public ResponseEntity<?> naverCallback(@RequestParam("code") String code, @RequestParam("state") String state,
                                            HttpServletRequest request){
         log.info(code);
