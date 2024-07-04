@@ -5,6 +5,7 @@ import com.hollroom.monthly.repository.MonthlyProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Repository
@@ -19,8 +20,12 @@ public class MonthlyProductDAOImpl implements MonthlyProductDAO {
 
     @Override
     public List<MonthlyProductEntity> readProductAll() {
-        List<MonthlyProductEntity> list = productRepo.findAll().subList(0,10);
-        System.out.println("에러1-1-1");
+        List<MonthlyProductEntity> list = new ArrayList<>();
+        try {
+            list = productRepo.findAll().subList(0,10);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
         return list;
     }
 
