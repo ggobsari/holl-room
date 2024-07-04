@@ -50,7 +50,7 @@ dependencies {
 //	소셜
 	implementation 'com.fasterxml.jackson.core:jackson-databind'
 //	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client' //시큐리티 의존하기 때문에 제거
-	implementation 'org.apache.httpcomponents:httpclient'
+	implementation 'org.apache.httpcomponents:httpclient:4.5.13'
 
 	implementation group: 'com.mysql', name: 'mysql-connector-j', version: '8.4.0'
 	implementation group: 'org.springframework', name: 'spring-jdbc', version: '6.1.10'
