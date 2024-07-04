@@ -6,8 +6,10 @@ import com.hollroom.community.repository.AttachFileRepository;
 import com.hollroom.monthly.dao.MonthlyProductDAO;
 import com.hollroom.monthly.domain.entity.DivisionEntity;
 import com.hollroom.monthly.domain.entity.MonthlyProductEntity;
+import com.hollroom.monthly.domain.entity.MonthlyTrendEntity;
 import com.hollroom.monthly.repository.DivisionRepository;
 import com.hollroom.monthly.repository.MonthlyProductRepository;
+import com.hollroom.monthly.repository.MonthlyTrendRepository;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Test;
 import org.modelmapper.ModelMapper;
@@ -33,10 +35,16 @@ class MonthlyProductServiceTest {
     @Autowired
     private MonthlyProductRepository monthlyProductRepo;
     @Autowired
+    private MonthlyTrendRepository monthlyTrendRepo;
+    @Autowired
     private DivisionRepository divisionRepo;
     @Autowired
     private ModelMapper mapper;
 
+    // 실행시키기 전,
+    // properties의
+    // #spring.jpa.hibernate.ddl-auto
+    // 를 잠깐 create로 바꿀 것
     @Test
     public void csvInsert() throws IOException {
 
@@ -89,6 +97,16 @@ class MonthlyProductServiceTest {
             divisionRepo.save(entity);
         });
 
+        List<List<String>> trend = readCSV("monthly_trend.csv");
+        division.forEach(d->{
+            MonthlyTrendEntity entity = new MonthlyTrendEntity(
+                    null,
+                    Long.parseLong(d.get(1)),
+                    d.get(2),
+                    Integer.parseInt(d.get(0))
+            );
+            monthlyTrendRepo.save(entity);
+        });
         // 0 == bay
         // 1 == deposit
         // 2 == division
@@ -100,6 +118,7 @@ class MonthlyProductServiceTest {
         // 8 == security
         // 9 == expriation
     }
+
 
     public List<List<String>> readCSV(String csvFile) throws IOException {
         String path = System.getProperty("user.dir") +"\\src\\test\\java\\com\\hollroom\\monthly\\service\\data\\csv\\";

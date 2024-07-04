@@ -23,15 +23,18 @@ public class MonthlyTrendServiceImpl implements MonthlyTrendService {
 
     @Override
     public MonthlyTrendDTO readMonthlyTrend(Long divisionCode) {
-        System.out.println(getCurrentDateCode());
         return mapper.map(repo.findByDateCodeAndDivisionCode(getCurrentDateCode(),divisionCode), MonthlyTrendDTO.class);
     }
 
     @Override
     public Map<Long,MonthlyTrendDTO> readMonthlyTrendsByAddress(String address) {
         Map<Long,MonthlyTrendDTO> result = new HashMap<>();
-        List<DivisionDTO> divisions = divisionService.readSubDivisions(address);
-        divisions.forEach(d -> result.put(d.mainDivisionCode,readMonthlyTrend(d.mainDivisionCode)));
+        try {
+            List<DivisionDTO> divisions = divisionService.readSubDivisions(address);
+            divisions.forEach(d -> result.put(d.mainDivisionCode,readMonthlyTrend(d.mainDivisionCode)));
+        } catch (Exception e){
+            e.printStackTrace();
+        }
         return result;
     }
 
