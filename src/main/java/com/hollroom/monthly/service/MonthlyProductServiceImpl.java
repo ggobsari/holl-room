@@ -75,11 +75,8 @@ public class MonthlyProductServiceImpl implements MonthlyProductService {
     }
 
     private MonthlyProductResponseDTO convertEntityToDTO(MonthlyProductEntity entity) {
-        System.out.println("에러1-1");
         MonthlyProductResponseDTO dto = mapper.map(entity,MonthlyProductResponseDTO.class);
-        System.out.println("에러1-2");
         dto.setRoomImg(attachFileRepo.findByPostIdAndTabType(dto.getId(),TabType.MONTHLY_PRODUCT).get(0).getFileStoreName());
-        System.out.println("에러1-3");
         return dto;
     }
 

@@ -2,6 +2,7 @@ package com.hollroom.monthly.controller;
 
 import com.hollroom.community.service.FileUploadService;
 import com.hollroom.monthly.domain.dto.*;
+import com.hollroom.monthly.service.DivisionService;
 import com.hollroom.monthly.service.MonthlyProductService;
 import com.hollroom.monthly.service.MonthlyTrendService;
 import lombok.RequiredArgsConstructor;
@@ -18,15 +19,12 @@ import java.util.Random;
 public class MonthlyController {
     private final MonthlyProductService productService;
     private final MonthlyTrendService trendService;
+    private final DivisionService divisionService;
 
     @GetMapping(value = {"/","/monthly"})
     public String showMainPage(Model model){
         List<MonthlyProductResponseDTO> productList = productService.readProductAll();
-        System.out.println("에러1");
         Map<Long,MonthlyTrendDTO> trendMap = trendService.readMonthlyTrendsByAddress("서울시");
-        System.out.println("에러2");
-        System.out.println("트렌드 맵 사이즈 == "+trendMap.size());
-        System.out.println( "프로덕트 리스트 사이즈 == "+productList.size());
         model.addAttribute("productList", productList);
         model.addAttribute("trendMap", trendMap);
         return "monthly/monthly";
@@ -40,7 +38,9 @@ public class MonthlyController {
     }
 
     @GetMapping("/monthly/product/register")
-    public String showRegisterProductPage() {
+    public String showRegisterProductPage(Model model) {
+        List<DivisionDTO> divisionList = divisionService.readSubDivisions("서울시");
+        model.addAttribute("divisionList", divisionList);
         return "monthly/product_register";
     }
 
@@ -54,7 +54,6 @@ public class MonthlyController {
 
     @GetMapping("/monthly/product/division/{addr}")
     public String readDivisionProduct(Model model, @PathVariable String addr){
-        System.out.println(addr);
         List<MonthlyProductResponseDTO> productList = productService.readDivisionProduct(addr);
         model.addAttribute("productList", productList);
         return "monthly/product_list";
