@@ -18,11 +18,11 @@ import java.io.IOException;
 @Slf4j
 @RequiredArgsConstructor
 public class GoogleController {
-
+    //================================================================================================================//
     private final GoogleService googleService;
 
     private final GoogleConfig googleConfig;
-
+    //================================================================================================================//
     @GetMapping("/google")
     public void googleLogin(HttpServletResponse response) throws IOException{
         String url = "https://accounts.google.com/o/oauth2/auth?client_id=" + googleConfig.getClientId()
