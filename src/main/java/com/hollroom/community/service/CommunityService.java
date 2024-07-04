@@ -38,5 +38,8 @@ public interface CommunityService {
     //해당 댓글 삭제(비활성화)
     void commentDelete(String commentId);
 
+    //게시글 검색 (페이징X)
+    List<CommunityResponseDTO> search(String category, String search);
+
 
 }

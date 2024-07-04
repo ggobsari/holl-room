@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.nurigo.sdk.NurigoApp;
 import net.nurigo.sdk.message.service.DefaultMessageService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -29,21 +30,14 @@ public class UserController {
 //    }
     //회원가입 요청
     @PostMapping("/signup")
-    public String signup(UserSignupDTO userSignupDTO){
+    public void signup(UserSignupDTO userSignupDTO){
         userService.signup(userSignupDTO);
-        return "user/login";
     }
-//    //로그인 페이지 요청
-//    @GetMapping("/login")
-//    public String loginForm(){
-//        return "user/login";
-//    }
     //로그인 요청
     @PostMapping("/login")
-    public String login(UserLoginDTO userLoginDTO, HttpServletRequest request){
+    public void login(UserLoginDTO userLoginDTO, HttpServletRequest request){
         log.info(userLoginDTO.getUserEmail());
         userService.login(userLoginDTO, request);
-        return "index";
     }
     //닉네임 중복 확인 요청
     @GetMapping("/checkNickname")
@@ -70,22 +64,30 @@ public class UserController {
 //    public ResponseEntity<?> checkVerificationCode(){
 //        userService.sendSMS();
 //    }
+
+    @GetMapping("/checkLogin")
+    @ResponseBody
+    public ResponseEntity<Boolean> checkLogin(HttpSession session){
+        if(session.getAttribute("USER_NICKNAME") != null){
+            return ResponseEntity.ok(true);
+        } else {
+            return ResponseEntity.ok(false);
+        }
+    }
+
     //로그아웃
     @PostMapping("/logout")
-    public String logout(HttpServletRequest request){
+    public ResponseEntity<String> logout(HttpServletRequest request){
 
         HttpSession session = request.getSession(false);
 
         if(session != null){
             session.invalidate();
-        }
-
-        if(session == null){
-            log.info("세션 없음");
-        } else{
             log.info("세션 있음");
+            return ResponseEntity.ok("로그아웃 성공");
+        } else{
+            log.info("세션 없음");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("세션이 없습니다.");
         }
-
-        return "user/login";
     }
 }

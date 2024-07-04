@@ -5,57 +5,84 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <style type="text/css">
+        .content-container{
+            display: flex;
+            justify-content: center;
+            height: 100vh;
+            background-color: #cfe2ff;
+        }
+        .form-box{
+            background-color: white;
+            padding: 30px;
+            margin-top: 100px;
+            margin-bottom: auto;
+        }
+
+        .input-box{
+            margin: 10px;
+        }
+    </style>
 </head>
 <body>
-<div layout:fragment="content">
-    <h1>매물등록 페이지</h1>
-    <form th:action="@{/monthly/product/register}" method="post" enctype="multipart/form-data">
-        <div>
-            <label for="deposit">보증금</label>
-            <input id="deposit" name="deposit" type="number"/>
-        </div>
-        <div>
-            <label for="monthly">월세</label>
-            <input id="monthly" name="monthly" type="number"/>
-        </div>
-        <div>
-            <label for="address">주소</label>
-            <input id="address" name="address" type="text"/>
-        </div>
-        <div>
-            <label for="floor_count">층수</label>
-            <input id="floor_count" name="floorCount" type="number"/>
-        </div>
-        <div>
-            <label for="pyeong_count">평수</label>
-            <input id="pyeong_count" name="pyeongCount" type="number"/>
-        </div>
-        <div>
-            <label for="room_count">방수</label>
-            <input id="room_count" name="roomCount" type="number"/>
-        </div>
-        <div>
-            <label for="bay_count">창수</label>
-            <input id="bay_count" name="bayCount" type="number"/>
-        </div>
-        <div>
-            <label for="room_option">방 옵션</label>
-            <input id="room_option" name="roomOption" type="text"/>
-        </div>
-        <div>
-            <label for="security_facility">보안 시설</label>
-            <input id="security_facility" name="securityFacility" type="text"/>
-        </div>
-        <div>
-            <label for="expiration_date">계약 종료일</label>
-            <input id="expiration_date" name="expirationDate" type="date"/>
-        </div>
-        <div>
-            매물사진
-            <input type="file" name="roomImg" multiple="multiple"/>
-        </div>
-        <button type="submit">매물등록</button>
-    </form>
+<div layout:fragment="content" class="content-container">
+    <div class="form-box">
+        <h1>매물등록 페이지</h1>
+        <form th:action="@{/monthly/product/register}" method="post" enctype="multipart/form-data">
+            <div class="input-box">
+                <label for="deposit">보증금</label>
+                <input id="deposit" name="deposit" type="number"/>
+            </div>
+            <div class="input-box">
+                <label for="monthly">월세</label>
+                <input id="monthly" name="monthly" type="number"/>
+            </div>
+            <div class="input-box">
+                <label for="address">주소</label>
+                <input id="address" name="address" type="text"/>
+            </div>
+            <div class="input-box">
+                <label for="floor_count">층수</label>
+                <input id="floor_count" name="floorCount" type="number"/>
+            </div>
+            <div class="input-box">
+                <label for="pyeong_count">평수</label>
+                <input id="pyeong_count" name="pyeongCount" type="number"/>
+            </div>
+            <div class="input-box">
+                <label for="room_count">방수</label>
+                <input id="room_count" name="roomCount" type="number"/>
+            </div>
+            <div class="input-box">
+                <label for="bay_count">창수</label>
+                <input id="bay_count" name="bayCount" type="number"/>
+            </div>
+            <div class="input-box">
+                <label for="room_option">방 옵션</label>
+                <input id="room_option" name="roomOption" type="text"/>
+            </div>
+            <div class="input-box">
+                <label for="security_facility">보안 시설</label>
+                <input id="security_facility" name="securityFacility" type="text"/>
+            </div>
+            <div class="input-box">
+                <label for="division_code">지역</label>
+                <select id="division_code" name="divisionCode">
+                    <option th:each="division : ${divisionList}" th:value="division.mainDivisionCode">[[${division.name}]]</option>
+                </select>
+            </div>
+            <div class="input-box">
+                <label for="expiration_date">계약 종료일</label>
+                <input id="expiration_date" name="expirationDate" type="date"/>
+            </div>
+            <div class="input-box">
+                매물사진
+                <input type="file" name="roomImg" multiple="multiple"/>
+            </div>
+            <button type="submit">매물등록</button>
+        </form>
+    </div>
+
 </div>
 </body>
 </html>

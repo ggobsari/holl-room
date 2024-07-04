@@ -6,6 +6,7 @@ import com.hollroom.user.entity.UserEntity;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -25,18 +26,19 @@ public class WithdrawalController {
 
     //회원탈퇴 페이지 컨트롤러
     @GetMapping("/withdrawal")
-    public String interest(HttpSession session){
-        if (!checkSession(session)) {
+    public String interest(Model model, HttpSession session){
+        UserEntity user = (UserEntity) session.getAttribute("USER_NICKNAME");
+        if (user == null) {
             return "redirect:/login";
         }
+        model.addAttribute("user", profileService.getUserByEmail(user.getUserEmail())); //회원타입을 알기위한 유저정보
         return "mypage/withdrawal";  // mypage/withdrawal 페이지 반환
     }
 
-    //회원탈퇴 컨트롤러
+    //일반로그인 회원탈퇴 컨트롤러
     @PostMapping("/handleWithdrawal")
     public ResponseEntity<Map<String, Object>> handleWithdrawal(@RequestBody Map<String, String> request, HttpSession session) {
         Map<String, Object> response = new HashMap<>();
-
         if (!checkSession(session)) {
             response.put("success", false);
             response.put("message", "로그인이 필요합니다.");
@@ -49,6 +51,36 @@ public class WithdrawalController {
 
         try {
             boolean success = profileService.withdrawal(user, password);
+            if (success) {
+                response.put("success", true);
+                response.put("message", "회원탈퇴가 성공적으로 처리되었습니다.");
+            } else {
+                response.put("success", false);
+                response.put("message", "비밀번호가 일치하지 않습니다.");
+            }
+        } catch (Exception e) {
+            response.put("success", false);
+            response.put("message", "회원탈퇴 처리에 실패했습니다.");
+        }
+
+        return ResponseEntity.ok(response);
+    }
+
+    //소셜로그인 회원탈퇴 컨트롤러
+    @PostMapping("/WithoutPassword")
+    public ResponseEntity<Map<String, Object>> WithoutPassword(HttpSession session) {
+        Map<String, Object> response = new HashMap<>();
+        if (!checkSession(session)) {
+            response.put("success", false);
+            response.put("message", "로그인이 필요합니다.");
+            return ResponseEntity.ok(response);
+        }
+
+        UserEntity loggedInUser = (UserEntity) session.getAttribute("USER_NICKNAME");
+        UserSignupDTO user = profileService.getUserByEmail(loggedInUser.getUserEmail());
+
+        try {
+            boolean success = profileService.withdrawalWithoutPassword(user);
             if (success) {
                 response.put("success", true);
                 response.put("message", "회원탈퇴가 성공적으로 처리되었습니다.");

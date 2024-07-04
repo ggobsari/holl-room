@@ -16,9 +16,6 @@
 
     $(document).ready(function (){
       $("#category").val(category).attr("selected","selected");
-      $("#category").change(function (){
-        location.href="/hollroom/community/list?category="+$(this).val()+"&page=0"
-      });
 
     });
 
@@ -81,7 +78,7 @@
                       </tr>
                     </thead>
                     <tbody>
-                      <tr th:each="commuBoard:${communityList.communityResponseDTOList}">
+                      <tr th:each="commuBoard:${communityList}">
                         <td class="border-bottom-0"><h6 class="fw-semibold mb-0" th:text="${commuBoard.postId}"></h6></td>
                         <td class="border-bottom-0">
                             <h6 class="fw-semibold mb-1" th:text="${commuBoard.userNickname}"></h6>
@@ -105,39 +102,7 @@
                       </tr>
 
                     </tbody>
-                    <!--페이징 처리 시 필요한-->
-                    <tr>
-                      <td class="border-bottom-0"></td>
-                      <td class="border-bottom-0"></td>
-                      <td class="border-bottom-0"></td>
-                      <td class="border-bottom-0"></td>
-                      <td class="border-bottom-0"></td>
-                      <td class="border-bottom-0">
-                        <div class="col-12 pb-1" >
-                          <nav aria-label="Page navigation">
-                            <ul class="pagination justify-content-center mb-3">
-                              <li th:class="${communityList.firstPage} ? 'page-item disabled' : 'page-item'">
-                                <a class="page-link" th:href="${communityList.firstPage} ? '#' : @{/community/list(category=${category},page=${communityList.nowPageNumber -1})}" aria-label="Previous">
-                                  <span class="sr-only">Previous</span>
-                                  <span aria-hidden="true">&laquo;</span>
-                                </a>
-                              </li>
-                              <li th:each="page: ${#numbers.sequence(startPage, endPage)}"
-                                  th:class="${page==communityList.nowPageNumber+1} ? 'page-item active'" class="page-item">
-                                <a class="page-link" th:text="${page}" th:href="@{/community/list(category=${category},page=${page -1})}"></a>
-                              </li>
 
-                              <li th:class="${communityList.lastPage} ? 'page-item disabled' : 'page-item'">
-                                <a class="page-link" th:href="${communityList.lastPage} ? '#' : @{/community/list(category=${category},page=${communityList.nowPageNumber + 1})}" aria-label="Next">
-                                  <span aria-hidden="true">&raquo;</span>
-                                  <span class="sr-only">Next</span>
-                                </a>
-                              </li>
-                            </ul>
-                          </nav>
-                        </div>
-                      </td>
-                    </tr>
                   </table>
                 </div>
               </div>
@@ -147,7 +112,7 @@
         </div>
   <div style="margin-left: 25%">
   <ul>
-    <li><a href="/hollroom/community/write" class="page-link" th:if="${session.USER_NICKNAME!=null}">글쓰기</a></li>
+    <li><a href="/hollroom/community/list?category=all&page=0" class="page-link">전체목록조회</a></li>
   </ul>
   </div>
 </div>

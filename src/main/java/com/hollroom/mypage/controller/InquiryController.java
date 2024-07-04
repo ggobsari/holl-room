@@ -1,16 +1,15 @@
 package com.hollroom.mypage.controller;
 
+import com.hollroom.common.TabType;
 import com.hollroom.mypage.domain.dto.InquiryAttatchDTO;
 import com.hollroom.mypage.domain.dto.InquiryDTO;
 import com.hollroom.mypage.domain.entity.InquiryEntity;
+import com.hollroom.mypage.service.InquiryFileService;
 import com.hollroom.mypage.service.InquiryService;
 import com.hollroom.mypage.service.ProfileService;
 import com.hollroom.user.entity.UserEntity;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -29,6 +28,7 @@ public class InquiryController {
 
     private final InquiryService inquiryService;
     private final ProfileService profileService;
+    private final InquiryFileService fileUploadService;
 
     // 세션 체크 헬퍼 메서드
     private boolean checkSession(HttpSession session) {
@@ -94,8 +94,14 @@ public class InquiryController {
             inquiryDTO.setUserId(user.getId());  // userId 설정
 
             InquiryEntity inquiryEntity = inquiryService.saveInquiry(inquiryDTO); //문의 글 저장
-            if(files != null && !files.isEmpty()) {
-                inquiryService.saveInquiryFile(files, inquiryEntity.getPostId()); //파일 첨부
+            if (files != null && !files.isEmpty()) {
+                TabType tabType = TabType.MYPAGE;
+                List<InquiryAttatchDTO> file = fileUploadService.uploadFiles(files); // 파일 첨부
+                System.out.println(file);
+
+                inquiryService.saveInquiryFile(file, inquiryEntity.getPostId()); //첨부 파일 저장
+
+                //서비스로 파일 삽입
             }
 
             // 성공 응답
@@ -115,10 +121,11 @@ public class InquiryController {
         }
 
         InquiryDTO inquiryDTO = inquiryService.getInquiryById(id); //글 불러오기
-        List<InquiryAttatchDTO> files = inquiryService.getAttachmentsByPostId(id);//첨부파일 불러오기
+        TabType tabType = TabType.MYPAGE;
+        List<InquiryAttatchDTO> files = inquiryService.getAttachmentsByPostId(id, tabType);//첨부파일 불러오기
+        inquiryDTO.setFiles(files);
 
         model.addAttribute("inquiry", inquiryDTO);
-        inquiryDTO.setFiles(files);
         return "mypage/inquiry_detail";
     }
 }

@@ -6,7 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
     <!--    <link rel="stylesheet" href="/static/css/user/login.css"/>-->
     <title>로그인</title>
@@ -14,14 +15,182 @@
 <body>
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<!--<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"-->
+<!--        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"-->
+<!--        crossorigin="anonymous"></script>-->
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+<!--<script src="/user/js/login.js"></script>-->
+<script>
+    $(document).ready(function () {
+
+        let isEmailVerified = false;
+
+        $('#kakao-login-btn').click(function (e) {
+            e.preventDefault();
+            window.location.href =
+                'https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=eab736d5f220cb419d2fe00eadae71e2&redirect_uri=http://localhost:8090/hollroom/kakao';
+        })
+
+        // 폼 제출 이벤트 처리
+        $('#enter').click(function (e) {
+            e.preventDefault();//기본 이벤트 제거(폼 제출 방지)
+
+            let formData = new FormData();
+
+            //폼 데이터 추가
+            formData.append('userEmail', $('#userEmail').val());
+            formData.append('userPassword', $('#userPassword').val());
+
+            $.ajax({
+                url: '/hollroom/login',
+                type: 'POST',
+                data: formData,
+                contentType: false,
+                dataType: "text",
+                processData: false,
+                success: function () {
+                    alert("로그인 성공");
+                    window.location.href = '/hollroom';
+                },
+                error: function () {
+                    alert('로그인 실패');
+                }
+            })
+        })
+
+        $('#reissue-password').click(function (e) {
+            e.preventDefault();
+            $('#passwordModal').modal('show');
+        })
+
+        $('#resetPasswordButton').click(function (e) {
+            e.preventDefault();
+
+            if(!isEmailVerified){
+                alert("이메일 인증이 필요합니다.");
+                return;
+            }
+
+            var newPassword = $('#newPassword').val();
+            var confirmPassword = $('#confirmPassword').val();
+
+            if (newPassword !== confirmPassword) {
+                alert('새 비밀번호와 비밀번호 확인이 일치하지 않습니다.');
+                return;
+            }
+
+            var formData = {
+                email: $('#resetEmail').val(),
+                newPassword: newPassword
+            }
+
+            $.ajax({
+                url: '/hollroom/resetPassword',
+                type: 'POST',
+                data: JSON.stringify(formData),
+                contentType: 'application/json',
+                success: function () {
+                    alert('비밀번호가 성공적으로 변경되었습니다.');
+                    $('#passwordModal').modal('hide');
+                },
+                error: function () {
+                    alert('비밀번호 변경에 실패했습니다. 다시 시도해주세요.');
+                }
+            })
+        })
+
+        //이메일 유효성 확인
+        function validateEmail() {
+            var emailInput = document.getElementById('resetEmail');
+
+            var emailValue = emailInput.value;
+
+            var emailPattern = /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-za-z0-9\-]+/;
+
+            return emailPattern.test(emailValue);
+
+        }
+
+        $('#sendResetEmailButton').click(function (e) {
+            e.preventDefault();
+
+            var email = $('#resetEmail').val();
+
+            if (!email) {
+                alert('이메일을 입력하세요.');
+                return;
+            } else if(!validateEmail()){
+                alert('이메일 형식에 맞게 작성해 주세요.')
+                return;
+            }
+
+            var formData = {
+                email: email
+            }
+
+            $.ajax({
+                url: '/hollroom/forgotPassword',
+                type: 'POST',
+                data: JSON.stringify(formData),
+                contentType: 'application/json',
+                success: function () {
+                    alert('비밀번호 재설정 이메일이 전송되었습니다.');
+                    $('#emailVerificationGroup').show();
+                    console.log(formData);
+                },
+                error: function () {
+                    alert('이메일 전송에 실패했습니다. 다시 시도해주세요.');
+                    console.log(formData);
+                }
+            })
+        })
+
+        $('#verifyCodeButton').click(function (e) {
+            e.preventDefault();
+
+            var verificationCode = $('#verificationCode').val();
+
+            if (!verificationCode) {
+                alert('인증 코드를 입력하세요.');
+                return;
+            }
+
+            var formData = {
+                email: $('#resetEmail').val(),
+                code: verificationCode
+            }
+
+            $.ajax({
+                url: '/hollroom/verifyCode',
+                type: 'POST',
+                data: JSON.stringify(formData),
+                contentType: 'application/json',
+                success: function () {
+                    alert('이메일 인증이 완료되었습니다.');
+                    isEmailVerified = true;
+                    $('#emailVerificationGroup').hide();
+                },
+                error: function () {
+                    alert('이메일 인증에 실패했습니다. 다시 시도해주세요.');
+                }
+            })
+        })
+
+    });
+</script>
 <!-- Button trigger modal -->
 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">로그인</button>
 
 <!-- Modal -->
-<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+     aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div style="width: 600px; height: 600px" class="modal-content">
             <div class="modal-header">
@@ -31,40 +200,98 @@
                 </button>
             </div>
             <div style="height: 500px" class="member_login">
-                <form style="height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; margin-top: 10px; margin-bottom: 50px" th:action="@{/auth/loginProc}" th:method="POST">
-                    <div>
-                        <div style="display: flex; justify-content: center" class="member_login_input">
-                            <input style="width: 300px; height: 40px; border-radius: 80px; padding-left: 15px" type="text" name="username" placeholder="아이디" >
-                        </div>
-
-                        <div style="display: flex; justify-content: center; margin-top: 30px" class="member_login_input">
-                            <input style="width: 300px; height: 40px; border-radius: 80px; padding-left: 15px" type="password" name="password" placeholder="비밀번호">
-                        </div>
+                <form id="loginForm"
+                      style="display: flex; flex-direction: column; justify-content: center; align-items: center; margin-top: 80px"
+                      th:action="@{/auth/loginProc}" th:method="POST">
+                    <div style="display: flex; justify-content: center" class="member_login_input">
+                        <input style="width: 300px; height: 40px; border-radius: 80px; padding-left: 15px"
+                               id="userEmail" type="text" name="username" placeholder="이메일">
                     </div>
 
-                    <div style="display: flex; justify-content: center; margin-top: 40px; margin-left: 30px" class="reissuance_password">
-                        <p>비밀번호를 잊으셨나요?&emsp;</p><a href="/reissuance_password">비밀번호 변경</a>
+                    <div style="display: flex; justify-content: center; margin-top: 30px"
+                         class="member_login_input">
+                        <input style="width: 300px; height: 40px; border-radius: 80px; padding-left: 15px"
+                               id="userPassword" type="password" name="password" placeholder="비밀번호">
+                    </div>
+
+                    <div style="display: flex; justify-content: center; margin-top: 40px; margin-left: 30px"
+                         class="reissuance_password">
+                        <p>비밀번호를 잊으셨나요?&emsp;</p><a href="/#" id="reissue-password">비밀번호 변경</a>
                     </div>
 
                     <div style="display: flex; justify-content: center; margin-top: 50px">
                         <div class="login_api">
-                            <a href="카카오 로그인 요청"><img style="width: 60px; height: 60px; border-radius: 70%; margin-left: 20px" th:src="@{/images/user/kakao_login_button.png}"></a>
+                            <a href="카카오 로그인 요청" id="kakao-login-btn"><img
+                                    style="width: 60px; height: 60px; border-radius: 70%; margin-left: 20px"
+                                    th:src="@{/user/images/kakao_login_button.png}"></a>
                         </div>
 
                         <div class="login_api">
-                            <a href="네이버 로그인 요청"><img style="width: 60px; height: 60px; margin-left: 20px" th:src="@{/images/user/naver_login_button.png}"/></a>
+                            <a href="네이버 로그인 요청"><img style="width: 60px; height: 60px; margin-left: 20px"
+                                                      th:src="@{/user/images/naver_login_button.png}"/></a>
                         </div>
 
                         <div class="login_api">
-                            <a href="구글 로그인 요청"><img style="width: 60px; height: 60px; margin-left: 20px" th:src="@{/images/user/google_login_button.png}"></a>
+                            <a href="구글 로그인 요청"><img style="width: 60px; height: 60px; margin-left: 20px"
+                                                     th:src="@{/user/images/google_login_button.png}"></a>
                         </div>
                     </div>
 
                 </form>
             </div>
+
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
-                <button type="button" class="btn btn-primary">확인</button>
+                <button id="enter" type="button" class="btn btn-primary">확인</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Password Reset Modal -->
+<div class="modal fade" id="passwordModal" tabindex="-1" role="dialog" aria-labelledby="passwordModalLabel"
+     aria-hidden="true">
+    <div style="display: flex; justify-content: center" class="modal-dialog modal-dialog-centered" role="document">
+        <div style="width: 400px; height: 500px; display: flex; justify-content: center; align-items: center"
+             class="modal-content">
+            <div class="modal-header">
+                <h5 style="width: 335px;" class="modal-title" id="passwordModalLabel">비밀번호 변경</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form style="width: 280px" id="passwordForm">
+                    <div class="form-group">
+                        <label for="resetEmail">이메일</label>
+                        <div class="input-group">
+                            <input type="email" class="form-control" id="resetEmail" placeholder="이메일을 입력하세요">
+                            <div class="input-group-append">
+                                <button type="button" id="sendResetEmailButton">인증</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="emailVerificationGroup" class="form-group" style="display: none">
+                        <label for="verificationCode">인증 코드</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="verificationCode" placeholder="인증 코드를 입력하세요">
+                            <div class="input-group-append">
+                                <button type="button" class="btn btn-primary" id="verifyCodeButton">확인</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="newPassword">새 비밀번호</label>
+                        <input type="password" class="form-control" id="newPassword" placeholder="새 비밀번호를 입력하세요">
+                    </div>
+                    <div class="form-group">
+                        <label for="confirmPassword">비밀번호 확인</label>
+                        <input type="password" class="form-control" id="confirmPassword" placeholder="비밀번호를 확인하세요">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+                <button type="button" class="btn btn-primary" id="resetPasswordButton">비밀번호 변경</button>
             </div>
         </div>
     </div>
