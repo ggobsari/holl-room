@@ -112,6 +112,15 @@
             getSubDivision(address);
             getProductList(address);
         }
+
+        function goToProductPage(num){
+            $.ajax({
+                type:"get",
+                url:"/hollroom/monthly/product?page="+num
+            }).done((fragment)=>{
+                $("#product-list").html(fragment);
+            });
+        }
     </script>
     <script th:inline="javascript">
         function showAvgPrice(id){
@@ -259,6 +268,15 @@
         .arrow-img{
             width: 64px;
             height: 64px;
+        }
+        .page-number-box{
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            font-size: 24px;
+        }
+        .linked-page-number{
+            color: #378fbf;
         }
     </style>
 </head>

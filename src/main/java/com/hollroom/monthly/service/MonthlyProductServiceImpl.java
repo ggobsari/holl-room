@@ -13,8 +13,10 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
+import org.springframework.data.domain.Pageable;
 import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -59,19 +61,16 @@ public class MonthlyProductServiceImpl implements MonthlyProductService {
     }
 
     @Override
-    public List<MonthlyProductResponseDTO> readProductAll() {
-        return dao.readProductAll()
-                .stream()
-                .map(this::convertEntityToDTO)
-                .collect(Collectors.toList());
+    public Page<MonthlyProductResponseDTO> readProductAll(Pageable pageable) {
+        Page<MonthlyProductEntity> entities = dao.readProductAll(pageable);
+        //entities.forEach(System.out::println);
+        return entities.map(this::convertEntityToDTO);
     }
     @Override
-    public List<MonthlyProductResponseDTO> readDivisionProduct(String addr) {
+    public Page<MonthlyProductResponseDTO> readDivisionProduct(String addr, Pageable pageable) {
         Long divisionCode = divisionService.readMainDivision(addr).mainDivisionCode;
-        return dao.readDivisionProduct(divisionCode)
-                .stream()
-                .map(this::convertEntityToDTO)
-                .collect(Collectors.toList());
+        return dao.readDivisionProduct(divisionCode,pageable)
+                .map(this::convertEntityToDTO);
     }
 
     private MonthlyProductResponseDTO convertEntityToDTO(MonthlyProductEntity entity) {
