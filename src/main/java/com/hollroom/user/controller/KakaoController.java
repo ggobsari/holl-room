@@ -6,6 +6,7 @@ import com.hollroom.user.dto.KakaoDTO;
 import com.hollroom.user.entity.UserEntity;
 import com.hollroom.user.service.KakaoService;
 import com.hollroom.user.service.UserService;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,16 +21,18 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Slf4j
 @RequiredArgsConstructor
 public class KakaoController {
-
+    //================================================================================================================//
     private final KakaoService kakaoService;
-
+    //================================================================================================================//
     @GetMapping("/kakao")
     @ResponseBody
-    public ResponseEntity<Void> kakaoLogin(@RequestParam("code") String code, HttpSession session){
+    public ResponseEntity<Void> kakaoLogin(@RequestParam("code") String code, HttpServletRequest request){
+        log.info("Received code: {}", code);
         String accessToken = kakaoService.getAccessToken(code);
+        log.info("accessToken: {}", accessToken);
         KakaoDTO kakaoUser = kakaoService.getKakaoUserInfo(accessToken);
-        kakaoService.saveKakaoUser(kakaoUser);
-        session.setAttribute("kakao", kakaoUser);
-        return ResponseEntity.status(302).header("Location", "/hollroom/login").build();
+        kakaoService.saveKakaoUser(kakaoUser, request);
+        String redirectUrl = "http://localhost:8090/hollroom/community/list?category=all&page=0";
+        return ResponseEntity.status(302).header("Location", redirectUrl).build();
     }
 }

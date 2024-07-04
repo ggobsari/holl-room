@@ -1,6 +1,7 @@
 package com.hollroom.mypage.dao;
 
-import com.hollroom.mypage.domain.entity.InquiryAttatchEntity;
+import com.hollroom.common.TabType;
+import com.hollroom.community.domain.entity.AttachFileEntity;
 import com.hollroom.mypage.domain.entity.InquiryEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -13,9 +14,9 @@ public interface InquiryDAO {
     //문의글 업로드
     void saveInquiry(InquiryEntity inquiryEntity) throws Exception;
     //첨부파일저장
-    public void saveAttachFile(InquiryAttatchEntity fileEntity);
+    public void saveAttachFile(AttachFileEntity fileEntity);
     //문의글 상세보기
     InquiryEntity findById(Long id);
     //첨부파일불러오기
-    List<InquiryAttatchEntity> findAttachmentsByPostId(Long postId);
+    List<AttachFileEntity> findAttachmentsByPostId(Long postId, TabType tabType);
 }

@@ -1,8 +1,9 @@
 package com.hollroom.mypage.dao;
 
-import com.hollroom.mypage.domain.entity.InquiryAttatchEntity;
+import com.hollroom.common.TabType;
+import com.hollroom.community.domain.entity.AttachFileEntity;
+import com.hollroom.community.repository.AttachFileRepository;
 import com.hollroom.mypage.domain.entity.InquiryEntity;
-import com.hollroom.mypage.repository.InquiryAttachRepository;
 import com.hollroom.mypage.repository.InquiryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -16,7 +17,7 @@ import java.util.List;
 public class InquiryDAOImpl implements InquiryDAO {
 
     private final InquiryRepository inquiryRepository;
-    private final InquiryAttachRepository attachRepository;
+    private final AttachFileRepository attachRepository;
 
     //문의글 목록
     public Page<InquiryEntity> findByUserId(Long userId, Pageable pageable) {
@@ -30,7 +31,8 @@ public class InquiryDAOImpl implements InquiryDAO {
     }
     //첨부파일 저장
     @Override
-    public void saveAttachFile(InquiryAttatchEntity fileEntity) {
+    public void saveAttachFile(AttachFileEntity fileEntity) {
+        System.out.println(fileEntity);
         attachRepository.save(fileEntity);
     }
     //==============================================================================================
@@ -41,7 +43,7 @@ public class InquiryDAOImpl implements InquiryDAO {
     }
     //첨부파일 불러오기
     @Override
-    public List<InquiryAttatchEntity> findAttachmentsByPostId(Long postId) {
-        return attachRepository.findByPostId(postId);
+    public List<AttachFileEntity> findAttachmentsByPostId(Long postId, TabType tabType) {
+        return attachRepository.findByPostIdAndTabType(postId, tabType);
     }
 }
