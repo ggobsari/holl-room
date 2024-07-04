@@ -97,6 +97,63 @@ public class CommunityServiceImpl implements CommunityService{
     }
 
     @Override
+    public CommunityPagingDTO deepSearch(String category, String fieldOption, String content, String page) {
+        System.out.println("복합 검색 서비스");
+        CommunityPagingDTO pagingDTO = new CommunityPagingDTO();
+        CommunityPagingEntityDTO pagingEntityDTO = null;
+        List<CommunityResponseDTO> responseDTOlist = null;
+        //카테고리, 필드(containing)
+        if (category!=null){
+            if (category.equals("all")){ //필드만 조건 검색 content, page 매개변수
+
+                if(fieldOption.equals("title")){
+                    //필드:제목 검색
+                    pagingEntityDTO = communityDAO.deepSearchTitle(content,page);
+                }else if (fieldOption.equals("content")){
+                    //필드: 본문내용 검색
+                    pagingEntityDTO = communityDAO.deepSearchContent(content,page);
+                }else if (fieldOption.equals("writer")){
+                    //필드: 작성자 검색
+//                    pagingEntityDTO = communityDAO.deepSearchWriter(content,page);
+                }
+
+            }else{ //카테고리 필드 둘다 조건검색 포함 category, content, page 매개변수
+
+                if(fieldOption.equals("title")){
+                    //필드:제목 검색
+                    pagingEntityDTO = communityDAO.deepSearchCateTitle(category,content,page);
+                }else if (fieldOption.equals("content")){
+                    //필드: 본문내용 검색
+                    pagingEntityDTO = communityDAO.deepSearchCateContent(category,content,page);
+                }else if (fieldOption.equals("writer")){
+                    //필드: 작성자 검색
+//                    pagingEntityDTO = communityDAO.deepSearchCateWriter(category,content,page);
+                }
+
+            }
+            List<CommunityEntity> entityList = pagingEntityDTO.getCommunityEntities();
+            ModelMapper mapper = new ModelMapper();
+            responseDTOlist = entityList.stream()
+                    .map(entity -> mapper.map(entity,CommunityResponseDTO.class))
+                    .collect(Collectors.toList());
+
+            System.out.println("***************************"+responseDTOlist);
+
+            //더 큰 DTO'2'로 옮기기
+            pagingDTO.setCommunityResponseDTOList(responseDTOlist);
+            pagingDTO.setTotalPages(pagingEntityDTO.getTotalPages());
+            pagingDTO.setNowPageNumber(pagingEntityDTO.getNowPageNumber());
+            pagingDTO.setPageSize(pagingEntityDTO.getPageSize());
+            pagingDTO.setHasNextPage(pagingEntityDTO.isHasNextPage());
+            pagingDTO.setHasPreviousPage(pagingEntityDTO.isHasPreviousPage());
+            pagingDTO.setFirstPage(pagingEntityDTO.isFirstPage());
+            pagingDTO.setLastPage(pagingEntityDTO.isLastPage());
+
+        }
+        return pagingDTO;
+    }
+
+    @Override
     @Transactional
     public CommunityResponseDTO read(String postId) {
         CommunityEntity readEntity = communityDAO.findById(Long.parseLong(postId));
@@ -208,6 +265,8 @@ public class CommunityServiceImpl implements CommunityService{
         return communityResponseDTOList;
 
     }
+
+
 
 
 }
