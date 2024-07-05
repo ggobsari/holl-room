@@ -55,7 +55,24 @@
                         </ul>
                     </div>
                 </aside>
+
+                <!--내가 쓴글-->
                 <div class="border-primary col-7 p-4 bg-white rounded-3">
+                    <nav>
+                        <ul class="flex-row-5" style="color:#a4aaac;">
+                            <li class="" style="margin:0 10px 10px 10px">
+                                <a class="" href="community" style="font-weight: bold; color:#8d9393">커뮤니티</a>
+                            </li>
+                            <li>|</li>
+                            <li class="" style="margin:0 10px 10px 10px">
+                                <a class="" href="roommate">룸메이트</a>
+                            </li>
+                            <li>|</li>
+                            <li class=""  style="margin:0 10px 10px 10px">
+                                <a class="" href="rentmap">월세지도</a>
+                            </li>
+                        </ul>
+                    </nav>
                     <div class="p-3">
                         <select class="form-select" id="category" name="category" style="background-color: white; width: auto" th:data-category="${category}">
                             <option value="all" th:selected="${category == 'all'}">전체</option>
@@ -78,7 +95,6 @@
                             <tbody id="post-list">
                             <!-- 게시글 목록 -->
 
-
                             </tbody>
                         </table>
                         <div class="d-flex justify-content-center mb-5 my-paging">
@@ -88,20 +104,19 @@
                         </div>
                         <div class="d-inline-block">
                             <div class="d-flex justify-content-end mx-auto">
-                                <select name="" id="" class="my-select rounded-2">
-                                    <option value="">제목 + 내용</option>
-                                    <option value="">제목</option>
-                                    <option value="">내용</option>
-                                    <option value="">작성자</option>
+                                <select name="" id="searchSelect" class="my-select rounded-2">
+                                    <option value="제목 + 내용">제목 + 내용</option>
+                                    <option value="제목">제목</option>
+                                    <option value="내용">내용</option>
                                 </select>
-                                <input
+                                <input  id="searchText"
                                         class="ml-2 my-input-l"
                                         type="text"
                                         placeholder="검색어를 입력하세요"
                                 />
-                                <a class="ml-2" href="#"
+                                <a class="ml-2" href="#" id="searchIcon"
                                 ><img
-                                        src="assets/icon_search.png"
+                                        src="http://localhost:8090/hollroom/images/icon_search.png"
                                         style="width: 23px; height: 23px"
                                         alt="검색 아이콘"
                                 /></a>
