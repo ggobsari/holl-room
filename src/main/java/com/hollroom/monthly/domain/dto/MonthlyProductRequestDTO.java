@@ -15,7 +15,6 @@ import java.util.Date;
 @Builder
 public class MonthlyProductRequestDTO {
     //private long user_id;
-    private MultipartFile roomImg;
     private int deposit;
     private int monthly;
     private Long divisionCode;
@@ -27,4 +26,5 @@ public class MonthlyProductRequestDTO {
     private String securityFacility;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date expirationDate;
+    private MultipartFile roomImg;
 }

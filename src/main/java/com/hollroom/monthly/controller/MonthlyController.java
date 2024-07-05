@@ -56,7 +56,7 @@ public class MonthlyController {
     @PostMapping("/monthly/product/register")
     public String registerProduct(MonthlyProductRequestDTO product){
         productService.insertProduct(product);
-        return "redirect:/monthly/product";
+        return "redirect:/monthly";
     }
 
     @GetMapping("/monthly/product/division/{addr}")
@@ -71,7 +71,7 @@ public class MonthlyController {
         int startPage = pageable.getPageNumber()-SIDE_PAGE_NUMBER_LIMIT;
         int endPage = pageable.getPageNumber()+SIDE_PAGE_NUMBER_LIMIT;
 
-        if(productPage.getTotalPages() != 0){
+        if(productPage.getTotalPages() > 1){
             if(startPage < 0){
                 endPage+= -startPage;
                 startPage = 0;
