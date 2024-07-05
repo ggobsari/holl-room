@@ -36,7 +36,9 @@ public class MonthlyProductServiceImpl implements MonthlyProductService {
     @Override
     public void insertProduct(MonthlyProductRequestDTO dto) {
         // 매물 dto를 entity로 변환
-        MonthlyProductEntity entity = mapper.map(dto, MonthlyProductEntity.class);
+        System.out.println(dto);
+        MonthlyProductEntity entity = new MonthlyProductEntity(dto);
+        System.out.println(entity);
         // 매물 dao에 entity를 보내서 monthly_product 테이블에 저장
         dao.insertProduct(entity);
 
