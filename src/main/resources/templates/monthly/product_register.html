@@ -38,10 +38,6 @@
                 <input id="monthly" name="monthly" type="number"/>
             </div>
             <div class="input-box">
-                <label for="address">주소</label>
-                <input id="address" name="address" type="text"/>
-            </div>
-            <div class="input-box">
                 <label for="floor_count">층수</label>
                 <input id="floor_count" name="floorCount" type="number"/>
             </div>
@@ -68,7 +64,7 @@
             <div class="input-box">
                 <label for="division_code">지역</label>
                 <select id="division_code" name="divisionCode">
-                    <option th:each="division : ${divisionList}" th:value="division.mainDivisionCode">[[${division.name}]]</option>
+                    <option th:each="division : ${divisionList}" th:value="${division.mainDivisionCode}">[[${division.name}]]</option>
                 </select>
             </div>
             <div class="input-box">
