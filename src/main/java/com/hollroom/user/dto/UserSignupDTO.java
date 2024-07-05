@@ -42,6 +42,8 @@ public class UserSignupDTO {
 
     private Boolean is_deleted;
 
+    private String loginType;
+
 
     public UserSignupDTO(UserEntity userEntity) {
         this.userEmail = userEntity.getUserEmail();
@@ -56,7 +58,7 @@ public class UserSignupDTO {
         this.userLocation = userEntity.getUserLocation();
         this.userSignupAt = userEntity.getUserSignupAt();
         this.userAdmin = userEntity.getUserAdmin();
-
+        this.loginType = userEntity.getLoginType();
     }
 }
 

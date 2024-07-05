@@ -25,8 +25,8 @@
     <!--js-->
     <script type="text/javascript"
             src="//dapi.kakao.com/v2/maps/sdk.js?appkey=a3660f8de5e77b73f4c7822adeb86bec&libraries=services"></script>
-    <script src="js/profile.js"></script>
     <script src="js/profile_geolocation.js"></script>
+    <script src="js/profile.js"></script>
     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 
     <style>
@@ -74,7 +74,6 @@
                     </div>
                 </aside>
 
-
                 <!-- 컨텐츠-->
                 <div class="border-primary col-7 p-4 bg-white rounded-3">
                     <div class="p-3">
@@ -83,7 +82,9 @@
                                 <div class="p-3 container-center-horizontal profile_profile screen border rounded p-3 text-box">
                                     <!--프로필 카드-->
                                     <div class="content1">
-                                        <h2 class="my-5 font-eng" style="font-size: 40px">MyProfile</h2>
+                                        <h2 class="my-5 font-eng" style="font-size: 40px">
+                                            M<span style="color: #0d6efd;">y</span>P<span style="color: #0d6efd;">ro</span>fil<span style="color: #0d6efd;">e</span>
+                                        </h2>
                                         <!--사진-->
                                         <img class="ecllipse-1 clickable-box" id="profileImage"
                                              onclick="triggerFileUpload()"
@@ -130,43 +131,96 @@
                                             <div class="rectangle-21"></div>
                                             <div class="flex-row-1 flex-row-5">
                                                 <div class="flex-col abeezee-normal-black-14px">
-                                                    <div class="text-28">닉네임</div>
+                                                    <div class="text-28 flex-row-5" style="width: 300px">
+                                                        닉네임
+                                                       <button type="button" id="checkNicknameButton" class="btn btn-outline-secondary address-search-button"
+                                                               th:if="${profile.userNickname == null}" style="margin-top:0; margin-right: 7px; padding-top: 1px; padding-bottom: 1px;">중복 확인</button>
+                                                        <p id="nicknameCheckResult"></p>
+
+                                                    </div>
                                                     <input type="text" class="rectangle-9 form-control"
-                                                           th:value="${profile.userNickname}" readonly/>
+                                                           th:value="${profile.userNickname}" th:if="${profile.userNickname != null}" readonly/>
+                                                    <input type="text" class="rectangle-9 form-control" id="userNickName" style="border-color: #dc3545"
+                                                           th:if="${profile.userNickname == null}" placeholder="닉네임을 입력하세요"/>
                                                     <div class="text-27">이메일</div>
                                                 </div>
+                                                <!--실명-->
                                                 <div class="flex-col-1">
-
-                                                    <!--실 명-->
                                                     <div class="text-30 abeezee-normal-black-14px">실 명</div>
-                                                    <input id="realname" type="text" class="rectangle-18 form-control"
-                                                           th:value="${profile.userName}" readonly
+                                                    <input type="text" class="rectangle-18 form-control" id="username"
+                                                           th:value="${profile.userName}" th:if="${profile.userName != null}" readonly
                                                            onload="maskName()"/>
+                                                    <input id="realname" type="text" class="rectangle-18 form-control" style="border-color: #dc3545"
+                                                           th:if="${profile.userName == null}" placeholder="실명을 입력하세요"/>
                                                 </div>
                                             </div>
                                             <input id="email" type="text" class="rectangle-16 form-control"
                                                    th:value="${profile.userEmail}" readonly onload="maskEmail()"/>
-                                            <div class="text-container abeezee-normal-black-14px">
-                                                <div class="text">비밀번호</div>
-                                                <div class="text-26">비밀번호 확인</div>
+
+                                            <!--비밀번호-->
+                                            <div th:if="${profile.loginType == null}">
+                                                <div class="text-container abeezee-normal-black-14px">
+                                                    <div class="text">비밀번호</div>
+                                                    <div class="text-26">비밀번호 확인</div>
+                                                </div>
+                                                <div class="flex-row-2 flex-row-5">
+                                                    <!--일반로그인-->
+                                                    <input type="password" th:if="${profile.loginType == null}"
+                                                           class="rectangle form-control" id="password"/>
+                                                    <!--소셜로그인-->
+                                                    <input type="password" th:if="${profile.loginType != null}"
+                                                           class="rectangle form-control" style="background-color: #ced4da" readonly/>
+
+                                                    <!--일반로그인-->
+                                                    <input type="password" th:if="${profile.loginType == null}"
+                                                           class="rectangle form-control" id="confirmPasswordInput"/>
+                                                    <!--일반로그인-->
+                                                    <input type="password" th:if="${profile.loginType != null}"
+                                                           class="rectangle form-control" style="background-color: #ced4da" readonly/>
+                                                </div>
                                             </div>
-                                            <div class="flex-row-2 flex-row-5">
-                                                <input type="password" class="rectangle form-control" id="password"/>
-                                                <input type="password" class="rectangle form-control"
-                                                       id="confirmPassword"/>
-                                            </div>
+
                                             <div class="text-container-1 abeezee-normal-black-14px">
                                                 <div class="text">생년월일</div>
                                                 <div class="text">성별</div>
                                             </div>
                                             <div class="flex-row-3 flex-row-5">
-                                                <input type="text" class="rectangle form-control"
-                                                       th:value="${#dates.format(profile.userBirthday, 'yyyy년 MM월 dd일')}"
-                                                       readonly/>
+
+                                                <!--생년월일-->
+                                                <input type="date" class="rectangle form-control"
+                                                       th:value="${profile.userBirthday != null ? #dates.format(profile.userBirthday, 'yyyy-MM-dd') : ''}"
+                                                       th:if="${profile.userBirthday != null}" readonly />
+                                                <input type="date" class="rectangle form-control" id="birthday" style="border-color: #dc3545"
+                                                       th:if="${profile.userBirthday == null}" placeholder="생년월일을 입력하세요" />
+
+                                                <!--성별-->
                                                 <input type="text" class="rectangle-27 form-control"
-                                                       th:value="${profile.userGender == null ? '' : (profile.userGender == 'man' ? '남' : (profile.userGender == 'woman' ? '여' : '남'))}"
-                                                       readonly/>
+                                                       th:value="${profile.userGender == 'M' ? '남' : (profile.userGender == 'W' ? '여' : '')}"
+                                                       th:if="${profile.userGender != null}" readonly />
+                                                <select class="rectangle-27 form-control" id="gender" style="border-color: #dc3545"
+                                                        th:if="${profile.userGender == null}">
+                                                    <option value="">성별</option>
+                                                    <option value="M">남</option>
+                                                    <option value="W">여</option>
+                                                </select>
                                             </div>
+
+                                            <!-- 휴대폰 번호 -->
+                                            <div class="text-container-1 abeezee-normal-black-14px">
+                                                <div class="text flex-row-5" style="width: 350px" >
+                                                    휴대폰 번호
+                                                    <button type="button" id="checkPhoneNumButton" class="btn btn-outline-secondary address-search-button"
+                                                            th:if="${profile.userPhoneNumber == null}" style="margin-top:0; margin-right: 7px; padding-top: 1px; padding-bottom: 1px;">중복 확인</button>
+                                                    <p id="phoneNumCheckResult"></p>
+                                                </div>
+                                            </div>
+                                            <div class="flex-row-3 flex-row-5">
+                                                <input type="text" class="rectangle form-control" id="userPhoneNumberMasked"
+                                                       th:value="${profile.userPhoneNumber}" th:if="${profile.userPhoneNumber != null}" readonly/>
+                                                <input type="text" class="rectangle form-control" id="phoneNumberInput" style="border-color: #dc3545"
+                                                       th:if = "${profile.userPhoneNumber == null}" placeholder="휴대폰 번호를 입력하세요 ( - 포함)"/>
+                                            </div>
+
                                             <div class="flex-row-4 flex-row-5">
                                                 <div class="basic-info">지역 정보</div>
                                             </div>
@@ -183,7 +237,9 @@
                                                                onclick="AddressSearch()" value="주소검색">
                                                     </div>
                                                     <input type="text" class="rectangle-30 form-control" id="userLocal"
-                                                           th:value="${profile.userLocation}" readonly/>
+                                                           th:value="${profile.userLocation}" placeholder="주소를 검색해주세요"
+                                                           readonly/>
+
                                                 </div>
 
                                                 <input type="hidden" id="userId" th:value="${profile.userEmail}"/>
