@@ -16,10 +16,10 @@
   <!--<link type="text/css" href="/hollroom/common/css/styles_list3.css" rel="stylesheet">-->
 
   <script type="text/javascript" th:inline="javascript">
-    $(document).ready(function (){
-      let category = /*[[${category}]]*/
-      $("#category").val(category).attr("selected","selected");
-    });
+    // $(document).ready(function (){
+    //   let category = /*[[${category}]]*/
+    //   $("#category").val(category).attr("selected","selected");
+    // });
   </script>
 
 </head>
@@ -94,12 +94,13 @@
           </div>
           <div class="row">
             <div class="col-lg-4 col-sm-6">
-              <select class="form-select" name="category" id="category">
+              <!--<select class="form-select" name="category" id="category">
                 <option value="자유">자유</option>
                 <option value="꿀팁">꿀팁</option>
                 <option value="질문">질문</option>
                 <option value="자취레시피">자취레시피</option>
-              </select>
+              </select>-->
+              <input type="text" name="category" th:value="${category}" class="form-control" disabled />
             </div>
           </div>
         <!--</div>-->

@@ -91,7 +91,8 @@
                             <h6 class="fw-semibold mb-1" th:text="${commuBoard.userNickname}"></h6>
                             <span class="fw-normal"></span>
                         </td>
-                        <td class="border-bottom-0"><a th:href="@{/community/read(postId=${commuBoard.postId},action='READ')}">
+                        <td class="border-bottom-0"><a th:href="@{/community/read(postId=${commuBoard.postId},action='READ')}"
+                                                       style="text-decoration: none;">
                           <p class="mb-0 fw-normal" th:text="${commuBoard.title}"></p>
                         </a>
                         </td>
