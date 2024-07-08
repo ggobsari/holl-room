@@ -38,7 +38,7 @@ public class InquiryEntity {
     private String category; //카테고리
     private Date deletedAt; //게시글삭제일시
     private Date answerAt; //답변 일시
-    private String answerContnet; //답변 내용
+    private String answerContent; //답변 내용
 
     //유저 Id FK (작성자)
     @ManyToOne
