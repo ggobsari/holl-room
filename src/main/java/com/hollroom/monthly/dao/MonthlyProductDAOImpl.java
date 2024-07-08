@@ -22,11 +22,13 @@ public class MonthlyProductDAOImpl implements MonthlyProductDAO {
 
     @Override
     public Page<MonthlyProductEntity> readProductAll(Pageable pageable) {
-        return productRepo.findAll(PageRequest.of(pageable.getPageNumber(),pageable.getPageSize()));
+        System.out.println(pageable);
+        return productRepo.findAll(pageable);
     }
 
     @Override
     public Page<MonthlyProductEntity> readDivisionProduct(Long divisionCode, Pageable pageable) {
+        System.out.println(pageable);
         return productRepo.findByDivisionCode(divisionCode,pageable);
     }
 }

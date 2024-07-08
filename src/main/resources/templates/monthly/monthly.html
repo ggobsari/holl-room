@@ -14,6 +14,11 @@
         let divisionPosX={};
         let divisionPosY={};
         let avgPriceBox;
+        let createdSort=0;
+        let depositSort=0;
+        let monthlySort=0;
+        let queryString='';
+        let requestUrl= "/hollroom/monthly/product";
         $(document).ready(function (){
             avgPriceBox=$("#avg-price-box")
             productList=$("#productList");
@@ -62,13 +67,8 @@
         });
 
         function getProductList(address){
-            $.ajax({
-                type:"get",
-                url:"/hollroom/monthly/product/division/"+address
-            }).done((fragment)=>{
-                console.log(fragment);
-                $("#product-list").html(fragment);
-            });
+            requestUrl = "/hollroom/monthly/product/division/"+address;
+            goToProductPage(0);
         }
 
         function getSubDivision(address){
@@ -114,12 +114,75 @@
         }
 
         function goToProductPage(num){
+            console.log(requestUrl + "?page=" + num + queryString);
             $.ajax({
                 type:"get",
-                url:"/hollroom/monthly/product?page="+num
+                url: requestUrl + "?page=" + num + queryString
             }).done((fragment)=>{
                 $("#product-list").html(fragment);
             });
+        }
+
+        function sortProduct(criteria){
+            console.log('정렬합니다 '+criteria+'기준');
+            switch (criteria){
+                case 0:
+                    createdSort = (createdSort + 1) % 3;
+                    depositSort = 0;
+                    monthlySort = 0;
+                    break;
+                case 1:
+                    createdSort = 0;
+                    depositSort = (depositSort + 1) % 3;
+                    monthlySort = 0;
+                    break;
+                case 2:
+                    createdSort = 0;
+                    depositSort = 0;
+                    monthlySort = (monthlySort + 1) % 3;
+                    break;
+            }
+            if(createdSort !== 0 || depositSort !== 0 || monthlySort !== 0){
+                if(createdSort === 1)
+                    queryString='&sort=createdAt,asc'
+                else if(createdSort === 2)
+                    queryString='&sort=createdAt,desc'
+                else if(depositSort === 1)
+                    queryString='&sort=deposit,asc'
+                else if(depositSort === 2)
+                    queryString='&sort=deposit,desc'
+                else if(monthlySort === 1)
+                    queryString='&sort=monthly,asc'
+                else if(monthlySort === 2)
+                    queryString='&sort=monthly,desc'
+            }
+            else{
+                queryString='';
+            }
+            sortElementUpdate();
+            goToProductPage(0);
+        }
+        function sortElementUpdate(){
+            if(createdSort === 0)
+                $("#created-sort").html("최신순");
+            else if(createdSort === 1)
+                $("#created-sort").html("↑최신순");
+            else if(createdSort === 2)
+                $("#created-sort").html("↓최신순");
+
+            if(depositSort === 0)
+                $("#deposit-sort").html("보증금순");
+            else if(depositSort === 1)
+                $("#deposit-sort").html("↑보증금순");
+            else if(depositSort === 2)
+                $("#deposit-sort").html("↓보증금순");
+
+            if(monthlySort === 0)
+                $("#monthly-sort").html("월세순");
+            else if(monthlySort === 1)
+                $("#monthly-sort").html("↑월세순");
+            else if(monthlySort === 2)
+                $("#monthly-sort").html("↓월세순");
         }
     </script>
     <script th:inline="javascript">
@@ -278,6 +341,10 @@
         .linked-page-number{
             color: #378fbf;
         }
+        .padding-sort-btn{
+            padding-left: 5px;
+            padding-right: 5px;
+        }
     </style>
 </head>
 <body>
@@ -301,10 +368,10 @@
                         <div>
                             <span>조건검색</span>
                         </div>
-                        <div>
-                            <span>최신순</span>
-                            <span>보증금순</span>
-                            <span>월세순</span>
+                        <div class="display-flex">
+                            <div id="created-sort" onclick="sortProduct(0)" class="padding-sort-btn">최신순</div>
+                            <div id="deposit-sort" onclick="sortProduct(1)" class="padding-sort-btn">보증금순</div>
+                            <div id="monthly-sort" onclick="sortProduct(2)" class="padding-sort-btn">월세순</div>
                         </div>
                     </div>
                 </div>
