@@ -1,4 +1,4 @@
-package com.hollroom.admin.entity;
+package com.hollroom.admin.domain.entity;
 
 import com.hollroom.user.entity.UserEntity;
 import jakarta.persistence.*;
@@ -18,7 +18,7 @@ public class DailyVisitor {
 
     private LocalDate visitDate;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private UserEntity user;
 

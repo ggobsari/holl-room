@@ -11,6 +11,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
 
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 import java.util.Date;
@@ -30,7 +31,7 @@ public class CommunityEntity {
     @CreationTimestamp
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm.ss.SSS")
     @JsonFormat(shape= JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss초", timezone="Asia/Seoul")
-    private Date createdAt; //작성일(생성일)
+    private LocalDate createdAt; //작성일(생성일)
     @UpdateTimestamp
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm.ss.SSS")
     @JsonFormat(shape= JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss초", timezone="Asia/Seoul")

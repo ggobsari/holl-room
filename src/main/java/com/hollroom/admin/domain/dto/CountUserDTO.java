@@ -1,4 +1,4 @@
-package com.hollroom.admin.dto;
+package com.hollroom.admin.domain.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

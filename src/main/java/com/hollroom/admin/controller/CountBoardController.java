@@ -17,5 +17,4 @@ public class CountBoardController {
     public Map<String, Long> getBoardsCount(){
         return countBoardService.getTotalBoards();
     }
-
 }

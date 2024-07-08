@@ -1,6 +1,5 @@
 package com.hollroom.admin.service;
 
-import com.hollroom.admin.RoommateBoardMapper;
 import com.hollroom.community.repository.CommunityRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,11 +17,11 @@ public class CountBoardService {
     //================================================================================================================//
     private final CommunityRepository communityRepository;
 
-    private final RoommateBoardMapper roommateBoardMapper;
+    private final AdminRoomService adminRoomService;
     //================================================================================================================//
     public Map<String, Long> getTotalBoards(){
         long communityBoards = communityRepository.count();
-        long roommateBoards = roommateBoardMapper.countRoommateBoard();
+        long roommateBoards = adminRoomService.selectAllAdminRoommates().size();
         long totalBoards = communityBoards + roommateBoards;
 
         Map<String, Long> counts = new HashMap<>();

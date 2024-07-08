@@ -22,7 +22,7 @@ public class MonthlyProductDAOImpl implements MonthlyProductDAO {
 
     @Override
     public Page<MonthlyProductEntity> readProductAll(Pageable pageable) {
-        return productRepo.findAll(PageRequest.of(pageable.getPageNumber(),pageable.getPageSize()));
+        return productRepo.findAll(pageable);
     }
 
     @Override

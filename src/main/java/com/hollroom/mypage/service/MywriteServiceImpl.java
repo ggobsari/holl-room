@@ -1,12 +1,14 @@
 package com.hollroom.mypage.service;
 
 import com.hollroom.mypage.dao.MywriteDAO;
+import com.hollroom.mypage.domain.dto.MyRoommateDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -25,6 +27,11 @@ public class MywriteServiceImpl implements MywriteService {
         result.put("posts", postPage.getContent());
         result.put("totalPages", postPage.getTotalPages());
         return result;
+    }
+
+    @Override
+    public List<MyRoommateDTO> selectMyRoommatesByUserId(Long userId) {
+        return mywriteDAO.selectMyRoommateById(userId);
     }
 }
 

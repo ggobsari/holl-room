@@ -1,13 +1,12 @@
 package com.hollroom.admin.service;
 
-import com.hollroom.admin.entity.DailyVisitor;
+import com.hollroom.admin.domain.entity.DailyVisitor;
 import com.hollroom.admin.repository.DailyVisitorRepository;
 import com.hollroom.user.entity.UserEntity;
 import com.hollroom.user.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;

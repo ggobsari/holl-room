@@ -1,15 +1,22 @@
 package com.hollroom.admin.repository;
 
-import com.hollroom.admin.entity.DailyVisitor;
+import com.hollroom.admin.domain.entity.DailyVisitor;
 import com.hollroom.user.entity.UserEntity;
-import org.springframework.cglib.core.Local;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 
 public interface DailyVisitorRepository extends JpaRepository<DailyVisitor, Long> {
+
     List<DailyVisitor> findByVisitDate(LocalDate visitDate);
+
     List<DailyVisitor> findByVisitDateAndUser(LocalDate visitDate, UserEntity user);
+
+    long countDailyVisitorByVisitDate(LocalDate date);
+
+//    @Query("SELECT COUNT(dv) FROM DailyVisitor dv WHERE dv.visitDate = :date")
+//    long countDailyVisitorByVisitDate(@Param("date") LocalDate date);
 }

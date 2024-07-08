@@ -98,4 +98,34 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
     }
+
+    //===========================================================================================================
+    //검색
+    const searchTypeSelect = document.getElementById('searchSelect');
+    const searchInput = document.getElementById('searchText');
+    const searchButton = document.getElementById('searchIcon');
+
+    if (searchButton) {
+        searchButton.addEventListener('click', function (event) {
+            event.preventDefault();
+            const keyword = searchInput.value;
+            const searchType = searchTypeSelect.value;
+            searchPosts(keyword, searchType);
+        });
+    }
+
+    function searchPosts(keyword, searchType) {
+        fetch(`mypost/search?keyword=${keyword}&searchType=${searchType}`)
+            .then(response => response.json())
+            .then(data => {
+                if (Array.isArray(data)) {
+                    renderPosts(data); // 게시글 목록을 렌더링
+                } else {
+                    console.error('Error: Expected array but received:', data);
+                }
+            })
+            .catch(error => console.error('Error fetching posts:', error));
+    }
+
+
 });
