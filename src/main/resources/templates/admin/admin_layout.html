@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <meta name="description" content=""/>
+    <meta name="author" content=""/>
+    <title>HOLLROOM</title>
+    <!-- Favicon-->
+    <link rel="icon" type="image/x-icon" href="http://localhost:8090/hollroom/layout/assets/favicon.ico"/>
+    <!-- Bootstrap icons-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet"/>
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link rel="stylesheet" type="text/css" href="/hollroom/common/css/styles.css"/>
+    <link rel="stylesheet" type="text/css" href="/hollroom/mypage/css/styles-2.css"/>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+          rel="stylesheet">
+
+    <!-- Vendor CSS Files -->
+    <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+    <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+    <link href="assets/vendor/quill/quill.snow.css" rel="stylesheet">
+    <link href="assets/vendor/quill/quill.bubble.css" rel="stylesheet">
+    <link href="assets/vendor/remixicon/remixicon.css" rel="stylesheet">
+    <link href="assets/vendor/simple-datatables/style.css" rel="stylesheet">
+    <link href="assets/css/style.css" rel="stylesheet">
+
+    <!-- =======================================================
+    * Template Name: NiceAdmin
+    * Template URL: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/
+    * Updated: Apr 20 2024 with Bootstrap v5.3.3
+    * Author: BootstrapMade.com
+    * License: https://bootstrapmade.com/license/
+    ======================================================== -->
+</head>
+<body class="d-flex flex-column">
+<main class="flex-shrink-0">
+    <!-- Navigation-->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <i class="bi bi-list toggle-sidebar-btn" style="color: white; font-size: 25px; margin-left: 100px"></i>
+        <div class="container px-5">
+            <a style="position: absolute; left: 20px" class="navbar-brand" href="index.html">홀룸</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                    <li class="nav-item"><a class="nav-link" href="/hollroom/">홈</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/hollroom/monthly/product">월세지도</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/hollroom/roommate/home">룸메이트</a></li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" id="navbarDropdownBlog" href="/hollroom/community/list?category=all&page=0" role="button" data-bs-toggle="dropdown" aria-expanded="false">커뮤니티</a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownBlog">
+                            <li><a class="dropdown-item" href="/hollroom/community/list?category=all&page=0">자유 게시판</a></li>
+                            <li><a class="dropdown-item" href="#withorder">함께주문</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item"><a class="nav-link" href="/hollroom/mypage/profile">마이페이지</a></li>
+                </ul>
+
+                <div style="position: absolute; right: 20px;">
+                    <button id="logoutBtn" style="margin-left: 10px; display: none;" type="button"
+                            class="btn btn-primary" onclick="logout()">로그아웃
+                    </button>
+
+                    <script>
+                        $(document).ready(function(){
+                            $.ajax({
+                                url: '/hollroom/checkLogin',
+                                type: 'GET',
+                                success: function(data){
+                                    if(data){
+                                        $('#loginBtn').hide();
+                                        $('#btn-save').hide();
+                                        $('#logoutBtn').show();
+                                    } else {
+                                        $('#loginBtn').show();
+                                        $('#btn-save').show();
+                                        $('#logoutBtn').hide();
+                                    }
+                                }
+                            })
+                        })
+                        function logout() {
+                            $.ajax({
+                                url: '/hollroom/logout',
+                                type: 'POST',
+                                success: function (response) {
+                                    alert(response);
+                                    if(response === "로그아웃 성공"){
+                                        $('#loginBtn').show();
+                                        $('#btn-save').show();
+                                        $('#logoutBtn').hide();
+                                        window.location.href = 'http://localhost:8090/hollroom/community/list?category=all&page=0';
+                                    } else{
+                                        alert("로그아웃 실패");
+                                    }
+                                },
+                                error: function () {
+                                    alert('로그아웃 실패');
+                                }
+                            })
+                        }
+                    </script>
+
+                    <!-- Button trigger modal -->
+                    <button id="loginBtn" type="button" class="btn btn-primary" data-toggle="modal"
+                            data-target="#loginModal">로그인
+                    </button>
+
+                    <!-- Modal -->
+                    <div class="modal fade" id="loginModal" tabindex="-1" role="dialog"
+                         aria-labelledby="loginModalCenterTitle"
+                         aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div style="width: 600px; height: 600px" class="modal-content">
+                                <div class="modal-header">
+                                    <h2 class="modal-title" id="loginModalCenterTitle">로그인</h2>
+                                </div>
+                                <div style="height: 500px" class="member_login">
+                                    <form id="loginForm"
+                                          style="display: flex; flex-direction: column; justify-content: center; align-items: center; margin-top: 80px"
+                                          th:action="@{/auth/loginProc}" th:method="POST">
+                                        <div style="display: flex; justify-content: center" class="member_login_input">
+                                            <input style="width: 300px; height: 40px; border-radius: 80px; padding-left: 15px"
+                                                   id="userEmail" type="text" name="username" placeholder="이메일">
+                                        </div>
+
+                                        <div style="display: flex; justify-content: center; margin-top: 30px"
+                                             class="member_login_input">
+                                            <input style="width: 300px; height: 40px; border-radius: 80px; padding-left: 15px"
+                                                   id="userPassword" type="password" name="password" placeholder="비밀번호">
+                                        </div>
+
+                                        <div style="display: flex; justify-content: center; margin-top: 40px; margin-left: 30px"
+                                             class="reissuance_password">
+                                            <p>비밀번호를 잊으셨나요?&emsp;</p><a href="/#" id="reissue-password">비밀번호 변경</a>
+                                        </div>
+
+                                        <div style="display: flex; justify-content: center; margin-top: 50px">
+                                            <div class="login_api">
+                                                <a href="카카오 로그인 요청" id="kakao-login-btn"><img
+                                                        style="width: 60px; height: 60px; border-radius: 70%; margin-left: 20px"
+                                                        th:src="@{/user/images/kakao_login_button.png}"></a>
+                                            </div>
+
+                                            <div class="login_api">
+                                                <a href="네이버 로그인 요청" id="naver-login-btn"><img
+                                                        style="width: 60px; height: 60px; margin-left: 20px"
+                                                        th:src="@{/user/images/naver_login_button.png}"/></a>
+                                            </div>
+
+                                            <div class="login_api">
+                                                <a href="구글 로그인 요청" id="google-login-btn"><img
+                                                        style="width: 60px; height: 60px; margin-left: 20px"
+                                                        th:src="@{/user/images/google_login_button.png}"></a>
+                                            </div>
+                                        </div>
+
+                                    </form>
+                                </div>
+
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+                                    <button id="enter" type="button" class="btn btn-primary">확인</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Password Reset Modal -->
+                    <div class="modal fade" id="passwordModal" tabindex="-1" role="dialog"
+                         aria-labelledby="passwordModalLabel"
+                         aria-hidden="true">
+                        <div style="display: flex; justify-content: center" class="modal-dialog modal-dialog-centered"
+                             role="document">
+                            <div style="width: 400px; height: 500px; display: flex; justify-content: center; align-items: center"
+                                 class="modal-content">
+                                <div class="modal-header">
+                                    <h5 style="width: 335px;" class="modal-title" id="passwordModalLabel">비밀번호 변경</h5>
+                                </div>
+                                <div class="modal-body">
+                                    <form style="width: 280px" id="passwordForm">
+                                        <div class="form-group">
+                                            <label for="resetEmail">이메일</label>
+                                            <div class="input-group">
+                                                <input type="email" class="form-control" id="resetEmail"
+                                                       placeholder="이메일을 입력하세요">
+                                                <div class="input-group-append">
+                                                    <button class="btn btn-primary" type="button" id="sendResetEmailButton">인증</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div id="emailVerificationGroup" class="form-group" style="display: none">
+                                            <label for="verificationCode">인증 코드</label>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="verificationCode"
+                                                       placeholder="인증 코드를 입력하세요">
+                                                <div class="input-group-append">
+                                                    <button type="button" class="btn btn-primary" id="verifyCodeButton">
+                                                        확인
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="newPassword">새 비밀번호</label>
+                                            <input type="password" class="form-control" id="newPassword"
+                                                   placeholder="새 비밀번호를 입력하세요">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="confirmPassword">비밀번호 확인</label>
+                                            <input type="password" class="form-control" id="confirmPassword"
+                                                   placeholder="비밀번호를 확인하세요">
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+                                    <button type="button" class="btn btn-primary" id="resetPasswordButton">비밀번호 변경
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <script>
+                        $(document).ready(function () {
+
+                            let isEmailVerified = false;
+
+                            $('#kakao-login-btn').click(function (e) {
+                                e.preventDefault();
+                                window.location.href =
+                                    'https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=eab736d5f220cb419d2fe00eadae71e2&redirect_uri=http://localhost:8090/hollroom/kakao';
+                            })
+
+                            $('#naver-login-btn').click(function (e) {
+                                e.preventDefault();
+                                window.location.href = 'http://localhost:8090/hollroom/naver';
+                            })
+
+                            $('#google-login-btn').click(function (e) {
+                                e.preventDefault();
+                                window.location.href = 'https://accounts.google.com/o/oauth2/v2/auth?client_id=104276397881-2rp3nr5cl71rj89751e4aj9sqltnordf.apps.googleusercontent.com&redirect_uri=http://localhost:8090/hollroom/google/login&response_type=code&scope=email%20profile';
+                            })
+
+
+                            // 폼 제출 이벤트 처리
+                            $('#enter').click(function (e) {
+                                e.preventDefault();//기본 이벤트 제거(폼 제출 방지)
+
+                                let formData = new FormData();
+
+                                //폼 데이터 추가
+                                formData.append('userEmail', $('#userEmail').val());
+                                formData.append('userPassword', $('#userPassword').val());
+
+                                $.ajax({
+                                    url: '/hollroom/login',
+                                    type: 'POST',
+                                    data: formData,
+                                    contentType: false,
+                                    dataType: "text",
+                                    processData: false,
+                                    success: function () {
+                                        alert("로그인 성공");
+                                        window.location.href = 'http://localhost:8090/hollroom/community/list?category=all&page=0';
+                                    },
+                                    error: function () {
+                                        alert('로그인 실패');
+                                    }
+                                })
+                            })
+
+                            $('#reissue-password').click(function (e) {
+                                e.preventDefault();
+                                $('#passwordModal').modal('show');
+                            })
+
+                            $('#resetPasswordButton').click(function (e) {
+                                e.preventDefault();
+
+                                if (!isEmailVerified) {
+                                    alert("이메일 인증이 필요합니다.");
+                                    return;
+                                }
+
+                                var newPassword = $('#newPassword').val();
+                                var confirmPassword = $('#confirmPassword').val();
+
+                                if (newPassword !== confirmPassword) {
+                                    alert('새 비밀번호와 비밀번호 확인이 일치하지 않습니다.');
+                                    return;
+                                }
+
+                                var formData = {
+                                    email: $('#resetEmail').val(),
+                                    newPassword: newPassword
+                                }
+
+                                $.ajax({
+                                    url: '/hollroom/resetPassword',
+                                    type: 'POST',
+                                    data: JSON.stringify(formData),
+                                    contentType: 'application/json',
+                                    success: function () {
+                                        alert('비밀번호가 성공적으로 변경되었습니다.');
+                                        $('#passwordModal').modal('hide');
+                                    },
+                                    error: function () {
+                                        alert('비밀번호 변경에 실패했습니다. 다시 시도해주세요.');
+                                    }
+                                })
+                            })
+
+                            //이메일 유효성 확인
+                            function validateEmail() {
+                                var emailInput = document.getElementById('resetEmail');
+
+                                var emailValue = emailInput.value;
+
+                                var emailPattern = /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-za-z0-9\-]+/;
+
+                                return emailPattern.test(emailValue);
+
+                            }
+
+                            $('#sendResetEmailButton').click(function (e) {
+                                e.preventDefault();
+
+                                var email = $('#resetEmail').val();
+
+                                if (!email) {
+                                    alert('이메일을 입력하세요.');
+                                    return;
+                                } else if (!validateEmail()) {
+                                    alert('이메일 형식에 맞게 작성해 주세요.')
+                                    return;
+                                }
+
+                                var formData = {
+                                    email: email
+                                }
+
+                                $.ajax({
+                                    url: '/hollroom/forgotPassword',
+                                    type: 'POST',
+                                    data: JSON.stringify(formData),
+                                    contentType: 'application/json',
+                                    success: function () {
+                                        alert('비밀번호 재설정 이메일이 전송되었습니다.');
+                                        $('#emailVerificationGroup').show();
+                                        console.log(formData);
+                                    },
+                                    error: function () {
+                                        alert('이메일 전송에 실패했습니다. 다시 시도해주세요.');
+                                        console.log(formData);
+                                    }
+                                })
+                            })
+
+                            $('#verifyCodeButton').click(function (e) {
+                                e.preventDefault();
+
+                                var verificationCode = $('#verificationCode').val();
+
+                                if (!verificationCode) {
+                                    alert('인증 코드를 입력하세요.');
+                                    return;
+                                }
+
+                                var formData = {
+                                    email: $('#resetEmail').val(),
+                                    code: verificationCode
+                                }
+
+                                $.ajax({
+                                    url: '/hollroom/verifyCode',
+                                    type: 'POST',
+                                    data: JSON.stringify(formData),
+                                    contentType: 'application/json',
+                                    success: function () {
+                                        alert('이메일 인증이 완료되었습니다.');
+                                        isEmailVerified = true;
+                                        $('#emailVerificationGroup').hide();
+                                    },
+                                    error: function () {
+                                        alert('이메일 인증에 실패했습니다. 다시 시도해주세요.');
+                                    }
+                                })
+                            })
+
+                        });
+                    </script>
+
+                    <!-- Button trigger modal -->
+                    <button style="margin-left: 10px" id="btn-save" type="button" class="btn btn-primary"
+                            data-toggle="modal" data-target="#signupModal">회원가입
+                    </button>
+
+                    <!-- Modal -->
+                    <div class="modal fade" id="signupModal" tabindex="-1" role="dialog"
+                         aria-labelledby="signupModalCenterTitle"
+                         aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div style="height: 1050px" class="modal-content">
+                                <div class="modal-header">
+                                    <h2 class="modal-title" id="exampleModalCenterTitle">회원가입</h2>
+                                </div>
+                                <div style="height: 1100px" class="member_signup">
+                                    <form id="signupForm"
+                                          style="height: 1050px; display: flex; flex-direction: column; justify-content: center; align-items: center; margin-top: -50px"
+                                          th:action="@{/auth/loginProc}" th:method="POST">
+
+                                        <div style="display: flex; justify-content: center; margin-top: 30px"
+                                             class="member_email_input">
+                                            <input style="width: 300px; height: 40px; border-radius: 80px; padding-left: 15px"
+                                                   id="userSignupEmail" type="text" name="email" placeholder="이메일">
+                                        </div>
+
+                                        <span style="color: red; display: none; margin-top: 5px" id="email-error">유효하지 않은 이메일 주소입니다.</span>
+                                        <span style="color: blue; display: none; margin-top: 5px" id="email-valid">유효한 이메일 주소입니다.</span>
+
+                                        <div style="display: flex; justify-content: center; margin-top: 30px"
+                                             class="member_password_input">
+                                            <input style="width: 300px; height: 40px; border-radius: 80px; padding-left: 15px"
+                                                   id="userSignupPassword" type="password" name="password"
+                                                   placeholder="비밀번호">
+                                        </div>
+
+                                        <div style="display: flex; justify-content: center; margin-top: 30px"
+                                             class="member_name_input">
+                                            <input style="width: 300px; height: 40px; border-radius: 80px; padding-left: 15px"
+                                                   id="userName"
+                                                   type="text" name="name" placeholder="이름">
+                                        </div>
+
+                                        <div style="display: flex; justify-content: center; margin-top: 30px"
+                                             class="member_nickname_input">
+                                            <input style="width: 200px; height: 40px; border-radius: 80px; padding-left: 15px"
+                                                   id="userNickname" type="text" name="nickname" placeholder="닉네임">
+                                            <button style="margin-left: 10px" type="button" id="idCheck" class="btn btn-primary">중복확인</button>
+                                        </div>
+
+                                        <span style="color: red; display: none; margin-top: 5px" id="nickname-error"
+                                              class="error-message">이미 사용 중인 닉네임입니다.</span>
+                                        <span style="color: blue; display: none; margin-top: 5px" id="nickname-valid"
+                                              class="valid-message">사용 가능한 닉네임입니다.</span>
+
+                                        <div style="display: flex; justify-content: center; margin-top: 30px"
+                                             class="member_introduce_input">
+                                            <input style="width: 300px; height: 200px; padding-left: 15px"
+                                                   id="userIntroduce" type="text"
+                                                   name="introduce" placeholder="자기소개">
+                                        </div>
+
+                                        <div style="display: flex; justify-content: center; margin-top: 30px"
+                                             class="member_phone_number_input">
+                                            <input style="width: 250px; height: 40px; border-radius: 80px; padding-left: 15px"
+                                                   id="userPhoneNumber" type="text" name="phone_number"
+                                                   placeholder="휴대폰 번호 (- 포함)">
+                                            <button style="margin-left: 10px" id="phoneCheck" type="button" class="btn btn-primary">인증</button>
+                                        </div>
+
+                                        <div id="sendSMSCheck"
+                                             style="display: none; justify-content: center; margin-top: 30px">
+                                            <input style="width: 150px; height: 40px; border-radius: 80px; padding-left: 15px"
+                                                   id="sendSMSInput" type="text" placeholder="인증번호 입력" maxlength="4">
+                                            <button style="margin-left: 10px" id="sendSMSCheckButton" type="button">확인
+                                            </button>
+                                        </div>
+
+                                        <span style="color: red; display: none; margin-top: 5px" id="phone_number_error"
+                                              class="error-message">000-0000-000형식으로 입력하세요</span>
+
+                                        <label style="display: flex; justify-content: center; margin-top: 30px"
+                                               for="userBirthday">생년월일 :
+                                            <input style="margin-left: 10px" type="date"
+                                                   id="userBirthday"
+                                                   max="2024-12-31"
+                                                   min="1900-01-01"
+                                                   value="2024-06-22">
+                                        </label>
+
+                                        <div style="display: flex; justify-content: center; margin-top: 30px"
+                                             id="userGender">
+                                            <span style="margin-right: 50px">성별</span>
+                                            <label>
+                                                <input type="radio" name="gender" value="M">남
+                                            </label>
+                                            <label style="margin-left: 50px">
+                                                <input type="radio" name="gender" value="W">여
+                                            </label>
+                                        </div>
+
+                                        <div style="display: flex; justify-content: center; margin-top: 30px; margin-bottom: 20px">
+                                            <input style="width: 250px" type="text" id="userLocation" placeholder="주소"
+                                                   readonly>
+                                            <input type="button" onclick="sample5_execDaumPostcode()" value="주소 검색"><br>
+                                        </div>
+
+                                        <div style="" class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기
+                                            </button>
+                                            <button type="button" id="signupEnter" class="btn btn-primary">확인</button>
+                                        </div>
+                                    </form>
+                                </div>
+                                <script>
+                                    function sample5_execDaumPostcode() {
+                                        new daum.Postcode({
+                                            oncomplete: function (data) {
+                                                var addr = data.address; // 최종 주소 변수
+                                                document.getElementById("userLocation").value = addr;
+                                            }
+                                        }).open();
+                                    }
+                                </script>
+                            </div>
+                        </div>
+                    </div>
+                    <script>
+                        $(document).ready(function () {
+                            let isVerified = false;
+                            let isNicknameValid = false;
+                            let isEmailValid = false;
+
+                            //휴대폰 번호 유효성 검사 함수
+                            function validatePhoneNumber() {
+                                var phoneNumberInput = document.getElementById('userPhoneNumber');
+                                var phoneNumberError = document.getElementById('phone_number_error');
+                                var phoneNumberValue = phoneNumberInput.value;
+
+                                var phoneNumberPattern = /^\d{3}-\d{3,4}-\d{4}$/;
+
+                                if (!phoneNumberPattern.test(phoneNumberValue)) {
+                                    phoneNumberError.style.display = 'block';
+                                    alert("휴대폰 번호를 확인해주세요. - 포함되어야 합니다.");
+                                    return false;
+                                }
+                                phoneNumberError.style.display = 'none';
+                                return true;
+                            }
+
+                            //인증번호 발송 버튼 클릭 이벤트
+                            $('#phoneCheck').click(function () {
+                                if (!validatePhoneNumber()) {
+                                    return
+                                }
+                                var userPhoneNumber = $('#userPhoneNumber').val();
+
+                                $.ajax({
+                                    url: '/hollroom/sendSMS',
+                                    type: 'POST',
+                                    data: {userPhoneNumber: userPhoneNumber},
+                                    success: function (response) {
+                                        if (response) {
+                                            alert("인증번호가 전송되었습니다. 입력하세요.");
+                                            $('#sendSMSCheck').show();
+                                        } else {
+                                            alert("번호를 다시 입력해주세요.");
+                                        }
+                                    },
+                                    error: function () {
+                                        alert('서버 오류입니다. 다시 시도해주세요.');
+                                    }
+                                })
+                            })
+
+                            $('#sendSMSCheckButton').click(function () {
+                                var verificationCode = $('#sendSMSInput').val();
+                                var userPhoneNumber = $('#userPhoneNumber').val();
+
+                                $.ajax({
+                                    url: '/hollroom/verify',
+                                    type: 'POST',
+                                    data: {
+                                        userPhoneNumber: userPhoneNumber,
+                                        verifyCode: verificationCode
+                                    },
+                                    success: function (response) {
+                                        if (response === true) {
+                                            alert("인증에 성공했습니다.");
+                                            isVerified = true;
+                                            $('#sendSMSCheck').hide();
+                                        } else {
+                                            alert("인증번호가 올바르지 않습니다. 다시 확인해주세요.");
+                                        }
+                                    },
+                                    error: function () {
+                                        alert('서버 오류입니다. 다시 시도해주세요.');
+                                    }
+                                })
+                            })
+
+                            //이메일 유효성 확인
+                            function validateEmail() {
+                                var emailInput = document.getElementById('userSignupEmail');
+                                var emailError = document.getElementById('email-error');
+                                var emailValid = document.getElementById('email-valid');
+                                var emailValue = emailInput.value;
+
+                                var emailPattern = /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-za-z0-9\-]+/;
+
+                                if (emailPattern.test(emailValue)) {
+                                    emailError.style.display = 'none';
+                                    emailValid.style.display = 'block';
+                                    return true;
+                                } else {
+                                    emailError.style.display = 'block';
+                                    emailValid.style.display = 'none';
+                                    alert("유효하지 않은 이메일 주소입니다.");
+                                    return false;
+                                }
+
+                            }
+
+                            //닉네임 중복 확인
+                            $('#idCheck').click(function () {
+                                var userNickname = $('#userNickname').val();
+
+                                $.ajax({
+                                    url: '/hollroom/checkNickname',
+                                    type: 'GET',
+                                    data: {userNickname: userNickname},
+                                    success: function (response) {
+                                        if (response === "닉네임이 이미 사용 중입니다.") {
+                                            alert('중복된 닉네임입니다.');
+                                            $('#nickname-error').show();
+                                            $('#nickname-valid').hide();
+                                            isNicknameValid = false;
+                                        } else {
+                                            alert('사용 가능한 닉네임입니다.');
+                                            $('#nickname-error').hide();
+                                            $('#nickname-valid').show();
+                                            isNicknameValid = true;
+                                        }
+                                    },
+                                    error: function () {
+                                        alert('서버 오류입니다. 다시 시도해주세요.');
+                                    }
+                                })
+                            })
+
+                            // 폼 제출 이벤트 처리
+                            $('#signupEnter').click(function (e) {
+                                console.log("Is verified: " + isVerified + ", Is nickname valid: " + isNicknameValid);
+                                if (!isVerified || !isNicknameValid) {
+                                    e.preventDefault();
+                                    if (!isVerified) alert("휴대폰 번호를 인증해주세요.");
+                                    if (!isNicknameValid) alert('닉네임을 확인해주세요.');
+                                    return;
+                                }
+
+                                if (!validateEmail()) {
+                                    return;
+                                }
+
+                                var userEmail = $('#userSignupEmail').val();
+
+                                $.ajax({
+                                    url: '/hollroom/checkEmail',
+                                    type: 'GET',
+                                    data: {userEmail: userEmail},
+                                    success: function (response) {
+                                        if (response === "이미 사용 중인 이메일입니다.") {
+                                            alert("이미 가입되어 있는 이메일입니다.");
+                                        } else {
+                                            isEmailValid = true;
+                                        }
+                                    },
+                                    error: function () {
+                                        alert('서버 오류입니다. 다시 시도해주세요.');
+                                    }
+                                })
+
+                                if (!validatePhoneNumber()) {
+                                    return;
+                                }
+
+                                if (isEmailValid === true) {
+                                    let formData = new FormData();
+
+                                    formData.append('userEmail', $('#userSignupEmail').val());
+                                    formData.append('userPassword', $('#userSignupPassword').val());
+                                    formData.append('userName', $('#userName').val());
+                                    formData.append('userNickname', $('#userNickname').val());
+                                    formData.append('userIntroduce', $('#userIntroduce').val());
+                                    formData.append('userPhoneNumber', $('#userPhoneNumber').val());
+                                    formData.append('userBirthday', $('#userBirthday').val());
+                                    formData.append('userGender', $('input[name=gender]:checked').val());
+                                    formData.append('userLocation', $('#userLocation').val());
+
+                                    for (val of formData.values()) {
+                                        console.log(val)
+                                    }
+
+                                    $.ajax({
+                                        url: '/hollroom/signup',
+                                        type: 'POST',
+                                        data: formData,
+                                        contentType: false, //파일 업로드를 위해 false
+                                        dataType: "text",
+                                        processData: false,//파일 업로드를 위해 false
+                                        success: function () {
+                                            alert('회원가입 성공');
+                                            window.location.href = 'http://localhost:8090/hollroom/community/list?category=all&page=0'; //회원가입 성공 후 리다이렉트
+                                        },
+                                        error: function (response) {
+                                            if (response === "닉네임이 이미 사용 중입니다.") {
+                                                alert('중복된 닉네임입니다.');
+                                            } else {
+                                                alert("회원가입 실패");
+                                            }
+                                        }
+                                    })
+                                }
+                            })
+                        });
+                    </script>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="floating-btn">
+        <button
+                id="floating-btn-top"
+                onclick="scrollToTop()"
+                class="btn btn-primary rounded-circle"
+        >
+            <span>&#11121;</span>
+        </button>
+        <button
+                id="floating-btn-chat"
+                onclick="location.href='#'"
+                class="btn btn-primary rounded-circle"
+        >
+            <span>&#9776;</span>
+        </button>
+        <button
+                id="floating-btn-write"
+                onclick="location.href='/hollroom/roommate/register'"
+                class="btn btn-primary rounded-circle"
+        >
+            <span>&#128393;</span>
+        </button>
+    </div>
+
+    <!-- Admin Sidebar -->
+    <aside id="sidebar" class="sidebar">
+        <ul class="sidebar-nav" id="sidebar-nav">
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="index.html">
+                    <i class="bi bi-grid"></i>
+                    <span>Dashboard</span>
+                </a>
+            </li><!-- End Dashboard Nav -->
+
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="http://localhost:8090/hollroom/admin/admin_user">
+                    <i class="bi bi-person"></i>
+                    <span>Users</span>
+                </a>
+            </li><!-- End Dashboard Nav -->
+
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="http://localhost:8090/hollroom/admin/admin_monthly">
+                    <i class="bx bxs-building-house"></i>
+                    <span>MonthlyProduct</span>
+                </a>
+            </li><!-- End Dashboard Nav -->
+
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="http://localhost:8090/hollroom/admin/admin_roommate">
+                    <i class="bi bi-people-fill"></i>
+                    <span>Roommate</span>
+                </a>
+            </li><!-- End Dashboard Nav -->
+
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="http://localhost:8090/hollroom/admin/admin_community">
+                    <i class="bi bi-chat-right-text-fill"></i>
+                    <span>Community</span>
+                </a>
+            </li><!-- End Dashboard Nav -->
+
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="http://localhost:8090/hollroom/admin/admin_inquiry">
+                    <i class="bi bi-patch-question-fill"></i>
+                    <span>Q&A</span>
+                </a>
+            </li><!-- End Dashboard Nav -->
+        </ul>
+    </aside><!-- End Sidebar -->
+
+    <th:block layout:fragment="content"></th:block>
+</main>
+<!-- Footer-->
+<footer class="bg-dark py-4 mt-auto">
+    <div class="container px-5">
+        <div class="row align-items-center justify-content-between flex-column flex-sm-row">
+            <div class="col-auto">
+                <div class="small m-0 text-white">Copyright &copy; Your Website 2023</div>
+            </div>
+            <div class="col-auto">
+                <a class="link-light small" href="#!">Privacy</a>
+                <span class="text-white mx-1">&middot;</span>
+                <a class="link-light small" href="#!">Terms</a>
+                <span class="text-white mx-1">&middot;</span>
+                <a class="link-light small" href="#!">Contact</a>
+            </div>
+        </div>
+    </div>
+</footer>
+</body>
+<!-- Vendor JS Files -->
+<script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
+<script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="assets/vendor/chart.js/chart.umd.js"></script>
+<script src="assets/vendor/echarts/echarts.min.js"></script>
+<script src="assets/vendor/quill/quill.js"></script>
+<script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
+<script src="assets/vendor/tinymce/tinymce.min.js"></script>
+<script src="assets/vendor/php-email-form/validate.js"></script>
+<!-- Template Main JS File -->
+<script src="assets/js/main.js"></script>
+</html>

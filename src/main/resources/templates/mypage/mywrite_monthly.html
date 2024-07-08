@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/main_layout}">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=1440, initial-scale=1.0"/>
+    <link rel="shortcut icon" type="image/png" href="https://animaproject.s3.amazonaws.com/home/favicon.png"/>
+    <link href="css/styles.css" rel="stylesheet"/>
+    <link rel="stylesheet" type="text/css" href="css/styleguide.css"/>
+    <link rel="stylesheet" type="text/css" href="css/globals.css"/>
+    <link rel="stylesheet" type="text/css" href="css/profile_mywrite.css"/>
+    <link rel="stylesheet" type="text/css" href="css/profile_shape.css"/>
+    <link rel="stylesheet" type="text/css" href="css/styles-2.css"/>
+    <style>
+        @import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap");
+    </style>
+    <!--JavaScript 파일-->
+</head>
+<body class="d-flex flex-column font-kor">
+<main class="flex-shrink-0">
+    <div layout:fragment="content">
+        <section class="py-5 flex-row-5">
+            <div class="container px-5 d-flex">
+                <aside class="col-3 bg-dark bg-gradient rounded-3 pt-4 px-3 me-3 content3">
+                    <div class="my-5 filter-list text-white">
+                        <h2 class="text-center mb-4" style="font-size: 1.5em; font-weight: bold;">마이페이지</h2>
+                        <ul class="nav flex-column">
+                            <li class="nav-item">
+                                <a class="nav-menu" href="profile">
+                                    <i class="bi bi-person-circle"></i> 마이프로필
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-menu active" href="mywrite?category=all&page=0">
+                                    <i class="bi bi-pencil-square"></i> 내가 쓴 글
+                                </a>
+                            </li>
+                            <!--<li class="nav-item">
+                                <a class="nav-menu" href="interest?category=all&page=0">
+                                    <i class="bi bi-bookmark-heart"></i> 즐겨찾기
+                                </a>
+                            </li>-->
+                            <li class="nav-item">
+                                <a class="nav-menu" href="inquiry?category=all&page=0">
+                                    <i class="bi bi-question-circle"></i> 문의하기
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-menu" href="withdrawal">
+                                    <i class="bi bi-x-circle"></i> 회원탈퇴
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </aside>
+
+                <!--내가 쓴글-->
+                <div class="border-primary col-7 p-4 bg-white rounded-3">
+                    <nav>
+                        <ul class="flex-row-5" style="color:#a4aaac;">
+                            <li class="" style="margin:0 10px 10px 10px">
+                                <a class="" href="http://localhost:8090/hollroom/mypage/mywrite?category=all&page=0">커뮤니티</a>
+                            </li>
+                            <li>|</li>
+                            <li class="" style="margin:0 10px 10px 10px">
+                                <a class="" href="http://localhost:8090/hollroom/mypage/mywrite_roommate">룸메이트</a>
+                            </li>
+                            <li>|</li>
+                            <li class=""  style="margin:0 10px 10px 10px">
+                                <a class="" href="http://localhost:8090/hollroom/mypage/mywrite_monthly" style="font-weight: bold; color:#8d9393">월세지도</a>
+                            </li>
+                        </ul>
+                    </nav>
+                    <div class="p-3">
+
+                        <table class="table table-hover text-center">
+                            <tbody id="post-list">
+                            <!-- 게시글 목록 -->
+                                <tr>
+                                    <!--사진-->
+                                    <td>
+
+                                    </td>
+                                    <!--본문-->
+                                    <td>
+                                        <div><!--보증금/월세--></div>
+                                        <div><!--계약기간--></div>
+                                        <div><!--등록일자--></div>
+                                        <div><!--주소--></div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="d-flex justify-content-center mb-5 my-paging">
+<!--                            <a href="#" class="">&#5130;</a>-->
+<!--                            &lt;!&ndash; 페이지 링크  &ndash;&gt;-->
+<!--                            <a href="#" class="">&#5125;</a>-->
+                        </div>
+                        <div class="d-inline-block">
+                            <div class="d-flex justify-content-end mx-auto">
+                                <select name="" id="searchSelect" class="my-select rounded-2">
+                                    <option value="제목 + 내용">제목 + 내용</option>
+                                    <option value="제목">제목</option>
+                                    <option value="내용">내용</option>
+                                </select>
+                                <input  id="searchText"
+                                        class="ml-2 my-input-l"
+                                        type="text"
+                                        placeholder="검색어를 입력하세요"
+                                />
+                                <a class="ml-2" href="#" id="searchIcon"
+                                ><img
+                                        src="http://localhost:8090/hollroom/images/icon_search.png"
+                                        style="width: 23px; height: 23px"
+                                        alt="검색 아이콘"
+                                /></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</main>
+</body>
+</html>

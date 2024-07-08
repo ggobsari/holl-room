@@ -109,4 +109,9 @@
         </where>
         order by roommate_id desc
     </select>
+
+<!--내가쓴글 자기id로 찾기-->
+    <select id="selectByUserId" parameterType="long" resultType="rmmt_board">
+        select * from board_roommate where id = #{id} order by roommate_id desc
+    </select>
 </mapper>

@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{admin/admin_layout}">
+
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+    <title>Tables / Data - NiceAdmin Bootstrap Template</title>
+    <meta content="" name="description">
+    <meta content="" name="keywords">
+
+    <!-- Favicons -->
+    <link href="assets/img/favicon.png" rel="icon">
+    <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.gstatic.com" rel="preconnect">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+          rel="stylesheet">
+
+    <!-- Vendor CSS Files -->
+    <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+    <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+    <link href="assets/vendor/quill/quill.snow.css" rel="stylesheet">
+    <link href="assets/vendor/quill/quill.bubble.css" rel="stylesheet">
+    <link href="assets/vendor/remixicon/remixicon.css" rel="stylesheet">
+    <link href="assets/vendor/simple-datatables/style.css" rel="stylesheet">
+
+    <!-- Template Main CSS File -->
+    <link href="assets/css/style.css" rel="stylesheet">
+
+    <!-- =======================================================
+    * Template Name: NiceAdmin
+    * Template URL: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/
+    * Updated: Apr 20 2024 with Bootstrap v5.3.3
+    * Author: BootstrapMade.com
+    * License: https://bootstrapmade.com/license/
+    ======================================================== -->
+</head>
+
+<body layout:fragment="content">
+<main id="main" class="main">
+
+    <div class="pagetitle">
+        <h1>Roommate</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                <li class="breadcrumb-item active">Roommate</li>
+            </ol>
+        </nav>
+    </div><!-- End Page Title -->
+
+    <section class="section">
+        <div class="row">
+            <div class="col-lg-12">
+
+                <div class="card">
+                    <div class="card-body" style="width: 1500px">
+                        </table>
+                        <!-- Table with stripped rows -->
+                        <table class="table datatable">
+                            <thead>
+                            <tr>
+                                <th>번호</th>
+                                <th>제목</th>
+                                <th>내용</th>
+                                <th>작성자</th>
+                                <th>작성일</th>
+                                <th>수정일</th>
+                                <th>삭제</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="board : ${boardlist}">
+                                <td th:text="${board.roommate_Id}"></td>
+                                <td class="title-limit">
+                                    <a th:text="${board.title}" th:href="@{/roommate/detail(roommate_id=${board.roommate_Id}, action='READ')}"></a>
+                                </td>
+                                <td class="write-limit" th:text="${board.content}"></td>
+                                <td th:text="${board.user_Nickname}"></td>
+                                <td th:text="${#dates.format(board.created_At, 'yyyy-MM-dd')}"></td>
+                                <td th:text="${#dates.format(board.updated_At, 'yyyy-MM-dd')}"></td>
+                                <td>
+                                    <button th:if="${board.deleted == 'Y'}" type="button" class="btn btn-danger"
+                                            style="font-size:16px; padding: 0 5px; height: 25px; width: 25px; background-color: black; font-weight: bold"
+                                            th:onclick="'deletedIdCancel(' + ${board.roommate_Id} + ')'">O</button>
+                                    <button th:if="${board.deleted == 'N'}" type="button" class="btn btn-danger"
+                                            style="font-size:16px; padding: 0 5px; height: 25px; width: 25px; background-color: black; font-weight: bold"
+                                            th:onclick="'deletedId(' + ${board.roommate_Id} + ')'">X</button>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <!-- End Table with stripped rows -->
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+</main><!-- End #main -->
+<a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
+        class="bi bi-arrow-up-short"></i></a>
+
+<!-- Vendor JS Files -->
+<script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
+<script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="assets/vendor/chart.js/chart.umd.js"></script>
+<script src="assets/vendor/echarts/echarts.min.js"></script>
+<script src="assets/vendor/quill/quill.js"></script>
+<script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
+<script src="assets/vendor/tinymce/tinymce.min.js"></script>
+<script src="assets/vendor/php-email-form/validate.js"></script>
+
+<!-- Template Main JS File -->
+
+<script>
+    function deletedId(roommate_Id) {
+        if (confirm("정말로 삭제 하시겠습니까?\n 글 번호 : "+roommate_Id)) {
+            fetch(`http://localhost:8090/hollroom/admin/room_deleted`, { // 절대 경로로 변경
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: `post_Id=${roommate_Id}`
+            })
+                .then(response => {
+                    return response.text().then(text => ({ status: response.status, text })); // 응답 텍스트 확인
+                })
+                .then(({ status, text }) => {
+                    if (status === 200) {
+                        alert(text);
+                        location.reload();
+                    } else {
+                        alert('삭제를 실패했습니다. ' + text);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('삭제 중 오류가 발생했습니다.');
+                });
+        }
+    }
+
+    function deletedIdCancel(roommate_Id) {
+        if (confirm("정말로 삭제를 취소하시겠습니까?\n회원 번호 : "+roommate_Id)) {
+            fetch(`http://localhost:8090/hollroom/admin/room_deleted_cancel`, { // 절대 경로로 변경
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: `post_Id=${roommate_Id}`
+            })
+                .then(response => {
+                    return response.text().then(text => ({ status: response.status, text })); // 응답 텍스트 확인
+                })
+                .then(({ status, text }) => {
+                    if (status === 200) {
+                        alert(text);
+                        location.reload();
+                    } else {
+                        alert('취소에 실패했습니다. ' + text);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('취소 중 오류가 발생했습니다.');
+                });
+        }
+    }
+</script>
+
+</body>
+
+</html>

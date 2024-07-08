@@ -37,7 +37,7 @@ document.addEventListener('DOMContentLoaded', function () {
         postList.innerHTML = inquiries.map((inquiry, index) => `
             <tr>
                 <td>${totalPosts - (currentPage * pageSize + index)}</td>
-                <td><a href="/hollroom/mypage/inquiry/${inquiry.postId}">${inquiry.title}</a></td>
+                <td class="write-limit"><a href="/hollroom/mypage/inquiry/${inquiry.postId}">${inquiry.title}</a></td>
                 <td>${inquiry.createdAt.split(' ')[0]}</td>
                 <td>${inquiry.answerContnet ? 'O' : ''}</td>
                 <td>${inquiry.answerAt ? inquiry.answerAt.split('T')[0] : ''}</td><!--표기 오류날수 있음-->
