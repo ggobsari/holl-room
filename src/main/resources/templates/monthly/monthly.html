@@ -18,7 +18,8 @@
         let depositSort=0;
         let monthlySort=0;
         let queryString='';
-        let requestUrl= "/hollroom/monthly/product";
+        let requestUrl= "/hollroom/monthly/product/";
+        let currentDivision='서울시';
         $(document).ready(function (){
             avgPriceBox=$("#avg-price-box")
             productList=$("#productList");
@@ -67,8 +68,17 @@
         });
 
         function getProductList(address){
-            requestUrl = "/hollroom/monthly/product/division/"+address;
+            currentDivision = address;
             goToProductPage(0);
+        }
+
+        function goToProductPage(num){
+            $.ajax({
+                type:"get",
+                url: requestUrl +"division/"+ currentDivision + "?page=" + num + queryString
+            }).done((fragment)=>{
+                $("#product-list").html(fragment);
+            });
         }
 
         function getSubDivision(address){
@@ -111,16 +121,6 @@
                 address += " "+divisions[i];
             getSubDivision(address);
             getProductList(address);
-        }
-
-        function goToProductPage(num){
-            console.log(requestUrl + "?page=" + num + queryString);
-            $.ajax({
-                type:"get",
-                url: requestUrl + "?page=" + num + queryString
-            }).done((fragment)=>{
-                $("#product-list").html(fragment);
-            });
         }
 
         function sortProduct(criteria){
@@ -230,6 +230,10 @@
         .part-scroll{
             overflow-y: scroll;
         }
+        .vertical-center{
+            display: flex;
+            justify-content: center;
+        }
         .horizontal-center{
             display: flex;
             align-items: center;
@@ -247,7 +251,7 @@
             justify-content: center;
             align-items: center;
         }
-        #productList{
+        .product-list{
             width: 500px;
             flex-direction: column;
             background-color: white;
@@ -345,6 +349,16 @@
             padding-left: 5px;
             padding-right: 5px;
         }
+        .back-btn{
+            width: 100%;
+            height: 50px;
+            border-bottom: 1px lightgrey solid;
+            margin-bottom: 10px;
+        }
+        .back-arrow{
+            width: 20px;
+            height: 20px;
+        }
     </style>
 </head>
 <body>
@@ -361,22 +375,24 @@
             <div id="showProductBtn" >
                 <img src="/hollroom/images/arrow.png" class="arrow-img">
             </div>
-            <div id="productList" class="display-flex full-height">
-                <div>
-                    <h3>월세매물 / <a th:href="@{/monthly/product/register}">매물등록하기</a></h3>
-                    <div id="functionPanel" class="display-flex">
-                        <div>
-                            <span>조건검색</span>
-                        </div>
-                        <div class="display-flex">
-                            <div id="created-sort" onclick="sortProduct(0)" class="padding-sort-btn">최신순</div>
-                            <div id="deposit-sort" onclick="sortProduct(1)" class="padding-sort-btn">보증금순</div>
-                            <div id="monthly-sort" onclick="sortProduct(2)" class="padding-sort-btn">월세순</div>
+            <div class="full-height">
+                <div class="display-flex full-height product-list">
+                    <div>
+                        <h3>월세매물 / <a th:href="@{/monthly/product/register}">매물등록하기</a></h3>
+                        <div id="functionPanel" class="display-flex">
+                            <div>
+                                <span>조건검색</span>
+                            </div>
+                            <div class="display-flex">
+                                <div id="created-sort" onclick="sortProduct(0)" class="padding-sort-btn">최신순</div>
+                                <div id="deposit-sort" onclick="sortProduct(1)" class="padding-sort-btn">보증금순</div>
+                                <div id="monthly-sort" onclick="sortProduct(2)" class="padding-sort-btn">월세순</div>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div id="product-list" class="part-scroll" style="height: 100vh;">
-                    <div th:replace="~{/monthly/product_list :: productList}"></div>
+                    <div id="product-list" class="part-scroll" style="height: 100vh;">
+                        <div th:replace="~{/monthly/product_list :: productList}"></div>
+                    </div>
                 </div>
             </div>
         </div>

@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 import org.springframework.data.domain.Pageable;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -71,14 +72,20 @@ public class MonthlyProductServiceImpl implements MonthlyProductService {
     @Override
     public Page<MonthlyProductResponseDTO> readDivisionProduct(String addr, Pageable pageable) {
         Long divisionCode = divisionService.readMainDivision(addr).mainDivisionCode;
-        return dao.readDivisionProduct(divisionCode,pageable)
+        List<Long> subDivisionCodes= divisionService.readSubDivisionCodes(divisionCode);
+        return dao.readDivisionProducts(subDivisionCodes,pageable)
                 .map(this::convertEntityToDTO);
+    }
+
+    @Override
+    public MonthlyProductResponseDTO readProduct(Long id) {
+        return convertEntityToDTO(dao.readProduct(id));
     }
 
     private MonthlyProductResponseDTO convertEntityToDTO(MonthlyProductEntity entity) {
         MonthlyProductResponseDTO dto = mapper.map(entity,MonthlyProductResponseDTO.class);
         dto.setRoomImg(attachFileRepo.findByPostIdAndTabType(dto.getId(),TabType.MONTHLY_PRODUCT).get(0).getFileStoreName());
+        dto.setAddress(divisionService.getAddress(entity.getDivisionCode()));
         return dto;
     }
-
 }
