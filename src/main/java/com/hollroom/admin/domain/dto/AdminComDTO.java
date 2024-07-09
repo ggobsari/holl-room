@@ -24,4 +24,6 @@ public class AdminComDTO {
     private Long post_Id;
     private Long user_Id;
     private Long view_Count;
+
+    private String user_Nickname;
 }

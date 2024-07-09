@@ -39,7 +39,7 @@
 <body class="d-flex flex-column">
 <main class="flex-shrink-0">
     <!-- Navigation-->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="position: fixed; top:0; left: 0; right: 0; z-index: 100;">
         <i class="bi bi-list toggle-sidebar-btn" style="color: white; font-size: 25px; margin-left: 100px"></i>
         <div class="container px-5">
             <a style="position: absolute; left: 20px" class="navbar-brand" href="index.html">홀룸</a>
@@ -118,13 +118,20 @@
                     <span>Q&A</span>
                 </a>
             </li><!-- End Dashboard Nav -->
+
+            <li class="nav-item" style="margin-top: 160%">
+                <a class="nav-link collapsed" href="http://localhost:8090/hollroom/">
+                    <i class="bx bxs-door-open"></i>
+                    <span>Exit</span>
+                </a>
+            </li><!-- End Dashboard Nav -->
         </ul>
     </aside><!-- End Sidebar -->
 
     <th:block layout:fragment="content"></th:block>
 </main>
 <!-- Footer-->
-<footer class="bg-dark py-4 mt-auto">
+<footer class="bg-dark py-4 mt-auto" style="z-index: 1000">
     <div class="container px-5">
         <div class="row align-items-center justify-content-between flex-column flex-sm-row">
             <div class="col-auto">

@@ -1,17 +1,23 @@
+//버튼 활성화
 function toggleWithdrawalButton() {
     const checkbox = document.getElementById('agreeCheckbox').checked;
-    if(document.getElementById('password')) {
-        const password = document.getElementById('password').value;
-    }
+    const passwordElement = document.getElementById('password');
+    const password = passwordElement ? passwordElement.value : '';
     const button = document.getElementById('withdrawalButton');
     const buttonSocial = document.getElementById('witdrawalWithoutPassword');
+    const loginType = document.getElementById('loginType').value;
 
-    if(document.getElementById('loginType')) {
-        buttonSocial.disabled = !(checkbox);
-    }else{
-        button.disabled = !(checkbox && password);
+    // 소셜 로그인 버튼 활성화 조건
+    if (buttonSocial && loginType !== '') {
+        buttonSocial.disabled = !checkbox;
+    }
+
+    // 일반 로그인 버튼 활성화 조건
+    if (button && loginType === '') {
+        button.disabled = !(checkbox && password.length > 0);
     }
 }
+
 //일반로그인 회원탈퇴
 function handleWithdrawal(event) {
     event.preventDefault();

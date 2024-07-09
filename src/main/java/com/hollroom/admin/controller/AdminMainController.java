@@ -6,6 +6,10 @@ import com.hollroom.admin.service.*;
 import com.hollroom.user.entity.UserEntity;
 import com.hollroom.user.repository.UserRepository;
 import jakarta.servlet.http.HttpSession;
+import com.hollroom.mypage.service.InquiryService;
+import com.hollroom.user.entity.UserEntity;
+import com.hollroom.user.repository.UserRepository;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +37,8 @@ public class AdminMainController {
     private AdminRoomService adminRoomService;
     @Autowired
     private AdminMonService adminMonService;
+
+    private final AdminAttachService adminAttachService;
 
     private final UserRepository userRepository;
 
@@ -71,13 +77,32 @@ public class AdminMainController {
     //문의하기 상세 글
     @GetMapping("/admin_inquiry_detail")
     public String pagescontact(Model model, Long postId) {
-        InquiryListDTO inquiryListDTO = inquiryListService.selectInquiryByPostId(postId);
+        InquiryListDTO inquiryListDTO = inquiryListService.selectInquiryByPostId(postId); //글 상세정보
         model.addAttribute("inquiry", inquiryListDTO);
+        List<AdminAttachDTO> filelist = adminAttachService.getAdminAttach(postId); //첨부파일
+        model.addAttribute("filelist", filelist);
+
         return "admin/admin_inquiry_detail"; //interest 반환
     }
 
     InquiryListDTO inquiry = new InquiryListDTO();
 
+    //    //문의하기답변 등록
+//    @PostMapping("/inquiry_answer")
+//    public ResponseEntity<String> submintAnswer(@RequestParam("postId") Long postId, @RequestParam("answer_content") String answerContent) {
+//        try {
+//            inquiry.setPost_Id(postId);
+//            inquiry.setAnswer_Content(answerContent);
+//            inquiry.setAnswer_At(new Date());
+//
+//            inquiryListService.updateInquiryAnswer(inquiry);
+//
+//            return ResponseEntity.ok("답변을 등록하였습니다.");
+//        } catch (Exception e) {
+//            e.printStackTrace();  // 오류 로그를 출력합니다.
+//            return ResponseEntity.status(500).body("답변등록중 오류가 발생했습니다.");
+//        }
+//    }
     //문의하기답변 등록
     @PostMapping("/inquiry_answer")
     public String submitAnswer(@RequestParam("postId") Long postId,
@@ -120,6 +145,23 @@ public class AdminMainController {
         } catch (Exception e) {
             e.printStackTrace();  // 오류 로그를 출력합니다.
             return ResponseEntity.status(500).body("게시글 삭제 중 오류가 발생했습니다.");
+        }
+    }
+
+    //커뮤니티 글 삭제취소
+    @PostMapping("/community_delete_cancel")
+    public ResponseEntity<String> adminCommunityDeleteCancel(@RequestParam("postId") Long postId) {
+        try {
+            AdminComDTO community = new AdminComDTO();
+            community.setPost_Id(postId);
+            community.setDeleted(null);
+            community.setDeleted_At(null);
+            adminCommunityService.deleteAdminCommunity(community);
+
+            return ResponseEntity.ok("게시글 삭제가 취소되었습니다.");
+        } catch (Exception e) {
+            e.printStackTrace();  // 오류 로그를 출력합니다.
+            return ResponseEntity.status(500).body("게시글 삭제 취소도중 오류가 발생했습니다.");
         }
     }
 

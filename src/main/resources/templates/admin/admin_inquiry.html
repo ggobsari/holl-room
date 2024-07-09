@@ -101,7 +101,7 @@
                                 <td class="title-limit"><a th:text="${board.title}"
                                                         th:href="@{/admin/admin_inquiry_detail(postId=${board.post_Id})}"></a></td>
                                 <td class="write-limit" th:text="${board.content}"></td>
-                                <td th:text="${board.user_Id}"></td>
+                                <td th:text="${board.user_Nickname}"></td>
                                 <td th:text="${#dates.format(board.created_At, 'yyyy-MM-dd')}"></td>
                                 <td th:text="${board.answer_At != null ? 'O' : ''}"></td>
                                 <td th:text="${#dates.format(board.answer_At, 'yyyy-MM-dd')}"></td>
