@@ -57,6 +57,8 @@ public class UserEntity {
 
     private String resetToken;
 
+    private Date isDeletedAt;
+
     public UserEntity(String userEmail, String userPassword, String userName, String userNickname,
                       String userIntroduce, String userPhoneNumber, Date userBirthday,
                       String userGender, String userLocation, String loginType, LocalDate userSignupAt, Boolean userAdmin,

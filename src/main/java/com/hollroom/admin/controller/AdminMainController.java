@@ -34,6 +34,8 @@ public class AdminMainController {
     @Autowired
     private AdminMonService adminMonService;
 
+    private final AdminAttachService adminAttachService;
+
     private final UserRepository userRepository;
 
     private final HttpSession session;
@@ -71,8 +73,11 @@ public class AdminMainController {
     //문의하기 상세 글
     @GetMapping("/admin_inquiry_detail")
     public String pagescontact(Model model, Long postId) {
-        InquiryListDTO inquiryListDTO = inquiryListService.selectInquiryByPostId(postId);
+        InquiryListDTO inquiryListDTO = inquiryListService.selectInquiryByPostId(postId); //글 상세정보
         model.addAttribute("inquiry", inquiryListDTO);
+        List<AdminAttachDTO> filelist = adminAttachService.getAdminAttach(postId); //첨부파일
+        model.addAttribute("filelist", filelist);
+
         return "admin/admin_inquiry_detail"; //interest 반환
     }
 
@@ -123,6 +128,23 @@ public class AdminMainController {
         }
     }
 
+    //커뮤니티 글 삭제취소
+    @PostMapping("/community_delete_cancel")
+    public ResponseEntity<String> adminCommunityDeleteCancel(@RequestParam("postId") Long postId) {
+        try {
+            AdminComDTO community = new AdminComDTO();
+            community.setPost_Id(postId);
+            community.setDeleted(null);
+            community.setDeleted_At(null);
+            adminCommunityService.deleteAdminCommunity(community);
+
+            return ResponseEntity.ok("게시글 삭제가 취소되었습니다.");
+        } catch (Exception e) {
+            e.printStackTrace();  // 오류 로그를 출력합니다.
+            return ResponseEntity.status(500).body("게시글 삭제 취소도중 오류가 발생했습니다.");
+        }
+    }
+
     //================================================================================================
     //유저 목록
     @GetMapping("/admin_user")
@@ -153,6 +175,7 @@ public class AdminMainController {
             AdminUserDTO user = new AdminUserDTO();
             user.setId(Id);
             user.setBan(Boolean.TRUE);
+            user.setIs_Deleted_At(new Date());
 
             adminUserService.selectUserBan(user);
 
@@ -170,6 +193,7 @@ public class AdminMainController {
             AdminUserDTO user = new AdminUserDTO();
             user.setId(Id);
             user.setBan(Boolean.FALSE);
+            user.setIs_Deleted_At(null);
 
             adminUserService.selectUserBan(user);
 

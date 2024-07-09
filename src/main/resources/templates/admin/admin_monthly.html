@@ -71,7 +71,6 @@
                                 <th>작성자</th>
                                 <th>작성일</th>
                                 <th>삭제</th>
-                                <th>삭제일</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -82,14 +81,13 @@
                                 <td></td>
                                 <td th:text="${#dates.format(board.updated_At, 'yyyy-MM-dd')}"></td>
                                 <td>
-                                    <button th:if="${board.deleted_At != null}" type="button" class="btn btn-danger"
-                                            style="font-size:16px; padding: 0 5px; height: 25px; width: 25px; background-color: black; font-weight: bold"
-                                            th:onclick="'deletedIdCancel(' + ${board.id} + ')'">O</button>
+                                    <span th:if="${board.deleted_At != null}" th:type="button"
+                                          th:text="${#dates.format(board.deleted_At, 'yyyy-MM-dd')}"
+                                            th:onclick="'deletedIdCancel(' + ${board.id} + ')'"></span>
                                     <button th:if="${board.deleted_At == null}" type="button" class="btn btn-danger"
                                             style="font-size:16px; padding: 0 5px; height: 25px; width: 25px; background-color: black; font-weight: bold"
                                             th:onclick="'deletedId(' + ${board.id} + ')'">X</button>
                                 </td>
-                                <td th:text="${#dates.format(board.deleted_At, 'yyyy-MM-dd')}"></td>
                             </tr>
                             </tbody>
                         </table>

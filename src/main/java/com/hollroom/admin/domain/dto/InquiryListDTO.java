@@ -19,4 +19,6 @@ public class InquiryListDTO {
     private Long post_Id;
     private String title;
     private Long user_Id;
+
+    private String user_Nickname;
 }

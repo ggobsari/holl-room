@@ -4,15 +4,21 @@
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.hollroom.admin">
+    <!--문의글 전체 목록-->
     <select id="inquiryList" resultType="inquiry_board">
-        select *
-        from inquiry
+        select i.*, ue.USER_NICKNAME
+        from inquiry i
+        join user_entity ue
+        on i.user_id = ue.id
         order by CREATED_AT desc
     </select>
 
+    <!--문의글 Id로 상세보기-->
     <select id="inquiryByPostId" parameterType="Long" resultType="inquiry_board">
-        select *
-        from inquiry
+        select i.*, ue.USER_NICKNAME
+        from inquiry i
+        join user_entity ue
+        on i.user_id = ue.id
         where post_id = #{post_id}
     </select>
 
@@ -37,8 +43,10 @@
     <!--============================================================-->
     <!--커뮤니티 글목록-->
     <select id="communityList" resultType="admin_community">
-        select *
-        from community
+        select c.*, ue.USER_NICKNAME
+        from community c
+        join user_entity ue
+        on c.user_id = ue.id
         order by CREATED_AT desc
     </select>
 
@@ -127,7 +135,7 @@
     <!--벤 체크/해제-->
     <update id="userBan" parameterType="admin_community">
         update USER_ENTITY
-        set BAN = #{ban}
+        set BAN = #{ban}, IS_DELETED_AT = #{is_Deleted_At}
         where ID = #{id}
     </update>
     <!--================================================================================-->
@@ -158,4 +166,11 @@
         set DELETED_AT = #{deleted_At}
         where ID = #{Id}
     </update>
+    <!--============================================================-->
+    <!--문의하기 post_id로 첨부파일 찾기-->
+    <select id="attachFileById" parameterType="long" resultType="admin_attach">
+        select *
+        from ATTACH_FILE
+        where POST_ID = #{post_Id} and TAB_TYPE = 2
+    </select>
 </mapper>

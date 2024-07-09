@@ -37,7 +37,7 @@
     * License: https://bootstrapmade.com/license/
     ======================================================== -->
 </head>
-<body layout:fragment="content">
+<body layout:fragment="content" style="z-index: 0">
 <main id="main" class="main">
 
     <div class="pagetitle">
@@ -110,11 +110,13 @@
                                     <a th:text="${board.title}" th:href="@{/community/read(postId=${board.post_Id}, action='READ')}"></a>
                                 </td>
                                 <td class="write-limit" th:text="${board.content}"></td>
-                                <td th:text="${board.user_Id}"></td>
+                                <td th:text="${board.user_Nickname}"></td>
                                 <td th:text="${#dates.format(board.created_At, 'yyyy-MM-dd')}"></td>
                                 <td th:text="${board.view_Count}"></td>
                                 <td>
-                                    <span th:if="${board.deleted_At != null}" th:text="${#dates.format(board.deleted_At, 'yyyy-MM-dd')}"></span>
+                                    <span th:if="${board.deleted_At != null}" th:type="button"
+                                          th:text="${#dates.format(board.deleted_At, 'yyyy-MM-dd')}"
+                                          th:onclick="'deletePostCancel(' + ${board.post_Id} + ')'"></span>
                                     <button th:if="${board.deleted_At == null}" type="button" class="btn btn-danger"
                                             style="font-size:16px; padding: 0 5px; height: 25px; width: 25px; background-color: black; font-weight: bold"
                                             th:onclick="'deletePost(' + ${board.post_Id} + ')'">X</button>
@@ -160,6 +162,33 @@
                 .catch(error => {
                     console.error('Error:', error);
                     alert('삭제 중 오류가 발생했습니다.');
+                });
+        }
+    }
+
+    function deletePostCancel(postId) {
+        if (confirm("삭제를 취소하시겠습니까?\n게시물 번호 : "+postId)) {
+            fetch(`http://localhost:8090/hollroom/admin/community_delete_cancel`, { // 절대 경로로 변경
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: `postId=${postId}`
+            })
+                .then(response => {
+                    return response.text().then(text => ({ status: response.status, text })); // 응답 텍스트 확인
+                })
+                .then(({ status, text }) => {
+                    if (status === 200) {
+                        alert(text);
+                        location.reload();
+                    } else {
+                        alert('취소에 실패했습니다. ' + text);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('삭제취소 중 오류가 발생했습니다.');
                 });
         }
     }

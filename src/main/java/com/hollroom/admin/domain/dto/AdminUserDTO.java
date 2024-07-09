@@ -18,6 +18,7 @@ public class AdminUserDTO {
 
     private Date user_Signup_At;
     private Date user_Birthday;
+    private Date is_Deleted_At;
 
     private String user_Email;
     private String user_Gender;

@@ -18,6 +18,7 @@ import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Date;
 import java.util.Optional;
 
 @Service
@@ -135,6 +136,7 @@ public class ProfileService {
             return false;
         } else {
             userEntity.setIsDeleted(true);
+            userEntity.setIsDeletedAt(new Date());//변수명 바꿀수도있음
             userRepository.save(userEntity);
             return true;
         }
@@ -145,6 +147,7 @@ public class ProfileService {
         UserEntity userEntity = userRepository.findByUserEmail(userSignupDTO.getUserEmail())
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
         userEntity.setIsDeleted(true);
+        userEntity.setIsDeletedAt(new Date());//변수명 바꿀수도있음
         userRepository.save(userEntity);
         return true;
     }
