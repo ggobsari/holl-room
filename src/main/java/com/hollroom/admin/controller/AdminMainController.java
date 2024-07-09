@@ -3,16 +3,17 @@ package com.hollroom.admin.controller;
 
 import com.hollroom.admin.domain.dto.*;
 import com.hollroom.admin.service.*;
+import com.hollroom.user.entity.UserEntity;
+import com.hollroom.user.repository.UserRepository;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 import java.util.List;
@@ -20,6 +21,7 @@ import java.util.List;
 @Controller
 @RequestMapping("/admin")
 @RequiredArgsConstructor
+@Slf4j
 public class AdminMainController {
     @Autowired
     private InquiryListService inquiryListService;
@@ -32,10 +34,25 @@ public class AdminMainController {
     @Autowired
     private AdminMonService adminMonService;
 
+    private final UserRepository userRepository;
+
+    private final HttpSession session;
+
     //메인페이지
     @GetMapping("/index")
     public String index() {
-        return "admin/admin_dashboard"; //interest 반환
+        UserEntity user = (UserEntity) session.getAttribute("USER_NICKNAME");
+        if(user != null && user.getUserAdmin()){
+            return "/admin/admin_dashboard";
+        } else{
+            return "/community/content/community_list";
+        }//interest 반환
+    }
+
+    @GetMapping("/getAuthenticatedUser")
+    @ResponseBody
+    public UserEntity getAuthenticatedUser(){
+        return (UserEntity) session.getAttribute("USER_NICKNAME");
     }
 
     //문의하기 목록
