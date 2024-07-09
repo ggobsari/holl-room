@@ -3,6 +3,7 @@ package com.hollroom.admin.controller;
 
 import com.hollroom.admin.domain.dto.*;
 import com.hollroom.admin.service.*;
+import com.hollroom.mypage.service.InquiryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -21,22 +22,12 @@ import java.util.List;
 @RequestMapping("/admin")
 @RequiredArgsConstructor
 public class TestController {
-    @Autowired
-    private InquiryListService inquiryListService;
-    @Autowired
-    private AdminComService adminCommunityService;
-    @Autowired
-    private AdminUserService adminUserService;
-    @Autowired
-    private AdminRoomService adminRoomService;
-    @Autowired
-    private AdminMonService adminMonService;
-
-    //메인페이지
-    @GetMapping("/index")
-    public String index() {
-        return "admin/index"; //interest 반환
-    }
+    private final InquiryListService inquiryListService;
+    private final AdminComService adminCommunityService;
+    private final AdminUserService adminUserService;
+    private final AdminRoomService adminRoomService;
+    private final AdminMonService adminMonService;
+    private final AdminAttachService adminAttachService;
 
     //문의하기 목록
     @GetMapping("/admin_inquiry")
@@ -45,7 +36,6 @@ public class TestController {
         model.addAttribute("boardlist", boardlist);
         Long totalCount = inquiryListService.selectInquiryCount();
         Long answerCount = inquiryListService.selectInquiryAnswerCount();
-        System.out.println(totalCount + " " + answerCount);
         model.addAttribute("totalCount", totalCount); //글 전체개수
         model.addAttribute("answerCount", answerCount); //답변개수
         return "admin/admin_inquiry";
@@ -54,8 +44,11 @@ public class TestController {
     //문의하기 상세 글
     @GetMapping("/admin_inquiry_detail")
     public String pagescontact(Model model, Long postId) {
-        InquiryListDTO inquiryListDTO = inquiryListService.selectInquiryByPostId(postId);
+        InquiryListDTO inquiryListDTO = inquiryListService.selectInquiryByPostId(postId); //글 상세정보
         model.addAttribute("inquiry", inquiryListDTO);
+        List<AdminAttachDTO> filelist = adminAttachService.getAdminAttach(postId); //첨부파일
+        model.addAttribute("filelist", filelist);
+
         return "admin/admin_inquiry_detail"; //interest 반환
     }
 
@@ -119,6 +112,23 @@ public class TestController {
         } catch (Exception e) {
             e.printStackTrace();  // 오류 로그를 출력합니다.
             return ResponseEntity.status(500).body("게시글 삭제 중 오류가 발생했습니다.");
+        }
+    }
+
+    //커뮤니티 글 삭제취소
+    @PostMapping("/community_delete_cancel")
+    public ResponseEntity<String> adminCommunityDeleteCancel(@RequestParam("postId") Long postId) {
+        try {
+            AdminComDTO community = new AdminComDTO();
+            community.setPost_Id(postId);
+            community.setDeleted(null);
+            community.setDeleted_At(null);
+            adminCommunityService.deleteAdminCommunity(community);
+
+            return ResponseEntity.ok("게시글 삭제가 취소되었습니다.");
+        } catch (Exception e) {
+            e.printStackTrace();  // 오류 로그를 출력합니다.
+            return ResponseEntity.status(500).body("게시글 삭제 취소도중 오류가 발생했습니다.");
         }
     }
 
