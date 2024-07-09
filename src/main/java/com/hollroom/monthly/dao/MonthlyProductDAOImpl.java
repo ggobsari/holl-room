@@ -29,4 +29,14 @@ public class MonthlyProductDAOImpl implements MonthlyProductDAO {
     public Page<MonthlyProductEntity> readDivisionProduct(Long divisionCode, Pageable pageable) {
         return productRepo.findByDivisionCode(divisionCode,pageable);
     }
+
+    @Override
+    public Page<MonthlyProductEntity> readDivisionProducts(List<Long> divisionCodes, Pageable pageable) {
+        return productRepo.findByDivisionCodeIn(divisionCodes,pageable);
+    }
+
+    @Override
+    public MonthlyProductEntity readProduct(Long id) {
+        return productRepo.findById(id).orElse(null);
+    }
 }

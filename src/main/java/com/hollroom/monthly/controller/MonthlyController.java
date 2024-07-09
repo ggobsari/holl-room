@@ -66,6 +66,18 @@ public class MonthlyController {
         model.addAttribute("productPage", productPage);
         return "monthly/product_list";
     }
+    @GetMapping("/division/{addr}")
+    @ResponseBody
+    public DivisionDTO readDivisionCode(@PathVariable String addr){
+        return divisionService.readMainDivision(addr);
+    }
+
+    @GetMapping("/monthly/product/{id}")
+    public String readProduct(@PathVariable Long id, Model model){
+        MonthlyProductResponseDTO product = productService.readProduct(id);
+        model.addAttribute("product", product);
+        return "monthly/product_read";
+    }
 
     private void addPageNumber(Pageable pageable,Page<MonthlyProductResponseDTO> productPage, Model model){
         int startPage = pageable.getPageNumber()-SIDE_PAGE_NUMBER_LIMIT;
