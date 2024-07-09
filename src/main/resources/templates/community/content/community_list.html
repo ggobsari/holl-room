@@ -36,9 +36,9 @@
 
 
     <!--<div style="margin: 100px;">ffff</div>-->
-    <div style="margin: auto; width: 945px; padding: 40px; border:0.1px #0d6efd solid; border-radius: 1%; padding-top: 20px; margin-top: 20px; margin-bottom: 20px;">
+    <div style="margin: auto; width: 867px; padding: 40px; border:0.1px #0d6efd solid; border-radius: 1%; padding-top: 20px; margin-top: 20px; margin-bottom: 20px;">
       <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
-           data-sidebar-position="fixed" data-header-position="fixed" style="width:850px; height: 800px; padding:0px;">
+           data-sidebar-position="fixed" data-header-position="fixed" style="width:800px; height: 900px; padding:0px;">
         <div style="width:600px;">
           <form action="/hollroom/community/search" method="get">
             <div class="d-sm-flex d-block align-items-center justify-content-between mb-9">
@@ -60,7 +60,7 @@
         </div>
           <div class="col-lg-8 d-flex align-items-stretch">
             <div><!--class="card w-100"-->
-              <div class="card-body p-4" style="border: #f2f2f2 solid 0.1px; border-radius: 1%; height: 780px;">
+              <div class="card-body p-4" style="border: #f2f2f2 solid 0.1px; border-radius: 1%; height: 880px; width: 780px;">
                 <h5 style="font-family: 'CWDangamAsac-Bold', sans-serif; font-size: 2.2em">Community</h5><!--class="card-title fw-semibold mb-4" -->
                 <div class="table-responsive">
                   <table class="table text-nowrap mb-0 align-middle">
@@ -87,6 +87,31 @@
                       </tr>
                     </thead>
                     <tbody>
+                      <tr th:each="commuBoard:${topList}" th:if="${topList!=null}">
+                        <td class="border-bottom-0"><h6 class="fw-semibold mb-0" th:text="${commuBoard.postId}" style="color: #ec0c38"></h6></td>
+                        <td class="border-bottom-0">
+                          <h6 class="fw-semibold mb-1" th:text="${commuBoard.userNickname}"></h6>
+                          <span class="fw-normal"></span>
+                        </td>
+                        <td class="border-bottom-0"><a th:href="@{/community/read(postId=${commuBoard.postId},action='READ')}"
+                                                       style="text-decoration: none;">
+                          <p class="mb-0 fw-normal" th:text="'[인기글]'+${commuBoard.title}"></p>
+                        </a>
+                        </td>
+                        <td class="border-bottom-0">
+                          <div class="d-flex align-items-center gap-2">
+                            <span th:text="${commuBoard.category}"></span>
+                          </div>
+                        </td>
+                        <td class="border-bottom-0">
+                          <h6 class="fw-semibold mb-0 fs-4" th:text="${#dates.format(commuBoard.updatedAt, 'yyyy-MM-dd')}"></h6>
+                        </td>
+                        <td class="border-bottom-0">
+                          <h6 class="fw-semibold mb-0 fs-4" th:text="${commuBoard.viewCount}" style="color: #ec0c38"></h6>
+                        </td>
+                      </tr>
+
+                      <!--기존 목록-->
                       <tr th:each="commuBoard:${communityList.communityResponseDTOList}">
                         <td class="border-bottom-0"><h6 class="fw-semibold mb-0" th:text="${commuBoard.postId}"></h6></td>
                         <td class="border-bottom-0">
@@ -107,16 +132,17 @@
                           <h6 class="fw-semibold mb-0 fs-4" th:text="${#dates.format(commuBoard.updatedAt, 'yyyy-MM-dd')}"></h6>
                         </td>
                         <td class="border-bottom-0">
-                          <h6 class="fw-semibold mb-0 fs-4" th:text="${commuBoard.viewCount}"></h6>
+                          <h6 class="fw-semibold mb-0 fs-4" th:text="${commuBoard.viewCount}" ></h6>
+                        </td>
+                        <td class="border-bottom-0" >
+                          <h6 class="fw-semibold mb-0 fs-4"></h6>
                         </td>
                       </tr>
-
                     </tbody>
+                  </table>
                     <!--페이징 처리 시 필요한-->
-                    <tr>
-                      <td class="border-bottom-0"></td>
-                      <td class="border-bottom-0"></td>
-                      <td class="border-bottom-0"></td>
+                  <table class="table text-nowrap mb-0 align-middle">
+                    <tr th:if="${communityList.totalPages !=0}">
                       <td class="border-bottom-0"></td>
                       <td class="border-bottom-0"></td>
                       <td class="border-bottom-0">
@@ -144,6 +170,9 @@
                           </nav>
                         </div>
                       </td>
+                      <td class="border-bottom-0"></td>
+                      <td class="border-bottom-0"></td>
+                      <td class="border-bottom-0"></td>
                     </tr>
                   </table>
                 </div>
@@ -151,9 +180,9 @@
             </div>
           </div>
     </div>
-      <div style="height: 20px; font-weight: bold">
+      <div style="width: 80px; height: 20px; font-size: large; color: #0b5ed7; margin-left: 5px;">
         <ul>
-          <li><a href="/hollroom/community/write" class="page-link" th:if="${session.USER_NICKNAME!=null}">글쓰기</a></li>
+          <li><a href="/hollroom/community/write" class="page-link" th:if="${session.USER_NICKNAME!=null}">Write</a></li>
         </ul>
       </div>
         </div>

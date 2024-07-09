@@ -24,6 +24,7 @@
       rel="stylesheet"
     />
 
+    <script src="/hollroom/roommate/js/script.js"></script>
     <script th:inline="javascript">
       window.onload = function () {
         function myfunc() {
@@ -129,8 +130,8 @@
                 </ul>
                 <ul id="detail-ul-2"><!--!!값-->
                   <li>
-                    <span th:if="${user.user_gender != 'man'}" th:text="'여자'"></span><!--!!수정-->
-                    <span th:if="${user.user_gender == 'man'}" th:text="'남자'"></span>
+                    <span th:if="${user.user_gender == 'W'}" th:text="'여자'"></span><!--!!수정-->
+                    <span th:if="${user.user_gender == 'M'}" th:text="'남자'"></span>
                   </li>
                   <li>
                     <span th:text="${user.user_location}"></span>
@@ -277,11 +278,19 @@
                 >
                   수정하기
                 </button>
-                <button
-                  type="submit" class="ml-3 btn btn-outline-primary"
-                  th:if="${session.USER_NICKNAME.id != board.id}">
-                  작성자에게 채팅 보내기
-                </button>
+                <form action="/hollroom/test/chatview" method="post">
+                  <input type="hidden" th:name="id" th:value="${user.id}" />
+                  <input type="hidden" th:name="user_name" th:value="${user.user_name}" />
+                  <input type="hidden" th:name="user_nickname" th:value="${user.user_nickname}" />
+                  <input type="hidden" th:name="user_image" th:value="${user.user_image}" />
+                  <input type="hidden" th:name="user_introduce" th:value="${user.user_introduce}" />
+                  <input type="hidden" th:name="user_gender" th:value="${user.user_gender}" />
+                  <button
+                    type="submit" class="ml-3 btn btn-outline-primary"
+                    th:if="${session.USER_NICKNAME.id != board.id}">
+                    작성자에게 채팅 보내기
+                  </button>
+                </form>
               </div>
           </div>
         </div>
