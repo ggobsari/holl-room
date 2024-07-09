@@ -610,9 +610,7 @@ h6 {
   scrollbar-width: thin;
   scrollbar-color: #aab7cf transparent;
   box-shadow: 0px 0px 20px rgba(1, 41, 112, 0.1);
-  background-image: linear-gradient(to bottom, #fff 50%, rgba(255, 255, 255, 0)); /* 절반 아래 투명색 */
-  background-size: cover;
-  background-repeat: no-repeat;
+  background-color: #fff;
 }
 
 @media (max-width: 1199px) {
@@ -1232,20 +1230,4 @@ h6 {
   text-align: center;
   font-size: 13px;
   color: #012970;
-}
-
-/*제목(내용) 한줄로... 표시*/
-.title-limit{
-  max-width: 200px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-/*텍스트(내용) 한줄로... 표시*/
-.write-limit{
-  max-width: 300px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
