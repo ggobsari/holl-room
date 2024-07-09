@@ -1,10 +1,14 @@
 package com.hollroom.community.repository;
 
 import com.hollroom.community.domain.entity.CommunityEntity;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 
 public interface CommunityRepository extends JpaRepository<CommunityEntity,Long> {
@@ -24,4 +28,9 @@ public interface CommunityRepository extends JpaRepository<CommunityEntity,Long>
     //카테고리 포함 조건검색
     Page<CommunityEntity> findByDeletedAndCategoryAndTitleContaining(String deleted,String category,String title,Pageable pageRequest);
     Page<CommunityEntity> findByDeletedAndCategoryAndContentContaining(String deleted,String category,String content,Pageable pageRequest);
+
+    long countByCreatedAt(LocalDate date);
+
+//    @Query("SELECT COUNT(c) FROM CommunityEntity c WHERE c.createdAt = :date")
+//    long countBoardsByDate(@Param("date") LocalDate date);
 }

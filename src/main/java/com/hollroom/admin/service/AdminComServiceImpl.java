@@ -11,8 +11,8 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class AdminComServiceImpl implements AdminComService {
-    @Autowired
-    private AdminComDAO adminCommunityDAO;
+
+    private final AdminComDAO adminCommunityDAO;
 
     //커뮤니티 전체 글 목록
     @Override

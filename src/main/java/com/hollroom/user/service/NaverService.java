@@ -2,6 +2,7 @@ package com.hollroom.user.service;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.hollroom.admin.service.DailyVisitorService;
 import com.hollroom.user.config.NaverConfig;
 import com.hollroom.user.dto.NaverDTO;
 import com.hollroom.user.entity.UserEntity;
@@ -32,14 +33,11 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class NaverService {
     //================================================================================================================//
-//    private final NaverRepository naverRepository;
+    private final DailyVisitorService dailyVisitorService;
 
     private final NaverConfig naverConfig;
 
-    private final HttpSession httpSession;
-
     private final UserRepository userRepository;
-
     //================================================================================================================//
     public String generateState() {
         return UUID.randomUUID().toString();
@@ -124,6 +122,8 @@ public class NaverService {
         HttpSession session = request.getSession();
 
         session.setAttribute("USER_NICKNAME", user);
+
+        dailyVisitorService.logVisitor(user.getId());
 
         return session;
     }

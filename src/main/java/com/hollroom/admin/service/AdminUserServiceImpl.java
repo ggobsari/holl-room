@@ -11,8 +11,8 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class AdminUserServiceImpl implements AdminUserService {
-    @Autowired
-    private AdminUserDAO adminUserDAO;
+
+    private final AdminUserDAO adminUserDAO;
 
     //유저 전체 목록
     @Override

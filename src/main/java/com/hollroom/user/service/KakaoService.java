@@ -3,6 +3,7 @@ package com.hollroom.user.service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.hollroom.admin.service.DailyVisitorService;
 import com.hollroom.user.config.KakaoConfig;
 import com.hollroom.user.dto.KakaoDTO;
 import com.hollroom.user.entity.UserEntity;
@@ -29,7 +30,7 @@ import java.util.Optional;
 @Slf4j
 public class KakaoService {
     //================================================================================================================//
-//    private final KakaoRepository kakaoRepository;
+    private final DailyVisitorService dailyVisitorService;
 
     private final KakaoConfig kakaoConfig;
 
@@ -51,6 +52,8 @@ public class KakaoService {
             userRepository.save(existingUser);
 
             session.setAttribute("USER_NICKNAME", existingUser);
+
+            dailyVisitorService.logVisitor(existingUser.getId());
         } else{
             UserEntity user = new UserEntity();
             user.setUserEmail(email);
@@ -70,6 +73,8 @@ public class KakaoService {
             userRepository.save(user);
 
             session.setAttribute("USER_NICKNAME", user);
+
+            dailyVisitorService.logVisitor(user.getId());
         }
 
         return session;

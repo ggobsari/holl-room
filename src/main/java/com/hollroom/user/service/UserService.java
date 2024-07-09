@@ -1,5 +1,6 @@
 package com.hollroom.user.service;
 
+import com.hollroom.admin.service.DailyVisitorService;
 import com.hollroom.exception.CheckApiException;
 import com.hollroom.exception.ErrorCode;
 import com.hollroom.user.dto.UserLoginDTO;
@@ -28,6 +29,8 @@ public class UserService {
     private final UserRepository userRepository;
 
     private final PasswordEncoder passwordEncoder;
+
+    private final DailyVisitorService dailyVisitorService;
     //================================================================================================================//
     public void signup(UserSignupDTO userSignupDTO){
 //        // 비밀번호 빈칸 X
@@ -105,6 +108,8 @@ public class UserService {
         HttpSession session = request.getSession();
 
         session.setAttribute(userNickname, userEntity);
+
+        dailyVisitorService.logVisitor(userEntity.getId());
 
         log.info(session.toString());
 

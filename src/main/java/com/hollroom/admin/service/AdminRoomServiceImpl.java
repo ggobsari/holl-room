@@ -11,8 +11,8 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class AdminRoomServiceImpl implements AdminRoomService {
-    @Autowired
-    private AdminRoomDAO adminRoomDAO;
+
+    private final AdminRoomDAO adminRoomDAO;
 
     //룸메이트 글 목록
     @Override

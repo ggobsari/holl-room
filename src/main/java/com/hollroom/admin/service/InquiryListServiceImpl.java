@@ -11,8 +11,8 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class InquiryListServiceImpl implements InquiryListService {
-    @Autowired
-    private InquiryListDAO inquiryListDAO;
+
+    private final InquiryListDAO inquiryListDAO;
 
     //문의하기 전체 목록보기
     @Override

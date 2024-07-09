@@ -11,8 +11,8 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class AdminMonServiceImpl implements AdminMonService {
-    @Autowired
-    private AdminMonDAO adminMonDAO;
+
+    private final AdminMonDAO adminMonDAO;
 
     @Override
     public List<AdminMonDTO> selectAllAdminMon() {
