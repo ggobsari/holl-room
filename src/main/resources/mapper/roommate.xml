@@ -24,11 +24,6 @@
          where br.id = ue.id
              and roommate_id = #{tomato}
     </select>
-<!--    <select id="selectbyid" parameterType="int" resultType="rmmt_board">-->
-<!--        select *-->
-<!--         from board_roommate -->
-<!--         where roommate_id = #{tomato}-->
-<!--    </select>-->
 
     <select id="selectAll" resultType="rmmt_board">
         select *
@@ -42,16 +37,6 @@
          where id = #{tomato}
     </select>
 
-<!--    <update id="update" parameterType="rmmt_board">-->
-<!--        update board_roommate-->
-<!--         set roommate_id=#{roommate_id}, id=#{id}, title=#{title}, content=#{content},-->
-<!--             created_at=#{created_at}, chat_room_id=#{chat_room_id}, nocturnal=#{nocturnal},-->
-<!--             wakeup_at=#{wakeup_at}, alarm=#{alarm}, sleep_at=#{sleep_at},-->
-<!--             smoking=#{smoking}, pet=#{pet}, cleaning_cycle=#{cleaning_cycle},-->
-<!--             sleeping_habits=#{sleeping_habits}, noise=#{noise},-->
-<!--             deleted=#{deleted}, deleted_at=#{deleted_at}, updated_at=#{updated_at},-->
-<!--             user_nickname=#{user_nickname}-->
-<!--    </update>-->
     <update id="update" parameterType="rmmt_board">
         update board_roommate
          set title=#{title}, content=#{content}, nocturnal=#{nocturnal},

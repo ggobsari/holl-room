@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Insert title here</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="/hollroom/roommate/css/styles_chat.css" />
+</head>
+<body>
+  <div>
+    <input type='text' id='tmp-userid' >
+    <input type='button' value='채팅참여' id='btn-join' >
+    <input type='button' value='채팅종료' id='btn-close' >
+    <br/>
+    <div id='talklist'></div>
+    <div>
+      <textarea id='msg'></textarea>
+      <input type='button' value='전송' id='btn-send'>
+    </div>
+  </div>
+<script type="text/javascript">
+  //전송할 데이터가 여러개이므로 json으로 전송
+  let mydata = {};
+  $(document).ready(function() {
+    $("#btn-join").on("click", function() {
+      //alert(location.host);
+      //1. 웹소켓 객체를 생성 - 서버에 연결하는 작업
+      ws = new WebSocket("ws://" + location.host + "/hollroom/chat/chatroom");  //?no=1234
+      //연결이 되면 이벤트에 반응할 수 있도록 콜백 등록
+
+      //웹소켓에 연결된 후에 실행
+      ws.onopen = function(msg) {
+        console.log(msg);
+        $("#talklist").append("<div>접속완료...</div>");
+      }
+
+      //웹소켓 연결 후에 서버가 메시지를 보내면 받을 수 있도록 콜백 등록
+      ws.onmessage = function(msg) {
+        //실제 데이터가 json으로 전송
+        //console.log(msg);
+        console.log(msg.data);
+        //받은 메시지를 출력 - 보낸 or 받은 메시지인지 확인하기 위해서 id하고 비교
+        //전송되는 메시지에서 데이터만 추출
+        //json데이터에 저장된 값을 액세스하려면 JSON문자열을 parsing해야한다.
+        let resMsg = JSON.parse(msg.data);
+        let msgcss = "";
+        if (resMsg.sender_id == $("#tmp-userid").val()) {//내가 작성한 메시지인지 확인
+          msgcss = "class=me";
+        } else {
+          msgcss = "class=other";
+        }
+        //talklist에 출력할 div 생성
+        let item = "<div "+ msgcss+ " ><span><b>"+ resMsg.sender_id+ "</b></span>"
+                   + "<b>["+ resMsg.date+ "]</b><br/>"
+                   + "<span>"+ resMsg.content +"</span>"
+                   +"</div>";
+        $("#talklist").append(item);
+      }
+      //웹소켓이 종료된 후에 발생하는 이벤트에 대해서 처리할 수 있도록 콜백 등록
+      ws.onclose = function(msg) {
+        //실제 데이터가 json으로 전송
+        console.log(msg);
+        $("#talklist").append("<div>접속종료...</div>");
+      }
+      ws.onerror = function(msg) {
+        //실제 데이터가 json으로 전송
+        console.log(msg);
+        $("#talklist").append("<div>에러발생...</div>");
+      }
+    });
+
+    $("#btn-send").on("click", function() {
+      sendMessage();
+    });
+    $("#msg").on("keyup", function(event) {
+      //엔터키가 눌리면
+      if (event.keyCode == 13) {  // 키에 대한 아스키 값
+        sendMessage();
+      }
+    });
+    $("#btn-close").on("click", function() {
+      ws.close();//웹소켓연결종료
+    });
+  })
+
+  function sendMessage() {
+    //메시지 전송 함수
+    //서버로 보낼 메시지를 만들어서 전송
+    //지금은 id를 <input>에서 꺼내지만 나중에는 웹의 세션에 저장된 dto에서 꺼내기
+    mydata.message_id = "-1";
+    mydata.chat_room_id = "111";
+    mydata.sender_id = $("#tmp-userid").val();  //id,msg,date
+    mydata.content = $("#msg").val();
+    mydata.date = new Date().toLocaleDateString();//오늘날짜
+    //mydata.type = "textmsg";//메시지유형(텍스트와 바이너리를 구분하기 위한 값)
+
+    //자바스크립트 객체로 정의된 데이터를 json문자열로 변환
+    let sendMsg = JSON.stringify(mydata);
+
+    ws.send(sendMsg);//웹소켓서버로 메시지 전송
+    $("#msg").val("");//메시지 전송이 완료되면 텍스트창을 지우기
+  }
+</script>
+</body>
+</html>

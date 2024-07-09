@@ -107,6 +107,7 @@ public class UserService {
         session.setAttribute(userNickname, userEntity);
 
         log.info(session.toString());
+        System.out.println(session.toString());/////
 
         return session;
     }

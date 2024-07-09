@@ -3,17 +3,17 @@ function scrollToTop() {
   window.scrollTo(0, 0);
 }
 
-const btnChangeTxt = document.querySelector("#btn-change-txt");
-btnChangeTxt.addEventListener("click", () => {
-  const text = btnChangeTxt.innerText;
-  if (text === "하루") {
-    btnChangeTxt.innerText = "주";
-  } else if (text === "주") {
-    btnChangeTxt.innerText = "달";
-  } else {
-    btnChangeTxt.innerText = "하루";
-  }
-});
+//const btnChangeTxt = document.querySelector("#btn-change-txt");
+//btnChangeTxt.addEventListener("click", () => {
+//  const text = btnChangeTxt.innerText;
+//  if (text === "하루") {
+//    btnChangeTxt.innerText = "주";
+//  } else if (text === "주") {
+//    btnChangeTxt.innerText = "달";
+//  } else {
+//    btnChangeTxt.innerText = "하루";
+//  }
+//});
 
 
 function setValues() {
@@ -22,6 +22,7 @@ function setValues() {
 
   const alarm = document.querySelector("#alarm");
   if (alarm.value == "") {
+    alert("alarm : -1");
     alarm.value = -1;
   }
 
@@ -35,7 +36,7 @@ function setValues() {
 
   const num = document.querySelector("#cleaning").value;
   if (num != "") {
-    const numCleaning = btnChangeTxt.innerText + "," + num;
+    const numCleaning = document.querySelector("#btn-change-txt").innerText + "," + num;
     document.querySelector("#cleaning-cycle").value = numCleaning;
   }
 
@@ -96,7 +97,7 @@ function fillValuesForEdit(title, content, nocturnal, wakeup_at, alarm, sleep_at
   sleepTo.options[time4].selected = true;
 
 //  alert("alarm : " + alarm);
-  if (alarm != "-1") {
+  if (alarm != -1) {
     document.querySelector("#alarm").value = parseInt(alarm);
   }
 
@@ -149,7 +150,7 @@ function fillValuesForDetail(title, content, nocturnal, wakeup_at, alarm, sleep_
   sleepFrom.options[time3].selected = true;
   sleepTo.options[time4].selected = true;
 
-  if (alarm == "-1") {
+  if (alarm == -1) {
     document.querySelector("#d-alarm").innerText = "? 개";
   } else {
     document.querySelector("#d-alarm").innerText = alarm + " 개";
@@ -200,6 +201,7 @@ function fillValuesForDetail(title, content, nocturnal, wakeup_at, alarm, sleep_
 } // fillValuesForDetail
 
 function clickSearch() {
+  alert("clickSearch");
   const searchWord = document.querySelector("#search-word").value;
   const category = document.querySelector("#search-category").value;
 //  alert(searchWord);

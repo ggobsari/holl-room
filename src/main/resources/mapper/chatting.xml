@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hollroom.chatting">
+    <select id="selectRoomBySender" parameterType="Long" resultType="com.hollroom.chatting.domain.entity.ChatRoom">
+        select *
+        from (select cr.room_id as roomId, cr.receiver as receiver, cr.sender as sender,
+                cm.room_id as cmRoomId, cm.create_date
+            from chat_room cr, chat_message cm
+            where cr.sender = #{sender}
+                or cr.receiver = #{sender})
+        where roomId = cmRoomId
+        order by create_date desc
+    </select>
+
+<!--    <select id="selectUserById" parameterType="List" resultType="com.hollroom.user.entity.UserEntity">-->
+<!--        select id, user_image as userImage, user_nickname as userNickname-->
+<!--        from user_entity-->
+<!--        <where>-->
+<!--            <foreach collection="list" item="id" separator=" " open="" close="">-->
+<!--                or id = #{id}-->
+<!--            </foreach>-->
+<!--        </where>-->
+<!--    </select>   -->
+    <select id="selectUserById" parameterType="Long" resultType="com.hollroom.user.entity.UserEntity">
+        select id, user_image as userImage, user_nickname as userNickname
+        from user_entity
+        where id = #{id}
+    </select>
+
+    <select id="selectMsgByRoomId" parameterType="List" resultType="com.hollroom.chatting.domain.entity.ChatMessage">
+        select message, createDate, sender
+        from (select
+                room_id as roomId,
+                message,
+                create_date as createDate,
+                sender,
+                ROW_NUMBER() OVER(PARTITION BY room_id ORDER BY create_date DESC) AS rn
+            from chat_message
+            )
+        where rn = 1
+            and roomId in
+            <foreach collection="list" item="item" separator="," open="(" close=")">
+                #{item.roomId}
+            </foreach>
+        order by createDate desc
+    </select>
+
+    <select id="selectUser" parameterType="Long" resultType="rmmt_user">
+        select *
+         from user_entity
+         where id = #{userId}
+    </select>
+</mapper>
