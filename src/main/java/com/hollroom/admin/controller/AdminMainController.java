@@ -6,10 +6,6 @@ import com.hollroom.admin.service.*;
 import com.hollroom.user.entity.UserEntity;
 import com.hollroom.user.repository.UserRepository;
 import jakarta.servlet.http.HttpSession;
-import com.hollroom.mypage.service.InquiryService;
-import com.hollroom.user.entity.UserEntity;
-import com.hollroom.user.repository.UserRepository;
-import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -87,22 +83,6 @@ public class AdminMainController {
 
     InquiryListDTO inquiry = new InquiryListDTO();
 
-    //    //문의하기답변 등록
-//    @PostMapping("/inquiry_answer")
-//    public ResponseEntity<String> submintAnswer(@RequestParam("postId") Long postId, @RequestParam("answer_content") String answerContent) {
-//        try {
-//            inquiry.setPost_Id(postId);
-//            inquiry.setAnswer_Content(answerContent);
-//            inquiry.setAnswer_At(new Date());
-//
-//            inquiryListService.updateInquiryAnswer(inquiry);
-//
-//            return ResponseEntity.ok("답변을 등록하였습니다.");
-//        } catch (Exception e) {
-//            e.printStackTrace();  // 오류 로그를 출력합니다.
-//            return ResponseEntity.status(500).body("답변등록중 오류가 발생했습니다.");
-//        }
-//    }
     //문의하기답변 등록
     @PostMapping("/inquiry_answer")
     public String submitAnswer(@RequestParam("postId") Long postId,
@@ -195,6 +175,7 @@ public class AdminMainController {
             AdminUserDTO user = new AdminUserDTO();
             user.setId(Id);
             user.setBan(Boolean.TRUE);
+            user.setIs_Deleted_At(new Date());
 
             adminUserService.selectUserBan(user);
 
@@ -212,6 +193,7 @@ public class AdminMainController {
             AdminUserDTO user = new AdminUserDTO();
             user.setId(Id);
             user.setBan(Boolean.FALSE);
+            user.setIs_Deleted_At(null);
 
             adminUserService.selectUserBan(user);
 

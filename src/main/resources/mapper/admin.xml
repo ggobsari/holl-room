@@ -135,7 +135,7 @@
     <!--벤 체크/해제-->
     <update id="userBan" parameterType="admin_community">
         update USER_ENTITY
-        set BAN = #{ban}
+        set BAN = #{ban}, IS_DELETED_AT = #{is_Deleted_At}
         where ID = #{id}
     </update>
     <!--================================================================================-->
