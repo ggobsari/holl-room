@@ -155,9 +155,11 @@
     <!--============================================================-->
     <!--월세매물 글목록-->
     <select id="monthlyList" resultType="admin_monthly">
-        select *
-        from MONTHLY_PRODUCT
-        order by CREATED_AT desc
+        SELECT mp.*, dv.*
+        FROM monthly_product mp
+        JOIN DIVISION dv
+        ON mp.division_code = dv.main_division_code
+        ORDER BY mp.CREATED_AT DESC;
     </select>
 
     <!--월세매물 글 삭제 체크/해제-->
