@@ -3,20 +3,23 @@
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
-    <meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
-    <meta name="description" content=""/>
-    <meta name="author" content=""/>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
     <title>HOLLROOM</title>
     <!-- Favicon-->
-    <link rel="icon" type="image/x-icon" href="http://localhost:8090/hollroom/layout/assets/favicon.ico"/>
+    <link rel="icon" type="image/x-icon" href="http://localhost:8090/hollroom/layout/assets/favicon.ico" />
     <!-- Bootstrap icons-->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
     <!-- Core theme CSS (includes Bootstrap)-->
     <link rel="stylesheet" type="text/css" href="/hollroom/common/css/styles.css"/>
-    <link rel="stylesheet" href="/hollroom/roommate/css/styles-2.css"/>
+    <link rel="stylesheet" type="text/css" href="/hollroom/common/css/styles_etc.css"/>
+    <style>
+        @import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap");
+    </style>
 </head>
-<body class="d-flex flex-column">
+<body class="d-flex flex-column font-kor">
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"
         integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js"
@@ -752,35 +755,6 @@
 
 
                     </script>
-                    <script>
-                        let enterKeyCount = 0;
-
-                        document.addEventListener('keydown', function (event){
-                            if(event.key === 'Enter'){
-                                enterKeyCount++;
-                            } else {
-                                enterKeyCount = 0;
-                            }
-
-                            if(enterKeyCount === 5){
-                                fetch('/hollroom/admin/getAuthenticatedUser')
-                                    .then(response => {
-                                        if(!response.ok){
-                                            throw new Error("Network response was not ok");
-                                        }
-                                        return response.json();
-                                    })
-                                    .then(user => {
-                                        if(user.userAdmin){
-                                            console.log(user);
-                                            window.location.href = '/hollroom/admin/index';
-                                        }
-                                    })
-                                    .catch(error => console.error('error', error));
-                                enterKeyCount = 0;
-                            }
-                        });
-                    </script>
                 </div>
             </div>
         </div>
@@ -788,25 +762,19 @@
 
     <div class="floating-btn">
         <button
-                id="floating-btn-top"
-                onclick="scrollToTop()"
-                class="btn btn-primary rounded-circle"
+            id="floating-btn-top"
+            onclick="window.scrollTo(0, 0);"
+            class="btn btn-primary rounded-circle"
         >
             <span>&#11121;</span>
         </button>
         <button
-                id="floating-btn-chat"
-                onclick="location.href='#'"
-                class="btn btn-primary rounded-circle"
+            hidden
+            id="floating-btn-back"
+            onclick="window.history.back();"
+            class="btn btn-primary rounded-circle"
         >
-            <span>&#9776;</span>
-        </button>
-        <button
-                id="floating-btn-register"
-                onclick="location.href='/hollroom/roommate/register'"
-                class="btn btn-primary rounded-circle"
-        >
-            <span>&#128393;</span>
+            <span>&#8592;</span>
         </button>
     </div>
 

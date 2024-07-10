@@ -1,0 +1,104 @@
+/* font style */
+
+@font-face {
+  font-family: "CWDangamAsac-Bold";
+  src: url("https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/CWDangamAsac-Bold.woff")
+    format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+
+.font-eng {
+  /* font-family: "Bauhaus 93", Impact, sans-serif; */
+  /* font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif; */
+  /* font-family: "Black Han Sans", sans-serif;
+  font-weight: 400;
+  font-style: normal; */
+  font-family: "CWDangamAsac-Bold", sans-serif;
+}
+
+.font-kor {
+  /* font-family: "Gowun Dodum", sans-serif; */
+  /* font-family: "LG Smart UI Regular", sans-serif; */
+  /* font-family: "LG PC", sans-serif; */
+  /* font-family: "함초롱돋움", sans-serif; */
+  font-family: "Noto Sans KR", serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+}
+
+/*@font-face {
+  font-family: "Cafe24Moyamoya-Regular-v1.0";
+  src: url("https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_231029@1.1/Cafe24Moyamoya-Regular-v1.0.woff2")
+    format("woff2");
+  font-weight: normal;
+  font-style: normal;
+}*/
+
+.font-kor-h {
+  /* font-family: "Black Han Sans", sans-serif;
+  font-weight: 400;
+  font-style: normal; */
+  /* font-family: "Cafe24Moyamoya-Regular-v1.0", serif; */
+  font-family: "CWDangamAsac-Bold", sans-serif;
+  font-size: 2.2em;
+}
+
+
+/* floating button */
+
+.floating-btn > button {
+  position: fixed;
+  right: 2em;
+  width: 3em;
+  height: 3em;
+}
+
+#floating-btn-back {
+  bottom: 2em;
+}
+
+#floating-btn-top {
+  bottom: 5.5em;
+}
+
+
+/* scrollbar style */
+
+body::-webkit-scrollbar,
+select::-webkit-scrollbar {
+  width: 8px;
+}
+
+body::-webkit-scrollbar-thumb,
+select::-webkit-scrollbar-thumb {
+  height: 30%;
+  background: rgb(129, 195, 197);
+  border-radius: 10px;
+}
+
+body::-webkit-scrollbar-track,
+select::-webkit-scrollbar-track {
+  background: rgba(33, 122, 244, 0.1);
+}
+
+
+.ml-1 {
+  margin-left: 0.25rem !important;
+}
+
+.ml-2 {
+  margin-left: 0.5rem !important;
+}
+
+.ml-3 {
+  margin-left: 1rem !important;
+}
+
+.ml-4 {
+  margin-left: 1.5rem !important;
+}
+
+.ml-5 {
+  margin-left: 3rem !important;
+}

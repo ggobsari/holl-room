@@ -12,6 +12,7 @@
     </typeAliases>
     <mappers>
         <mapper resource="mapper/admin.xml"/>
-        <mapper resource="mapper/rmtest.xml"/>
+        <mapper resource="mapper/roommate.xml"/>
+        <mapper resource="mapper/chatting.xml"/>
     </mappers>
 </configuration>
