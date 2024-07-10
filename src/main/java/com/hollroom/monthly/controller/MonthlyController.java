@@ -61,7 +61,9 @@ public class MonthlyController {
 
     @GetMapping("/monthly/product/division/{addr}")
     public String readDivisionProduct(@PageableDefault(page = 0, size = 10, sort = "divisionCode", direction = Sort.Direction.ASC) Pageable pageable, @PathVariable String addr, Model model){
-        Page<MonthlyProductResponseDTO> productPage = productService.readDivisionProduct(addr,pageable);
+        // 시간이 부족하여 첫번째 페이지의 경우, 매물 전체를 기준으로 필터링하는 편법을 사용
+        // 개선해야함.
+        Page<MonthlyProductResponseDTO> productPage = addr.equals("서울시")?productService.readProductAll(pageable):productService.readDivisionProduct(addr,pageable);
         addPageNumber(pageable,productPage,model);
         model.addAttribute("productPage", productPage);
         return "monthly/product_list";
