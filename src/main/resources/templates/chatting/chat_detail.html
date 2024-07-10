@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/main_layout}">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>채팅하기</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/hollroom/roommate/css/styles-2.css"/>
+    <link rel="stylesheet" href="/hollroom/chatting/css/styles_chat.css"/>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap");
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+  </head>
+  <body layout:fragment="content"
+        class="d-flex flex-column h-100 bg-light font-kor"
+        th:roomId="${roominfo.roomId}" th:userId="${roominfo.sender}" th:myId="${session.USER_NICKNAME.id}"
+        th:onload="setChatData(document.body.getAttribute('roomId'), document.body.getAttribute('userId'), document.body.getAttribute('myId'))">
+    <main class="flex-shrink-0">
+<!--      ##################-->
+<!--      ##################-->
+<!--      <div class="floating-btn">-->
+<!--        <button-->
+<!--          id="floating-btn-top"-->
+<!--          onclick="window.history.back();"-->
+<!--          class="btn btn-primary rounded-circle"-->
+<!--        >-->
+<!--          <span>&#8592;</span>-->
+<!--        </button>-->
+<!--      </div>-->
+
+      <section class="justify-content-center py-5">
+        <aside
+          class="col-3 border-primary bg-white rounded-5 px-3 pb-5 me-3 text-center"
+        >
+          <h2 class="my-5 text-primary font-eng">profile</h2>
+          <img
+            th:src="${user.user_image}"
+            class="d-block border-dark rounded-circle mx-auto mb-3"
+            style="width: 12rem; height: 12rem"
+            alt=""
+          />
+          <span id="user-nick" th:text="${user.user_nickname}"
+                class="d-inline-block mb-2 fs-4 bg-info p-2 rounded-5 text-white"></span>
+          <br />
+          <span class="d-inline-block mb-1 fs-5 fw-semibold text-primary"
+                th:if="${user.user_gender == 'M'}">남성</span
+          ><span class="d-inline-block mb-1 fs-5 fw-semibold text-primary"
+                 th:if="${user.user_gender == 'W'}">여성</span>
+          <br />
+          <span class="fs-6 text-primary" th:text="${user.user_introduce}"></span>
+        </aside>
+
+        <div class="position-relative border-primary bg-dark col-7 pt-4 pb-0 px-0 rounded-4">
+          <div class="position-absolute b-0 w-100">
+            <div id="tmp-area" class="px-5">
+            </div>
+            <textarea
+              id="input-message"
+              placeholder="Enter: 전송하기 / Shift+Enter: 줄 바꾸기"></textarea>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Bootstrap core JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/hollroom/chatting/js/script_chat.js"></script>
+  </body>
+</html>

@@ -12,18 +12,12 @@
     <meta name="description" content="" />
     <meta name="author" content="" />
     <title>글 상세보기</title>
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css"
-      rel="stylesheet"
-    />
+<!--    <link-->
+<!--      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css"-->
+<!--      rel="stylesheet"-->
+<!--    />-->
 
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap"
-      rel="stylesheet"
-    />
-
+    <link rel="stylesheet" href="/hollroom/roommate/css/styles-2.css"/>
     <script src="/hollroom/roommate/js/script.js"></script>
     <script th:inline="javascript">
       window.onload = function () {
@@ -34,16 +28,8 @@
 
         const board = /*[[${board}]]*/;
         //alert(board.title);
-        //alert(board);
         fillValuesForDetail(board.title, board.content, board.nocturnal, board.wakeup_at, board.alarm, board.sleep_at,
                 board.smoking, board.pet, board.cleaning_cycle, board.sleeping_habits, board.noise);
-
-        //fillValues(board.title, board.content, board.nocturnal, board.wakeup_at, board.alarm, board.sleep_at,
-        //            board.smoking, board.pet, board.cleaning_cycle, board.sleeping_habits, board.noise)
-
-        //UserEntity user = (UserEntity) session.getAttribute("USER_NICKNAME");
-        //const user = ${session.USER_NICKNAME};
-        //alert(user);
 
         const elements = document.querySelectorAll(
           "#detail-ul-2 > li input, #detail-ul-2 > li select"
@@ -60,7 +46,7 @@
         <!-- <aside class="col-2 bg-primary bg-gradient rounded-3 p-4 me-3">
         </aside> -->
 
-        <div class="border-primary col-7 bg-white rounded-3">
+        <div class="border-primary col-7 bg-white rounded-4">
           <div class="mb-5 content-margin">
             <div>
               <input type="checkbox" id="myself" hidden>
@@ -88,9 +74,9 @@
                   class="text-warning fw-bold">
                 </span>
                 <span
-                    th:if="${session.USER_NICKNAME.id != board.id}"
-                    th:text="${user.user_nickname}"
-                    class="text-warning fw-bold">
+                  th:if="${session.USER_NICKNAME.id != board.id}"
+                  th:text="${user.user_nickname}"
+                  class="text-warning fw-bold">
                 </span>
               </div>
               <div class="mx-4">
@@ -200,13 +186,13 @@
                   </li>
                   <li>
                     <div>
-                      <label th:if="${board.smoking == 'N'.charAt(0)}" th:text="'❌'"></label>
+                      <label th:if="${board.smoking == 'N'.charAt(0)}" th:text="'╳'"></label>
                       <label th:if="${board.smoking == 'Y'.charAt(0)}" th:text="'○'"></label>
                     </div>
                   </li>
                   <li>
                     <div>
-                      <label th:if="${board.pet == 'N'.charAt(0)}" th:text="'❌'"></label>
+                      <label th:if="${board.pet == 'N'.charAt(0)}" th:text="'╳'"></label>
                       <label th:if="${board.pet == 'Y'.charAt(0)}" th:text="'○'"></label>
                     </div>
                   </li>
@@ -278,19 +264,27 @@
                 >
                   수정하기
                 </button>
-                <form action="/hollroom/test/chatview" method="post">
+                <form action="/hollroom/chat/room" method="post">
                   <input type="hidden" th:name="id" th:value="${user.id}" />
                   <input type="hidden" th:name="user_name" th:value="${user.user_name}" />
                   <input type="hidden" th:name="user_nickname" th:value="${user.user_nickname}" />
                   <input type="hidden" th:name="user_image" th:value="${user.user_image}" />
                   <input type="hidden" th:name="user_introduce" th:value="${user.user_introduce}" />
                   <input type="hidden" th:name="user_gender" th:value="${user.user_gender}" />
+<!--                  <input type="hidden" th:name="roomId" th:value="${board.roommate_id}" />-->
+                  <input type="hidden" th:name="sender" th:value="${session.USER_NICKNAME.id}" />
+                  <input type="hidden" th:name="receiver" th:value="${user.id}" />
                   <button
-                    type="submit" class="ml-3 btn btn-outline-primary"
-                    th:if="${session.USER_NICKNAME.id != board.id}">
+                      type="submit" class="ml-3 btn btn-outline-primary"
+                      th:if="${session.USER_NICKNAME.id != board.id}">
                     작성자에게 채팅 보내기
                   </button>
                 </form>
+<!--                <button-->
+<!--                    type="submit" class="ml-3 btn btn-outline-primary"-->
+<!--                    th:if="${session.USER_NICKNAME.id == board.id}">-->
+<!--                  채팅 바로가기-->
+<!--                </button>-->
               </div>
           </div>
         </div>

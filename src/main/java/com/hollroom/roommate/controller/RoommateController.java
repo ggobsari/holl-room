@@ -1,5 +1,6 @@
 package com.hollroom.roommate.controller;
 
+import com.hollroom.chatting.domain.entity.ChatRoom;
 import com.hollroom.roommate.dto.RoommateDTO;
 import com.hollroom.roommate.dto.RoommateUserDTO;
 import com.hollroom.roommate.service.RoommateService;
@@ -20,7 +21,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @SessionAttributes
 @RequestMapping("/roommate")
-public class RoommateController {  // 1.2
+public class RoommateController {  // 1.7
     @Autowired
     RoommateService service;
 
@@ -28,19 +29,6 @@ public class RoommateController {  // 1.2
     public String test() {
         return "roommate/test";
     }
-//    @GetMapping("/jdbc/test")
-//    public String jdbcTest() {
-//        System.out.println("*************개수 : " + dao.templateCount());
-//        return "redirect:/";
-//    }
-//    @GetMapping("/mybatis/test")
-//    public String mybatisTest() {
-//        List<RoommateDTO> boardlist = dao.select();
-//        for (int i = 0; i < 10; i++) {
-//            System.out.println(boardlist.get(i));
-//        }
-//        return "redirect:/";
-//    }
 
     @GetMapping("/home")
     public String homePage(Model model) {
@@ -123,17 +111,4 @@ public class RoommateController {  // 1.2
         model.addAttribute("boardlist", boardlist);
         return "roommate/roommate_home";
     }
-
-//    //chattingController??
-//    @GetMapping("/chat")
-//    public String chatPage() {
-//        return "/roommate/roommate_chat";
-//    }
-//
-//    @PostMapping("/chat")
-//    public String chat(ChattingDTO message) {
-//        System.out.println("################ chat 실행")
-//        System.out.println(message);
-//        return "///";
-//    }
 }
