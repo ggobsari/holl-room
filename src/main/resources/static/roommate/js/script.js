@@ -1,16 +1,3 @@
-//const btnChangeTxt = document.querySelector("#btn-change-txt");
-//btnChangeTxt.addEventListener("click", () => {
-//  const text = btnChangeTxt.innerText;
-//  if (text === "하루") {
-//    btnChangeTxt.innerText = "주";
-//  } else if (text === "주") {
-//    btnChangeTxt.innerText = "달";
-//  } else {
-//    btnChangeTxt.innerText = "하루";
-//  }
-//});
-
-
 function setValues() {
 //  event.preventDefault();
 //  alert("setValues");

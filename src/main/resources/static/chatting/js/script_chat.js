@@ -31,7 +31,7 @@ function setChatData(room_id, sender_id, my_id) {
               minute: "numeric",
               timeZone: 'Asia/Seoul',
           }).format(datetime);
-          alert("3: " + typeof time + ": " + time);
+//          alert("3: " + typeof time + ": " + time);  //string
           if (chatlist[i].sender == my_id) {
             $("#tmp-area").append(
               "<div class='chat-area-right'>"

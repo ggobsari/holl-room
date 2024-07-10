@@ -71,9 +71,10 @@ public class ChatController {
         return data;
     }
 
-    // 채팅방 열기
+    // 채팅방 열기 (룸메이트 게시글과 연결)
     @PostMapping("/chat/room")
     public String chatroomPage(RoommateUserDTO user, ChatRoomRequest room, Model model) {
+        System.out.println("######## /chat/room Post");
         System.out.println(room);
         Boolean isRoomExist = service.isChatroomExist(room.getSender(), room.getReceiver());
         if (!isRoomExist) {
@@ -88,6 +89,7 @@ public class ChatController {
     // 내 채팅방 목록 불러오기
     @GetMapping("/chat/roomlist")
     public String chatlistPage(Long userId, Model model) {
+        System.out.println("######## /chat/roomlist Get");
         List<ChatRoom> roomlist = service.getRoomList(userId);
         if (roomlist.size() != 0) {
 //        System.out.println("1****** roomlist: " + roomlist);
@@ -119,9 +121,10 @@ public class ChatController {
         return "chatting/chat_list";
     }
 
-    // 채팅방 열기
+    // 채팅방 열기 (채팅 목록에서 선택)
     @GetMapping("/chat/room")
     public String chatroomPage(Long roomId, Long userId, Model model) {
+        System.out.println("######## /chat/room Get");
         ChatRoom room = service.getRoom(roomId);
         RoommateUserDTO user = service.getUser(userId);
         model.addAttribute("roominfo", room);
