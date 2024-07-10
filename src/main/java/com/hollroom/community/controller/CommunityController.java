@@ -4,6 +4,7 @@ import com.hollroom.common.TabType;
 import com.hollroom.community.domain.dto.*;
 import com.hollroom.community.service.CommunityService;
 import com.hollroom.community.service.FileUploadService;
+import com.hollroom.user.entity.UserEntity;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -36,12 +37,12 @@ public class CommunityController {
     @PostMapping("/write")
     public String write(CommunityRequestDTO requestDTO, HttpSession session) throws IOException {
         //디버깅용
-        System.out.println(requestDTO);
+//        System.out.println(requestDTO);
 
         //CommunityRequestDTO에서 files 정보만 가져오기
         List<MultipartFile> file = requestDTO.getFiles();
         List<CommunityFileDTO> files = fileUploadService.uploadFiles(file);
-        System.out.println("커뮤니티파일매핑::"+files);
+//        System.out.println("커뮤니티파일매핑::"+files);
 
         service.insert(requestDTO, files);
         return "redirect:/community/list?category=all&page=0"; //
@@ -51,26 +52,34 @@ public class CommunityController {
     public ModelAndView listPage(@RequestParam("category") String category, @RequestParam("page") String page){
         ModelAndView mav = new ModelAndView("community/content/community_list");
         CommunityPagingDTO pagingDTO = service.communityList(category, page);
+        List<CommunityResponseDTO> topList = service.findByTopViewCount();
+//        System.out.println("상위조회수::"+topList);
 //        System.out.println("list값 확인::"+ pagingDTO);
         //페이징 처리 시 필요한 값들
-        System.out.println("=============================================================================");
-        System.out.println("전체 페이지 수=>"+pagingDTO.getTotalPages());
-        System.out.println("현재 페이지 번호=>"+pagingDTO.getNowPageNumber());
-        System.out.println("한 페이지에 출력되는 데이터=>"+pagingDTO.getPageSize());
-        System.out.println("다음 페이지 존재 여부=>"+pagingDTO.isHasNextPage());
-        System.out.println("이전 페이지 존재 여부=>"+pagingDTO.isHasPreviousPage());
-        System.out.println("첫번째 페이지 인가? =>"+pagingDTO.isFirstPage());
-        System.out.println("마지막 페이지 인가? =>"+pagingDTO.isLastPage());
-        System.out.println("=============================================================================");
+//        System.out.println("=============================================================================");
+//        System.out.println("전체 페이지 수=>"+pagingDTO.getTotalPages());
+//        System.out.println("현재 페이지 번호=>"+pagingDTO.getNowPageNumber());
+//        System.out.println("한 페이지에 출력되는 데이터=>"+pagingDTO.getPageSize());
+//        System.out.println("다음 페이지 존재 여부=>"+pagingDTO.isHasNextPage());
+//        System.out.println("이전 페이지 존재 여부=>"+pagingDTO.isHasPreviousPage());
+//        System.out.println("첫번째 페이지 인가? =>"+pagingDTO.isFirstPage());
+//        System.out.println("마지막 페이지 인가? =>"+pagingDTO.isLastPage());
+//        System.out.println("=============================================================================");
 
         //시작페이지(startPage), 마지막페이지(endPage) 값 계산
         // 하단에 노출시킬 페이지 수는 3개
         int pageLimit = 3;
-        int startPage = (((int) (Math.ceil((double) (pagingDTO.getNowPageNumber()+1) / pageLimit))) -1) * pageLimit+1;
-        int endPage = ((startPage + pageLimit -1) < pagingDTO.getTotalPages() ? (startPage + pageLimit -1) : pagingDTO.getTotalPages());
+        if(pagingDTO!=null) {
+            int startPage = (((int) (Math.ceil((double) (pagingDTO.getNowPageNumber() + 1) / pageLimit))) - 1) * pageLimit + 1;
+            int endPage = ((startPage + pageLimit - 1) < pagingDTO.getTotalPages() ? (startPage + pageLimit - 1) : pagingDTO.getTotalPages());
+            mav.addObject("startPage", startPage);
+            mav.addObject("endPage", endPage);
+        }
 
-        mav.addObject("startPage", startPage);
-        mav.addObject("endPage", endPage);
+        if (topList!=null){
+//            System.out.println("조회수넘기기 성공");
+            mav.addObject("topList", topList);
+        }
 
         mav.addObject("communityList", pagingDTO);
         mav.addObject("category", category);
@@ -84,23 +93,25 @@ public class CommunityController {
         ModelAndView mav = new ModelAndView("community/content/community_search_list");
 
         CommunityPagingDTO pagingDTO = service.deepSearch(category,fieldOption,search,page);
-
-        System.out.println("=============================================================================");
-        System.out.println("전체 페이지 수=>"+pagingDTO.getTotalPages());
-        System.out.println("현재 페이지 번호=>"+pagingDTO.getNowPageNumber());
-        System.out.println("한 페이지에 출력되는 데이터=>"+pagingDTO.getPageSize());
-        System.out.println("다음 페이지 존재 여부=>"+pagingDTO.isHasNextPage());
-        System.out.println("이전 페이지 존재 여부=>"+pagingDTO.isHasPreviousPage());
-        System.out.println("첫번째 페이지 인가? =>"+pagingDTO.isFirstPage());
-        System.out.println("마지막 페이지 인가? =>"+pagingDTO.isLastPage());
-        System.out.println("=============================================================================");
+//        System.out.println(pagingDTO.getCommunityResponseDTOList());
+//        System.out.println("=============================================================================");
+//        System.out.println("전체 페이지 수=>"+pagingDTO.getTotalPages());
+//        System.out.println("현재 페이지 번호=>"+pagingDTO.getNowPageNumber());
+//        System.out.println("한 페이지에 출력되는 데이터=>"+pagingDTO.getPageSize());
+//        System.out.println("다음 페이지 존재 여부=>"+pagingDTO.isHasNextPage());
+//        System.out.println("이전 페이지 존재 여부=>"+pagingDTO.isHasPreviousPage());
+//        System.out.println("첫번째 페이지 인가? =>"+pagingDTO.isFirstPage());
+//        System.out.println("마지막 페이지 인가? =>"+pagingDTO.isLastPage());
+//        System.out.println("=============================================================================");
 
         int pageLimit = 3;
-        int startPage = (((int) (Math.ceil((double) (pagingDTO.getNowPageNumber()+1) / pageLimit))) -1) * pageLimit+1;
-        int endPage = ((startPage + pageLimit -1) < pagingDTO.getTotalPages() ? (startPage + pageLimit -1) : pagingDTO.getTotalPages());
+        if(pagingDTO!=null) {
+            int startPage = (((int) (Math.ceil((double) (pagingDTO.getNowPageNumber() + 1) / pageLimit))) - 1) * pageLimit + 1;
+            int endPage = ((startPage + pageLimit - 1) < pagingDTO.getTotalPages() ? (startPage + pageLimit - 1) : pagingDTO.getTotalPages());
+            mav.addObject("startPage", startPage);
+            mav.addObject("endPage", endPage);
+        }
 
-        mav.addObject("startPage", startPage);
-        mav.addObject("endPage", endPage);
 
         mav.addObject("communityList", pagingDTO);
         mav.addObject("category", category);
@@ -112,13 +123,28 @@ public class CommunityController {
 
 
     @GetMapping("/read") //조회수 업데이트 추가하기
-    public String read(@RequestParam("postId") String postId,@RequestParam("action") String action, Model model){
-        System.out.println("readparam확인::"+postId+", "+action);
+    public String read(@RequestParam("postId") String postId,@RequestParam("action") String action, Model model,HttpSession session){
+//        System.out.println("readparam확인::"+postId+", "+action);
         //첨부파일 조회 시 커뮤니티 탭 타입으로도 조회를 해야 함
         TabType type = TabType.COMMUNITY;
+
         List<CommunityFileDTO> fileList = service.fileList(postId,type);
+
         CommunityResponseDTO readinfo = service.read(postId);
 //        System.out.println(fileList+","+readinfo);
+
+        // 좋아요 생성
+        HeartDTO heartInfo = null;
+        UserEntity user = (UserEntity) session.getAttribute("USER_NICKNAME");
+        if(user!=null){
+            Long userId = user.getId();
+            heartInfo = service.getHeart(Long.parseLong(postId),userId);
+//            System.out.println("좋아요 정보 가져오기======================"+heartInfo);
+            if (heartInfo!=null){
+                model.addAttribute("heartInfo",heartInfo);
+            }
+        }
+
 
         String view = "";
         List<CommentsResponseDTO> commentsList = null;
@@ -149,7 +175,7 @@ public class CommunityController {
     //게시글 수정
     @PostMapping("/update")
     public String update(CommunityRequestDTO requestDTO){
-        System.out.println("업데이트 할 것들=>"+requestDTO);
+//        System.out.println("업데이트 할 것들=>"+requestDTO);
         //반영할 수정목록 - 제목, 카테고리, 본문내용
         service.update(requestDTO);
         return "redirect:/community/list?category=all&page=0";

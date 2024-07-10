@@ -47,17 +47,20 @@ public class CommunityEntity {
     @JoinColumn(name = "userId")
     private UserEntity user;
 
+    private int heartCount;
+
 //    @OneToMany(cascade = CascadeType.ALL)
 //    @JoinColumn(name = "postId")
 //    private List<AttachFileEntity> attachFileEntities = new ArrayList<>();
 
-    //게시글 작성 - 제목, 카테고리, 본문내용, 작성자, 조회수(insert)
-    public CommunityEntity(String title, String content, int viewCount, String category, UserEntity user) {
+    //게시글 작성 - 제목, 카테고리, 본문내용, 작성자, 조회수,좋아요 수(insert)
+    public CommunityEntity(String title, String content, int viewCount, String category, UserEntity user,int heartCount) {
         this.title = title;
         this.content = content;
         this.viewCount = viewCount;
         this.category = category;
         this.user = user;
+        this.heartCount = heartCount;
     }
     //게시글 작성 - 첨부파일이 있을 경우의 생성자(insert)
 //    public CommunityEntity(String title, String content, int viewCount, String category, UserEntity user, List<AttachFileEntity> attachFileEntities) {

@@ -5,9 +5,12 @@ import com.hollroom.community.domain.dto.CommunityPagingEntityDTO;
 import com.hollroom.community.domain.entity.AttachFileEntity;
 import com.hollroom.community.domain.entity.CommentsEntity;
 import com.hollroom.community.domain.entity.CommunityEntity;
+import com.hollroom.community.domain.entity.HeartEntity;
 import com.hollroom.community.repository.AttachFileRepository;
 import com.hollroom.community.repository.CommentsRepository;
 import com.hollroom.community.repository.CommunityRepository;
+import com.hollroom.community.repository.HeartRepository;
+import com.hollroom.user.entity.UserEntity;
 import com.hollroom.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -15,7 +18,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
@@ -23,6 +28,8 @@ public class CommunityDAOImpl implements CommunityDAO{
     private final CommunityRepository communityRepository;
     private final AttachFileRepository attachFileRepository;
     private final CommentsRepository commentsRepository;
+    private final UserRepository userRepository;
+    private final HeartRepository heartRepository;
 
     @Override
     public Long insert(CommunityEntity entity) {
@@ -87,14 +94,14 @@ public class CommunityDAOImpl implements CommunityDAO{
 
     @Override
     public List<AttachFileEntity> getFiles(Long postId, TabType tab) {
-        System.out.println("read 탭타입 수정++++++++++++++++++++++++++++++++++++++++++++++++");
+//        System.out.println("read 탭타입 수정++++++++++++++++++++++++++++++++++++++++++++++++");
         return attachFileRepository.findByPostIdAndTabType(postId,tab);
     }
 
     @Override
     public void updateViewCounting(Long postId) {
         CommunityEntity entity = communityRepository.findByPostId(postId);
-        System.out.println("조회수 수정 전::"+entity.getViewCount());
+//        System.out.println("조회수 수정 전::"+entity.getViewCount());
         entity.setViewCount(entity.getViewCount()+1);
         communityRepository.save(entity);
 
@@ -198,9 +205,29 @@ public class CommunityDAOImpl implements CommunityDAO{
 
     @Override
     public CommunityPagingEntityDTO deepSearchWriter(String content, String page) {
-        CommunityPagingEntityDTO pagingEntityDTO = new CommunityPagingEntityDTO();
-//        PageRequest pageRequest = PageRequest.of(Integer.parseInt(page),10, Sort.Direction.DESC,"postId");
-        return null;
+        CommunityPagingEntityDTO pagingEntityDTO = null;
+        //먼저 작성자 닉네임을 가진 유저 아이디를 찾는다.
+         UserEntity userEntity = userRepository.findByUserNickname(content).orElse(null);
+
+        // 찾은 유저 아이디로 조회를 해서 페이징 값을 받는다.
+        PageRequest pageRequest = PageRequest.of(Integer.parseInt(page),10, Sort.Direction.DESC,"postId");
+        Page<CommunityEntity> pages =null;
+        if(userEntity!=null){
+            pagingEntityDTO = new CommunityPagingEntityDTO();
+            Long id = userEntity.getId();
+            pages = communityRepository.findByDeletedAndUserId(null,id,pageRequest);
+            pagingEntityDTO.setCommunityEntities(pages.getContent());
+            pagingEntityDTO.setTotalPages(pages.getTotalPages());
+            pagingEntityDTO.setNowPageNumber(pages.getNumber());
+            pagingEntityDTO.setPageSize(pages.getSize());
+            pagingEntityDTO.setHasNextPage(pages.hasNext());
+            pagingEntityDTO.setHasPreviousPage(pages.hasPrevious());
+            pagingEntityDTO.setFirstPage(pages.isFirst());
+            pagingEntityDTO.setLastPage(pages.isLast());
+
+        }
+
+        return pagingEntityDTO;
     }
 
     @Override
@@ -241,9 +268,84 @@ public class CommunityDAOImpl implements CommunityDAO{
 
     @Override
     public CommunityPagingEntityDTO deepSearchCateWriter(String category, String content, String page) {
+        CommunityPagingEntityDTO pagingEntityDTO = null; //
+        PageRequest pageRequest = PageRequest.of(Integer.parseInt(page),10, Sort.Direction.DESC,"postId");
+//        System.out.println("++++++++++버깅찾기1+++++++");
+        UserEntity userEntity = userRepository.findByUserNickname(content).orElse(null);
+//        System.out.println("++++++++++버깅찾기2+++++++");
+        if (userEntity != null) {
+            Page<CommunityEntity> pages = communityRepository.findByDeletedAndCategoryAndUserId(null, category, userEntity.getId(), pageRequest);
+//            System.out.println("++++++++++버깅찾기3+++++++");
+            pagingEntityDTO = new CommunityPagingEntityDTO(); //
+            pagingEntityDTO.setCommunityEntities(pages.getContent());
+            pagingEntityDTO.setTotalPages(pages.getTotalPages());
+            pagingEntityDTO.setNowPageNumber(pages.getNumber());
+            pagingEntityDTO.setPageSize(pages.getSize());
+            pagingEntityDTO.setHasNextPage(pages.hasNext());
+            pagingEntityDTO.setHasPreviousPage(pages.hasPrevious());
+            pagingEntityDTO.setFirstPage(pages.isFirst());
+            pagingEntityDTO.setLastPage(pages.isLast());
+        }
+
+//        System.out.println("++++++++++버깅찾기4+++++++");
+        return pagingEntityDTO;
+    }
+
+    @Override
+    public CommunityPagingEntityDTO deepSearchTitleAndContent(String content, String page) {
         CommunityPagingEntityDTO pagingEntityDTO = new CommunityPagingEntityDTO();
-//        PageRequest pageRequest = PageRequest.of(Integer.parseInt(page),10, Sort.Direction.DESC,"postId");
-        return null;
+        PageRequest pageRequest = PageRequest.of(Integer.parseInt(page),10, Sort.Direction.DESC,"postId");
+        Page<CommunityEntity> pages = communityRepository.findByDeletedAndTitleContainingOrContentContaining(null,content,content,pageRequest);
+
+        pagingEntityDTO.setCommunityEntities(pages.getContent());
+        pagingEntityDTO.setTotalPages(pages.getTotalPages());
+        pagingEntityDTO.setNowPageNumber(pages.getNumber());
+        pagingEntityDTO.setPageSize(pages.getSize());
+        pagingEntityDTO.setHasNextPage(pages.hasNext());
+        pagingEntityDTO.setHasPreviousPage(pages.hasPrevious());
+        pagingEntityDTO.setFirstPage(pages.isFirst());
+        pagingEntityDTO.setLastPage(pages.isLast());
+        return pagingEntityDTO;
+    }
+
+    @Override
+    public CommunityPagingEntityDTO deepSearchCateTitleAndContent(String category, String content, String page) {
+        CommunityPagingEntityDTO pagingEntityDTO = new CommunityPagingEntityDTO();
+        PageRequest pageRequest = PageRequest.of(Integer.parseInt(page),10, Sort.Direction.DESC,"postId");
+        Page<CommunityEntity> pages = communityRepository.findByDeletedAndCategoryAndTitleContainingOrContentContaining(null,category,content,content,pageRequest);
+
+        pagingEntityDTO.setCommunityEntities(pages.getContent());
+        pagingEntityDTO.setTotalPages(pages.getTotalPages());
+        pagingEntityDTO.setNowPageNumber(pages.getNumber());
+        pagingEntityDTO.setPageSize(pages.getSize());
+        pagingEntityDTO.setHasNextPage(pages.hasNext());
+        pagingEntityDTO.setHasPreviousPage(pages.hasPrevious());
+        pagingEntityDTO.setFirstPage(pages.isFirst());
+        pagingEntityDTO.setLastPage(pages.isLast());
+        return pagingEntityDTO;
+    }
+
+    @Override
+    public List<CommunityEntity> findTopByViewCount() {
+        List<CommunityEntity> list = communityRepository.findTop3ByOrderByViewCountDesc();
+//        System.out.println("상위 조회수 엔티티 매핑확인::"+ list);
+        return list;
+    }
+
+    @Override
+    public boolean countHeart(Long postId, Long UserId) {
+        return heartRepository.existsByPostIdAndUserId(postId, UserId);
+    }
+
+    @Override
+    public void createHeart(Long postId, Long userId, TabType tab, String checkHeart) {
+        HeartEntity entity = new HeartEntity(postId,userId,tab,checkHeart);
+        heartRepository.save(entity);
+    }
+
+    @Override
+    public HeartEntity getHeart(Long postId, Long userId, TabType tab) {
+        return heartRepository.findByPostIdAndUserIdAndTabType(postId,userId,tab);
     }
 
 

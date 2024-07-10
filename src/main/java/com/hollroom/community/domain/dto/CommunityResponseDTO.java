@@ -30,7 +30,7 @@ public class CommunityResponseDTO {
     private Date updatedAt; //수정일
     private LocalDate createdAt;
     private int viewCount;
-
+    private int heartCount;
 
 
 
