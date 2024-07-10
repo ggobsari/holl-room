@@ -89,31 +89,33 @@ public class ChatController {
     @GetMapping("/chat/roomlist")
     public String chatlistPage(Long userId, Model model) {
         List<ChatRoom> roomlist = service.getRoomList(userId);
+        if (roomlist.size() != 0) {
 //        System.out.println("1****** roomlist: " + roomlist);
-        List<ChatMessage> msglist = service.getChatMsgList(roomlist);
+            List<ChatMessage> msglist = service.getChatMsgList(roomlist);
 //        for (ChatMessage msg : msglist) {
 //            System.out.println("2****** msglist: " + msg.getMessage());
 //        }
-        List<UserEntity> userlist = service.getChatUserList(userId, roomlist, msglist);
+            List<UserEntity> userlist = service.getChatUserList(userId, roomlist, msglist);
 //        System.out.println("3****** userlist: " + userlist);
 //        for (int i = 0; i < msglist.size(); i++) {
 //            System.out.println("msg: " +  msglist.get(i).getMessage());
 //        }
 
-        // @@코드 수정 필요
-        List<ChatListItem> chatlistitems = new ArrayList<>();
-        for (int i = 0; i < userlist.size(); i++) {
-            ChatListItem chat = new ChatListItem();
-            chat.setUserId(userlist.get(i).getId());
-            chat.setUserNickname(userlist.get(i).getUserNickname());
-            chat.setUserImage(userlist.get(i).getUserImage());
-            chat.setRoomId(roomlist.get(i).getRoomId());
-            chat.setLastMessage(msglist.get(i).getMessage());
-            chat.setLastDateTime(msglist.get(i).getCreateDate());
-            chatlistitems.add(chat);
-            System.out.println(chat);
+            // @@코드 수정 필요
+            List<ChatListItem> chatlistitems = new ArrayList<>();
+            for (int i = 0; i < userlist.size(); i++) {
+                ChatListItem chat = new ChatListItem();
+                chat.setUserId(userlist.get(i).getId());
+                chat.setUserNickname(userlist.get(i).getUserNickname());
+                chat.setUserImage(userlist.get(i).getUserImage());
+                chat.setRoomId(roomlist.get(i).getRoomId());
+                chat.setLastMessage(msglist.get(i).getMessage());
+                chat.setLastDateTime(msglist.get(i).getCreateDate());
+                chatlistitems.add(chat);
+                System.out.println(chat);
+            }
+            model.addAttribute("chatlistitem", chatlistitems);
         }
-        model.addAttribute("chatlistitem", chatlistitems);
         return "chatting/chat_list";
     }
 

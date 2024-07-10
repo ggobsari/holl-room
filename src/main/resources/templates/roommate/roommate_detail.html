@@ -17,13 +17,6 @@
 <!--      rel="stylesheet"-->
 <!--    />-->
 
-<!--    <link rel="preconnect" href="https://fonts.googleapis.com" />-->
-<!--    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />-->
-<!--    <link-->
-<!--      href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap"-->
-<!--      rel="stylesheet"-->
-<!--    />-->
-
     <link rel="stylesheet" href="/hollroom/roommate/css/styles-2.css"/>
     <script src="/hollroom/roommate/js/script.js"></script>
     <script th:inline="javascript">
@@ -35,16 +28,8 @@
 
         const board = /*[[${board}]]*/;
         //alert(board.title);
-        //alert(board);
         fillValuesForDetail(board.title, board.content, board.nocturnal, board.wakeup_at, board.alarm, board.sleep_at,
                 board.smoking, board.pet, board.cleaning_cycle, board.sleeping_habits, board.noise);
-
-        //fillValues(board.title, board.content, board.nocturnal, board.wakeup_at, board.alarm, board.sleep_at,
-        //            board.smoking, board.pet, board.cleaning_cycle, board.sleeping_habits, board.noise)
-
-        //UserEntity user = (UserEntity) session.getAttribute("USER_NICKNAME");
-        //const user = ${session.USER_NICKNAME};
-        //alert(user);
 
         const elements = document.querySelectorAll(
           "#detail-ul-2 > li input, #detail-ul-2 > li select"
@@ -61,7 +46,7 @@
         <!-- <aside class="col-2 bg-primary bg-gradient rounded-3 p-4 me-3">
         </aside> -->
 
-        <div class="border-primary col-7 bg-white rounded-3">
+        <div class="border-primary col-7 bg-white rounded-4">
           <div class="mb-5 content-margin">
             <div>
               <input type="checkbox" id="myself" hidden>
@@ -201,13 +186,13 @@
                   </li>
                   <li>
                     <div>
-                      <label th:if="${board.smoking == 'N'.charAt(0)}" th:text="'❌'"></label>
+                      <label th:if="${board.smoking == 'N'.charAt(0)}" th:text="'╳'"></label>
                       <label th:if="${board.smoking == 'Y'.charAt(0)}" th:text="'○'"></label>
                     </div>
                   </li>
                   <li>
                     <div>
-                      <label th:if="${board.pet == 'N'.charAt(0)}" th:text="'❌'"></label>
+                      <label th:if="${board.pet == 'N'.charAt(0)}" th:text="'╳'"></label>
                       <label th:if="${board.pet == 'Y'.charAt(0)}" th:text="'○'"></label>
                     </div>
                   </li>

@@ -10,7 +10,7 @@
                 cm.room_id as cmRoomId, cm.create_date
             from chat_room cr, chat_message cm
             where cr.sender = #{sender}
-                or cr.receiver = #{sender})
+                or cr.receiver = #{sender}) as sub
         where roomId = cmRoomId
         order by create_date desc
     </select>
@@ -39,7 +39,7 @@
                 sender,
                 ROW_NUMBER() OVER(PARTITION BY room_id ORDER BY create_date DESC) AS rn
             from chat_message
-            )
+            ) as sub
         where rn = 1
             and roomId in
             <foreach collection="list" item="item" separator="," open="(" close=")">

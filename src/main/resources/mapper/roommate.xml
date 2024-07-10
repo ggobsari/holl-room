@@ -4,12 +4,17 @@
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.hollroom.roommate">
-    <insert id="insert" parameterType="rmmt_board">
-        insert into board_roommate values(rmmt_seq.nextval, #{id},
-        #{title}, #{content}, sysdate, null,
-        #{nocturnal}, #{wakeup_at}, #{alarm}, #{sleep_at},
-        #{smoking}, #{pet}, #{cleaning_cycle}, #{sleeping_habits},
-        #{noise}, 'N', null, null, #{user_nickname})
+    <insert id="insert" parameterType="rmmt_board" useGeneratedKeys="true" keyProperty="roommate_id">
+        insert into board_roommate
+            (id, title, content, created_at, chat_room_id,
+            nocturnal, wakeup_at, alarm, sleep_at, smoking,
+            pet, cleaning_cycle, sleeping_habits, noise, deleted,
+            deleted_at, updated_at, user_nickname)
+        values
+            (#{id}, #{title}, #{content}, default, null,
+            #{nocturnal}, #{wakeup_at}, #{alarm}, #{sleep_at}, #{smoking},
+            #{pet}, #{cleaning_cycle}, #{sleeping_habits}, #{noise}, 'N',
+            null, null, #{user_nickname})
     </insert>
 
     <select id="select" parameterType="int" resultType="rmmt_board">
@@ -42,7 +47,7 @@
          set title=#{title}, content=#{content}, nocturnal=#{nocturnal},
              wakeup_at=#{wakeup_at}, alarm=#{alarm}, sleep_at=#{sleep_at},
              smoking=#{smoking}, pet=#{pet}, cleaning_cycle=#{cleaning_cycle},
-             noise=#{noise}, updated_at=sysdate
+             noise=#{noise}, updated_at=default
          where roommate_id=#{roommate_id}
     </update>
 
@@ -55,16 +60,17 @@
         select * from board_roommate
         <where>
             <if test="category == 'all' and searchword != ''">
-                title like '%' || #{searchword} || '%' OR content like '%' || #{searchword} || '%'
+                title like concat('%', #{searchword}, '%')
+                    or content like concat('%', #{searchword}, '%')
             </if>
             <if test="category == 'title' and searchword != ''">
-                title like '%' || #{searchword} || '%'
+                title like concat('%', #{searchword}, '%')
             </if>
             <if test="category == 'content' and searchword != ''">
-                content like '%' || #{searchword} || '%'
+                content like concat('%', #{searchword}, '%')
             </if>
             <if test="category == 'user' and searchword != ''">
-                user_nickname like '%' || #{searchword} || '%'
+                user_nickname like concat('%', #{searchword}, '%')
             </if>
         </where>
         order by roommate_id desc
@@ -83,13 +89,13 @@
                 and pet = #{pet}
             </if>
             <if test="habit1 == 'Y'">
-                and sleeping_habits not like '%' || '1' || '%'
+                and sleeping_habits not like concat('%', '1', '%')
             </if>
             <if test="habit2 == 'Y'">
-                and sleeping_habits not like '%' || '2' || '%'
+                and sleeping_habits not like concat('%', '2', '%')
             </if>
             <if test="habit3 == 'Y'">
-                and sleeping_habits not like '%' || '3' || '%'
+                and sleeping_habits not like concat('%', '3', '%')
             </if>
         </where>
         order by roommate_id desc

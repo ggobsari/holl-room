@@ -1,8 +1,3 @@
-function scrollToTop() {
-  //alert("!!!");
-  window.scrollTo(0, 0);
-}
-
 //const btnChangeTxt = document.querySelector("#btn-change-txt");
 //btnChangeTxt.addEventListener("click", () => {
 //  const text = btnChangeTxt.innerText;
@@ -18,11 +13,17 @@ function scrollToTop() {
 
 function setValues() {
 //  event.preventDefault();
-  alert("setValues");
+//  alert("setValues");
+
+  if (!document.querySelector("#form").checkValidity()) {
+    alert("필수 항목을 모두 입력해주세요!");
+    event.preventDefault();
+    return false;
+  }
 
   const alarm = document.querySelector("#alarm");
   if (alarm.value == "") {
-    alert("alarm : -1");
+//    alert("alarm : -1");
     alarm.value = -1;
   }
 
@@ -43,9 +44,10 @@ function setValues() {
   return true;
 }
 
+
 function fillValuesForEdit(title, content, nocturnal, wakeup_at, alarm, sleep_at,
             smoking, pet, cleaning_cycle, sleeping_habits, noise) {
-  alert("fillValuesForEdit");
+//  alert("fillValuesForEdit");
 
   document.querySelector("#title").value = title;
   document.querySelector("#content").value = content;
@@ -119,19 +121,15 @@ function fillValuesForEdit(title, content, nocturnal, wakeup_at, alarm, sleep_at
     document.querySelector("#btn-change-txt").innerText = arr[0];
     document.querySelector("#cleaning").value = parseInt(arr[1]);
   }
-
-
 } // fillValuesForEdit
-
 
 
 function fillValuesForDetail(title, content, nocturnal, wakeup_at, alarm, sleep_at,
               smoking, pet, cleaning_cycle, sleeping_habits, noise) {
-
-  alert("fillValuesForDetail");
-
+//  alert("fillValuesForDetail");
 //  alert(wakeup_at);
 //  alert(sleep_at);
+
   const wakeupTime = wakeup_at.split("");
   const sleepTime = sleep_at.split("");
 
@@ -172,20 +170,20 @@ function fillValuesForDetail(title, content, nocturnal, wakeup_at, alarm, sleep_
       }
     }
   } else {
-    habit.innerText += "❌";
+    habit.innerText += "╳";
   }
 
-  if (cleaning_cycle != null) {
+  if (cleaning_cycle != "") {
+//    alert("not null");
     const arr = cleaning_cycle.split(",");
     document.querySelector("#d-btn-change-txt").innerText = arr[0];
     document.querySelector("#d-cleaning").innerText = arr[1] + " 번";
   } else {
+//    alert("null");
     document.querySelector("#d-btn-change-txt").innerText = "하루";
     document.querySelector("#d-cleaning").innerText = "? 번";
   }
 
-//  if (noise != "") {
-//    alert("noise : " + noise);
   const sensitive = document.querySelector("#d-sensitive");
   if (noise == '2') {
     sensitive.innerText = "민감한 편이다";
@@ -196,12 +194,10 @@ function fillValuesForDetail(title, content, nocturnal, wakeup_at, alarm, sleep_
   } else {
     sensitive.innerText = "?";
   }
-//  }
-
 } // fillValuesForDetail
 
 function clickSearch() {
-  alert("clickSearch");
+//  alert("clickSearch");
   const searchWord = document.querySelector("#search-word").value;
   const category = document.querySelector("#search-category").value;
 //  alert(searchWord);

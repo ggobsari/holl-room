@@ -20,7 +20,9 @@ function setChatData(room_id, sender_id, my_id) {
       } else {
         dataExist = true;
         for(let i = 0; i < chatlist.length; i++) {
+//          alert("1: " + typeof chatlist[i].createDate + ": " + chatlist[i].createDate); //string
           let datetime = Date.parse(chatlist[i].createDate);
+//          alert("2: " + typeof datetime + ": " + datetime);  //number
           let time = new Intl.DateTimeFormat('ko-KR', {
               hour12: false,
               month: "numeric",
@@ -29,6 +31,7 @@ function setChatData(room_id, sender_id, my_id) {
               minute: "numeric",
               timeZone: 'Asia/Seoul',
           }).format(datetime);
+          alert("3: " + typeof time + ": " + time);
           if (chatlist[i].sender == my_id) {
             $("#tmp-area").append(
               "<div class='chat-area-right'>"

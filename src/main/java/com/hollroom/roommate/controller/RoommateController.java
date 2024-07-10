@@ -18,10 +18,10 @@ import java.util.List;
 
 @Controller
 //@Slf4j
-@RequiredArgsConstructor  ///
+@RequiredArgsConstructor
 @SessionAttributes
 @RequestMapping("/roommate")
-public class RoommateController {  // 1.6
+public class RoommateController {  // 1.7
     @Autowired
     RoommateService service;
 

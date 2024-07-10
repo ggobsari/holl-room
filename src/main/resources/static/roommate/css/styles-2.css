@@ -58,7 +58,8 @@ select::-webkit-scrollbar-track {
   padding-right: 2em;
 }
 
-#write-ul-1 {
+#write-ul-1,
+#detail-ul-1 {
   text-align: end;
   border-right: 1px solid #aaaaaa;
 }

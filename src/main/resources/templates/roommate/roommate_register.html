@@ -25,10 +25,9 @@
 <!--    />-->
 
     <link rel="stylesheet" href="/hollroom/roommate/css/styles-2.css"/>
-    <script src="/hollroom/roommate/js/script.js"></script>
     <script th:inline="javascript">
       window.onload = function () {
-        document.querySelector("#floating-btn-register").hidden = true;
+        //document.querySelector("#floating-btn-register").hidden = true;
         const btnChangeTxt = document.querySelector("#btn-change-txt");
         btnChangeTxt.addEventListener("click", () => {
           const text = btnChangeTxt.innerText;
@@ -66,6 +65,7 @@
             </h3>
             <hr class="mb-5 w-100" />
             <form
+                novalidate
                 id="form"
                 method="post"
                 onsubmit="return setValues();">
@@ -98,11 +98,11 @@
                       hidden />
                     <input type="text" name="user_nickname" th:value="${session.USER_NICKNAME.UserNickname}" hidden />
                     <div>
-                      <input type="radio" id="morning" name="nocturnal" value="N" required/>
+                      <input type="radio" id="morning" name="nocturnal" value="N" required />
                       <label for="morning" class="form-check-label">
                         아침형
                       </label>&nbsp;&nbsp;
-                      <input type="radio" id="evening" name="nocturnal" value="Y" required/>
+                      <input type="radio" id="evening" name="nocturnal" value="Y" required />
                       <label for="evening" class="form-check-label">
                         저녁형
                       </label>
@@ -272,5 +272,6 @@
         </div>
       </section>
     </main>
+    <script src="/hollroom/roommate/js/script.js"></script>
   </body>
 </html>
