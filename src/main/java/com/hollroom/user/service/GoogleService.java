@@ -2,6 +2,7 @@ package com.hollroom.user.service;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.hollroom.admin.service.DailyVisitorService;
 import com.hollroom.user.config.GoogleConfig;
 import com.hollroom.user.dto.GoogleDTO;
 //import com.hollroom.user.entity.GoogleEntity;
@@ -35,7 +36,7 @@ public class GoogleService {
 
     private final GoogleConfig googleConfig;
 
-    private final HttpSession httpSession;
+    private final DailyVisitorService dailyVisitorService;
 
     private final UserRepository userRepository;
     //================================================================================================================//
@@ -115,6 +116,8 @@ public class GoogleService {
         HttpSession session = request.getSession();
 
         session.setAttribute("USER_NICKNAME", user);
+
+        dailyVisitorService.logVisitor(user.getId());
 
         log.info(String.valueOf(session));
 

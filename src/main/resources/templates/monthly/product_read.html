@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/main_layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style type="text/css">
+        .content-container{
+            display: flex;
+            justify-content: center;
+            height: 100vh;
+            background-color: #cfe2ff;
+        }
+        .content-box{
+            background-color: white;
+            width: 740px;
+            padding: 30px;
+        }
+        .description-line{
+            border-bottom: 1px solid lightgray;
+        }
+        .flex-center{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .horizontal-center{
+            display: flex;
+            justify-content: center;
+        }
+        .full-screen{
+            height: 100vh;
+            width: 100vw;
+        }
+        .description-box{
+            display: flex;
+            flex-direction: column;
+            height: 300px;
+            justify-content: space-between;
+        }
+        .flex-column{
+            display: flex;
+            flex-direction: column;
+        }
+        .flex{
+            display: flex;
+        }
+        .flex-gr{
+            flex-grow: 1;
+        }
+        .map-box{
+            width: 740px;
+            padding: 30px;
+            height: 400px;
+            background-color: white;
+        }
+    </style>
+</head>
+<body>
+<div layout:fragment="content" class="content-container">
+    <div class="flex-center full-screen" style="flex-direction: column">
+        <div class="flex content-box">
+            <img style="width: 500px; height: 300px;" th:src="@{/imageload/}+${product.roomImg}"/>
+            <div class="description-box">
+                <div class="description-line flex-column horizontal-center" >
+                    <div>[[${product.address}]]</div>
+                    <h4 th:text="|월세 ${product.deposit}/${product.monthly}|"></h4>
+                </div>
+                <div class="description-line flex-column horizontal-center" >
+                    <div>
+                        <span th:text="|${product.pyeongCount}평|">평수</span>
+                        <span th:text="|${product.floorCount}층|">층수</span>
+                        <span th:text="|방 ${product.roomCount}개|">방수</span>
+                        <span th:text="|${product.bayCount}베이|">창수</span>
+                    </div>
+                </div>
+                <div class="description-line flex-column horizontal-center" >
+                    <span th:text="${product.roomOption}">옵션</span>
+                </div>
+                <div class="description-line flex-column horizontal-center">
+                    <span th:text="${product.securityFacility}">보안시설</span>
+                </div>
+                <div class="flex-column horizontal-center flex-gr">
+                    상세설명
+                </div>
+            </div>
+        </div>
+        <div class="map-box">
+            OO공인중개사 | 010-1234-5678
+            <img src="/hollroom/images/estate_agent.png"/>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>

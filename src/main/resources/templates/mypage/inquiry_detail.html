@@ -27,7 +27,7 @@
                         <h2 class="text-center mb-4" style="font-size: 1.5em; font-weight: bold;">마이페이지</h2>
                         <ul class="nav flex-column">
                             <li class="nav-item">
-                                <a class="nav-menu" href="profile">
+                                <a class="nav-menu" href="http://localhost:8090/hollroom/mypage/profile">
                                     <i class="bi bi-person-circle"></i> 마이프로필
                                 </a>
                             </li>
@@ -50,7 +50,7 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-menu" href="withdrawal">
+                                <a class="nav-menu" href="http://localhost:8090/hollroom/mypage/withdrawal">
                                     <i class="bi bi-x-circle"></i> 회원탈퇴
                                 </a>
                             </li>
@@ -64,14 +64,14 @@
                             <hr class="mb-5 w-100"/>
                             <form id="upload-form" enctype="multipart/form-data">
                                 <div class="d-flex filter-list" style="margin-left: 8%">
-                                    <ul id="write-ul-1">
-                                        <li><label>첨부 파일</label></li>
+                                    <ul id="write-ul-1" class="mt-2">
+                                        <li>첨부 파일</li>
                                     </ul>
                                     <input type="hidden" id="post-id" th:value="${inquiry.getPostId()}"/>
                                     <!--첨부 파일 목록-->
                                     <ul id="file-list" name="file-list" class="mt-2">
                                         <li th:each="file : ${inquiry.files}">
-                                            <a th:href="@{/mypage/img/profile/{filename}(filename=${file.fileName})}" th:text="${file.fileName}"></a>
+                                            <a th:href="@{filename(filename=${file.fileStoreName})}" th:text="${file.fileOriginalName}"></a>
                                         </li>
                                     </ul>
                                 </div>

@@ -1,5 +1,6 @@
 package com.hollroom.user.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,6 +17,7 @@ import java.util.Date;
 @Setter
 @NoArgsConstructor
 @ToString///////
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class UserEntity {
     @Id
     //    @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -54,6 +56,8 @@ public class UserEntity {
     private Boolean isDeleted;
 
     private String resetToken;
+
+    private Date isDeletedAt;
 
     public UserEntity(String userEmail, String userPassword, String userName, String userNickname,
                       String userIntroduce, String userPhoneNumber, Date userBirthday,

@@ -11,4 +11,5 @@ public interface MonthlyProductService {
     void insertProduct(MonthlyProductRequestDTO req);
     Page<MonthlyProductResponseDTO> readProductAll(Pageable pageable);
     Page<MonthlyProductResponseDTO> readDivisionProduct(String addr, Pageable pageable);
+    MonthlyProductResponseDTO readProduct(Long id);
 }

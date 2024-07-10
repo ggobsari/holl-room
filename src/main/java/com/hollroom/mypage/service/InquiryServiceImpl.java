@@ -88,8 +88,8 @@ public class InquiryServiceImpl implements InquiryService {
         inquiryDTO.setCategory(inquiryEntity.getCategory());
         inquiryDTO.setContent(inquiryEntity.getContent());
         inquiryDTO.setCreatedAt(inquiryEntity.getCreatedAt());
-        inquiryDTO.setAnswered(inquiryEntity.getAnswerContnet() != null);
-        inquiryDTO.setAnswerContent(inquiryEntity.getAnswerContnet());
+        inquiryDTO.setAnswered(inquiryEntity.getAnswerContent() != null);
+        inquiryDTO.setAnswerContent(inquiryEntity.getAnswerContent());
         inquiryDTO.setAnsweredAt(inquiryEntity.getAnswerAt());
         inquiryDTO.setUserId(inquiryEntity.getUser().getId());
         return inquiryDTO;

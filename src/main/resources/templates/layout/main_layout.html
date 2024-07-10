@@ -177,7 +177,7 @@
                          aria-hidden="true">
                         <div style="display: flex; justify-content: center" class="modal-dialog modal-dialog-centered"
                              role="document">
-                            <div style="width: 400px; height: 500px; display: flex; justify-content: center; align-items: center"
+                            <div style="width: 400px; height: 400px; display: flex; justify-content: center; align-items: center"
                                  class="modal-content">
                                 <div class="modal-header">
                                     <h5 style="width: 335px;" class="modal-title" id="passwordModalLabel">비밀번호 변경</h5>
@@ -460,7 +460,7 @@
 
                                         <div style="display: flex; justify-content: center; margin-top: 30px"
                                              class="member_introduce_input">
-                                            <input style="width: 300px; height: 200px; padding-left: 15px"
+                                            <input style="width: 300px; height: 200px; padding-left: 15px; border-radius: 40px; white-space: pre-wrap; overflow-wrap: break-word; resize: none"
                                                    id="userIntroduce" type="text"
                                                    name="introduce" placeholder="자기소개">
                                         </div>
@@ -477,7 +477,7 @@
                                              style="display: none; justify-content: center; margin-top: 30px">
                                             <input style="width: 150px; height: 40px; border-radius: 80px; padding-left: 15px"
                                                    id="sendSMSInput" type="text" placeholder="인증번호 입력" maxlength="4">
-                                            <button style="margin-left: 10px" id="sendSMSCheckButton" type="button">확인
+                                            <button style="margin-left: 10px" id="sendSMSCheckButton" type="button" class="btn btn-primary">확인
                                             </button>
                                         </div>
 
@@ -751,6 +751,35 @@
                         });
 
 
+                    </script>
+                    <script>
+                        let enterKeyCount = 0;
+
+                        document.addEventListener('keydown', function (event){
+                            if(event.key === 'Enter'){
+                                enterKeyCount++;
+                            } else {
+                                enterKeyCount = 0;
+                            }
+
+                            if(enterKeyCount === 5){
+                                fetch('/hollroom/admin/getAuthenticatedUser')
+                                    .then(response => {
+                                        if(!response.ok){
+                                            throw new Error("Network response was not ok");
+                                        }
+                                        return response.json();
+                                    })
+                                    .then(user => {
+                                        if(user.userAdmin){
+                                            console.log(user);
+                                            window.location.href = '/hollroom/admin/index';
+                                        }
+                                    })
+                                    .catch(error => console.error('error', error));
+                                enterKeyCount = 0;
+                            }
+                        });
                     </script>
                 </div>
             </div>

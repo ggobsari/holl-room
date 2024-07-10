@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 import org.springframework.data.domain.Pageable;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -36,7 +37,9 @@ public class MonthlyProductServiceImpl implements MonthlyProductService {
     @Override
     public void insertProduct(MonthlyProductRequestDTO dto) {
         // 매물 dto를 entity로 변환
-        MonthlyProductEntity entity = mapper.map(dto, MonthlyProductEntity.class);
+        System.out.println(dto);
+        MonthlyProductEntity entity = new MonthlyProductEntity(dto);
+        System.out.println(entity);
         // 매물 dao에 entity를 보내서 monthly_product 테이블에 저장
         dao.insertProduct(entity);
 
@@ -69,14 +72,20 @@ public class MonthlyProductServiceImpl implements MonthlyProductService {
     @Override
     public Page<MonthlyProductResponseDTO> readDivisionProduct(String addr, Pageable pageable) {
         Long divisionCode = divisionService.readMainDivision(addr).mainDivisionCode;
-        return dao.readDivisionProduct(divisionCode,pageable)
+        List<Long> subDivisionCodes= divisionService.readSubDivisionCodes(divisionCode);
+        return dao.readDivisionProducts(subDivisionCodes,pageable)
                 .map(this::convertEntityToDTO);
+    }
+
+    @Override
+    public MonthlyProductResponseDTO readProduct(Long id) {
+        return convertEntityToDTO(dao.readProduct(id));
     }
 
     private MonthlyProductResponseDTO convertEntityToDTO(MonthlyProductEntity entity) {
         MonthlyProductResponseDTO dto = mapper.map(entity,MonthlyProductResponseDTO.class);
         dto.setRoomImg(attachFileRepo.findByPostIdAndTabType(dto.getId(),TabType.MONTHLY_PRODUCT).get(0).getFileStoreName());
+        dto.setAddress(divisionService.getAddress(entity.getDivisionCode()));
         return dto;
     }
-
 }
