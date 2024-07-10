@@ -1,24 +1,37 @@
 <div th:fragment="productList">
     <ul>
-        <li class="product-box" th:each="product : ${productList}" style="display: flex">
-            <div class="horizontal-center">
-                <img style="width: 180px; height: 130px; margin-left: 10px; margin-right: 10px" th:src="@{/imageload/}+${product.roomImg}"/>
-            </div>
-            <div >
-                <h4 th:text="|월세 ${product.deposit}/${product.monthly}|"></h4>
-                <div>
-                    <span th:text="|${product.pyeongCount}평|">평수</span>
-                    <span th:text="|${product.floorCount}층|">층수</span>
-                    <span th:text="|방 ${product.roomCount}개|">방수</span>
-                    <span th:text="|${product.bayCount}베이|">창수</span>
+        <li th:each="product : ${productPage}"  >
+            <a class="product-box" style="display: flex; color: inherit; text-decoration: none;" th:href="|/hollroom/monthly/product/${product.id}|">
+                <div class="horizontal-center">
+                    <img style="width: 180px; height: 130px; margin-left: 10px; margin-right: 10px" th:src="@{/imageload/}+${product.roomImg}"/>
                 </div>
-                <p>
-                    <span th:text="${product.roomOption}">옵션</span>
-                    <span th:text="${product.securityFacility}">보안시설</span>
-                </p>
-                <div>주소</div>
-                <div>태그</div>
-            </div>
+                <div >
+                    <h4 th:text="|월세 ${product.deposit}/${product.monthly}|"></h4>
+                    <div>
+                        <span th:text="|${product.pyeongCount}평|">평수</span>
+                        <span th:text="|${product.floorCount}층|">층수</span>
+                        <span th:text="|방 ${product.roomCount}개|">방수</span>
+                        <span th:text="|${product.bayCount}베이|">창수</span>
+                    </div>
+                    <div>
+                        <div th:text="${product.roomOption}">옵션</div>
+                        <div th:text="${product.securityFacility}">보안시설</div>
+                    </div>
+                    <div>
+                        [[${product.address}]]
+                    </div>
+                </div>
+            </a>
         </li>
+
     </ul>
+    <div class="page-number-box">
+        <div th:each="page: ${#numbers.sequence(startPage, endPage)}">
+            <!-- 현재페이지는 링크 없이 숫자만 -->
+            <span th:if="${page == productPage.number}" th:text="${page+1}"></span>
+            <!-- 현재페이지 링크 X, 다른 페이지번호에는 링크를 보여준다 -->
+            <span class="linked-page-number" th:unless="${page == productPage.number}" th:text="${page+1}" th:onclick="|goToProductPage(${page})|">
+            </span>
+        </div>
+    </div>
 </div>

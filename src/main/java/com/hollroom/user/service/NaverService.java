@@ -2,10 +2,12 @@ package com.hollroom.user.service;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.hollroom.admin.service.DailyVisitorService;
 import com.hollroom.user.config.NaverConfig;
 import com.hollroom.user.dto.NaverDTO;
 import com.hollroom.user.entity.UserEntity;
 import com.hollroom.user.repository.UserRepository;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -31,14 +33,11 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class NaverService {
     //================================================================================================================//
-//    private final NaverRepository naverRepository;
+    private final DailyVisitorService dailyVisitorService;
 
     private final NaverConfig naverConfig;
 
-    private final HttpSession httpSession;
-
     private final UserRepository userRepository;
-
     //================================================================================================================//
     public String generateState() {
         return UUID.randomUUID().toString();
@@ -81,7 +80,7 @@ public class NaverService {
     }
 
     //================================================================================================================//
-    public void saveOrUpdateUser(NaverDTO naverDTO) {
+    public HttpSession saveOrUpdateUser(NaverDTO naverDTO, HttpServletRequest request) {
 
         Optional<UserEntity> optionalUser = userRepository.findByUserEmail(naverDTO.getResponse().getEmail());
 
@@ -120,38 +119,12 @@ public class NaverService {
 
         userRepository.save(user);
 
-//        NaverEntity user = naverRepository.findByNaverUserEmail(naverDTO.getResponse().getEmail());
-//
-//        if(user == null){
-//            user = new NaverEntity();
-//            user.setNaverUserImage(null);
-//            user.setNaverUserIntroduce(null);
-//            user.setNaverUserPhoneNumber(null);
-//            user.setNaverUserLocation(null);
-//            user.setNaverUserSignupAt(LocalDate.now());
-//            user.setNaverUserAdmin(false);
-//            user.setNaverUserBan(false);
-//            user.setNaverUserIsDeleted(false);
-//        }
-//
-//        user.setNaverUserEmail(naverDTO.getResponse().getEmail());
-//        user.setNaverUserName(naverDTO.getResponse().getName());
-//        user.setNaverUserNickname(naverDTO.getResponse().getNickname());
-//
-//        //생년월일 date타입으로 변환
-//        String birthdayString = naverDTO.getResponse().getBirthyear() + "-" + naverDTO.getResponse().getBirthday();
-//        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-//        try {
-//            Date birthday = format.parse(birthdayString);
-//            user.setNaverUserBirthday(birthday);
-//        }catch (ParseException e){
-//            throw new RuntimeException(e);
-//        }
-//
-//        user.setNaverUserGender(naverDTO.getResponse().getGender());
-//
-//        naverRepository.save(user);
+        HttpSession session = request.getSession();
 
-        httpSession.setAttribute("user", user);
+        session.setAttribute("USER_NICKNAME", user);
+
+        dailyVisitorService.logVisitor(user.getId());
+
+        return session;
     }
 }

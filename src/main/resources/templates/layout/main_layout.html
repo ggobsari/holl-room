@@ -3,15 +3,15 @@
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
-    <meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
-    <meta name="description" content=""/>
-    <meta name="author" content=""/>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
     <title>HOLLROOM</title>
     <!-- Favicon-->
-    <link rel="icon" type="image/x-icon" href="http://localhost:8090/hollroom/layout/assets/favicon.ico"/>
+    <link rel="icon" type="image/x-icon" href="http://localhost:8090/hollroom/layout/assets/favicon.ico" />
     <!-- Bootstrap icons-->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
     <!-- Core theme CSS (includes Bootstrap)-->
     <link rel="stylesheet" type="text/css" href="/hollroom/common/css/styles.css"/>
     <link rel="stylesheet" type="text/css" href="/hollroom/common/css/styles_etc.css"/>
@@ -46,7 +46,8 @@
                     <li class="nav-item"><a class="nav-link" href="/hollroom/">홈</a></li>
                     <li class="nav-item"><a class="nav-link" href="/hollroom/monthly/product">월세지도</a></li>
                     <li class="nav-item"><a class="nav-link" href="/hollroom/roommate/home">룸메이트</a></li>
-                    <li class="nav-item dropdown">
+                    <li class="nav-item"><a class="nav-link" href="/hollroom/community/list?category=all&page=0">커뮤니티</a></li>
+                    <!--<li class="nav-item dropdown">
 
                         <a class="nav-link dropdown-toggle" id="navbarDropdownBlog" href="/hollroom/community/list?category=all&page=0" role="button" data-bs-toggle="dropdown" aria-expanded="false">커뮤니티</a>
 
@@ -55,7 +56,7 @@
                             </li>
                             <li><a class="dropdown-item" href="#withorder">함께주문</a></li>
                         </ul>
-                    </li>
+                    </li>-->
                     <li class="nav-item"><a class="nav-link" href="/hollroom/mypage/profile">마이페이지</a></li>
                 </ul>
 
@@ -179,7 +180,7 @@
                          aria-hidden="true">
                         <div style="display: flex; justify-content: center" class="modal-dialog modal-dialog-centered"
                              role="document">
-                            <div style="width: 400px; height: 500px; display: flex; justify-content: center; align-items: center"
+                            <div style="width: 400px; height: 400px; display: flex; justify-content: center; align-items: center"
                                  class="modal-content">
                                 <div class="modal-header">
                                     <h5 style="width: 335px;" class="modal-title" id="passwordModalLabel">비밀번호 변경</h5>
@@ -462,7 +463,7 @@
 
                                         <div style="display: flex; justify-content: center; margin-top: 30px"
                                              class="member_introduce_input">
-                                            <input style="width: 300px; height: 200px; padding-left: 15px"
+                                            <input style="width: 300px; height: 200px; padding-left: 15px; border-radius: 40px; white-space: pre-wrap; overflow-wrap: break-word; resize: none"
                                                    id="userIntroduce" type="text"
                                                    name="introduce" placeholder="자기소개">
                                         </div>
@@ -479,7 +480,7 @@
                                              style="display: none; justify-content: center; margin-top: 30px">
                                             <input style="width: 150px; height: 40px; border-radius: 80px; padding-left: 15px"
                                                    id="sendSMSInput" type="text" placeholder="인증번호 입력" maxlength="4">
-                                            <button style="margin-left: 10px" id="sendSMSCheckButton" type="button">확인
+                                            <button style="margin-left: 10px" id="sendSMSCheckButton" type="button" class="btn btn-primary">확인
                                             </button>
                                         </div>
 

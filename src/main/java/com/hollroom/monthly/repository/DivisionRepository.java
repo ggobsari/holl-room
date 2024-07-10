@@ -9,4 +9,5 @@ public interface DivisionRepository extends JpaRepository<DivisionEntity, Intege
     DivisionEntity findByTopDivisionCodeAndName(Long topDivisionCode, String name);
     List<DivisionEntity> findByName(String name);
     List<DivisionEntity> findByTopDivisionCode(Long topDivisionCode);
+    DivisionEntity findByMainDivisionCode(Long mainDivisionCode);
 }

@@ -13,9 +13,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 @Slf4j
 public class VerificationCodeController {
-
+    //================================================================================================================//
     private final VerificationCodeService verificationCodeService;
-
+    //================================================================================================================//
     //휴대폰 문자 인증 전송
     @PostMapping("/sendSMS")
     public SingleMessageSentResponse sendSMS(@RequestParam("userPhoneNumber") String userPhoneNumber){

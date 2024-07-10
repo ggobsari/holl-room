@@ -2,12 +2,14 @@ package com.hollroom.user.service;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.hollroom.admin.service.DailyVisitorService;
 import com.hollroom.user.config.GoogleConfig;
 import com.hollroom.user.dto.GoogleDTO;
 //import com.hollroom.user.entity.GoogleEntity;
 import com.hollroom.user.entity.UserEntity;
 //import com.hollroom.user.repository.GoogleRepository;
 import com.hollroom.user.repository.UserRepository;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -34,7 +36,7 @@ public class GoogleService {
 
     private final GoogleConfig googleConfig;
 
-    private final HttpSession httpSession;
+    private final DailyVisitorService dailyVisitorService;
 
     private final UserRepository userRepository;
     //================================================================================================================//
@@ -83,7 +85,7 @@ public class GoogleService {
         }
     }
     //================================================================================================================//
-    public void saveOrUpdateUser(GoogleDTO googleDTO){
+    public HttpSession saveOrUpdateUser(GoogleDTO googleDTO, HttpServletRequest request){
         Optional<UserEntity> optionalUser = userRepository.findByUserEmail(googleDTO.getEmail());
 
         UserEntity user;
@@ -111,6 +113,15 @@ public class GoogleService {
 
         userRepository.save(user);
 
-        httpSession.setAttribute("user", user);
+        HttpSession session = request.getSession();
+
+        session.setAttribute("USER_NICKNAME", user);
+
+        dailyVisitorService.logVisitor(user.getId());
+
+        log.info(String.valueOf(session));
+
+        return session;
+
     }
 }

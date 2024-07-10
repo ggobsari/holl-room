@@ -89,6 +89,8 @@
                                         <li>&emsp;&emsp;3. 사업자가 법 제6조제2항에 따라 개인정보의 이용에 관한 동의를 철회한 소비자의 거래기록 및 개인정보를 보존하는 경우에는 개인정보의 이용에 관한 동의를 철회하지 아니한 소비자의 거래기록 및 개인정보와 별도로 보존할 것</li>
                                     </ul>
                                 </li>
+                                <br>
+                                <!--<li style="color: #dc3545; font-weight: bold;">소셜 로그인 회원의 탈퇴는 문의를 통해 가능합니다.</li>-->
                             </ul>
                         </div>
                         <div class="d-flex justify-content-between align-items-center mt-3">
@@ -97,8 +99,22 @@
                                 <label for="agreeCheckbox">위 내용에 동의합니다</label>
                             </div>
                             <div>
-                                <input type="password" id="password" name="password" placeholder="비밀번호 입력" class="form-control" oninput="toggleWithdrawalButton()">
-                                <button type="submit" id="withdrawalButton" class="btn btn-danger mt-2" disabled onclick="handleWithdrawal(event)">회원탈퇴</button>
+                                <!--소셜 로그인-->
+                                <input type="text" style="background-color: #ced4da"
+                                       class="form-control" th:if="${user.loginType != null}" readonly/>
+                                <!--일반 로그인-->
+                                <input type="password" id="password" name="password" placeholder="비밀번호 입력"
+                                       class="form-control" oninput="toggleWithdrawalButton()" th:if="${user.loginType == null}"/>
+
+                                <!--소셜 로그인-->
+                                <button type="submit" id="witdrawalWithoutPassword" class="btn btn-danger mt-2" disabled
+                                        th:if="${user.loginType != null}" onclick="WithoutPassword(event)">회원탈퇴</button>
+                                <!--일반 로그인-->
+                                <button type="submit" id="withdrawalButton" class="btn btn-danger mt-2" disabled
+                                        th:if="${user.loginType == null}" onclick="handleWithdrawal(event)">회원탈퇴</button>
+
+
+                                <input type="hidden" id="loginType" th:value="${user.loginType}"/>
                             </div>
                         </div>
 

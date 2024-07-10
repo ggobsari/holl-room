@@ -13,9 +13,12 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
+import org.springframework.data.domain.Pageable;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -34,7 +37,9 @@ public class MonthlyProductServiceImpl implements MonthlyProductService {
     @Override
     public void insertProduct(MonthlyProductRequestDTO dto) {
         // 매물 dto를 entity로 변환
-        MonthlyProductEntity entity = mapper.map(dto, MonthlyProductEntity.class);
+        System.out.println(dto);
+        MonthlyProductEntity entity = new MonthlyProductEntity(dto);
+        System.out.println(entity);
         // 매물 dao에 entity를 보내서 monthly_product 테이블에 저장
         dao.insertProduct(entity);
 
@@ -59,28 +64,28 @@ public class MonthlyProductServiceImpl implements MonthlyProductService {
     }
 
     @Override
-    public List<MonthlyProductResponseDTO> readProductAll() {
-        return dao.readProductAll()
-                .stream()
-                .map(this::convertEntityToDTO)
-                .collect(Collectors.toList());
+    public Page<MonthlyProductResponseDTO> readProductAll(Pageable pageable) {
+        Page<MonthlyProductEntity> entities = dao.readProductAll(pageable);
+        //entities.forEach(System.out::println);
+        return entities.map(this::convertEntityToDTO);
     }
     @Override
-    public List<MonthlyProductResponseDTO> readDivisionProduct(String addr) {
+    public Page<MonthlyProductResponseDTO> readDivisionProduct(String addr, Pageable pageable) {
         Long divisionCode = divisionService.readMainDivision(addr).mainDivisionCode;
-        return dao.readDivisionProduct(divisionCode)
-                .stream()
-                .map(this::convertEntityToDTO)
-                .collect(Collectors.toList());
+        List<Long> subDivisionCodes= divisionService.readSubDivisionCodes(divisionCode);
+        return dao.readDivisionProducts(subDivisionCodes,pageable)
+                .map(this::convertEntityToDTO);
+    }
+
+    @Override
+    public MonthlyProductResponseDTO readProduct(Long id) {
+        return convertEntityToDTO(dao.readProduct(id));
     }
 
     private MonthlyProductResponseDTO convertEntityToDTO(MonthlyProductEntity entity) {
-        System.out.println("에러1-1");
         MonthlyProductResponseDTO dto = mapper.map(entity,MonthlyProductResponseDTO.class);
-        System.out.println("에러1-2");
         dto.setRoomImg(attachFileRepo.findByPostIdAndTabType(dto.getId(),TabType.MONTHLY_PRODUCT).get(0).getFileStoreName());
-        System.out.println("에러1-3");
+        dto.setAddress(divisionService.getAddress(entity.getDivisionCode()));
         return dto;
     }
-
 }

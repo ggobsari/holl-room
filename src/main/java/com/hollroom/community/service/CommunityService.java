@@ -38,5 +38,16 @@ public interface CommunityService {
     //해당 댓글 삭제(비활성화)
     void commentDelete(String commentId);
 
+    //게시글 검색 (페이징X)
+    List<CommunityResponseDTO> search(String category, String search);
+
+    //게시글 상세 조건 검색 (페이징O)
+    CommunityPagingDTO deepSearch(String category, String fieldOption, String content,String page);
+
+    //상위 조회수
+    List<CommunityResponseDTO> findByTopViewCount();
+
+    //좋아요 생성 및 가져오기
+    HeartDTO getHeart(Long postId, Long userId);
 
 }

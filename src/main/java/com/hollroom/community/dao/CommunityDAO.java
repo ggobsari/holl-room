@@ -5,6 +5,7 @@ import com.hollroom.community.domain.dto.CommunityPagingEntityDTO;
 import com.hollroom.community.domain.entity.AttachFileEntity;
 import com.hollroom.community.domain.entity.CommentsEntity;
 import com.hollroom.community.domain.entity.CommunityEntity;
+import com.hollroom.community.domain.entity.HeartEntity;
 
 import java.util.List;
 
@@ -46,5 +47,42 @@ public interface CommunityDAO {
     //해당 댓글 삭제(비활성화)
     void commentDelete(Long commentId);
 
+    //게시글 검색(페이징X) 카테고리가 전체일 때와 전체가 아닐 때
+    List<CommunityEntity> searchSimple(String content);
+    List<CommunityEntity> search(CommunityEntity entity);
+
+    //카테고리는 제외된 검색(페이징) - 제목
+    CommunityPagingEntityDTO deepSearchTitle(String content, String page);
+
+    //카테고리는 제외된 검색(페이징) - 본문내용
+    CommunityPagingEntityDTO deepSearchContent(String content, String page);
+
+    //카테고리는 제외된 검색(페이징) - 작성자
+    CommunityPagingEntityDTO deepSearchWriter(String content, String page);
+
+    //카테고리가 포함된 검색(페이징) - 제목
+    CommunityPagingEntityDTO deepSearchCateTitle(String category, String content, String page);
+
+    //카테고리가 포함된 검색(페이징) - 본문내용
+    CommunityPagingEntityDTO deepSearchCateContent(String category, String content, String page);
+
+    //카테고리가 포함된 검색(페이징) - 작성자
+    CommunityPagingEntityDTO deepSearchCateWriter(String category, String content, String page);
+
+    //카테고리는 제외된 검색(페이징) - 제목+내용
+    CommunityPagingEntityDTO deepSearchTitleAndContent(String content, String page);
+    //카테고리가 포함된 검색(페이징) - 제목+내용
+    CommunityPagingEntityDTO deepSearchCateTitleAndContent(String category, String content, String page);
+    //상위 조회수 추출
+    List<CommunityEntity> findTopByViewCount();
+
+    //좋아요 생성 여부 파악
+    boolean countHeart(Long postId, Long UserId);
+
+    // 좋아요 데이터 생성
+    void createHeart(Long postId, Long userId, TabType tab,String checkHeart);
+
+    //해당 좋아요 데이터 가져오기
+    HeartEntity getHeart(Long postId, Long userId, TabType tab);
 
 }
