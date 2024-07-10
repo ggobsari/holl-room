@@ -6,6 +6,7 @@ import com.hollroom.community.domain.dto.*;
 import com.hollroom.community.domain.entity.AttachFileEntity;
 import com.hollroom.community.domain.entity.CommentsEntity;
 import com.hollroom.community.domain.entity.CommunityEntity;
+import com.hollroom.community.domain.entity.HeartEntity;
 import com.hollroom.community.repository.AttachFileRepository;
 import com.hollroom.user.entity.UserEntity;
 import com.hollroom.user.repository.UserRepository;
@@ -30,16 +31,16 @@ public class CommunityServiceImpl implements CommunityService{
 
         if (fileDTOList.size()==0){
             CommunityEntity entity =
-                    new CommunityEntity(requestDTO.getTitle(),requestDTO.getContent(),0, requestDTO.getCategory(),userRepository.findById(requestDTO.getId()).get());
+                    new CommunityEntity(requestDTO.getTitle(),requestDTO.getContent(),0, requestDTO.getCategory(),userRepository.findById(requestDTO.getId()).get(),0);
 
             Long postId = communityDAO.insert(entity);
-            System.out.println("첨부파일 없을 경우의 postId::"+ postId);
+//            System.out.println("첨부파일 없을 경우의 postId::"+ postId);
         }else{
             CommunityEntity entity =
-                    new CommunityEntity(requestDTO.getTitle(),requestDTO.getContent(),0, requestDTO.getCategory(),userRepository.findById(requestDTO.getId()).get());
+                    new CommunityEntity(requestDTO.getTitle(),requestDTO.getContent(),0, requestDTO.getCategory(),userRepository.findById(requestDTO.getId()).get(),0);
 
             Long postId = communityDAO.insert(entity);
-            System.out.println("첨부파일 있을 경우의 postId::"+ postId);
+//            System.out.println("첨부파일 있을 경우의 postId::"+ postId);
             List<AttachFileEntity> fileEntityList = new ArrayList<>();
             for (CommunityFileDTO fileDTO: fileDTOList) {
                 AttachFileEntity attachFileEntity = new AttachFileEntity(postId,fileDTO.getTabType(),fileDTO.getFileOriginalName(),fileDTO.getFileStoreName());
@@ -61,7 +62,7 @@ public class CommunityServiceImpl implements CommunityService{
     @Override
     @Transactional
     public CommunityPagingDTO communityList(String category, String page) {
-        System.out.println("전체조회서비스");
+//        System.out.println("전체조회서비스");
         CommunityPagingDTO pagingDTO = new CommunityPagingDTO();
         CommunityPagingEntityDTO pagingEntityDTO = null;
         List<CommunityResponseDTO> responseDTOlist = null;
@@ -81,7 +82,7 @@ public class CommunityServiceImpl implements CommunityService{
                     .map(entity -> mapper.map(entity,CommunityResponseDTO.class))
                     .collect(Collectors.toList());
 
-            System.out.println("***************************"+responseDTOlist);
+//            System.out.println("***************************"+responseDTOlist);
 
             //더 큰 DTO'2'로 옮기기
             pagingDTO.setCommunityResponseDTOList(responseDTOlist);
@@ -98,7 +99,7 @@ public class CommunityServiceImpl implements CommunityService{
 
     @Override
     public CommunityPagingDTO deepSearch(String category, String fieldOption, String content, String page) {
-        System.out.println("복합 검색 서비스");
+//        System.out.println("복합 검색 서비스");
         CommunityPagingDTO pagingDTO = new CommunityPagingDTO();
         CommunityPagingEntityDTO pagingEntityDTO = null;
         List<CommunityResponseDTO> responseDTOlist = null;
@@ -114,7 +115,10 @@ public class CommunityServiceImpl implements CommunityService{
                     pagingEntityDTO = communityDAO.deepSearchContent(content,page);
                 }else if (fieldOption.equals("writer")){
                     //필드: 작성자 검색
-//                    pagingEntityDTO = communityDAO.deepSearchWriter(content,page);
+                    pagingEntityDTO = communityDAO.deepSearchWriter(content,page);
+                }else if(fieldOption.equals("both")){
+                    //필드: 제목+내용 검색
+                    pagingEntityDTO = communityDAO.deepSearchTitleAndContent(content,page);
                 }
 
             }else{ //카테고리 필드 둘다 조건검색 포함 category, content, page 매개변수
@@ -127,31 +131,48 @@ public class CommunityServiceImpl implements CommunityService{
                     pagingEntityDTO = communityDAO.deepSearchCateContent(category,content,page);
                 }else if (fieldOption.equals("writer")){
                     //필드: 작성자 검색
-//                    pagingEntityDTO = communityDAO.deepSearchCateWriter(category,content,page);
+                    pagingEntityDTO = communityDAO.deepSearchCateWriter(category,content,page);
+                }else if(fieldOption.equals("both")){
+                    //필드: 제목+내용 검색
+                    pagingEntityDTO = communityDAO.deepSearchCateTitleAndContent(category, content, page);
                 }
 
             }
-            List<CommunityEntity> entityList = pagingEntityDTO.getCommunityEntities();
-            ModelMapper mapper = new ModelMapper();
-            responseDTOlist = entityList.stream()
-                    .map(entity -> mapper.map(entity,CommunityResponseDTO.class))
-                    .collect(Collectors.toList());
 
-            System.out.println("***************************"+responseDTOlist);
+            if(pagingEntityDTO!=null) {
+                List<CommunityEntity> entityList = pagingEntityDTO.getCommunityEntities();
+                ModelMapper mapper = new ModelMapper();
+                responseDTOlist = entityList.stream()
+                        .map(entity -> mapper.map(entity, CommunityResponseDTO.class))
+                        .collect(Collectors.toList());
 
-            //더 큰 DTO'2'로 옮기기
-            pagingDTO.setCommunityResponseDTOList(responseDTOlist);
-            pagingDTO.setTotalPages(pagingEntityDTO.getTotalPages());
-            pagingDTO.setNowPageNumber(pagingEntityDTO.getNowPageNumber());
-            pagingDTO.setPageSize(pagingEntityDTO.getPageSize());
-            pagingDTO.setHasNextPage(pagingEntityDTO.isHasNextPage());
-            pagingDTO.setHasPreviousPage(pagingEntityDTO.isHasPreviousPage());
-            pagingDTO.setFirstPage(pagingEntityDTO.isFirstPage());
-            pagingDTO.setLastPage(pagingEntityDTO.isLastPage());
+//                System.out.println("***************************" + responseDTOlist);
 
+                //더 큰 DTO'2'로 옮기기
+                pagingDTO.setCommunityResponseDTOList(responseDTOlist);
+                pagingDTO.setTotalPages(pagingEntityDTO.getTotalPages());
+                pagingDTO.setNowPageNumber(pagingEntityDTO.getNowPageNumber());
+                pagingDTO.setPageSize(pagingEntityDTO.getPageSize());
+                pagingDTO.setHasNextPage(pagingEntityDTO.isHasNextPage());
+                pagingDTO.setHasPreviousPage(pagingEntityDTO.isHasPreviousPage());
+                pagingDTO.setFirstPage(pagingEntityDTO.isFirstPage());
+                pagingDTO.setLastPage(pagingEntityDTO.isLastPage());
+            }
         }
         return pagingDTO;
     }
+    //상위 조회수
+    @Override
+    public List<CommunityResponseDTO> findByTopViewCount() {
+        List<CommunityResponseDTO> topList = null;
+        List<CommunityEntity> entityList = communityDAO.findTopByViewCount();
+
+        ModelMapper mapper = new ModelMapper();
+        topList = entityList.stream().map(entity -> mapper.map(entity,CommunityResponseDTO.class)).collect(Collectors.toList());
+
+        return topList;
+    }
+
 
     @Override
     @Transactional
@@ -167,6 +188,7 @@ public class CommunityServiceImpl implements CommunityService{
                 .category(readEntity.getCategory())
                 .content(readEntity.getContent())
                 .createdAt(readEntity.getCreatedAt())
+                .heartCount(readEntity.getHeartCount())
                 .build();
     }
 
@@ -186,7 +208,7 @@ public class CommunityServiceImpl implements CommunityService{
     @Override
     @Transactional
     public void updateViewCounting(Long postId) {
-        System.out.println("조회수 변경 서비스");
+//        System.out.println("조회수 변경 서비스");
         communityDAO.updateViewCounting(postId);
 
     }
@@ -238,7 +260,7 @@ public class CommunityServiceImpl implements CommunityService{
     public void commentUpdate(CommentsRequestDTO commentsRequestDTO) {
         ModelMapper mapper = new ModelMapper();
         CommentsEntity entity = mapper.map(commentsRequestDTO,CommentsEntity.class);
-        System.out.println("DTO=>entity전환 comments_update+++++++++++++++++");
+//        System.out.println("DTO=>entity전환 comments_update+++++++++++++++++");
         communityDAO.commentUpdate(entity);
     }
 
@@ -266,7 +288,27 @@ public class CommunityServiceImpl implements CommunityService{
 
     }
 
+    @Override
+    public HeartDTO getHeart(Long postId, Long userId) {
+        boolean heartIs = communityDAO.countHeart(postId,userId);
+        HeartEntity heartEntity = null;
+        if (heartIs == false){
+            //생성
+            communityDAO.createHeart(postId,userId,TabType.COMMUNITY,"0");
+            //가져오기
+            heartEntity = communityDAO.getHeart(postId,userId,TabType.COMMUNITY);
+        }else if (heartIs == true){
+            //가져오기
+            heartEntity = communityDAO.getHeart(postId,userId,TabType.COMMUNITY);
+        }
 
+        return HeartDTO.builder()
+                .heartId(heartEntity.getHeartId())
+                .postId(heartEntity.getPostId())
+                .userId(heartEntity.getUserId())
+                .checkHeart(heartEntity.getCheckHeart())
+                .heartId(heartEntity.getHeartId()).build();
+    }
 
 
 }

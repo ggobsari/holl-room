@@ -1,6 +1,8 @@
 package com.hollroom.mypage.controller;
 
+import com.hollroom.mypage.domain.dto.MyRoommateDTO;
 import com.hollroom.mypage.service.MywriteService;
+import com.hollroom.roommate.dto.RoommateDTO;
 import com.hollroom.user.entity.UserEntity;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.List;
 import java.util.Map;
 
 
@@ -53,13 +56,30 @@ public class MywriteController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
-
-    //즐겨찾기 컬트롤러
-    @GetMapping("/interest")
-    public String interest(HttpSession session) {
-        if (!checkSession(session)) {
-            return "redirect:/login";
-        }
-        return "mypage/interest"; //interest 반환
+    //룸메이트 목록 컨트롤러
+    @GetMapping("/mywrite_roommate")
+    public String homePage(Model model, HttpSession session) {
+        UserEntity user = (UserEntity) session.getAttribute("USER_NICKNAME");
+        List<MyRoommateDTO> boardlist = mywriteService.selectMyRoommatesByUserId(user.getId());
+        model.addAttribute("boardlist", boardlist);
+        return "mypage/mywrite_roommate";
     }
+
+    //월세매물 목록 컨트롤러
+    @GetMapping("/mywrite_monthly")
+    public String mywriteMonthly(Model model, HttpSession session) {
+        UserEntity user = (UserEntity) session.getAttribute("USER_NICKNAME");
+//        List<MyRoommateDTO> boardlist = mywriteService.selectMyRoommatesByUserId(user.getId());
+//        model.addAttribute("boardlist", boardlist);
+        return "mypage/mywrite_monthly";
+    }
+
+//    //즐겨찾기 컬트롤러
+//    @GetMapping("/interest")
+//    public String interest(HttpSession session) {
+//        if (!checkSession(session)) {
+//            return "redirect:/login";
+//        }
+//        return "mypage/interest"; //interest 반환
+//    }
 }

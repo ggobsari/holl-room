@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hollroom.roommate">
+    <insert id="insert" parameterType="rmmt_board" useGeneratedKeys="true" keyProperty="roommate_id">
+        insert into board_roommate
+            (id, title, content, created_at, chat_room_id,
+            nocturnal, wakeup_at, alarm, sleep_at, smoking,
+            pet, cleaning_cycle, sleeping_habits, noise, deleted,
+            deleted_at, updated_at, user_nickname)
+        values
+            (#{id}, #{title}, #{content}, default, null,
+            #{nocturnal}, #{wakeup_at}, #{alarm}, #{sleep_at}, #{smoking},
+            #{pet}, #{cleaning_cycle}, #{sleeping_habits}, #{noise}, 'N',
+            null, null, #{user_nickname})
+    </insert>
+
+    <select id="select" parameterType="int" resultType="rmmt_board">
+        select *
+         from board_roommate
+         where roommate_id = #{tomato}
+    </select>
+
+    <select id="selectById" parameterType="int" resultType="rmmt_board">
+        select br.*, ue.user_nickname
+         from board_roommate br, user_entity ue
+         where br.id = ue.id
+             and roommate_id = #{tomato}
+    </select>
+
+    <select id="selectAll" resultType="rmmt_board">
+        select *
+         from board_roommate
+         order by roommate_id desc
+    </select>
+
+    <select id="selectUser" parameterType="int" resultType="rmmt_user">
+        select *
+         from user_entity
+         where id = #{tomato}
+    </select>
+
+    <update id="update" parameterType="rmmt_board">
+        update board_roommate
+         set title=#{title}, content=#{content}, nocturnal=#{nocturnal},
+             wakeup_at=#{wakeup_at}, alarm=#{alarm}, sleep_at=#{sleep_at},
+             smoking=#{smoking}, pet=#{pet}, cleaning_cycle=#{cleaning_cycle},
+             noise=#{noise}, updated_at=default
+         where roommate_id=#{roommate_id}
+    </update>
+
+    <delete id="delete" parameterType="int">
+        delete from board_roommate
+         where roommate_id = #{tomato}
+    </delete>
+
+    <select id="search" parameterType="Map" resultType="rmmt_board">
+        select * from board_roommate
+        <where>
+            <if test="category == 'all' and searchword != ''">
+                title like concat('%', #{searchword}, '%')
+                    or content like concat('%', #{searchword}, '%')
+            </if>
+            <if test="category == 'title' and searchword != ''">
+                title like concat('%', #{searchword}, '%')
+            </if>
+            <if test="category == 'content' and searchword != ''">
+                content like concat('%', #{searchword}, '%')
+            </if>
+            <if test="category == 'user' and searchword != ''">
+                user_nickname like concat('%', #{searchword}, '%')
+            </if>
+        </where>
+        order by roommate_id desc
+    </select>
+
+    <select id="searchByConditions" parameterType="Map" resultType="rmmt_board">
+        select * from board_roommate
+        <where>
+            <if test="nocturnal != 'A'">
+                and nocturnal = #{nocturnal}
+            </if>
+            <if test="smoking != 'A'">
+                and smoking = #{smoking}
+            </if>
+            <if test="pet != 'A'">
+                and pet = #{pet}
+            </if>
+            <if test="habit1 == 'Y'">
+                and sleeping_habits not like concat('%', '1', '%')
+            </if>
+            <if test="habit2 == 'Y'">
+                and sleeping_habits not like concat('%', '2', '%')
+            </if>
+            <if test="habit3 == 'Y'">
+                and sleeping_habits not like concat('%', '3', '%')
+            </if>
+        </where>
+        order by roommate_id desc
+    </select>
+
+<!--내가쓴글 자기id로 찾기-->
+    <select id="selectByUserId" parameterType="long" resultType="rmmt_board">
+        select * from board_roommate where id = #{id} order by roommate_id desc
+    </select>
+
+<!--관리자 페이지 차트에서 활용-->
+<!--    <select id="countByDate" parameterType="java.time.LocalDate" resultType="long">-->
+<!--        SELECT COUNT(*)-->
+<!--        FROM board_roommate-->
+<!--        WHERE created_at = #{date}-->
+<!--    </select>-->
+</mapper>

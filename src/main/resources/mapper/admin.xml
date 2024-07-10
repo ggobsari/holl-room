@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hollroom.admin">
+    <!--문의글 전체 목록-->
+    <select id="inquiryList" resultType="inquiry_board">
+        select i.*, ue.USER_NICKNAME
+        from inquiry i
+        join user_entity ue
+        on i.user_id = ue.id
+        order by CREATED_AT desc
+    </select>
+
+    <!--문의글 Id로 상세보기-->
+    <select id="inquiryByPostId" parameterType="Long" resultType="inquiry_board">
+        select i.*, ue.USER_NICKNAME
+        from inquiry i
+        join user_entity ue
+        on i.user_id = ue.id
+        where post_id = #{post_id}
+    </select>
+
+    <!--문의글 전체 개수-->
+    <select id="inquiryCount" resultType="Long">
+        select count(*)
+        from inquiry
+    </select>
+
+    <!--문의글 답변 개수-->
+    <select id="inquiryAnswerCount" resultType="Long">
+        select count(ANSWER_CONTENT) as non_null_rows
+        from inquiry
+    </select>
+
+    <!--문의글 답변등록-->
+    <update id="inquiryAnswerRegister" parameterType="inquiry_board">
+        update inquiry
+        set ANSWER_CONTENT = #{answer_Content}, ANSWER_AT = #{answer_At}
+        where post_id = #{post_Id}
+    </update>
+    <!--============================================================-->
+    <!--커뮤니티 글목록-->
+    <select id="communityList" resultType="admin_community">
+        select c.*, ue.USER_NICKNAME
+        from community c
+        join user_entity ue
+        on c.user_id = ue.id
+        order by CREATED_AT desc
+    </select>
+
+    <!--문의글 전체 개수-->
+    <select id="communityCount" resultType="Long">
+        select count(*)
+        from community
+    </select>
+
+    <!--자유 글 개수-->
+    <select id="communityFreeCount" resultType="Long">
+        select count(CATEGORY)
+        from community
+        WHERE CATEGORY = '자유'
+    </select>
+
+    <!--질문 글 개수-->
+    <select id="communityQuestionCount" resultType="Long">
+        select count(CATEGORY)
+        from community
+        WHERE CATEGORY = '질문'
+    </select>
+
+    <!--꿀팁 글 개수-->
+    <select id="communityTipCount" resultType="Long">
+        select count(CATEGORY)
+        from community
+        WHERE CATEGORY = '꿀팁'
+    </select>
+
+    <!--자취레시피 글 개수-->
+    <select id="communityRecipeCount" resultType="Long">
+        select count(CATEGORY)
+        from community
+        WHERE CATEGORY = '자취레시피'
+    </select>
+
+    <!--삭제체크-->
+    <update id="communityDelete" parameterType="admin_community">
+    update community
+    set DELETED = #{deleted}, DELETED_AT = #{deleted_At}
+    where post_id = #{post_Id}
+    </update>
+    <!--============================================================-->
+    <!--유저 목록-->
+    <select id="userList" resultType="admin_user">
+        select *
+        from USER_ENTITY
+        order by USER_SIGNUP_AT desc
+    </select>
+
+    <!-- 회원수 전체목록-->
+    <select id="userCount" resultType="Long">
+        select count(*)
+        from USER_ENTITY
+    </select>
+
+    <!--카카오 회원 수-->
+    <select id="userKaKaoCount" resultType="Long">
+        select count(LOGIN_TYPE)
+        from USER_ENTITY
+        WHERE LOGIN_TYPE = 'kakao'
+    </select>
+
+    <!--네이버 회원 수-->
+    <select id="userNaverCount" resultType="Long">
+        select count(LOGIN_TYPE)
+        from USER_ENTITY
+        WHERE LOGIN_TYPE = 'naver'
+    </select>
+
+    <!--구글 회원 수-->
+    <select id="userGoogleCount" resultType="Long">
+        select count(LOGIN_TYPE)
+        from USER_ENTITY
+        WHERE LOGIN_TYPE = 'google'
+    </select>
+
+    <!--아이디로 유저 찾기-->
+    <select id="userFindById"  parameterType="long" resultType="admin_user">
+        select *
+        from USER_ENTITY
+        where ID = #{id}
+    </select>
+
+    <!--벤 체크/해제-->
+    <update id="userBan" parameterType="admin_community">
+        update USER_ENTITY
+        set BAN = #{ban}, IS_DELETED_AT = #{is_Deleted_At}
+        where ID = #{id}
+    </update>
+    <!--================================================================================-->
+    <!--룸메이트 글목록-->
+    <select id="roommateList" resultType="admin_roommate">
+        select *
+        from board_roommate
+        order by CREATED_AT desc
+    </select>
+
+    <!--삭제 체크/해제-->
+    <update id="roommateDeleted" parameterType="admin_roommate">
+        update BOARD_ROOMMATE
+        set DELETED = #{deleted}, DELETED_AT = #{deleted_At}
+        where ROOMMATE_ID = #{roommate_Id}
+    </update>
+    <!--============================================================-->
+    <!--월세매물 글목록-->
+    <select id="monthlyList" resultType="admin_monthly">
+        select *
+        from MONTHLY_PRODUCT
+        order by CREATED_AT desc
+    </select>
+
+    <!--월세매물 글 삭제 체크/해제-->
+    <update id="monthlyDeleted" parameterType="admin_monthly">
+        update MONTHLY_PRODUCT
+        set DELETED_AT = #{deleted_At}
+        where ID = #{Id}
+    </update>
+    <!--============================================================-->
+    <!--문의하기 post_id로 첨부파일 찾기-->
+    <select id="attachFileById" parameterType="long" resultType="admin_attach">
+        select *
+        from ATTACH_FILE
+        where POST_ID = #{post_Id} and TAB_TYPE = 2
+    </select>
+</mapper>

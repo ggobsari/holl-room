@@ -9,8 +9,6 @@ import java.util.List;
 
 public interface MonthlyProductRepository extends JpaRepository<MonthlyProductEntity,Long> {
     Page<MonthlyProductEntity> findByDivisionCode(Long divisionCode, Pageable pageable);
-    //List<MonthlyProductEntity> findByDivisionCode(Long divisionCode, Pageable pageable);
-    List<MonthlyProductEntity> findAll();
-    //List<MonthlyProductEntity> findAll(Pageable pageable);
+    Page<MonthlyProductEntity> findByDivisionCodeIn(List<Long> divisionCodes, Pageable pageable);
 }
 

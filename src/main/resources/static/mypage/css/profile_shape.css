@@ -113,3 +113,20 @@
         width: 100%; /* 너비를 100%로 설정하여 전체 화면 차지 */
     }
 }
+
+/*제목(내용) 한줄로... 표시*/
+.title-limit{
+    max-width: 100px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+
+/*텍스트(내용) 한줄로... 표시*/
+.write-limit{
+    max-width: 200px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}

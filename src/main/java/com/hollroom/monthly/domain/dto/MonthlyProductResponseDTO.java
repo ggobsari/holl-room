@@ -17,6 +17,7 @@ public class MonthlyProductResponseDTO {
     private Long id;
     //private long user_id;
     private String roomImg;
+    private String address;
     private int deposit;
     private int monthly;
     private Long divisionCode;

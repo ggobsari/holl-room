@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -27,9 +28,9 @@ public class CommunityResponseDTO {
     private String content;
     @JsonFormat(shape= JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss초", timezone="Asia/Seoul")
     private Date updatedAt; //수정일
-    private Date createdAt;
+    private LocalDate createdAt;
     private int viewCount;
-
+    private int heartCount;
 
 
 

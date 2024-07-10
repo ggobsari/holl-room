@@ -11,6 +11,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -29,7 +30,7 @@ public class InquiryEntity {
     @CreationTimestamp
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm.ss.SSS")
     @JsonFormat(shape= JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss초", timezone="Asia/Seoul")
-    private Date createdAt; //작성일(생성일)
+    private LocalDateTime createdAt; //작성일(생성일)
     @UpdateTimestamp
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm.ss.SSS")
     @JsonFormat(shape= JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss초", timezone="Asia/Seoul")
@@ -38,7 +39,7 @@ public class InquiryEntity {
     private String category; //카테고리
     private Date deletedAt; //게시글삭제일시
     private Date answerAt; //답변 일시
-    private String answerContnet; //답변 내용
+    private String answerContent; //답변 내용
 
     //유저 Id FK (작성자)
     @ManyToOne

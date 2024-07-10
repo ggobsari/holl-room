@@ -99,12 +99,6 @@
                                 <label for="agreeCheckbox">위 내용에 동의합니다</label>
                             </div>
                             <div>
-                                <script th:inline="javascript">
-                                    /*<![CDATA[*/
-                                    var loginType = /*[[${user.loginType}]]*/ 'default';
-                                    console.log("Login Type:", loginType);
-                                    /*]]>*/
-                                </script>
                                 <!--소셜 로그인-->
                                 <input type="text" style="background-color: #ced4da"
                                        class="form-control" th:if="${user.loginType != null}" readonly/>
