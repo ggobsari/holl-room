@@ -112,6 +112,7 @@ public class UserService {
         dailyVisitorService.logVisitor(userEntity.getId());
 
         log.info(session.toString());
+        System.out.println(session.toString());/////
 
         return session;
     }

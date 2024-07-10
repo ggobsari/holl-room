@@ -12,14 +12,34 @@
     <meta name="description" content="" />
     <meta name="author" content="" />
     <title>룸메이트</title>
-    <style>
-      @import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap");
-    </style>
+<!--    <style>-->
+<!--      @import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap");-->
+<!--    </style>-->
+    <link rel="stylesheet" href="/hollroom/roommate/css/styles-2.css"/>
+    <script src="/hollroom/roommate/js/script.js"></script>
   </head>
   <body layout:fragment="content" class="d-flex flex-column h-100 bg-light font-kor">
+    <div class="floating-btn">
+<!--      onclick="location.href='/hollroom/chat/roomlist'"-->
+      <button
+          id="floating-btn-chat"
+          th:onclick="|location.href='@{/chat/roomlist(userId=${session.USER_NICKNAME.id})}'|"
+          class="btn btn-primary rounded-circle"
+      >
+        <span>&#9776;</span>
+      </button>
+      <button
+          id="floating-btn-register"
+          onclick="location.href='/hollroom/roommate/register'"
+          class="btn btn-primary rounded-circle"
+      >
+        <span>&#128393;</span>
+      </button>
+    </div>
+
     <main class="flex-shrink-0">
       <section class="justify-content-center py-5">
-        <aside class="col-3 bg-dark bg-gradient rounded-3 pt-4 px-3 me-3">
+        <aside class="col-3 bg-dark rounded-5 pt-4 px-3 me-3"><!--bg-gradient-->
           <div class="my-5 filter-list text-white">
             <ul id="filter-condition">
               <li></li>
@@ -90,7 +110,7 @@
           </div>
         </aside>
 
-        <div class="border-primary col-7 p-4 bg-white rounded-3">
+        <div class="border-primary col-7 p-4 bg-white rounded-4">
           <h2 class="my-5 text-center font-eng">Roommate</h2>
           <div class="p-3">
             <table
