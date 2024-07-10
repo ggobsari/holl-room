@@ -14,5 +14,6 @@
         <mapper resource="mapper/admin.xml"/>
         <mapper resource="mapper/roommate.xml"/>
         <mapper resource="mapper/chatting.xml"/>
+        <mapper resource="mapper/mywrite.xml"/>
     </mappers>
 </configuration>
