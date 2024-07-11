@@ -181,7 +181,7 @@
     </div>
       <div style="width: 80px; height: 20px; font-size: large; color: #0b5ed7; margin-left: 5px;">
         <ul>
-          <li><a href="/hollroom/community/write" class="page-link" th:if="${session.USER_NICKNAME!=null}">Write</a></li>
+          <li><a href="/hollroom/community/write" class="page-link" th:if="${session.USER_NICKNAME!=null and session.USER_NICKNAME.userNickname!=null}">Write</a></li>
         </ul>
       </div>
         </div>
