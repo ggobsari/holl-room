@@ -1,8 +1,10 @@
 <!DOCTYPE html>
-<html lang="ko"
-      xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layout/main_layout}">
+<html
+  lang="ko"
+  xmlns:th="http://www.thymeleaf.org"
+  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorate="~{layout/main_layout}"
+>
   <head>
     <meta charset="utf-8" />
     <meta
@@ -12,26 +14,51 @@
     <meta name="description" content="" />
     <meta name="author" content="" />
     <title>룸메이트</title>
-<!--    <style>-->
-<!--      @import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap");-->
-<!--    </style>-->
+    <!--    <style>-->
+    <!--      @import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap");-->
+    <!--    </style>-->
+<!--    <link-->
+<!--      rel="stylesheet"-->
+<!--      href="/src/main/resources/static/roommate/css/styles-2.css"-->
+<!--    />-->
+<!--    <link-->
+<!--      rel="stylesheet"-->
+<!--      type="text/css"-->
+<!--      href="/src/main/resources/static/common/css/styles.css"-->
+<!--    />-->
+<!--    <link-->
+<!--      rel="stylesheet"-->
+<!--      type="text/css"-->
+<!--      href="/src/main/resources/static/common/css/styles_etc.css"-->
+<!--    />-->
     <link rel="stylesheet" href="/hollroom/roommate/css/styles-2.css"/>
     <script src="/hollroom/roommate/js/script.js"></script>
+    <script th:inline="javascript">
+      window.onload = function () {
+        const con = /*[[${conditions}]]*/;
+        //alert(con);
+        if (con != null) {
+          markSelection(con.nocturnal, con.smoking, con.pet, con.sleeping_habits);
+        }
+      }
+    </script>
   </head>
-  <body layout:fragment="content" class="d-flex flex-column h-100 bg-light font-kor">
+  <body
+    layout:fragment="content"
+    class="d-flex flex-column h-100 bg-light font-kor"
+  >
+
     <div class="floating-btn">
-<!--      onclick="location.href='/hollroom/chat/roomlist'"-->
+      <!--      onclick="location.href='/hollroom/chat/roomlist'"-->
       <button
-          id="floating-btn-chat"
-          th:onclick="|location.href='@{/chat/roomlist(userId=${session.USER_NICKNAME.id})}'|"
-          class="btn btn-primary rounded-circle"
+        th:onclick="|location.href='@{/chat/roomlist(userId=${session.USER_NICKNAME.id})}'|"
+        class="floating-btn-3 btn btn-primary rounded-circle"
       >
         <span>&#9776;</span>
       </button>
       <button
-          id="floating-btn-register"
-          onclick="location.href='/hollroom/roommate/register'"
-          class="btn btn-primary rounded-circle"
+        onclick="location.href='/hollroom/roommate/register'"
+        class="floating-btn-4 btn btn-primary rounded-circle"
       >
         <span>&#128393;</span>
       </button>
@@ -39,7 +66,8 @@
 
     <main class="flex-shrink-0">
       <section class="justify-content-center py-5">
-        <aside class="col-3 bg-dark rounded-5 pt-4 px-3 me-3"><!--bg-gradient-->
+        <aside class="col-3 bg-dark rounded-5 pt-4 px-3 me-3">
+          <!--bg-gradient-->
           <div class="my-5 filter-list text-white">
             <ul id="filter-condition">
               <li></li>
@@ -49,48 +77,148 @@
             <form action="/hollroom/roommate/search" method="post">
               <ul class="">
                 <li>
-                  활동 시간대<br/>
+                  활동 시간대<br />
                   <div class="mt-2 btn-group">
-                    <input type="radio" class="btn-check col-6" name="nocturnal" id="h-morning" value="N" required><!-- autocomplete="off" -->
-                    <label class="btn btn-outline-light" for="h-morning">아침형</label>
-                    <input type="radio" class="btn-check col-6" name="nocturnal" id="h-evening" value="Y">
-                    <label class="btn btn-outline-light" for="h-evening">저녁형</label>
-                    <input type="radio" class="btn-check col-6" name="nocturnal" id="h-active-all" value="A">
-                    <label class="btn btn-outline-light" for="h-active-all">상관 없음</label><!--우측끝에 (X)표시 배지 달기-->
+                    <input
+                      type="radio"
+                      class="btn-check col-6"
+                      name="nocturnal"
+                      id="h-morning"
+                      value="N"
+                      required
+                    /><!-- autocomplete="off" -->
+                    <label class="btn btn-outline-light" for="h-morning"
+                      >아침형</label
+                    >
+                    <input
+                      type="radio"
+                      class="btn-check col-6"
+                      name="nocturnal"
+                      id="h-evening"
+                      value="Y"
+                    />
+                    <label class="btn btn-outline-light" for="h-evening"
+                      >저녁형</label
+                    >
+                    <input
+                      type="radio"
+                      class="btn-check col-6"
+                      name="nocturnal"
+                      id="h-active-all"
+                      value="A"
+                    />
+                    <label class="btn btn-outline-light" for="h-active-all"
+                      >상관 없음</label
+                    ><!--우측끝에 (X)표시 배지 달기-->
                   </div>
                 </li>
                 <li>
-                  흡연 여부<br/>
+                  흡연 여부<br />
                   <div class="mt-2 btn-group">
-                    <input type="radio" class="btn-check col-6" name="smoking" id="h-smoke" value="N" required>
-                    <label class="btn btn-outline-light" for="h-smoke">비흡연자</label>
-                    <input type="radio" class="btn-check col-6" name="smoking" id="h-not-smoke" value="Y">
-                    <label class="btn btn-outline-light" for="h-not-smoke">흡연자</label>
-                    <input type="radio" class="btn-check col-6" name="smoking" id="h-smoking-all" value="A">
-                    <label class="btn btn-outline-light" for="h-smoking-all">상관 없음</label>
-<!--                    <button class="btn btn-outline-warning" type="button">조건 삭제</button>-->
+                    <input
+                      type="radio"
+                      class="btn-check col-6"
+                      name="smoking"
+                      id="h-not-smoke"
+                      value="N"
+                      required
+                    />
+                    <label class="btn btn-outline-light" for="h-not-smoke"
+                      >비흡연자</label
+                    >
+                    <input
+                      type="radio"
+                      class="btn-check col-6"
+                      name="smoking"
+                      id="h-smoke"
+                      value="Y"
+                    />
+                    <label class="btn btn-outline-light" for="h-smoke"
+                      >흡연자</label
+                    >
+                    <input
+                      type="radio"
+                      class="btn-check col-6"
+                      name="smoking"
+                      id="h-smoking-all"
+                      value="A"
+                    />
+                    <label class="btn btn-outline-light" for="h-smoking-all"
+                      >상관 없음</label
+                    >
+                    <!--                    <button class="btn btn-outline-warning" type="button">조건 삭제</button>-->
                   </div>
                 </li>
                 <li>
-                  반려동물<br/>
+                  반려동물<br />
                   <div class="mt-2 btn-group">
-                    <input type="radio" class="btn-check col-6" name="pet" id="h-no-pet" value="N" required>
-                    <label class="btn btn-outline-light" for="h-no-pet">없음</label><!--없었으면 좋겠어요-->
-                    <input type="radio" class="btn-check col-6" name="pet" id="h-has-pet" value="Y">
-                    <label class="btn btn-outline-light" for="h-has-pet">있음</label><!--있어도 괜찮아요-->
-                    <input type="radio" class="btn-check col-6" name="pet" id="h-pet-all" value="A">
-                    <label class="btn btn-outline-light" for="h-pet-all">상관 없음</label>
+                    <input
+                      type="radio"
+                      class="btn-check col-6"
+                      name="pet"
+                      id="h-no-pet"
+                      value="N"
+                      required
+                    />
+                    <label class="btn btn-outline-light" for="h-no-pet"
+                      >없음</label
+                    ><!--없었으면 좋겠어요-->
+                    <input
+                      type="radio"
+                      class="btn-check col-6"
+                      name="pet"
+                      id="h-has-pet"
+                      value="Y"
+                    />
+                    <label class="btn btn-outline-light" for="h-has-pet"
+                      >있음</label
+                    ><!--있어도 괜찮아요-->
+                    <input
+                      type="radio"
+                      class="btn-check col-6"
+                      name="pet"
+                      id="h-pet-all"
+                      value="A"
+                    />
+                    <label class="btn btn-outline-light" for="h-pet-all"
+                      >상관 없음</label
+                    >
                   </div>
                 </li>
                 <li>
                   잠버릇
-                  <div class="" role="group"><!-- aria-label="Basic checkbox toggle button group" -->
-                    <input type="checkbox" class="btn-check" id="h-habit-1" name="sleeping_habits" value="1">
-                    <label class="btn btn-outline-light" for="h-habit-1">코골이 제외하기</label><br/>
-                    <input type="checkbox" class="btn-check" id="h-habit-2" name="sleeping_habits" value="2">
-                    <label class="btn btn-outline-light" for="h-habit-2">이갈이 제외하기</label><br/>
-                    <input type="checkbox" class="btn-check" id="h-habit-3" name="sleeping_habits" value="3">
-                    <label class="btn btn-outline-light" for="h-habit-3">잠꼬대 제외하기</label>
+                  <div class="" role="group">
+                    <!-- aria-label="Basic checkbox toggle button group" -->
+                    <input
+                      type="checkbox"
+                      class="btn-check"
+                      id="h-habit-1"
+                      name="sleeping_habits"
+                      value="1"
+                    />
+                    <label class="btn btn-outline-light" for="h-habit-1"
+                      >코골이 제외하기</label
+                    ><br />
+                    <input
+                      type="checkbox"
+                      class="btn-check"
+                      id="h-habit-2"
+                      name="sleeping_habits"
+                      value="2"
+                    />
+                    <label class="btn btn-outline-light" for="h-habit-2"
+                      >이갈이 제외하기</label
+                    ><br />
+                    <input
+                      type="checkbox"
+                      class="btn-check"
+                      id="h-habit-3"
+                      name="sleeping_habits"
+                      value="3"
+                    />
+                    <label class="btn btn-outline-light" for="h-habit-3"
+                      >잠꼬대 제외하기</label
+                    >
                   </div>
                 </li>
               </ul>
@@ -113,8 +241,7 @@
         <div class="border-primary col-7 p-4 bg-white rounded-4">
           <h2 class="my-5 text-center font-eng">Roommate</h2>
           <div class="p-3">
-            <table
-              class="table table-hover text-center">
+            <table class="table table-hover text-center">
               <thead>
                 <tr>
                   <th>번호</th>
@@ -124,39 +251,39 @@
                 </tr>
               </thead>
               <tbody>
-<!--                <tr class="table-light" role="button">-->
-<!--                  <td>13</td>-->
-<!--                  <td class="text-start">-->
-<!--                    <a href="/hollroom/roommate/detail"-->
-<!--                       style="text-decoration: none; color: black">-->
-<!--                      <span class="bg-primary rounded-3 px-1 text-white">MY</span>-->
-<!--                      룸메이트 구해요-->
-<!--                    </a>-->
-<!--                  </td>-->
-<!--                  <td>qwer</td>-->
-<!--                  <td>6.19</td>-->
-<!--                </tr>-->
-<!--                <tr>-->
-<!--                  <td>0</td>-->
-<!--                  <td>-->
-<!--                    <span class="text-primary fw-bold">new</span>-->
-<!--                    &nbsp;룸메이트 구해요~-->
-<!--                  </td>-->
-<!--                  <td>asdf</td>-->
-<!--                  <td>오늘</td>-->
-<!--                </tr>-->
-<!--<span class="text-primary fw-bold" hidden>new</span>-->
-<!--&nbsp;룸메이트 구해요-->
-<!--                <tr>-->
-<!--                  <td>9</td>-->
-<!--                  <td>-->
-<!--                    <a href="/hollroom/roommate/detail">-->
-<!--                      룸메이트 구해요-->
-<!--                    </a>-->
-<!--                  </td>-->
-<!--                  <td>9</td>-->
-<!--                  <td>오늘</td>-->
-<!--                </tr>-->
+                <!--                <tr class="table-light" role="button">-->
+                <!--                  <td>13</td>-->
+                <!--                  <td class="text-start">-->
+                <!--                    <a href="/hollroom/roommate/detail"-->
+                <!--                       style="text-decoration: none; color: black">-->
+                <!--                      <span class="bg-primary rounded-3 px-1 text-white">MY</span>-->
+                <!--                      룸메이트 구해요-->
+                <!--                    </a>-->
+                <!--                  </td>-->
+                <!--                  <td>qwer</td>-->
+                <!--                  <td>6.19</td>-->
+                <!--                </tr>-->
+                <!--                <tr>-->
+                <!--                  <td>0</td>-->
+                <!--                  <td>-->
+                <!--                    <span class="text-primary fw-bold">new</span>-->
+                <!--                    &nbsp;룸메이트 구해요~-->
+                <!--                  </td>-->
+                <!--                  <td>asdf</td>-->
+                <!--                  <td>오늘</td>-->
+                <!--                </tr>-->
+                <!--<span class="text-primary fw-bold" hidden>new</span>-->
+                <!--&nbsp;룸메이트 구해요-->
+                <!--                <tr>-->
+                <!--                  <td>9</td>-->
+                <!--                  <td>-->
+                <!--                    <a href="/hollroom/roommate/detail">-->
+                <!--                      룸메이트 구해요-->
+                <!--                    </a>-->
+                <!--                  </td>-->
+                <!--                  <td>9</td>-->
+                <!--                  <td>오늘</td>-->
+                <!--                </tr>-->
                 <th:block th:each="board:${boardlist}">
                   <tr>
                     <td th:text="${board.roommate_id}"></td>
@@ -164,29 +291,33 @@
                       <a
                         th:text="${board.title}"
                         th:href="@{/roommate/detail(roommate_id=${board.roommate_id})}"
-                        class="my-paging-a">
+                        class="my-paging-a"
+                      >
                       </a>
                     </td>
                     <td th:text="${board.user_nickname}"></td>
-                    <td th:text="${#dates.format(board.created_at,'MM-dd')}"></td>
+                    <td
+                      th:text="${#dates.format(board.created_at,'MM-dd')}"
+                    ></td>
                   </tr>
                 </th:block>
               </tbody>
             </table>
 
-<!--            <div class="d-flex justify-content-center mb-5 my-paging">-->
-<!--              <a href="#" class="">&#5130;</a>-->
-<!--              <a href="#" class="">1</a>-->
-<!--              <a href="#" class="">2</a>-->
-<!--              <a href="#" class="">3</a>-->
-<!--              <a href="#" class="">&#5125;</a>-->
-<!--            </div>-->
-            <div class="d-inline-block ">
+            <!--            <div class="d-flex justify-content-center mb-5 my-paging">-->
+            <!--              <a href="#" class="">&#5130;</a>-->
+            <!--              <a href="#" class="">1</a>-->
+            <!--              <a href="#" class="">2</a>-->
+            <!--              <a href="#" class="">3</a>-->
+            <!--              <a href="#" class="">&#5125;</a>-->
+            <!--            </div>-->
+            <div class="d-inline-block">
               <div class="d-flex justify-content-end mx-auto">
                 <select
                   name=""
                   id="search-category"
-                  class="my-select rounded-2">
+                  class="my-select rounded-2"
+                >
                   <option value="all">제목 + 내용</option>
                   <option value="title">제목</option>
                   <option value="content">내용</option>
@@ -202,7 +333,8 @@
                   src="/hollroom/images/icon_search.png"
                   onclick="clickSearch()"
                   style="width: 23px; height: 23px"
-                  alt=""/>
+                  alt=""
+                />
               </div>
             </div>
           </div>

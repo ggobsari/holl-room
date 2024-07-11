@@ -44,22 +44,24 @@ public class RoommateServiceImpl implements RoommateService {
     }
 
     @Override
-    public List<RoommateDTO> getBoardList() {
-        return dao.selectAll();
+    public List<RoommateDTO> getBoardList(String userGender) {
+        return dao.selectAll(userGender);
     }
 
     @Override
-    public List<RoommateDTO> getSearchResult(String category, String searchWord) {
+    public List<RoommateDTO> getSearchResult(String category, String searchWord, String userGender) {
         Map<String, String> data = new HashMap<>();
         data.put("category", category);
         data.put("searchword", searchWord);
+        data.put("usergender", userGender);
         System.out.println("service / category : " + data.get("category"));
         System.out.println("service / searchword : " + data.get("searchword"));
+        System.out.println("service / usergender : " + data.get("usergender"));
         return dao.search(data);
     }
 
     @Override
-    public List<RoommateDTO> getFilteredResult(RoommateDTO data) {
+    public List<RoommateDTO> getFilteredResult(RoommateDTO data, String userGender) {
         Map<String, Character> conditions = new HashMap<>();
         conditions.put("nocturnal", data.getNocturnal());
         conditions.put("smoking", data.getSmoking());
@@ -83,6 +85,7 @@ public class RoommateServiceImpl implements RoommateService {
             System.out.println("2 : " + conditions.get("habit2"));
             System.out.println("3 : " + conditions.get("habit3"));
         }
+        conditions.put("usergender", userGender.charAt(0));
         return dao.dynamicSearch(conditions);
     }
 

@@ -1,3 +1,45 @@
+function markSelection(nocturnal, smoking, pet, sleeping_habits) {
+  //alert("markSelection");
+
+  if (nocturnal == 'Y') {
+    document.querySelector("#h-evening").checked = true;
+  } else if (nocturnal == 'N') {
+    document.querySelector("#h-morning").checked = true;
+  } else {
+    document.querySelector("#h-active-all").checked = true;
+  }
+
+  if (smoking == 'Y') {
+    document.querySelector("#h-smoke").checked = true;
+  } else if (smoking == 'N') {
+    document.querySelector("#h-not-smoke").checked = true;
+  } else {
+    document.querySelector("#h-smoking-all").checked = true;
+  }
+
+  if (pet == 'Y') {
+    document.querySelector("#h-has-pet").checked = true;
+  } else if (pet == 'N') {
+    document.querySelector("#h-no-pet").checked = true;
+  } else {
+    document.querySelector("#h-pet-all").checked = true;
+  }
+
+  if (sleeping_habits != null) {
+    const habitArr = sleeping_habits.split(",");
+    for (let i = 0; i < habitArr.length; i++) {
+      if (habitArr[i] == 1) {
+        document.querySelector("#h-habit-1").checked = true;
+      } else if (habitArr[i] == 2) {
+        document.querySelector("#h-habit-2").checked = true;
+      } else if (habitArr[i] == 3) {
+        document.querySelector("#h-habit-3").checked = true;
+      }
+    }
+  }
+}
+
+
 function setValues() {
 //  event.preventDefault();
 //  alert("setValues");
@@ -97,16 +139,20 @@ function fillValuesForEdit(title, content, nocturnal, wakeup_at, alarm, sleep_at
         document.querySelector("#habit-1").checked = true;
       } else if (habitArr[i] == 2) {
         document.querySelector("#habit-2").checked = true;
-      } else {
+      } else if (habitArr[i] == 3) {
         document.querySelector("#habit-3").checked = true;
+      } else {
+        document.querySelector("#habit-4").checked = true;
       }
     }
   }
 
-  if (cleaning_cycle != null) {
+  if (cleaning_cycle != "") {
     const arr = cleaning_cycle.split(",");
     document.querySelector("#btn-change-txt").innerText = arr[0];
     document.querySelector("#cleaning").value = parseInt(arr[1]);
+  } else {
+    document.querySelector("#btn-change-txt").innerText = "하루";
   }
 } // fillValuesForEdit
 
@@ -141,9 +187,9 @@ function fillValuesForDetail(title, content, nocturnal, wakeup_at, alarm, sleep_
     document.querySelector("#d-alarm").innerText = alarm + " 개";
   }
 
+  const habit = document.querySelector("#d-habit");
   if (sleeping_habits != null) {
     const habitArr = sleeping_habits.split(",");
-    const habit = document.querySelector("#d-habit");
     for (let i = 0; i < habitArr.length; i++) {
       if (i != 0) {
         habit.innerHTML += ",&nbsp;";
@@ -152,12 +198,14 @@ function fillValuesForDetail(title, content, nocturnal, wakeup_at, alarm, sleep_
         habit.innerText += "코골이";
       } else if (habitArr[i] == 2) {
         habit.innerText += "이갈이";
-      } else {
+      } else if (habitArr[i] == 3) {
         habit.innerText += "잠꼬대";
+      } else {
+        habit.innerText = "╳";
       }
     }
   } else {
-    habit.innerText += "╳";
+    habit.innerText = "╳";
   }
 
   if (cleaning_cycle != "") {
