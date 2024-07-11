@@ -1,58 +1,37 @@
-<!DOCTYPE html>
-<html
-    lang="ko"
-    xmlns:th="http://www.thymeleaf.org"
-    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-    layout:decorate="~{layout/main_layout}"
->
-<head>
-    <meta charset="utf-8" />
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1, shrink-to-fit=no"
-    />
-    <title>월세지도</title>
-</head>
-<body
-    layout:fragment="content"
-    class="d-flex flex-column h-100 bg-light"
->
-    <div th:fragment="productList">
-        <ul>
-            <li th:each="product : ${productPage}"  >
-                <a class="product-box" style="display: flex; color: inherit; text-decoration: none;" th:href="|/hollroom/monthly/product/${product.id}|">
-                    <div class="horizontal-center">
-                        <img style="width: 180px; height: 130px; margin-left: 10px; margin-right: 10px" th:src="@{/imageload/}+${product.roomImg}"/>
+<div th:fragment="productList">
+    <ul>
+        <li th:each="product : ${productPage}"  >
+            <a class="product-box" style="display: flex; color: inherit; text-decoration: none;" th:href="|/hollroom/monthly/product/${product.id}|">
+                <div class="horizontal-center">
+                    <img style="width: 180px; height: 130px; margin-left: 10px; margin-right: 10px" th:src="@{/imageload/}+${product.roomImg}"/>
+                </div>
+                <div >
+                    <h4 th:text="|월세 ${product.deposit}/${product.monthly}|"></h4>
+                    <div>
+                        <span th:text="|${product.pyeongCount}평|">평수</span>
+                        <span th:text="|${product.floorCount}층|">층수</span>
+                        <span th:text="|방 ${product.roomCount}개|">방수</span>
+                        <span th:text="|${product.bayCount}베이|">창수</span>
                     </div>
-                    <div >
-                        <h4 th:text="|월세 ${product.deposit}/${product.monthly}|"></h4>
-                        <div>
-                            <span th:text="|${product.pyeongCount}평|">평수</span>
-                            <span th:text="|${product.floorCount}층|">층수</span>
-                            <span th:text="|방 ${product.roomCount}개|">방수</span>
-                            <span th:text="|${product.bayCount}베이|">창수</span>
-                        </div>
-                        <div>
-                            <div th:text="${product.roomOption}">옵션</div>
-                            <div th:text="${product.securityFacility}">보안시설</div>
-                        </div>
-                        <div>
-                            [[${product.address}]]
-                        </div>
+                    <div>
+                        <div th:text="${product.roomOption}">옵션</div>
+                        <div th:text="${product.securityFacility}">보안시설</div>
                     </div>
-                </a>
-            </li>
+                    <div>
+                        [[${product.address}]]
+                    </div>
+                </div>
+            </a>
+        </li>
 
-        </ul>
-        <div class="page-number-box">
-            <div th:each="page: ${#numbers.sequence(startPage, endPage)}">
-                <!-- 현재페이지는 링크 없이 숫자만 -->
-                <span th:if="${page == productPage.number}" th:text="${page+1}"></span>
-                <!-- 현재페이지 링크 X, 다른 페이지번호에는 링크를 보여준다 -->
-                <span class="linked-page-number" th:unless="${page == productPage.number}" th:text="${page+1}" th:onclick="|goToProductPage(${page})|">
+    </ul>
+    <div class="page-number-box">
+        <div th:each="page: ${#numbers.sequence(startPage, endPage)}">
+            <!-- 현재페이지는 링크 없이 숫자만 -->
+            <span th:if="${page == productPage.number}" th:text="${page+1}"></span>
+            <!-- 현재페이지 링크 X, 다른 페이지번호에는 링크를 보여준다 -->
+            <span class="linked-page-number" th:unless="${page == productPage.number}" th:text="${page+1}" th:onclick="|goToProductPage(${page})|">
                 </span>
-            </div>
         </div>
     </div>
-</body>
-</html>
+</div>
