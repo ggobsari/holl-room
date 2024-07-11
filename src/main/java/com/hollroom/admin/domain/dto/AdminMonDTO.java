@@ -20,4 +20,7 @@ public class AdminMonDTO {
     private Date updated_At;
     private Date deleted_At;
     private Date expiration_date;
+
+    private Long main_division_code;
+    private String name;
 }

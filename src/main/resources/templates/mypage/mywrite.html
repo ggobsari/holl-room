@@ -67,19 +67,19 @@
                             <li class="" style="margin:0 10px 10px 10px">
                                 <a class="" href="http://localhost:8090/hollroom/mypage/mywrite_roommate">룸메이트</a>
                             </li>
-                            <li>|</li>
-                            <li class=""  style="margin:0 10px 10px 10px">
-                                <a class="" href="http://localhost:8090/hollroom/mypage/mywrite_monthly">월세지도</a>
-                            </li>
+<!--                            <li>|</li>-->
+<!--                            <li class=""  style="margin:0 10px 10px 10px">-->
+<!--                                <a class="" href="http://localhost:8090/hollroom/mypage/mywrite_monthly">월세지도</a>-->
+<!--                            </li>-->
                         </ul>
                     </nav>
                     <div class="p-3">
-                        <select class="form-select" id="category" name="category" style="background-color: white; width: auto" th:data-category="${category}">
-                            <option value="all" th:selected="${category == 'all'}">전체</option>
-                            <option value="자유" th:selected="${category == '자유'}">자유</option>
-                            <option value="꿀팁" th:selected="${category == '꿀팁'}">꿀팁</option>
-                            <option value="질문" th:selected="${category == '질문'}">질문</option>
-                            <option value="자취레시피" th:selected="${category == '자취레시피'}">자취레시피</option>
+                        <select class="form-select" id="category" name="category" style="background-color: white; width: auto" onchange="changeCategory()">
+                            <option value="all">전체</option>
+                            <option value="자유">자유</option>
+                            <option value="꿀팁">꿀팁</option>
+                            <option value="질문">질문</option>
+                            <option value="자취레시피">자취레시피</option>
                         </select>
 
                         <table class="table table-hover text-center">
@@ -93,14 +93,11 @@
                             </tr>
                             </thead>
                             <tbody id="post-list">
-                            <!-- 게시글 목록 -->
 
                             </tbody>
                         </table>
                         <div class="d-flex justify-content-center mb-5 my-paging">
-                            <a href="#" class="">&#5130;</a>
-                            <!-- 페이지 링크  -->
-                            <a href="#" class="">&#5125;</a>
+
                         </div>
                         <div class="d-inline-block">
 <!--                            <div class="d-flex justify-content-end mx-auto">-->

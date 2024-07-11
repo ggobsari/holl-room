@@ -39,8 +39,9 @@ public class InquiryController {
     //문의하기 컨트롤러
     @GetMapping("/inquiry")
     public String inquiry(HttpSession session) {
-        if (!checkSession(session)) {
-            return "redirect:/login";
+        UserEntity user = (UserEntity) session.getAttribute("USER_NICKNAME");
+        if (user.getUserNickname() == null) { //유저 닉네임이 없을 경우
+            return "redirect:/mypage/profile";
         }
         return "mypage/inquiry"; //interest 반환
     }
@@ -57,6 +58,7 @@ public class InquiryController {
         model.addAttribute("posts", result.get("posts")); //게시물 정보
         model.addAttribute("totalPages", result.get("totalPages")); //총 게시물 페이지수
         model.addAttribute("totalPosts", result.get("totalPosts")); //총 게시물 개수
+        model.addAttribute("user", user); //유저정보
 
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
