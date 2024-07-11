@@ -26,6 +26,7 @@
 
     <link rel="stylesheet" href="/hollroom/roommate/css/styles-2.css"/>
     <script th:inline="javascript">
+
       window.onload = function () {
         //document.querySelector("#floating-btn-register").hidden = true;
         const btnChangeTxt = document.querySelector("#btn-change-txt");
@@ -44,6 +45,13 @@
         let board = null;
 
         if (mapping == "edit") {
+          const accessible = /*[[${accessible}]]*/;
+          //alert(typeof accessible + " 타입의 " + accessible);
+          if (!accessible) {
+            alert("다른 이용자의 게시글은 수정할 수 없습니다");
+            location.href = "/hollroom/roommate/home";
+          }
+
           document.querySelector("#form").action = "/hollroom/roommate/edit";
           board = /*[[${board}]]*/;
           //alert(board.title);
@@ -56,6 +64,16 @@
     </script>
   </head>
   <body layout:fragment="content" class="d-flex flex-column h-100 bg-light font-kor">
+
+    <div class="floating-btn">
+      <button
+          th:onclick="|location.href='@{/chat/roomlist(userId=${session.USER_NICKNAME.id})}'|"
+          class="floating-btn-3 btn btn-primary rounded-circle"
+      >
+        <span>&#9776;</span>
+      </button>
+    </div>
+
     <main class="flex-shrink-0">
       <section class="justify-content-center py-5">
         <div class="border-primary col-7 bg-white rounded-3">
@@ -188,6 +206,8 @@
                       <label for="habit-2">이갈이</label>&nbsp;&nbsp;
                       <input type="checkbox" id="habit-3" name="sleeping_habits" value="3" />
                       <label for="habit-3">잠꼬대</label>&nbsp;&nbsp;
+                      <input type="checkbox" id="habit-4" name="sleeping_habits" value="0" />
+                      <label for="habit-4">잠버릇 없음</label>
                     </div>
                   </li>
                   <li>
