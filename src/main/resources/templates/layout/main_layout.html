@@ -820,18 +820,22 @@
                     enterKeyCount = 0;
                 }
 
-                if(enterKeyCount === 5){
-                    fetch('/hollroom/admin/getAuthenticatedUser')
-                        .then(response => {
-                            if(!response.ok){
-                                throw new Error("Network response was not ok");
-                            }
-                            return response.json();
-                        })
-                        .then(user => {
-                            if(user.userAdmin){
-                                console.log(user);
-                                window.location.href = '/hollroom/admin/index';
+
+                            if(enterKeyCount === 5){
+                                fetch('/hollroom/admin/getAuthenticatedUser')
+                                    .then(response => {
+                                        if(!response.ok){
+                                            throw new Error("Network response was not ok");
+                                        }
+                                        return response.json();
+                                    })
+                                    .then(user => {
+                                        if(user.userAdmin){
+                                            console.log(user);
+                                            window.location.href = 'http://localhost:8090/hollroom/admin/index';
+                                        }
+                                    })
+                              
                             }
                         })
                         .catch(error => console.error('error', error));
