@@ -157,25 +157,17 @@
                                                    th:value="${profile.userEmail}" readonly onload="maskEmail()"/>
 
                                             <!--비밀번호-->
-                                            <div th:if="${profile.loginType == null}">
+                                            <div th:if="${profile.loginType == 'basic'}">
                                                 <div class="text-container abeezee-normal-black-14px">
                                                     <div class="text">비밀번호</div>
                                                     <div class="text-26">비밀번호 확인</div>
                                                 </div>
                                                 <div class="flex-row-2 flex-row-5">
                                                     <!--일반로그인-->
-                                                    <input type="password" th:if="${profile.loginType == null}"
+                                                    <input type="password" th:if="${profile.loginType == 'basic'}"
                                                            class="rectangle form-control" id="password"/>
-                                                    <!--소셜로그인-->
-                                                    <input type="password" th:if="${profile.loginType != null}"
-                                                           class="rectangle form-control" style="background-color: #ced4da" readonly/>
-
-                                                    <!--일반로그인-->
-                                                    <input type="password" th:if="${profile.loginType == null}"
+                                                    <input type="password" th:if="${profile.loginType == 'basic'}"
                                                            class="rectangle form-control" id="confirmPasswordInput"/>
-                                                    <!--일반로그인-->
-                                                    <input type="password" th:if="${profile.loginType != null}"
-                                                           class="rectangle form-control" style="background-color: #ced4da" readonly/>
                                                 </div>
                                             </div>
 
