@@ -45,8 +45,8 @@ public class AdminChartService {
         for (LocalDate localDate : dates) {
             long dailyVisitorCount = dailyVisitorRepository.countDailyVisitorByVisitDate(localDate);
             long newUsers = userRepository.countByUserSignupAtAndIsDeletedFalseAndBanFalse(localDate);
-//            long roommateBoards = roommateMapper.countByDate(date);
-//            List<CommunityEntity> communityEntities = communityRepository.countByCreatedAt(date);
+            long roommateBoards = adminRoomService.countByCreateAt(localDate);
+//            List<CommunityEntity> communityEntities = communityRepository.countByCreatedAt(localDate);
             long communityBoards = communityRepository.countByCreatedAt(localDate);
 
 //            List<LocalDate> communityBoards = communityEntities.stream()
@@ -57,7 +57,7 @@ public class AdminChartService {
             stat.setDate(localDate);
             stat.setDailyVisitor(dailyVisitorCount);
             stat.setCountUser(newUsers);
-//            stat.setRoommateBoards(roommateBoards);
+            stat.setRoommateBoards(roommateBoards);
             stat.setCommunityBoards(communityBoards);
 
             stats.add(stat);
