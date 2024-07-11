@@ -163,6 +163,13 @@ public class ProfileService {
         Optional<UserEntity> user = profileRepository.findByUserPhoneNumber(phoneNum);
         return user.isPresent();
     }
+
+    //이메일로 유저 정보 찾기
+    public UserEntity findUserByEmail(String email) {
+        UserEntity userEntity = userRepository.findByUserEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        return userEntity;
+    }
 }
 
 
