@@ -54,9 +54,6 @@ public class RoommateServiceImpl implements RoommateService {
         data.put("category", category);
         data.put("searchword", searchWord);
         data.put("usergender", userGender);
-        System.out.println("service / category : " + data.get("category"));
-        System.out.println("service / searchword : " + data.get("searchword"));
-        System.out.println("service / usergender : " + data.get("usergender"));
         return dao.search(data);
     }
 
@@ -77,13 +74,9 @@ public class RoommateServiceImpl implements RoommateService {
                     if (arr[i].equals(String.valueOf(j))) {
                         String key = "habit" + String.valueOf(j);
                         conditions.put(key, 'Y');
-                        System.out.println("habit" + String.valueOf(j));
                     }
                 }
             }
-            System.out.println("1 : " + conditions.get("habit1"));
-            System.out.println("2 : " + conditions.get("habit2"));
-            System.out.println("3 : " + conditions.get("habit3"));
         }
         conditions.put("usergender", userGender.charAt(0));
         return dao.dynamicSearch(conditions);
