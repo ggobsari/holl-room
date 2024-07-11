@@ -32,7 +32,7 @@ public class KakaoController {
         log.info("accessToken: {}", accessToken);
         KakaoDTO kakaoUser = kakaoService.getKakaoUserInfo(accessToken);
         kakaoService.saveKakaoUser(kakaoUser, request);
-        String redirectUrl = "http://localhost:8090/hollroom/community/list?category=all&page=0";
+        String redirectUrl = "http://localhost:8090/hollroom/";
         return ResponseEntity.status(302).header("Location", redirectUrl).build();
     }
 }
