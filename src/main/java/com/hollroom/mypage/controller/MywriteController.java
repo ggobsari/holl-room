@@ -39,7 +39,7 @@ public class MywriteController {
         return "mypage/mywrite"; //interest 반환
     }
 
-    // 커뮤니티 컨트롤러
+    // 커뮤니티 목록 컨트롤러
     @GetMapping("/myCommunityList")
     public ResponseEntity<?> myCommunityList(Model model, @RequestParam("category") String category, HttpSession session) {
         UserEntity user = (UserEntity) session.getAttribute("USER_NICKNAME");
@@ -63,7 +63,7 @@ public class MywriteController {
         return new ResponseEntity<>(boardlist, HttpStatus.OK);
     }
 
-    //내가쓴글(커뮤니티) 컨트롤러
+    //내가쓴글(룸메이트) 컨트롤러
     @GetMapping("/mywrite_roommate")
     public String mywrite_roommate(HttpSession session) {
         if (!checkSession(session)) {
@@ -85,13 +85,13 @@ public class MywriteController {
     }
 
     //월세매물 목록 컨트롤러
-    @GetMapping("/mywrite_monthly")
-    public String mywriteMonthly(Model model, HttpSession session) {
-        UserEntity user = (UserEntity) session.getAttribute("USER_NICKNAME");
+//    @GetMapping("/mywrite_monthly")
+//    public String mywriteMonthly(Model model, HttpSession session) {
+//        UserEntity user = (UserEntity) session.getAttribute("USER_NICKNAME");
 //        List<MyRoommateDTO> boardlist = mywriteService.selectMyRoommatesByUserId(user.getId());
 //        model.addAttribute("boardlist", boardlist);
-        return "mypage/mywrite_monthly";
-    }
+//        return "mypage/mywrite_monthly";
+//    }
 
 //    //즐겨찾기 컬트롤러
 //    @GetMapping("/interest")
