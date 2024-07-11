@@ -33,10 +33,6 @@ public class UserService {
     private final DailyVisitorService dailyVisitorService;
     //================================================================================================================//
     public void signup(UserSignupDTO userSignupDTO){
-//        // 비밀번호 빈칸 X
-//        if(userSignupDTO.getUserPassword().isEmpty()){
-//            throw new CheckApiException(ErrorCode.EMPTY_PASSWORD);
-//        }
 
         String userEmail = userSignupDTO.getUserEmail();
 
@@ -65,13 +61,6 @@ public class UserService {
         Boolean ban = false;
 
         Boolean isDelete = false;
-
-//        //이메일 중복 검사
-//        Optional<UserEntity> userEmailDuplicate = userRepository.findByUserEmail(userSignupDTO.getUserEmail());
-//
-//        if(userEmailDuplicate.isPresent()){
-//            throw new CheckApiException(ErrorCode.EXIST_EMAIL);
-//        }
 
         UserEntity userEntity = new UserEntity(userEmail, userPassword, userName, userNickname,
                 userIntroduce, userPhoneNumber, userBirthday, userGender, userLocation, loginType, userSignAt,

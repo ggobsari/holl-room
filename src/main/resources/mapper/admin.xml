@@ -175,4 +175,11 @@
         from ATTACH_FILE
         where POST_ID = #{post_Id} and TAB_TYPE = 2
     </select>
+
+    <!--관리자 페이지 차트에서 활용-->
+    <select id="countByDate" resultType="long" parameterType="map">
+        SELECT COUNT(*)
+        FROM board_roommate
+        WHERE created_at >= #{startTimestamp} AND #{endTimestamp} >= created_at
+    </select>
 </mapper>

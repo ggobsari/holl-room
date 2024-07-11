@@ -47,7 +47,7 @@ public class AdminMainController {
         if(user != null && user.getUserAdmin()){
             return "/admin/admin_dashboard";
         } else{
-            return "/community/content/community_list";
+            return "/monthly/monthly";
         }//interest 반환
     }
 

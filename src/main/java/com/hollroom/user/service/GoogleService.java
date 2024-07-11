@@ -5,9 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hollroom.admin.service.DailyVisitorService;
 import com.hollroom.user.config.GoogleConfig;
 import com.hollroom.user.dto.GoogleDTO;
-//import com.hollroom.user.entity.GoogleEntity;
 import com.hollroom.user.entity.UserEntity;
-//import com.hollroom.user.repository.GoogleRepository;
 import com.hollroom.user.repository.UserRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -22,8 +20,6 @@ import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
 import java.time.LocalDate;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Optional;
 
 @Service
