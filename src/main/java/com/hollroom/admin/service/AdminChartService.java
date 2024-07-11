@@ -1,14 +1,11 @@
 package com.hollroom.admin.service;
 
-//import com.hollroom.admin.RoommateMapper;
 import com.hollroom.admin.domain.dto.AdminChartDTO;
 import com.hollroom.admin.repository.DailyVisitorRepository;
-import com.hollroom.community.domain.entity.CommunityEntity;
 import com.hollroom.community.repository.CommunityRepository;
 import com.hollroom.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,7 +15,6 @@ import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -33,8 +29,6 @@ public class AdminChartService {
     private final CommunityRepository communityRepository;
 
     private final AdminRoomService adminRoomService;
-
-//    private final RoommateMapper roommateMapper;
     //================================================================================================================//
     public List<AdminChartDTO> getDailyStats(){
 
@@ -46,12 +40,7 @@ public class AdminChartService {
             long dailyVisitorCount = dailyVisitorRepository.countDailyVisitorByVisitDate(localDate);
             long newUsers = userRepository.countByUserSignupAtAndIsDeletedFalseAndBanFalse(localDate);
             long roommateBoards = adminRoomService.countByCreateAt(localDate);
-//            List<CommunityEntity> communityEntities = communityRepository.countByCreatedAt(localDate);
             long communityBoards = communityRepository.countByCreatedAt(localDate);
-
-//            List<LocalDate> communityBoards = communityEntities.stream()
-//                    .map(communityEntity -> convertToLocalDateViaInstant(communityEntity.getCreatedAt()))
-//                    .toList();
 
             AdminChartDTO stat = new AdminChartDTO();
             stat.setDate(localDate);

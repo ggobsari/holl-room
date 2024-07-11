@@ -2,9 +2,7 @@ package com.hollroom.admin.repository;
 
 import com.hollroom.admin.domain.entity.DailyVisitor;
 import com.hollroom.user.entity.UserEntity;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
 
 import java.time.LocalDate;
 import java.util.List;

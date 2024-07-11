@@ -7,14 +7,10 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import net.nurigo.sdk.NurigoApp;
-import net.nurigo.sdk.message.service.DefaultMessageService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Random;
 
 @Controller //restcontroller는 데이터를 리턴, 뷰를 리턴하려면 controller로 변환
 @Slf4j
@@ -23,11 +19,6 @@ public class UserController {
     //================================================================================================================//
     private final UserService userService;
     //================================================================================================================//
-//        //회원가입 페이지 요청
-//    @GetMapping("/signup")
-//    public String signupForm(){
-//        return "user/signup";
-//    }
     //회원가입 요청
     @PostMapping("/signup")
     public void signup(UserSignupDTO userSignupDTO){
@@ -59,11 +50,6 @@ public class UserController {
             return ResponseEntity.ok().body("사용 가능한 이메일입니다.");
         }
     }
-    //인증번호 확인
-//    @GetMapping("/checkVerificationCode")
-//    public ResponseEntity<?> checkVerificationCode(){
-//        userService.sendSMS();
-//    }
 
     @GetMapping("/checkLogin")
     @ResponseBody
