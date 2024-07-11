@@ -37,14 +37,15 @@ public class RoommateDAOImpl implements RoommateDAO {
     }
 
     @Override
-    public List<RoommateDTO> selectAll() {
-        return sessionTemplate.selectList("com.hollroom.roommate.selectAll");
+    public List<RoommateDTO> selectAll(String userGender) {
+        return sessionTemplate.selectList("com.hollroom.roommate.selectAll", userGender);
     }
 
     @Override
     public List<RoommateDTO> search(Map<String, String> data) {
         System.out.println("dao / category : " + data.get("category"));
         System.out.println("dao / searchword : " + data.get("searchword"));
+        System.out.println("dao / usergender : " + data.get("usergender"));
 //        return sessionTemplate.selectList("select * from board_roommate where user='밀로'");
 //        List<RoommateDTO> list = null;
 //        return list;

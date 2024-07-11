@@ -11,8 +11,8 @@ public interface RoommateService {
     int editBoard(RoommateDTO board);
     RoommateDTO getBoard(int roommate_id);
     RoommateDTO getBoardById(int roommate_id);
-    List<RoommateDTO> getBoardList();
-    List<RoommateDTO> getSearchResult(String category, String searchWord);
-    List<RoommateDTO> getFilteredResult(RoommateDTO conditions);
+    List<RoommateDTO> getBoardList(String userGender);
+    List<RoommateDTO> getSearchResult(String category, String searchWord, String userGender);
+    List<RoommateDTO> getFilteredResult(RoommateDTO conditions, String userGender);
     RoommateUserDTO getUserInfo(int id);
 }

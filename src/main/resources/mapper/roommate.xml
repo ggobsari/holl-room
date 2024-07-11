@@ -30,10 +30,12 @@
              and roommate_id = #{tomato}
     </select>
 
-    <select id="selectAll" resultType="rmmt_board">
-        select *
-         from board_roommate
-         order by roommate_id desc
+    <select id="selectAll" parameterType="String" resultType="rmmt_board">
+        select br.*
+        from board_roommate br, user_entity ue
+        where br.id = ue.id
+            and ue.user_gender = #{userGender}
+        order by br.roommate_id desc
     </select>
 
     <select id="selectUser" parameterType="int" resultType="rmmt_user">
@@ -57,49 +59,100 @@
     </delete>
 
     <select id="search" parameterType="Map" resultType="rmmt_board">
-        select * from board_roommate
+        select distinct br.*
+        from board_roommate br, user_entity ue
         <where>
+            (
             <if test="category == 'all' and searchword != ''">
-                title like concat('%', #{searchword}, '%')
-                    or content like concat('%', #{searchword}, '%')
+                br.title like concat('%', #{searchword}, '%')
+                    or br.content like concat('%', #{searchword}, '%')
             </if>
             <if test="category == 'title' and searchword != ''">
-                title like concat('%', #{searchword}, '%')
+                br.title like concat('%', #{searchword}, '%')
             </if>
             <if test="category == 'content' and searchword != ''">
-                content like concat('%', #{searchword}, '%')
+                br.content like concat('%', #{searchword}, '%')
             </if>
             <if test="category == 'user' and searchword != ''">
-                user_nickname like concat('%', #{searchword}, '%')
+                br.user_nickname like concat('%', #{searchword}, '%')
             </if>
+            )
+            and br.id = ue.id
+            and ue.user_gender = #{usergender}
         </where>
-        order by roommate_id desc
+        order by br.roommate_id desc
     </select>
+<!--    <select id="search" parameterType="Map" resultType="rmmt_board">-->
+<!--        select * from board_roommate-->
+<!--        <where>-->
+<!--            <if test="category == 'all' and searchword != ''">-->
+<!--                title like concat('%', #{searchword}, '%')-->
+<!--                    or content like concat('%', #{searchword}, '%')-->
+<!--            </if>-->
+<!--            <if test="category == 'title' and searchword != ''">-->
+<!--                title like concat('%', #{searchword}, '%')-->
+<!--            </if>-->
+<!--            <if test="category == 'content' and searchword != ''">-->
+<!--                content like concat('%', #{searchword}, '%')-->
+<!--            </if>-->
+<!--            <if test="category == 'user' and searchword != ''">-->
+<!--                user_nickname like concat('%', #{searchword}, '%')-->
+<!--            </if>-->
+<!--        </where>-->
+<!--        order by roommate_id desc-->
+<!--    </select>-->
 
     <select id="searchByConditions" parameterType="Map" resultType="rmmt_board">
-        select * from board_roommate
+        select br.*
+        from board_roommate br, user_entity ue
         <where>
             <if test="nocturnal != 'A'">
-                and nocturnal = #{nocturnal}
+                and br.nocturnal = #{nocturnal}
             </if>
             <if test="smoking != 'A'">
-                and smoking = #{smoking}
+                and br.smoking = #{smoking}
             </if>
             <if test="pet != 'A'">
-                and pet = #{pet}
+                and br.pet = #{pet}
             </if>
             <if test="habit1 == 'Y'">
-                and sleeping_habits not like concat('%', '1', '%')
+                and br.sleeping_habits not like concat('%', '1', '%')
             </if>
             <if test="habit2 == 'Y'">
-                and sleeping_habits not like concat('%', '2', '%')
+                and br.sleeping_habits not like concat('%', '2', '%')
             </if>
             <if test="habit3 == 'Y'">
-                and sleeping_habits not like concat('%', '3', '%')
+                and br.sleeping_habits not like concat('%', '3', '%')
             </if>
+            and br.id = ue.id
+            and ue.user_gender = #{usergender}
         </where>
-        order by roommate_id desc
+        order by br.roommate_id desc
     </select>
+<!--    <select id="searchByConditions" parameterType="Map" resultType="rmmt_board">-->
+<!--        select * from board_roommate-->
+<!--        <where>-->
+<!--            <if test="nocturnal != 'A'">-->
+<!--                and nocturnal = #{nocturnal}-->
+<!--            </if>-->
+<!--            <if test="smoking != 'A'">-->
+<!--                and smoking = #{smoking}-->
+<!--            </if>-->
+<!--            <if test="pet != 'A'">-->
+<!--                and pet = #{pet}-->
+<!--            </if>-->
+<!--            <if test="habit1 == 'Y'">-->
+<!--                and sleeping_habits not like concat('%', '1', '%')-->
+<!--            </if>-->
+<!--            <if test="habit2 == 'Y'">-->
+<!--                and sleeping_habits not like concat('%', '2', '%')-->
+<!--            </if>-->
+<!--            <if test="habit3 == 'Y'">-->
+<!--                and sleeping_habits not like concat('%', '3', '%')-->
+<!--            </if>-->
+<!--        </where>-->
+<!--        order by roommate_id desc-->
+<!--    </select>-->
 
 <!--내가쓴글 자기id로 찾기-->
     <select id="selectByUserId" parameterType="long" resultType="rmmt_board">
