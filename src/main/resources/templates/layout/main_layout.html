@@ -32,6 +32,30 @@
 <script type="text/javascript"
         src="//dapi.kakao.com/v2/maps/sdk.js?appkey=a3660f8de5e77b73f4c7822adeb86bec&libraries=services"></script>
 <!--<script src="/user/js/login.js"></script>-->
+<script>
+  #(document).ready(function() {
+    function checkLoginStatus(e) {
+      e.preventDefault();
+      $.ajax({
+        url: "/hollroom/roommate/checkUser",
+        type: "GET",
+        success: function (info) {
+          if (info.login == "true") {
+            if (info.gender == "false") {
+              alert(
+                "해당 게시판은 본인인증을 완료한 사용자만 이용할 수 있습니다"
+              );
+            } else {
+              location.href = "/hollroom/roommate/home";
+            }
+          } else {
+            $("#loginBtn").click();
+          }
+        },
+      });
+    }
+  });
+</script>
 <main class="flex-shrink-0">
   <!-- Navigation-->
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -45,18 +69,16 @@
         <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
           <li class="nav-item"><a class="nav-link" href="/hollroom/">홈</a></li>
           <li class="nav-item"><a class="nav-link" href="/hollroom/monthly/product">월세지도</a></li>
-          <li class="nav-item"><a class="nav-link" href="/hollroom/roommate/home">룸메이트</a></li>
+            <li class="nav-item">
+              <a
+                  class="nav-link"
+                  role="button"
+                  onclick="checkLoginStatus(event)"
+              >
+                룸메이트
+              </a>
+            </li>
           <li class="nav-item"><a class="nav-link" href="/hollroom/community/list?category=all&page=0">커뮤니티</a></li>
-          <!--<li class="nav-item dropdown">
-
-              <a class="nav-link dropdown-toggle" id="navbarDropdownBlog" href="/hollroom/community/list?category=all&page=0" role="button" data-bs-toggle="dropdown" aria-expanded="false">커뮤니티</a>
-
-              <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownBlog">
-                  <li><a class="dropdown-item" href="/hollroom/community/list?category=all&page=0">자유 게시판</a>
-                  </li>
-                  <li><a class="dropdown-item" href="#withorder">함께주문</a></li>
-              </ul>
-          </li>-->
           <li class="nav-item"><a class="nav-link" href="/hollroom/mypage/profile">마이페이지</a></li>
         </ul>
 
@@ -485,7 +507,7 @@
                     </div>
 
                     <span style="color: red; display: none; margin-top: 5px" id="phone_number_error"
-                          class="error-message">000-0000-000형식으로 입력하세요</span>
+                          class="error-message">000-0000-0000 형식으로 입력하세요</span>
 
                     <label style="display: flex; justify-content: center; margin-top: 30px"
                            for="userBirthday">생년월일 :
@@ -791,17 +813,14 @@
 
   <div class="floating-btn">
     <button
-            id="floating-btn-top"
             onclick="window.scrollTo(0, 0);"
-            class="btn btn-primary rounded-circle"
+            class="floating-btn-1 btn btn-primary rounded-circle"
     >
       <span>&#11121;</span>
     </button>
     <button
-            hidden
-            id="floating-btn-back"
             onclick="window.history.back();"
-            class="btn btn-primary rounded-circle"
+            class="floating-btn-2 btn btn-primary rounded-circle"
     >
       <span>&#8592;</span>
     </button>

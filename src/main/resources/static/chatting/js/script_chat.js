@@ -14,15 +14,12 @@ function setChatData(room_id, sender_id, my_id) {
     type : "get",
     data : {"roomId" : room_id},
     success : function(chatlist) {
-//      alert("ajax 성공");
       if (chatlist.length == 0) {
-        alert(chatlist.length);
+        //alert(chatlist.length);
       } else {
         dataExist = true;
         for(let i = 0; i < chatlist.length; i++) {
-//          alert("1: " + typeof chatlist[i].createDate + ": " + chatlist[i].createDate); //string
           let datetime = Date.parse(chatlist[i].createDate);
-//          alert("2: " + typeof datetime + ": " + datetime);  //number
           let time = new Intl.DateTimeFormat('ko-KR', {
               hour12: false,
               month: "numeric",
@@ -31,7 +28,6 @@ function setChatData(room_id, sender_id, my_id) {
               minute: "numeric",
               timeZone: 'Asia/Seoul',
           }).format(datetime);
-//          alert("3: " + typeof time + ": " + time);  //string
           if (chatlist[i].sender == my_id) {
             $("#tmp-area").append(
               "<div class='chat-area-right'>"
@@ -63,7 +59,6 @@ function setChatData(room_id, sender_id, my_id) {
 }
 
 function connect() {
-//   alert(roomId + " <- " + myId);
    // 접속
    var socket = new SockJS('/hollroom/websocket/start');
    stompClient = Stomp.over(socket);
@@ -71,17 +66,6 @@ function connect() {
        console.log('Connected: ' + frame);
        // 구독 신청 (sub 등록)
        stompClient.subscribe('/sub/chat/room/' + roomId, onMessageReceived);
-//       alert("subscribe ok");
-//       if (!dataExist) {
-//         alert("if in");
-//         stompClient.send("/pub/chat/enterUser",
-//               {},
-//               JSON.stringify({
-//                   "roomId": roomId,
-//                   "userId": myId
-//               })
-//         )
-//       }
    });
 }
 
@@ -118,7 +102,6 @@ function onMessageReceived(payload) {
 }
 
 function sendChat() {
-//    alert("test: " + roomId + " ------- " + myId);
     if ($("#input-message").val() != "") {
         console.log("/pub/" + roomId)
         console.log(stompClient)
