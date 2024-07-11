@@ -16,6 +16,7 @@
         @import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap");
     </style>
     <!--JavaScript 파일-->
+    <script src="js/mywrite_roommate.js"></script>
 </head>
 <body class="d-flex flex-column font-kor">
 <main class="flex-shrink-0">
@@ -66,10 +67,10 @@
                             <li class="" style="margin:0 10px 10px 10px">
                                 <a class="" href="http://localhost:8090/hollroom/mypage/mywrite_roommate" style="font-weight: bold; color:#8d9393">룸메이트</a>
                             </li>
-                            <li>|</li>
-                            <li class=""  style="margin:0 10px 10px 10px">
-                                <a class="" href="http://localhost:8090/hollroom/mypage/mywrite_monthly">월세지도</a>
-                            </li>
+<!--                            <li>|</li>-->
+<!--                            <li class=""  style="margin:0 10px 10px 10px">-->
+<!--                                <a class="" href="http://localhost:8090/hollroom/mypage/mywrite_monthly">월세지도</a>-->
+<!--                            </li>-->
                         </ul>
                     </nav>
                     <div class="p-3">
@@ -84,28 +85,26 @@
                                 <th>작성일</th>
                             </tr>
                             </thead>
-                            <tbody>
-                                <th:block th:each="board:${boardlist}">
-                                    <tr>
-                                        <td th:text="${board.roommate_id}"></td>
-                                        <td class="title-limit">
-                                            <a
-                                                    th:text="${board.title}"
-                                                    th:href="@{/roommate/detail(roommate_id=${board.roommate_id})}"
-                                                    class="my-paging-a">
-                                            </a>
-                                        </td>
-                                        <td class="write-limit" th:text="${board.getContent()}"></td>
-                                        <td th:text="${#dates.format(board.created_at,'yyyy-MM-dd')}"></td>
-                                    </tr>
-                                </th:block>
+                            <tbody id="post-list">
+<!--                                <th:block th:each="board:${boardlist}">-->
+<!--                                    <tr>-->
+<!--                                        <td th:text="${board.roommate_id}"></td>-->
+<!--                                        <td class="title-limit">-->
+<!--                                            <a-->
+<!--                                                    th:text="${board.title}"-->
+<!--                                                    th:href="@{/roommate/detail(roommate_id=${board.roommate_id})}"-->
+<!--                                                    class="my-paging-a">-->
+<!--                                            </a>-->
+<!--                                        </td>-->
+<!--                                        <td class="write-limit" th:text="${board.getContent()}"></td>-->
+<!--                                        <td th:text="${#dates.format(board.created_at,'yyyy-MM-dd')}"></td>-->
+<!--                                    </tr>-->
+<!--                                </th:block>-->
                             </tbody>
                         </table>
 
                         <div class="d-flex justify-content-center mb-5 my-paging">
-<!--                            <a href="#" class="">&#5130;</a>-->
-<!--                            &lt;!&ndash; 페이지 링크  &ndash;&gt;-->
-<!--                            <a href="#" class="">&#5125;</a>-->
+
                         </div>
                         <div class="d-inline-block">
 <!--                            <div class="d-flex justify-content-end mx-auto">-->

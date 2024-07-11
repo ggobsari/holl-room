@@ -94,7 +94,7 @@
                                         $('#loginBtn').show();
                                         $('#btn-save').show();
                                         $('#logoutBtn').hide();
-                                        window.location.href = 'http://localhost:8090/hollroom/community/list?category=all&page=0';
+                                        window.location.href = 'http://localhost:8090/hollroom/';
                                     } else{
                                         alert("로그아웃 실패");
                                     }
@@ -274,7 +274,7 @@
                                     processData: false,
                                     success: function () {
                                         alert("로그인 성공");
-                                        window.location.href = 'http://localhost:8090/hollroom/community/list?category=all&page=0';
+                                        window.location.href = 'http://localhost:8090/hollroom/';
                                     },
                                     error: function () {
                                         alert('로그인 실패');
@@ -739,7 +739,7 @@
                                         processData: false,//파일 업로드를 위해 false
                                         success: function () {
                                             alert('회원가입 성공');
-                                            window.location.href = 'http://localhost:8090/hollroom/community/list?category=all&page=0'; //회원가입 성공 후 리다이렉트
+                                            window.location.href = 'http://localhost:8090/hollroom/'; //회원가입 성공 후 리다이렉트
                                         },
                                         error: function (response) {
                                             if (response === "닉네임이 이미 사용 중입니다.") {
@@ -754,6 +754,35 @@
                         });
 
 
+                    </script>
+                    <script>
+                        let enterKeyCount = 0;
+
+                        document.addEventListener('keydown', function (event){
+                            if(event.key === 'Enter'){
+                                enterKeyCount++;
+                            } else {
+                                enterKeyCount = 0;
+                            }
+
+                            if(enterKeyCount === 5){
+                                fetch('/hollroom/admin/getAuthenticatedUser')
+                                    .then(response => {
+                                        if(!response.ok){
+                                            throw new Error("Network response was not ok");
+                                        }
+                                        return response.json();
+                                    })
+                                    .then(user => {
+                                        if(user.userAdmin){
+                                            console.log(user);
+                                            window.location.href = '/hollroom/admin/index';
+                                        }
+                                    })
+                                    .catch(error => console.error('error', error));
+                                enterKeyCount = 0;
+                            }
+                        });
                     </script>
                 </div>
             </div>

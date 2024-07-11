@@ -117,8 +117,7 @@
                                         <div class="overlap-group5">
                                             <div class="flex-row">
                                                 <div class="basic-info">상세 정보</div>
-                                                <div class="overlap-group1 clickable-box flex-row-5"
-                                                     onclick="resetPage()">
+                                                <div class="overlap-group1 clickable-box flex-row-5">
                                                     <div class="rectangle-22" id="cancelButton">
                                                         <div class="text-31">취 소</div>
                                                     </div>
@@ -158,25 +157,17 @@
                                                    th:value="${profile.userEmail}" readonly onload="maskEmail()"/>
 
                                             <!--비밀번호-->
-                                            <div th:if="${profile.loginType == null}">
+                                            <div th:if="${profile.loginType == 'basic'}">
                                                 <div class="text-container abeezee-normal-black-14px">
                                                     <div class="text">비밀번호</div>
                                                     <div class="text-26">비밀번호 확인</div>
                                                 </div>
                                                 <div class="flex-row-2 flex-row-5">
                                                     <!--일반로그인-->
-                                                    <input type="password" th:if="${profile.loginType == null}"
+                                                    <input type="password" th:if="${profile.loginType == 'basic'}"
                                                            class="rectangle form-control" id="password"/>
-                                                    <!--소셜로그인-->
-                                                    <input type="password" th:if="${profile.loginType != null}"
-                                                           class="rectangle form-control" style="background-color: #ced4da" readonly/>
-
-                                                    <!--일반로그인-->
-                                                    <input type="password" th:if="${profile.loginType == null}"
+                                                    <input type="password" th:if="${profile.loginType == 'basic'}"
                                                            class="rectangle form-control" id="confirmPasswordInput"/>
-                                                    <!--일반로그인-->
-                                                    <input type="password" th:if="${profile.loginType != null}"
-                                                           class="rectangle form-control" style="background-color: #ced4da" readonly/>
                                                 </div>
                                             </div>
 
@@ -233,8 +224,7 @@
                                                     <div class="flex-row-5">
                                                         <div class="text-36 abeezee-normal-black-14px">거주지역</div>
                                                         <input type="button" id="address_search"
-                                                               class="address-search-button"
-                                                               onclick="AddressSearch()" value="주소검색">
+                                                               class="address-search-button" value="주소검색">
                                                     </div>
                                                     <input type="text" class="rectangle-30 form-control" id="userLocal"
                                                            th:value="${profile.userLocation}" placeholder="주소를 검색해주세요"

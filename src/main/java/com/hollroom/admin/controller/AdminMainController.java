@@ -47,7 +47,7 @@ public class AdminMainController {
         if(user != null && user.getUserAdmin()){
             return "/admin/admin_dashboard";
         } else{
-            return "/community/content/community_list";
+            return "/monthly/monthly";
         }//interest 반환
     }
 
@@ -295,8 +295,8 @@ public class AdminMainController {
     //====================================================================================
     //레이아웃 컨트롤러
     //메인페이지
-    @GetMapping("/admin_layout")
-    public String admin_layout() {
-        return "admin/admin_layout"; //interest 반환
-    }
+//    @GetMapping("/admin_layout")
+//    public String admin_layout() {
+//        return "admin/admin_layout"; //interest 반환
+//    }
 }

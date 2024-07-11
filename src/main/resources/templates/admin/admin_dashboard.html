@@ -8,7 +8,7 @@
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-    <title>Dashboard - NiceAdmin Bootstrap Template</title>
+    <title>Dashboard</title>
     <meta content="" name="description">
     <meta content="" name="keywords">
 
@@ -227,7 +227,7 @@
                                                 const dates = data.map(item => item.date);
                                                 const dailyVisitor = data.map(item => item.dailyVisitor);
                                                 const countUser = data.map(item => item.countUser);
-                                                // const roommateBoards = data.map(item => item.roommateBoards);
+                                                const roommateBoards = data.map(item => item.roommateBoards);
                                                 const communityBoards = data.map(item => item.communityBoards);
 
                                                 new ApexCharts(document.getElementById("reportsChart"), {
@@ -238,9 +238,9 @@
                                                         name: '유저 수',
                                                         data: countUser
                                                     }, {
-                                                        // name: '룸메이트 게시글',
-                                                        // data: roommateBoards
-                                                        // }, {
+                                                        name: '룸메이트 게시글',
+                                                        data: roommateBoards
+                                                        }, {
                                                         name: '커뮤니티 게시글',
                                                         data: communityBoards
                                                     }],

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hollroom.mypage">
+    <!--커뮤니티 내가쓴글 글목록(카테고리x)-->
+    <select id="communityList" parameterType="Long" resultType="admin_community">
+    select c.*
+    from community c
+    where USER_ID = #{user_Id}
+    order by POST_ID desc
+    <!--커뮤니티 내가쓴글 글목록(카테고리o)-->
+    </select>
+    <select id="communityListCategory" parameterType="admin_community" resultType="admin_community">
+        select c.*
+        from community c
+        where USER_ID = #{user_Id} and CATEGORY = #{category}
+        order by POST_ID desc
+    </select>
+</mapper>
