@@ -3,8 +3,6 @@ package com.hollroom.admin.controller;
 import com.hollroom.admin.domain.dto.RecentInquiryDTO;
 import com.hollroom.admin.service.RecentInquiryService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 

@@ -19,7 +19,4 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
     long countByBanTrueOrIsDeletedTrueAndUserSignupAtBetween(LocalDate start, LocalDate end);
 
     long countByUserSignupAtAndIsDeletedFalseAndBanFalse(LocalDate date);
-
-//    @Query("SELECT COUNT(u) FROM UserEntity u WHERE u.userSignupAt = :date AND u.isDeleted = false AND u.ban = false")
-//    long countNewUsersByDate(@Param("date") LocalDate date);
 }

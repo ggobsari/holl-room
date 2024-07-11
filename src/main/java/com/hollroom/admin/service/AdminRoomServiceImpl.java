@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -24,5 +25,10 @@ public class AdminRoomServiceImpl implements AdminRoomService {
     @Override
     public void selectAdminRoommateById(AdminRoomDTO adminRoom) {
         adminRoomDAO.selectAdminRoommateById(adminRoom);
+    }
+
+    @Override
+    public long countByCreateAt(LocalDate date) {
+        return adminRoomDAO.countByDate(date);
     }
 }

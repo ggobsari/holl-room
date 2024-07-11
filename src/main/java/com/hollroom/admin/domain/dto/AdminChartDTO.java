@@ -19,7 +19,7 @@ public class AdminChartDTO {
 
     private long countUser;
 
-//    private long roommateBoards;
+    private long roommateBoards;
 
     private long communityBoards;
 

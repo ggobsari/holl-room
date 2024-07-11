@@ -105,11 +105,4 @@
     <select id="selectByUserId" parameterType="long" resultType="rmmt_board">
         select * from board_roommate where id = #{id} order by roommate_id desc
     </select>
-
-<!--관리자 페이지 차트에서 활용-->
-<!--    <select id="countByDate" parameterType="java.time.LocalDate" resultType="long">-->
-<!--        SELECT COUNT(*)-->
-<!--        FROM board_roommate-->
-<!--        WHERE created_at = #{date}-->
-<!--    </select>-->
 </mapper>
