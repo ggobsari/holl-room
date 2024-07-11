@@ -33,8 +33,8 @@
         src="//dapi.kakao.com/v2/maps/sdk.js?appkey=a3660f8de5e77b73f4c7822adeb86bec&libraries=services"></script>
 <!--<script src="/user/js/login.js"></script>-->
 <script>
-  #(document).ready(function() {
-    function checkLoginStatus(e) {
+  $(document).ready(function() {
+    $("#linkToRoommate").click(function(e) {
       e.preventDefault();
       $.ajax({
         url: "/hollroom/roommate/checkUser",
@@ -43,7 +43,7 @@
           if (info.login == "true") {
             if (info.gender == "false") {
               alert(
-                "해당 게시판은 본인인증을 완료한 사용자만 이용할 수 있습니다"
+                      "해당 게시판은 본인인증을 완료한 사용자만 이용할 수 있습니다"
               );
             } else {
               location.href = "/hollroom/roommate/home";
@@ -53,7 +53,7 @@
           }
         },
       });
-    }
+    });
   });
 </script>
 <main class="flex-shrink-0">
@@ -68,16 +68,16 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
           <li class="nav-item"><a class="nav-link" href="/hollroom/">홈</a></li>
-          <li class="nav-item"><a class="nav-link" href="/hollroom/monthly/product">월세지도</a></li>
-            <li class="nav-item">
-              <a
-                  class="nav-link"
-                  role="button"
-                  onclick="checkLoginStatus(event)"
-              >
-                룸메이트
-              </a>
-            </li>
+          <li class="nav-item"><a class="nav-link" href="/hollroom/monthly">월세지도</a></li>
+          <li class="nav-item">
+            <a
+                    id="linkToRoommate"
+                    class="nav-link"
+                    role="button"
+            >
+              룸메이트
+            </a>
+          </li>
           <li class="nav-item"><a class="nav-link" href="/hollroom/community/list?category=all&page=0">커뮤니티</a></li>
           <li class="nav-item"><a class="nav-link" href="/hollroom/mypage/profile">마이페이지</a></li>
         </ul>
