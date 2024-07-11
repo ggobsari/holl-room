@@ -1,15 +1,15 @@
 package com.hollroom.mypage.dao;
 
-import com.hollroom.community.domain.entity.CommunityEntity;
+import com.hollroom.admin.domain.dto.AdminComDTO;
 import com.hollroom.mypage.domain.dto.MyRoommateDTO;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
 public interface MywriteDAO {
-    //Community userId 글 목록
-    Page<CommunityEntity> findByUserIdAndCategory(Long userId, String category, Pageable pageable);
-    //Roommate userId 글 목록
+    //모든 게시글 목록 보기
+    List<AdminComDTO> myCommunityList(Long id);
+    //카테고리별 게시글 목록 보기
+    List<AdminComDTO> myCommunityListCategory(AdminComDTO adminComDTO);
+
     List<MyRoommateDTO> selectMyRoommateById(Long id);
 }

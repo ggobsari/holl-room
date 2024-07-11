@@ -5,9 +5,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.util.List;
-
 public interface MywriteRepository extends JpaRepository<CommunityEntity, Long> {
-    Page<CommunityEntity> findByUserIdAndCategory(Long userId, String category, Pageable pageable);
-    Page<CommunityEntity> findByUserId(Long userId, Pageable pageable);
+    Page<CommunityEntity> findByUserIdAndCategory(String category, String deleted, Pageable pageable);
+    Page<CommunityEntity> findByUserId(String deleted, Pageable pageable);
 }
