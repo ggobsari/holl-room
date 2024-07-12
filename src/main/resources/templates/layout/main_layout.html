@@ -116,7 +116,7 @@
                     $('#loginBtn').show();
                     $('#btn-save').show();
                     $('#logoutBtn').hide();
-                    window.location.href = 'http://localhost:8090/hollroom/';
+                    window.location.href = '/hollroom/';
                   } else{
                     alert("로그아웃 실패");
                   }
@@ -268,7 +268,7 @@
 
               $('#naver-login-btn').click(function (e) {
                 e.preventDefault();
-                window.location.href = 'http://localhost:8090/hollroom/naver';
+                window.location.href = '/hollroom/naver';
               })
 
               $('#google-login-btn').click(function (e) {
@@ -296,7 +296,7 @@
                   processData: false,
                   success: function () {
                     alert("로그인 성공");
-                    window.location.href = 'http://localhost:8090/hollroom/';
+                    window.location.href = '/hollroom/';
                   },
                   error: function () {
                     alert('로그인 실패');
@@ -761,7 +761,7 @@
                     processData: false,//파일 업로드를 위해 false
                     success: function () {
                       alert('회원가입 성공');
-                      window.location.href = 'http://localhost:8090/hollroom/'; //회원가입 성공 후 리다이렉트
+                      window.location.href = '/hollroom/'; //회원가입 성공 후 리다이렉트
                     },
                     error: function (response) {
                       if (response === "닉네임이 이미 사용 중입니다.") {
@@ -798,7 +798,7 @@
                         .then(user => {
                           if(user.userAdmin){
                             console.log(user);
-                            window.location.href = 'http://localhost:8090/hollroom/admin/index';
+                            window.location.href = '/hollroom/admin/index';
                           }
                         })
                         .catch(error => console.error('error', error));
