@@ -37,7 +37,7 @@
     <script src="/hollroom/roommate/js/script.js"></script>
     <script th:inline="javascript">
       const accessible = /*[[${accessible}]]*/;
-      alert(typeof accessible + " 타입의 " + accessible);
+      //alert(typeof accessible + " 타입의 " + accessible);
       if (!accessible) {
         alert("이성이 올린 게시글은 열람할 수 없습니다");
         location.href = "/hollroom/roommate/home";
