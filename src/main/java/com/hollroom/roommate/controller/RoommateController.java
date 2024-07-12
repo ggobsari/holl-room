@@ -1,15 +1,12 @@
 package com.hollroom.roommate.controller;
 
-import com.hollroom.chatting.domain.entity.ChatRoom;
 import com.hollroom.roommate.dto.RoommateDTO;
 import com.hollroom.roommate.dto.RoommateUserDTO;
 import com.hollroom.roommate.service.RoommateService;
 import com.hollroom.user.entity.UserEntity;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
-import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -23,27 +20,32 @@ import java.util.Map;
 @RequiredArgsConstructor
 @SessionAttributes
 @RequestMapping("/roommate")
-public class RoommateController {  // 1.9
+public class RoommateController {  // 2.0
     @Autowired
     RoommateService service;
-    String userGender;
+    String myGender;
+    Long myId;
 
     @GetMapping("/home")
     public String homePage(HttpSession session, Model model) {
         UserEntity user = (UserEntity) session.getAttribute("USER_NICKNAME");
-        userGender = user.getUserGender();
-        List<RoommateDTO> boardlist = service.getBoardList(userGender);
+        myGender = user.getUserGender();
+        List<RoommateDTO> boardlist = service.getBoardList(myGender);
         model.addAttribute("boardlist", boardlist);
         return "roommate/roommate_home";
     }
 
     @GetMapping("/detail")
     public String detailPage(int roommate_id, Model model, HttpSession session) {
+//        if (userGender != null) {
+//            UserEntity user = (UserEntity) session.getAttribute("USER_NICKNAME");
+//            userGender = user.getUserGender();
+//        }
         RoommateDTO board = service.getBoardById(roommate_id);
         RoommateUserDTO user = service.getUserInfo(board.getId());
         model.addAttribute("board", board);
         model.addAttribute("user", user);
-        if (userGender.equals(user.getUser_gender())) {
+        if (myGender.equals(user.getUser_gender())) {
             model.addAttribute("accessible", true);
         } else {
             model.addAttribute("accessible", false);
@@ -83,21 +85,31 @@ public class RoommateController {  // 1.9
     }
 
     @GetMapping("/delete")
-    public String deleteBoard(int roommate_id) {
-        int result = service.deleteBoard(roommate_id);
+    public String deleteBoard(int roommate_id, HttpSession session) {
+        if (myId == null) {
+//            System.out.println("값 할당 완료");
+            UserEntity user = (UserEntity) session.getAttribute("USER_NICKNAME");
+            myId = user.getId();
+        }
+        RoommateDTO board = service.getBoard(roommate_id);
+//        System.out.println(myId + " ,, " + board.getId());
+        if (myId == board.getId()) {
+//            System.out.println("동일 아이디 삭제 가능");
+            int result = service.deleteBoard(roommate_id);
+        }
         return "redirect:/roommate/home";
     }
 
     @GetMapping("/search")
     public String search(String category, String searchWord, Model model) {
-        List<RoommateDTO> boardlist = service.getSearchResult(category, searchWord, userGender);
+        List<RoommateDTO> boardlist = service.getSearchResult(category, searchWord, myGender);
         model.addAttribute("boardlist", boardlist);
         return "roommate/roommate_home";
     }
 
     @PostMapping("/search")
     public String search(RoommateDTO data, Model model) {
-        List<RoommateDTO> boardlist = service.getFilteredResult(data, userGender);
+        List<RoommateDTO> boardlist = service.getFilteredResult(data, myGender);
         model.addAttribute("conditions", data);
         model.addAttribute("boardlist", boardlist);
         return "roommate/roommate_home";
