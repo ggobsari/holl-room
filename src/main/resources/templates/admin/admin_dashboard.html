@@ -145,18 +145,19 @@
                                     console.log(deactivatedUsers)
                                     const totalUsers = data.totalUsers;
                                     console.log(totalUsers)
+                                    const existingUsers = totalUsers - (newUsers - deactivatedUsers);
 
                                     document.getElementById("user-stats").innerText =
                                         `가입: ${newUsers}명, 탈퇴: ${deactivatedUsers}명`;
                                     document.getElementById("total-users").innerText = `총 유저 수: ${totalUsers}명`;
 
-                                    const increase = newUsers - deactivatedUsers;
-                                    const increasePercentage = ((increase / Math.max(newUsers, 1)) * 100).toFixed(2);
+                                    const currentUsers = newUsers - deactivatedUsers;
+                                    const increasePercentage = ((currentUsers / Math.max(existingUsers, 1)) * 100).toFixed(2);
 
                                     const userIncreaseElement = document.getElementById("user-increase");
-                                    userIncreaseElement.innerText = `${increase} (${increasePercentage}%)`;
+                                    userIncreaseElement.innerText = `(${increasePercentage}%)`;
 
-                                    if (increase >= 0) {
+                                    if (currentUsers >= 0) {
                                         userIncreaseElement.classList.add("text-success");
                                         userIncreaseElement.classList.remove("text-danger");
                                     } else {
