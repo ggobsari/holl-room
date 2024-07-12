@@ -5,12 +5,12 @@
 
 <mapper namespace="com.hollroom.chatting">
     <select id="selectRoomBySender" parameterType="Long" resultType="com.hollroom.chatting.domain.entity.ChatRoom">
-        select *
+        select distinct roomId, receiver, sender
         from (select cr.room_id as roomId, cr.receiver as receiver, cr.sender as sender,
-                cm.room_id as cmRoomId, cm.create_date
+            cm.room_id as cmRoomId, cm.create_date
             from chat_room cr, chat_message cm
-            where cr.sender = #{sender}
-                or cr.receiver = #{sender}) as sub
+            where cr.sender = 14
+            or cr.receiver = 14) as sub
         where roomId = cmRoomId
         order by create_date desc
     </select>

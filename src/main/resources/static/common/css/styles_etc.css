@@ -82,16 +82,16 @@ body::-webkit-scrollbar-thumb,
 select::-webkit-scrollbar-thumb,
 textarea::-webkit-scrollbar-thumb {
   height: 30%;
-  /* background: rgb(129, 195, 197); */
-  background: var(--bs-primary);
+  background: rgb(129, 195, 197);
+  /* background: var(--bs-primary); */
   border-radius: 10px;
 }
 
 body::-webkit-scrollbar-track,
 select::-webkit-scrollbar-track,
 textarea::-webkit-scrollbar-track {
-  /* background: rgba(33, 122, 244, 0.1); */
-  background: var(--bs-light);
+  background: rgba(33, 122, 244, 0.1);
+  /* background: var(--bs-light); */
 }
 
 .ml-1 {

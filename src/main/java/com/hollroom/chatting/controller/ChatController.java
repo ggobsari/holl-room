@@ -7,14 +7,12 @@ import com.hollroom.chatting.domain.entity.ChatRoom;
 import com.hollroom.chatting.domain.entity.MessageType;
 import com.hollroom.chatting.service.ChatService;
 import com.hollroom.roommate.dto.RoommateUserDTO;
-import com.hollroom.roommate.service.RoommateService;
 import com.hollroom.user.entity.UserEntity;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
-import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -31,6 +29,7 @@ import java.util.List;
 public class ChatController {
     private final ChatService service;
     private final SimpMessageSendingOperations operations;
+    private static Long myId;
 
 //    @MessageMapping("/chat/enterUser")
 //    public void startChat(@Payload ChatUserRequest chatUserRequest,
@@ -66,7 +65,7 @@ public class ChatController {
     // 특정 채팅방 대화내역 불러오기
     @GetMapping("/chat/chatlist")
     @ResponseBody
-    public List<ChatMessageResponse> chatlist(@RequestParam("roomId") String roomId, Model model) {
+    public List<ChatMessageResponse> chatlist(@RequestParam("roomId") String roomId, HttpSession session, Model model) {
         List<ChatMessageResponse> data =  service.getChatList(roomId);
         return data;
     }
@@ -88,47 +87,70 @@ public class ChatController {
 
     // 내 채팅방 목록 불러오기
     @GetMapping("/chat/roomlist")
-    public String chatlistPage(Long userId, Model model) {
+    public String chatlistPage(Long userId, HttpSession session, Model model) {
         System.out.println("######## /chat/roomlist Get");
-        List<ChatRoom> roomlist = service.getRoomList(userId);
-        if (roomlist.size() != 0) {
-//        System.out.println("1****** roomlist: " + roomlist);
-            List<ChatMessage> msglist = service.getChatMsgList(roomlist);
-//        for (ChatMessage msg : msglist) {
-//            System.out.println("2****** msglist: " + msg.getMessage());
-//        }
-            List<UserEntity> userlist = service.getChatUserList(userId, roomlist, msglist);
-//        System.out.println("3****** userlist: " + userlist);
-//        for (int i = 0; i < msglist.size(); i++) {
-//            System.out.println("msg: " +  msglist.get(i).getMessage());
-//        }
-
-            // @@코드 수정 필요
-            List<ChatListItem> chatlistitems = new ArrayList<>();
-            for (int i = 0; i < userlist.size(); i++) {
-                ChatListItem chat = new ChatListItem();
-                chat.setUserId(userlist.get(i).getId());
-                chat.setUserNickname(userlist.get(i).getUserNickname());
-                chat.setUserImage(userlist.get(i).getUserImage());
-                chat.setRoomId(roomlist.get(i).getRoomId());
-                chat.setLastMessage(msglist.get(i).getMessage());
-                chat.setLastDateTime(msglist.get(i).getCreateDate());
-                chatlistitems.add(chat);
-                System.out.println(chat);
-            }
-            model.addAttribute("chatlistitem", chatlistitems);
+        if (myId == null) {
+            System.out.println("myId가 null임");
+            getMyId(session);
         }
-        return "chatting/chat_list";
+        if (myId == userId) {
+            System.out.println("myId == userId");
+            List<ChatRoom> roomlist = service.getRoomList(userId);
+            if (roomlist.size() != 0) {
+                System.out.println("1****** roomlist: " + roomlist);
+                List<ChatMessage> msglist = service.getChatMsgList(roomlist);
+                for (ChatMessage msg : msglist) {
+                    System.out.println("2****** msglist: " + msg.getMessage());
+                }
+                List<UserEntity> userlist = service.getChatUserList(userId, roomlist, msglist);
+                System.out.println("3****** userlist: " + userlist);
+                for (int i = 0; i < msglist.size(); i++) {
+                    System.out.println("msg: " + msglist.get(i).getMessage());
+                }
+
+                // @@코드 수정 필요
+                List<ChatListItem> chatlistitems = new ArrayList<>();
+                for (int i = 0; i < userlist.size(); i++) {
+                    ChatListItem chat = new ChatListItem();
+                    chat.setUserId(userlist.get(i).getId());
+                    chat.setUserNickname(userlist.get(i).getUserNickname());
+                    chat.setUserImage(userlist.get(i).getUserImage());
+                    chat.setRoomId(roomlist.get(i).getRoomId());
+                    chat.setLastMessage(msglist.get(i).getMessage());
+                    chat.setLastDateTime(msglist.get(i).getCreateDate());
+                    chatlistitems.add(chat);
+                    System.out.println(chat);
+                }
+                model.addAttribute("chatlistitem", chatlistitems);
+            }
+            return "chatting/chat_list";
+        } else {
+            return "redirect:/roommate/home";
+        }
     }
 
     // 채팅방 열기 (채팅 목록에서 선택)
     @GetMapping("/chat/room")
-    public String chatroomPage(Long roomId, Long userId, Model model) {
+    public String chatroomPage(Long roomId, Long userId, HttpSession session, Model model) {
         System.out.println("######## /chat/room Get");
+        if (myId == null) {
+            System.out.println("myId가 null임");
+            getMyId(session);
+        }
         ChatRoom room = service.getRoom(roomId);
-        RoommateUserDTO user = service.getUser(userId);
-        model.addAttribute("roominfo", room);
-        model.addAttribute("user", user);
-        return "chatting/chat_detail";
+        if ((myId == room.getReceiver()) || (myId == room.getSender())) {
+            System.out.println("채팅 참여자임");
+            RoommateUserDTO user = service.getUser(userId);
+            model.addAttribute("roominfo", room);
+            model.addAttribute("user", user);
+            return "chatting/chat_detail";
+        } else {
+            return "redirect:/roommate/home";
+        }
+    }
+
+    private static void getMyId(HttpSession session) {
+        UserEntity user = (UserEntity) session.getAttribute("USER_NICKNAME");
+        myId = user.getId();
     }
 }
