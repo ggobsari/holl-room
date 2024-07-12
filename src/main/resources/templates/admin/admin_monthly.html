@@ -119,7 +119,7 @@
 <script>
     function deletedId(post_Id) {
         if (confirm("정말로 삭제 하시겠습니까?\n 글 번호 : "+post_Id)) {
-            fetch(`http://localhost:8090/hollroom/admin/mon_deleted`, { // 절대 경로로 변경
+            fetch(`/hollroom/admin/mon_deleted`, { // 절대 경로로 변경
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded',
@@ -146,7 +146,7 @@
 
     function deletedIdCancel(post_Id) {
         if (confirm("정말로 삭제를 취소하시겠습니까?\n글 번호 : "+post_Id)) {
-            fetch(`http://localhost:8090/hollroom/admin/mon_deleted_cancel`, { // 절대 경로로 변경
+            fetch(`/hollroom/admin/mon_deleted_cancel`, { // 절대 경로로 변경
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded',

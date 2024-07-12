@@ -10,7 +10,7 @@
     <meta name="author" content=""/>
     <title>Community</title>
     <!-- Favicon-->
-    <link rel="icon" type="image/x-icon" href="http://localhost:8090/hollroom/layout/assets/favicon.ico"/>
+    <link rel="icon" type="image/x-icon" href="/hollroom/layout/assets/favicon.ico"/>
     <!-- Bootstrap icons-->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet"/>
     <!-- Core theme CSS (includes Bootstrap)-->
@@ -141,7 +141,7 @@
 <script>
     function deletePost(postId) {
         if (confirm("정말로 삭제하시겠습니까?\n게시물 번호 : "+postId)) {
-            fetch(`http://localhost:8090/hollroom/admin/community_deleted`, { // 절대 경로로 변경
+            fetch(`/hollroom/admin/community_deleted`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded',
@@ -168,7 +168,7 @@
 
     function deletePostCancel(postId) {
         if (confirm("삭제를 취소하시겠습니까?\n게시물 번호 : "+postId)) {
-            fetch(`http://localhost:8090/hollroom/admin/community_delete_cancel`, { // 절대 경로로 변경
+            fetch(`/hollroom/admin/community_delete_cancel`, { // 절대 경로로 변경
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded',

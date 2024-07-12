@@ -73,12 +73,12 @@ function uploadInquiry() {
     }
 
     const xhr = new XMLHttpRequest();
-    xhr.open("POST", "http://localhost:8090/hollroom/mypage/upload", true);
+    xhr.open("POST", "/hollroom/mypage/upload", true);
     xhr.onreadystatechange = function () {
         if (xhr.readyState == 4) {
             if (xhr.status == 200) {
                 const response = JSON.parse(xhr.responseText);
-                window.location.href = "http://localhost:8090/hollroom/mypage/inquiry?category=all&page=0"; // 리디렉션 URL
+                window.location.href = "/hollroom/mypage/inquiry?category=all&page=0"; // 리디렉션 URL
             } else {
                 alert("업로드에 실패했습니다. 서버 응답: " + xhr.responseText);
             }
