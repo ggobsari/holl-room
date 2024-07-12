@@ -9,7 +9,7 @@
   <meta name="author" content="" />
   <title>HOLLROOM</title>
   <!-- Favicon-->
-  <link rel="icon" type="image/x-icon" href="http://localhost:8090/hollroom/layout/assets/favicon.ico" />
+  <link rel="icon" type="image/x-icon" href="/hollroom/layout/assets/favicon.ico" />
   <!-- Bootstrap icons-->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
   <!-- Core theme CSS (includes Bootstrap)-->
@@ -55,6 +55,23 @@
       });
     });
   });
+
+  $(document).ready(function() {
+    $("#linkToMypage").click(function(e) {
+      e.preventDefault();
+      $.ajax({
+        url: "/hollroom/mypage/checkUser",
+        type: "GET",
+        success: function (info) {
+          if (info.login == "true") {
+            location.href = "/hollroom/mypage/profile";
+          } else {
+            $("#loginBtn").click();
+          }
+        },
+      });
+    });
+  });
 </script>
 <main class="flex-shrink-0">
   <!-- Navigation-->
@@ -79,7 +96,7 @@
             </a>
           </li>
           <li class="nav-item"><a class="nav-link" href="/hollroom/community/list?category=all&page=0">커뮤니티</a></li>
-          <li class="nav-item"><a class="nav-link" href="/hollroom/mypage/profile">마이페이지</a></li>
+          <li class="nav-item"><a class="nav-link" id="linkToMypage" role="button">마이페이지</a></li>
         </ul>
 
         <div style="position: absolute; right: 20px;">
@@ -263,7 +280,7 @@
               $('#kakao-login-btn').click(function (e) {
                 e.preventDefault();
                 window.location.href =
-                        'https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=eab736d5f220cb419d2fe00eadae71e2&redirect_uri=http://localhost:8090/hollroom/kakao';
+                        'https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=eab736d5f220cb419d2fe00eadae71e2&redirect_uri=http://175.45.205.226:8090/hollroom/kakao';
               })
 
               $('#naver-login-btn').click(function (e) {

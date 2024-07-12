@@ -17,6 +17,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/mypage")
@@ -26,13 +28,23 @@ public class ProfileController {
     private final ProfileService profileService;
     private final UserService userService;
 
+    //로그인 체크
+    @GetMapping("/checkUser")
+    @ResponseBody
+    public Map<String, String> checkUser(HttpSession httpSession){
+        Map<String, String> map = new HashMap<>();
+        if(httpSession.getAttribute("USER_NICKNAME") != null){
+            map.put("login", "true");
+        }else{
+            map.put("login", "false");
+        }
+        return map;
+    }
+
     //프로필 정보 불러오기
     @GetMapping("/profile")
     public String getProfile(Model model, HttpSession session) {
         UserEntity user = (UserEntity) session.getAttribute("USER_NICKNAME");
-        if (user == null) {
-            return "redirect:/login";
-        }
         model.addAttribute("profile", profileService.getUserByEmail(user.getUserEmail()));
         return "mypage/profile";
     }

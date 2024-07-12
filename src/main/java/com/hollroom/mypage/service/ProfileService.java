@@ -102,7 +102,7 @@ public class ProfileService {
     }
 
     //이미지 저장 업데이트
-    private static final String UPLOAD_DIR = "src/main/resources/static/mypage/img/profile/";
+    private static final String UPLOAD_DIR = "C:/root/fileupload";
     public void saveProfileImage(MultipartFile image, UserSignupDTO userSignupDTO) {
         try {
             UserEntity userEntity = userRepository.findByUserEmail(userSignupDTO.getUserEmail())
@@ -118,7 +118,7 @@ public class ProfileService {
             Path filePath = Paths.get(UPLOAD_DIR, image.getOriginalFilename());
 //            System.out.println(filePath);
             Files.write(filePath, image.getBytes());
-            String fileUrl = "http://localhost:8090/hollroom/mypage/img/profile/" + image.getOriginalFilename();
+            String fileUrl = "C:/root/fileupload" + image.getOriginalFilename();
             userEntity.setUserImage(fileUrl);
 
             userRepository.save(userEntity);

@@ -12,6 +12,6 @@ public class HollroomWebConfig implements WebMvcConfigurer {
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         //특정path로 요청하면 실제 파일이 저장된 위치를 연결해서 리소스를 가져올 수 있도록 처리
         registry.addResourceHandler("/imageload/**")
-                .addResourceLocations("file:///C:/backend23/community_upload/");
+                .addResourceLocations("file:////root/fileupload/");
     }
 }
