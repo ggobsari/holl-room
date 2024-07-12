@@ -45,12 +45,13 @@ public class AdminMainController {
     public String index() {
         UserEntity user = (UserEntity) session.getAttribute("USER_NICKNAME");
         if(user != null && user.getUserAdmin()){
-            return "/admin/admin_dashboard";
+            return "admin/admin_dashboard";
         } else{
-            return "/monthly/monthly";
+            return "monthly/monthly";
         }//interest 반환
     }
 
+    //관리자 계정인지 판별
     @GetMapping("/getAuthenticatedUser")
     @ResponseBody
     public UserEntity getAuthenticatedUser(){
