@@ -72,7 +72,7 @@
 
                             <div class="col-md-12 form-control" >
                                 <div type="text" name="filename" style="border-color: white; margin-bottom: 10px" th:each="file : ${filelist}">
-                                     <a th:text="${file.file_Original_Name}" th:href="'C:/backend23/community_upload/'+${file.file_Store_Name}" readonly></a><!--링크 오류 서버 배포후 고치기-->
+                                     <a th:text="${file.file_Original_Name}" th:href="'http://175.45.205.226:8090/hollroom/imageload/'+${file.file_Store_Name}" readonly></a><!--링크 오류 서버 배포후 고치기-->
                                 </div>
                             </div>
 
