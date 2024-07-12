@@ -118,7 +118,7 @@ public class ProfileService {
             Path filePath = Paths.get(UPLOAD_DIR, image.getOriginalFilename());
 //            System.out.println(filePath);
             Files.write(filePath, image.getBytes());
-            String fileUrl = "C:/root/fileupload" + image.getOriginalFilename();
+            String fileUrl = "http://175.45.205.226:8090/hollroom/imageload/" + image.getOriginalFilename();
             userEntity.setUserImage(fileUrl);
 
             userRepository.save(userEntity);
