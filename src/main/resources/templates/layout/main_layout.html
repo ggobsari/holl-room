@@ -55,6 +55,23 @@
       });
     });
   });
+
+  $(document).ready(function() {
+    $("#linkToMypage").click(function(e) {
+      e.preventDefault();
+      $.ajax({
+        url: "/hollroom/mypage/checkUser",
+        type: "GET",
+        success: function (info) {
+          if (info.login == "true") {
+            location.href = "/hollroom/mypage/profile";
+          } else {
+            $("#loginBtn").click();
+          }
+        },
+      });
+    });
+  });
 </script>
 <main class="flex-shrink-0">
   <!-- Navigation-->
@@ -79,7 +96,7 @@
             </a>
           </li>
           <li class="nav-item"><a class="nav-link" href="/hollroom/community/list?category=all&page=0">커뮤니티</a></li>
-          <li class="nav-item"><a class="nav-link" href="/hollroom/mypage/profile">마이페이지</a></li>
+          <li class="nav-item"><a class="nav-link" id="linkToMypage" role="button">마이페이지</a></li>
         </ul>
 
         <div style="position: absolute; right: 20px;">
