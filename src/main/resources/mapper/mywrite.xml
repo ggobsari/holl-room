@@ -8,14 +8,14 @@
     <select id="communityList" parameterType="Long" resultType="admin_community">
     select c.*
     from community c
-    where USER_ID = #{user_Id}
-    order by POST_ID desc
+    where user_id = #{user_Id} and deleted is null
+    order by created_at desc
     <!--커뮤니티 내가쓴글 글목록(카테고리o)-->
     </select>
     <select id="communityListCategory" parameterType="admin_community" resultType="admin_community">
         select c.*
         from community c
-        where USER_ID = #{user_Id} and CATEGORY = #{category}
-        order by POST_ID desc
+        where user_id = #{user_Id} and deleted is null and category =  #{category}
+        order by created_at desc
     </select>
 </mapper>
