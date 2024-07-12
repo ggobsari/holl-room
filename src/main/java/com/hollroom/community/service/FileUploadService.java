@@ -40,7 +40,7 @@ public class FileUploadService {
         return storeFileName;
     }
     public String getUploadPath(String fileName){
-        return uploadPath+fileName;
+        return uploadPath+"/"+fileName;
     }
 
     private String createStoreFileName(String originalFileName){
