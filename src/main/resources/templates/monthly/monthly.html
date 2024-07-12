@@ -366,7 +366,7 @@
     <div class="left-div">
         <div class="map">
             <div class="monthly-map-text">서울시 평균 월세지도</div>
-            <div th:replace="~{/monthly/seoul_divisions :: map}"></div>
+            <div th:replace="~{monthly/seoul_divisions.html :: map}"></div>
             <div id="avg-price-box"></div>
         </div>
     </div>
@@ -378,7 +378,7 @@
             <div id="productList" class="full-height">
                 <div class="display-flex full-height product-list">
                     <div>
-                        <h3>월세매물 / <a th:href="@{/monthly/product/register}">매물등록하기</a></h3>
+                        <h3>월세매물 / <a href="/hollroom/monthly/product/register">매물등록하기</a></h3>
                         <div id="functionPanel" class="display-flex">
                             <div>
                                 <span>조건검색</span>
@@ -391,7 +391,7 @@
                         </div>
                     </div>
                     <div id="product-list" class="part-scroll" style="height: 100vh;">
-                        <div th:replace="~{/monthly/product_list :: productList}"></div>
+                        <div th:replace="~{monthly/product_list :: productList}"></div>
                     </div>
                 </div>
             </div>
