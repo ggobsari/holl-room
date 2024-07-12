@@ -9,7 +9,7 @@
 <body>
 <div th:fragment="productList">
     <ul>
-        <li th:each="product : ${productPage}"  >
+        <li th:each="product : ${productPage}"  class="product-item">
             <a class="product-box" style="display: flex; color: inherit; text-decoration: none;" th:href="|/hollroom/monthly/product/${product.id}|">
                 <div class="horizontal-center">
                     <img style="width: 180px; height: 130px; margin-left: 10px; margin-right: 10px" th:src="@{/imageload/}+${product.roomImg}"/>
