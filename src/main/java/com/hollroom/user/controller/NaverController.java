@@ -41,7 +41,8 @@ public class NaverController {
         NaverDTO naverDTO = naverService.getUserProfile(accessToken);
         log.info(naverDTO.toString());
         naverService.saveOrUpdateUser(naverDTO, request);
-        String redirectUrl = "http://localhost:8090/hollroom/";
+//        String redirectUrl = "http://localhost:8090/hollroom/";
+        String redirectUrl = "http://175.45.205.226:8090/hollroom/";
         return ResponseEntity.status(302).header("Location", redirectUrl).build();
     }
 }
