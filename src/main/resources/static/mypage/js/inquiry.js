@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', function () {
     //글쓰기 버튼 활성화
     document.getElementById('write-button').addEventListener('click', function () {
-        window.location.href = "http://localhost:8090/hollroom/mypage/inquiry_write";
+        window.location.href = "/hollroom/mypage/inquiry_write";
     })
     //==============================================================================================================
     let category = 'all';
