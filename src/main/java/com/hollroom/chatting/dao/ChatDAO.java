@@ -1,6 +1,7 @@
 package com.hollroom.chatting.dao;
 
 import com.hollroom.chatting.domain.dto.ChatUserRequest;
+import com.hollroom.chatting.domain.entity.ChatListItem;
 import com.hollroom.chatting.domain.entity.ChatMessage;
 import com.hollroom.chatting.domain.entity.ChatRoom;
 import com.hollroom.chatting.domain.entity.RoomInfoOfUser;
@@ -18,6 +19,7 @@ public interface ChatDAO {
     Boolean checkRoom(Long sender, Long receiver);
     List<ChatRoom> getRoomList(Long id);
     List<UserEntity> getChatUserList(List<Long> idList);
+    List<ChatListItem> getChatListItems(List<ChatListItem> chatListItems);
     List<ChatMessage> getChatMsgList(List<ChatRoom> roomList);
     RoommateUserDTO getUser(Long userId);
     ChatRoom getRoomByIds(Long sender, Long receiver);
