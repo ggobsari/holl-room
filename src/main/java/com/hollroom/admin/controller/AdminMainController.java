@@ -93,7 +93,7 @@ public class AdminMainController {
         inquiry.setAnswer_Content(answerContent);
         inquiry.setAnswer_At(new Date());
         inquiryListService.updateInquiryAnswer(inquiry);
-        return "redirect:tables-data";
+        return "redirect:admin_inquiry";
     }
 
     //==============================================================================================
