@@ -87,44 +87,35 @@ public class ChatController {
 
     // 내 채팅방 목록 불러오기
     @GetMapping("/chat/roomlist")
-    public String chatlistPage(Long userId, HttpSession session, Model model) {
+    public String chatlistPage(Long myid, HttpSession session, Model model) {
+        // 상대방 아이디
+        // 방 아이디
+        // 마지막 발신자 - 이미지, 닉네임 / 메세지, 시간
         System.out.println("######## /chat/roomlist Get");
-        if (myId == null) {
-            System.out.println("myId가 null임");
+//        if (myId == null) {
+//            System.out.println("myId가 null임");
             getMyId(session);
-        }
-        if (myId == userId) {
+            System.out.println(myid + " =?= " + myId);
+//        }
+        if (myId == myid) {
+            System.out.println(myid + " =?= " + myId);
             System.out.println("myId == userId");
-            List<ChatRoom> roomlist = service.getRoomList(userId);
+            // 내가 포함된 채팅방 목록 (메세지 내림차순)
+            List<ChatRoom> roomlist = service.getRoomList(myid);  //selectRoomBySender
             if (roomlist.size() != 0) {
-                System.out.println("1****** roomlist: " + roomlist);
-                List<ChatMessage> msglist = service.getChatMsgList(roomlist);
-                for (ChatMessage msg : msglist) {
-                    System.out.println("2****** msglist: " + msg.getMessage());
-                }
-                List<UserEntity> userlist = service.getChatUserList(userId, roomlist, msglist);
-                System.out.println("3****** userlist: " + userlist);
-                for (int i = 0; i < msglist.size(); i++) {
-                    System.out.println("msg: " + msglist.get(i).getMessage());
+                for (ChatRoom room : roomlist) {
+                    System.out.println("1****** room: " + room);
                 }
 
-                // @@코드 수정 필요
-                List<ChatListItem> chatlistitems = new ArrayList<>();
-                for (int i = 0; i < userlist.size(); i++) {
-                    ChatListItem chat = new ChatListItem();
-                    chat.setUserId(userlist.get(i).getId());
-                    chat.setUserNickname(userlist.get(i).getUserNickname());
-                    chat.setUserImage(userlist.get(i).getUserImage());
-                    chat.setRoomId(roomlist.get(i).getRoomId());
-                    chat.setLastMessage(msglist.get(i).getMessage());
-                    chat.setLastDateTime(msglist.get(i).getCreateDate());
-                    chatlistitems.add(chat);
-                    System.out.println(chat);
-                }
-                model.addAttribute("chatlistitem", chatlistitems);
+                // 방 아이디, 상대방 아이디 (메세지 내림차순)
+                // 마지막 발신자 정보 (메세지 내림차순)
+                List<ChatListItem> chatListItems = service.getChatListItems(myid, roomlist);
+
+                model.addAttribute("chatlistitem", chatListItems);
             }
             return "chatting/chat_list";
         } else {
+            System.out.println("myId != userId");
             return "redirect:/roommate/home";
         }
     }
@@ -133,13 +124,13 @@ public class ChatController {
     @GetMapping("/chat/room")
     public String chatroomPage(Long roomId, Long userId, HttpSession session, Model model) {
         System.out.println("######## /chat/room Get");
-        if (myId == null) {
-            System.out.println("myId가 null임");
+//        if (myId == null) {
+//            System.out.println("myId가 null임");
             getMyId(session);
-        }
+//        }
         ChatRoom room = service.getRoom(roomId);
         if ((myId == room.getReceiver()) || (myId == room.getSender())) {
-            System.out.println("채팅 참여자임");
+//            System.out.println("채팅 참여자임");
             RoommateUserDTO user = service.getUser(userId);
             model.addAttribute("roominfo", room);
             model.addAttribute("user", user);
