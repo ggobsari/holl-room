@@ -94,7 +94,7 @@
 
                   <div class="row">
                     <div class="col-lg-3 col-md-4 label ">실명</div>
-                    <div class="col-lg-9 col-md-8" th:text="${user.user_Name}" id="username"></div>
+                    <div class="col-lg-9 col-md-8 username" th:text="${user.user_Name}"></div>
                   </div>
 
                   <div class="row">
@@ -109,7 +109,7 @@
 
                   <div class="row">
                     <div class="col-lg-3 col-md-4 label">이메일</div>
-                    <div class="col-lg-9 col-md-8" th:text="${user.user_Email}" id="email"></div>
+                    <div class="col-lg-9 col-md-8 email" th:text="${user.user_Email}"></div>
                   </div>
 
                   <div class="row">
@@ -119,7 +119,7 @@
 
                   <div class="row">
                     <div class="col-lg-3 col-md-4 label">핸드폰 번호</div>
-                    <div class="col-lg-9 col-md-8" th:text="${user.user_Phone_Number}" id="userPhoneNumberMasked"></div>
+                    <div class="col-lg-9 col-md-8 userPhoneNumberMasked" th:text="${user.user_Phone_Number}"></div>
                   </div>
 
                   <div class="row">
@@ -327,7 +327,7 @@
   <script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
   <script src="assets/vendor/tinymce/tinymce.min.js"></script>
   <script src="assets/vendor/php-email-form/validate.js"></script>
-
+  <script src="assets/js/user_masking.js"></script>
   <!-- Template Main JS File -->
 
 </body>
