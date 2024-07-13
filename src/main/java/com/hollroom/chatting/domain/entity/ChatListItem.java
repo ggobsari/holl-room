@@ -11,7 +11,9 @@ import java.util.Date;
 @AllArgsConstructor
 public class ChatListItem {
     private Long roomId;
-    private Long userId;
+    private Long userId; ///
+    private Long lastSender;
+    private Long opponent;
     private String userNickname;
     private String userImage;
     private String lastMessage;

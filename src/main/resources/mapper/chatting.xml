@@ -4,31 +4,43 @@
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.hollroom.chatting">
-    <select id="selectRoomBySender" parameterType="Long" resultType="com.hollroom.chatting.domain.entity.ChatRoom">
-        select distinct roomId, receiver, sender
-        from (select cr.room_id as roomId, cr.receiver as receiver, cr.sender as sender,
-            cm.room_id as cmRoomId, cm.create_date
-            from chat_room cr, chat_message cm
-            where cr.sender = 14
-            or cr.receiver = 14) as sub
-        where roomId = cmRoomId
-        order by create_date desc
+    <select id="selectRoomByMyId" parameterType="Long" resultType="com.hollroom.chatting.domain.entity.ChatRoom">
+        select DISTINCT roomId, receiver, sender
+        from (
+            select DISTINCT
+                cr.room_id as roomId, cr.receiver as receiver, cr.sender as sender, cm.create_date as createDate
+            from chat_room cr
+                inner join chat_message cm
+                on cr.room_id = cm.room_id
+            order by createDate desc) as sub
+        where
+            sender = #{myid}
+            or receiver = #{myid}
+        order by createDate desc;
     </select>
 
-<!--    <select id="selectUserById" parameterType="List" resultType="com.hollroom.user.entity.UserEntity">-->
-<!--        select id, user_image as userImage, user_nickname as userNickname-->
-<!--        from user_entity-->
-<!--        <where>-->
-<!--            <foreach collection="list" item="id" separator=" " open="" close="">-->
-<!--                or id = #{id}-->
-<!--            </foreach>-->
-<!--        </where>-->
-<!--    </select>   -->
     <select id="selectUserById" parameterType="Long" resultType="com.hollroom.user.entity.UserEntity">
         select id, user_image as userImage, user_nickname as userNickname
         from user_entity
-        where id = #{id}
+        where id = #{tomato}
     </select>
+
+    <select id="selectLastMsg" parameterType="List" resultType="com.hollroom.chatting.domain.entity.ChatListItem">
+        select lastMessage, lastDateTime
+        from (select
+                message as lastMessage,
+                create_date as lastDateTime,
+                room_id as roomId,
+                ROW_NUMBER() OVER(PARTITION BY room_id ORDER BY create_date DESC) AS rn
+            from chat_message) as sub
+            where rn = 1
+                and roomId in
+                <foreach collection="list" item="item" separator="," open="(" close=")">
+                    #{item.roomId}
+                </foreach>
+        order by lastDateTime desc;
+    </select>
+
 
     <select id="selectMsgByRoomId" parameterType="List" resultType="com.hollroom.chatting.domain.entity.ChatMessage">
         select message, createDate, sender

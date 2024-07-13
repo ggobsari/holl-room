@@ -2,6 +2,7 @@ package com.hollroom.chatting.service;
 
 
 import com.hollroom.chatting.domain.dto.*;
+import com.hollroom.chatting.domain.entity.ChatListItem;
 import com.hollroom.chatting.domain.entity.ChatMessage;
 import com.hollroom.chatting.domain.entity.ChatRoom;
 import com.hollroom.roommate.dto.RoommateUserDTO;
@@ -16,6 +17,7 @@ public interface ChatService {
 	Boolean isChatroomExist(Long sender, Long receiver);
 	List<ChatRoom> getRoomList(Long sender);
 	List<UserEntity> getChatUserList(Long id, List<ChatRoom> roomlist, List<ChatMessage> msglist);
+	List<ChatListItem> getChatListItems(Long myid, List<ChatRoom> roomList);
 	List<ChatMessage> getChatMsgList(List<ChatRoom> roomList);
 	ChatRoom getRoom(Long roomId);
 	RoommateUserDTO getUser(Long userId);

@@ -2,6 +2,7 @@ package com.hollroom.chatting.dao;
 
 import com.hollroom.chatting.domain.dto.ChatRoomRequest;
 import com.hollroom.chatting.domain.dto.ChatUserRequest;
+import com.hollroom.chatting.domain.entity.ChatListItem;
 import com.hollroom.chatting.domain.entity.ChatMessage;
 import com.hollroom.chatting.domain.entity.ChatRoom;
 import com.hollroom.chatting.domain.entity.RoomInfoOfUser;
@@ -59,8 +60,13 @@ public class ChatDAOImpl implements ChatDAO{
     }
 
     @Override
-    public List<ChatRoom> getRoomList(Long sender) {
-        return sessionTemplate.selectList("com.hollroom.chatting.selectRoomBySender", sender);
+    public List<ChatRoom> getRoomList(Long myid) {
+        System.out.println("### dao / getRomList()");
+        List<ChatRoom> roomList = sessionTemplate.selectList("com.hollroom.chatting.selectRoomByMyId", myid);
+        for (ChatRoom room : roomList) {
+            System.out.println("### dao / room: " + room);
+        }
+        return roomList;
     }
 
     @Override
@@ -69,7 +75,30 @@ public class ChatDAOImpl implements ChatDAO{
         for (Long id : idList) {
             userlist.add(sessionTemplate.selectOne("com.hollroom.chatting.selectUserById", id));
         }
+        // 상대방 정보 리스트
         return userlist;
+    }
+
+    @Override
+    public List<ChatListItem> getChatListItems(List<ChatListItem> chatListItems) {
+        System.out.println("### dao / getChatListItems()");
+        System.out.println("### dao / chatlistitem: " + chatListItems);
+        // 마지막 발신자 정보 목록
+        List<ChatListItem> msgInfo = sessionTemplate.selectList("com.hollroom.chatting.selectLastMsg", chatListItems);
+        //List<ChatListItem> opponentInfo = sessionTemplate.selectList("com.hollroom.chatting.selectOpp", chatListItems);
+        int i = 0;
+        for (ChatListItem item : chatListItems) {
+//            System.out.println("### dao / getChatListItems() / for / 0: " + i);
+//            System.out.println("### getOpponent: " + item.getOpponent());
+            item.setLastMessage(msgInfo.get(i).getLastMessage());
+            item.setLastDateTime(msgInfo.get(i).getLastDateTime());
+            UserEntity opponentInfo = sessionTemplate.selectOne("com.hollroom.chatting.selectUserById", item.getOpponent());
+//            System.out.println("### dao / UserEntity - oppInfo: " + opponentInfo);
+            item.setUserNickname(opponentInfo.getUserNickname());
+            item.setUserImage(opponentInfo.getUserImage());
+            i++;
+        }
+        return chatListItems;
     }
 
     @Override

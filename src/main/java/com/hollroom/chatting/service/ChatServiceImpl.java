@@ -2,6 +2,7 @@ package com.hollroom.chatting.service;
 
 import com.hollroom.chatting.dao.ChatDAO;
 import com.hollroom.chatting.domain.dto.*;
+import com.hollroom.chatting.domain.entity.ChatListItem;
 import com.hollroom.chatting.domain.entity.ChatMessage;
 import com.hollroom.chatting.domain.entity.ChatRoom;
 import com.hollroom.roommate.dto.RoommateUserDTO;
@@ -52,18 +53,13 @@ public class ChatServiceImpl implements ChatService {
     }
 
     @Override
-    public List<ChatRoom> getRoomList(Long sender) {
-        List<ChatRoom> roomlist = dao.getRoomList(sender);
-//        System.out.println("change 전");
-        for (int i = 0; i < roomlist.size(); i++) {
-            Long receiverId = roomlist.get(i).getReceiver();
-            if (sender == receiverId) {
-                Long senderId = roomlist.get(i).getSender();
-                roomlist.get(i).setSender(receiverId);
-                roomlist.get(i).setReceiver(senderId);
-            }
-        }
-//        System.out.println("change 후");
+    public List<ChatRoom> getRoomList(Long myid) {
+//        System.out.println("### service / getRomList()");
+        List<ChatRoom> roomlist = dao.getRoomList(myid);
+
+//        for (ChatRoom room : roomlist) {
+//            System.out.println("### service / room: " + room);
+//        }
         return roomlist;
     }
 
@@ -72,7 +68,7 @@ public class ChatServiceImpl implements ChatService {
         List<Long> idlist = new ArrayList<>();
         for (int i = 0; i < msglist.size(); i++) {
             Long msgSender = Long.parseLong(msglist.get(i).getSender());
-            if (id.equals(msgSender)) {
+            if (id == msgSender) {
                 idlist.add(roomlist.get(i).getReceiver());
 //                System.out.println("******** idlist.add: " + roomlist.get(i).getReceiver());
             } else {
@@ -80,10 +76,38 @@ public class ChatServiceImpl implements ChatService {
 //                System.out.println("******** idlist.add: " + msgSender);
             }
         }
+        // 상대방 아이디 리스트
         return dao.getChatUserList(idlist);
     }
 
     @Override
+    public List<ChatListItem> getChatListItems(Long myid, List<ChatRoom> roomlist) {
+//        System.out.println("### service / getChatListItems()");
+        List<ChatListItem> chatListItems = new ArrayList<>();
+        // 상대방 아이디 리스트
+        int i = 0;
+        for (ChatRoom room : roomlist) {
+            ChatListItem item = new ChatListItem();
+            if (myid == room.getSender()) {
+                item.setOpponent(room.getReceiver());
+                chatListItems.add(item);
+            } else {
+                item.setOpponent(room.getSender());
+                chatListItems.add(item);
+            }
+            item.setRoomId(room.getRoomId());
+            i++;
+        }
+//        System.out.println("### service / opponent 세팅 완료");
+
+//        for (ChatListItem item : chatListItems) {
+//            System.out.println("### service / opponent: " + item.getOpponent());
+//        }
+
+        chatListItems = dao.getChatListItems(chatListItems);
+        return chatListItems;
+    }
+        @Override
     public List<ChatMessage> getChatMsgList(List<ChatRoom> roomList) {
         return dao.getChatMsgList(roomList);
     }

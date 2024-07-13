@@ -58,9 +58,13 @@
           <div class="px-5">
             <ul id="chat-list">
               <th:block th:each="chat:${chatlistitem}">
-                <li th:onclick="|location.href='@{/chat/room(roomId=${chat.roomId},userId=${chat.userId})}'|">
+                <li th:onclick="|location.href='@{/chat/room(roomId=${chat.roomId},userId=${chat.opponent})}'|">
+<!--                  <img-->
+<!--                      src="/hollroom/chatting/sample_img/no_images.png"-->
+<!--                      class="border-dark rounded-circle l-img"-->
+<!--                  />-->
                   <img
-                      src="/hollroom/chatting/sample_img/no_images.png"
+                      th:src="${(chat.userImage != null) ? chat.userImage : '/hollroom/chatting/sample_img/no_images.png'}"
                       class="border-dark rounded-circle l-img"
                   />
                   <div class="d-inline-block">
