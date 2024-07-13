@@ -51,7 +51,7 @@
     <div class="floating-btn">
       <!--      onclick="location.href='/hollroom/chat/roomlist'"-->
       <button
-        th:onclick="|location.href='@{/chat/roomlist(userId=${session.USER_NICKNAME.id})}'|"
+        th:onclick="|location.href='@{/chat/roomlist(myid=${session.USER_NICKNAME.id})}'|"
         class="floating-btn-3 btn btn-primary rounded-circle"
       >
         <span>&#9776;</span>
