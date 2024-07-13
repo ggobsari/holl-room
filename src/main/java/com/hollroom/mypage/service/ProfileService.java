@@ -102,7 +102,7 @@ public class ProfileService {
     }
 
     //이미지 저장 업데이트
-    private static final String UPLOAD_DIR = "C:/root/fileupload";
+    private static final String UPLOAD_DIR = "/root/fileupload/";
     public void saveProfileImage(MultipartFile image, UserSignupDTO userSignupDTO) {
         try {
             UserEntity userEntity = userRepository.findByUserEmail(userSignupDTO.getUserEmail())
