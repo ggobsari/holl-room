@@ -37,10 +37,8 @@ public class RoommateController {  // 2.0
 
     @GetMapping("/detail")
     public String detailPage(int roommate_id, Model model, HttpSession session) {
-//        if (userGender != null) {
-//            UserEntity user = (UserEntity) session.getAttribute("USER_NICKNAME");
-//            userGender = user.getUserGender();
-//        }
+        UserEntity me = (UserEntity) session.getAttribute("USER_NICKNAME");
+        myGender = me.getUserGender();
         RoommateDTO board = service.getBoardById(roommate_id);
         RoommateUserDTO user = service.getUserInfo(board.getId());
         model.addAttribute("board", board);
@@ -86,11 +84,8 @@ public class RoommateController {  // 2.0
 
     @GetMapping("/delete")
     public String deleteBoard(int roommate_id, HttpSession session) {
-        if (myId == null) {
-//            System.out.println("값 할당 완료");
-            UserEntity user = (UserEntity) session.getAttribute("USER_NICKNAME");
-            myId = user.getId();
-        }
+        UserEntity user = (UserEntity) session.getAttribute("USER_NICKNAME");
+        myId = user.getId();
         RoommateDTO board = service.getBoard(roommate_id);
 //        System.out.println(myId + " ,, " + board.getId());
         if (myId == board.getId()) {
