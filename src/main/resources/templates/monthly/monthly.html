@@ -163,26 +163,40 @@
             goToProductPage(0);
         }
         function sortElementUpdate(){
-            if(createdSort === 0)
+            if(createdSort === 0){
                 $("#created-sort").html("최신순");
-            else if(createdSort === 1)
-                $("#created-sort").html("↑최신순");
-            else if(createdSort === 2)
-                $("#created-sort").html("↓최신순");
+                $("#created-sort").removeClass("selected-filter");
+            }
+            else{
+                $("#created-sort").addClass("selected-filter");
+                if(createdSort === 1)
+                    $("#created-sort").html("↑최신순");
+                else if(createdSort === 2)
+                    $("#created-sort").html("↓최신순");
+            }
 
-            if(depositSort === 0)
+            if(depositSort === 0){
                 $("#deposit-sort").html("보증금순");
-            else if(depositSort === 1)
-                $("#deposit-sort").html("↑보증금순");
-            else if(depositSort === 2)
-                $("#deposit-sort").html("↓보증금순");
-
-            if(monthlySort === 0)
+                $("#deposit-sort").removeClass("selected-filter");
+            }
+            else {
+                $("#deposit-sort").addClass("selected-filter");
+                if (depositSort === 1)
+                    $("#deposit-sort").html("↑보증금순");
+                else if (depositSort === 2)
+                    $("#deposit-sort").html("↓보증금순");
+            }
+            if(monthlySort === 0){
                 $("#monthly-sort").html("월세순");
-            else if(monthlySort === 1)
-                $("#monthly-sort").html("↑월세순");
-            else if(monthlySort === 2)
-                $("#monthly-sort").html("↓월세순");
+                $("#monthly-sort").removeClass("selected-filter");
+            }
+            else {
+                $("#monthly-sort").addClass("selected-filter");
+                if (monthlySort === 1)
+                    $("#monthly-sort").html("↑월세순");
+                else if (monthlySort === 2)
+                    $("#monthly-sort").html("↓월세순");
+            }
         }
     </script>
     <script th:inline="javascript">
@@ -351,6 +365,12 @@
         .padding-sort-btn{
             padding-left: 5px;
             padding-right: 5px;
+            border: 1px solid lightgray;
+            cursor: pointer;
+            -webkit-user-select:none;
+            -moz-user-select:none;
+            -ms-user-select:none;
+            user-select:none
         }
         .back-btn{
             width: 100%;
@@ -361,6 +381,9 @@
         .back-arrow{
             width: 20px;
             height: 20px;
+        }
+        .selected-filter{
+            background-color: lightskyblue;
         }
     </style>
 </head>
