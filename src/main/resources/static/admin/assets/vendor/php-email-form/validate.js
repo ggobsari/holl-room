@@ -67,14 +67,14 @@
           if (data.trim() == 'OK') {
             thisForm.querySelector('.sent-message').classList.add('d-block');
             thisForm.reset();
-            window.location.href = 'http://localhost:8090/hollroom/admin/admin_inquiry'; // 성공 시 이동할 페이지 경로
+            window.location.href = 'http://175.45.205.226:8090/hollroom/admin/admin_inquiry'; // 성공 시 이동할 페이지 경로
           } else {
             throw new Error(data ? data : 'Form submission failed and no error message returned from: ' + action);
           }
         })
         .catch((error) => {
           displayError(error);
-          window.location.href = 'http://localhost:8090/hollroom/admin/admin_inquiry'; // 실패 시 이동할 페이지 경로
+          window.location.href = 'http://175.45.205.226:8090/hollroom/admin/admin_inquiry'; // 실패 시 이동할 페이지 경로
         });
   }
 

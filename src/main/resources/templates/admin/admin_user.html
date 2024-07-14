@@ -107,7 +107,7 @@
                             <tr th:each="board : ${boardlist}">
                                 <td th:text="${board.id}"></td>
                                 <td>
-                                    <a th:text="${board.user_Email}"
+                                    <a th:text="${board.user_Email}" class="email"
                                     th:href="@{/admin/admin_userdetail(Id=${board.id}) }"></a>
                                 </td>
                                 <td th:text="${board.user_Nickname}"></td>
@@ -147,7 +147,7 @@
 <script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
 <script src="assets/vendor/tinymce/tinymce.min.js"></script>
 <script src="assets/vendor/php-email-form/validate.js"></script>
-
+<script src="assets/js/user_masking.js"></script>
 <!-- Template Main JS File -->
 
 <script>
