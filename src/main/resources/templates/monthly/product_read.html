@@ -40,6 +40,7 @@
             flex-direction: column;
             height: 300px;
             justify-content: space-between;
+            margin-left: 20px;
         }
         .flex-column{
             display: flex;
@@ -56,12 +57,28 @@
             padding: 30px;
             height: 400px;
             background-color: white;
+            border-bottom-left-radius: 10px;
+            border-bottom-right-radius: 10px;
+        }
+        .header-box{
+            width: 740px;
+            background-color: white;
+            padding-top: 30px;
+            padding-left: 30px;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+        }
+        .header-text{
+            text-underline: lightgray;
         }
     </style>
 </head>
 <body>
 <div layout:fragment="content" class="content-container">
     <div class="flex-center full-screen" style="flex-direction: column">
+        <div class="header-box">
+            <h1>매물상세</h1>
+        </div>
         <div class="flex content-box">
             <img style="width: 500px; height: 300px;" th:src="@{/imageload/}+${product.roomImg}"/>
             <div class="description-box">
@@ -83,13 +100,16 @@
                 <div class="description-line flex-column horizontal-center">
                     <span th:text="${product.securityFacility}">보안시설</span>
                 </div>
-                <div class="flex-column horizontal-center flex-gr">
-                    상세설명
+                <div class="description-line flex-column horizontal-center flex-gr">
+                    <span>
+                        [[${product.address}]]에 있는 원룸입니다.<br/>
+                        역까지 약 5분거리에 있습니다.
+                    </span>
                 </div>
             </div>
         </div>
         <div class="map-box">
-            OO공인중개사 | 010-1234-5678
+            행복한공인중개사 | 010-1234-5678
             <img src="/hollroom/images/estate_agent.png"/>
         </div>
     </div>
