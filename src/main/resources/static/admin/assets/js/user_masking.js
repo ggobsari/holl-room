@@ -7,20 +7,25 @@ document.addEventListener("DOMContentLoaded", function () {
 //마스킹 함수 실행
 function maskMaking(){
     //이메일 마스킹
-    if(document.getElementById("email")) {
-        const emailInput = document.getElementById("email");
-        emailInput.value = maskingFunc.email(emailInput.value);
-    }
+    const emailElements = document.querySelectorAll(".email"); // 클래스가 email인 모든 요소 선택
+    emailElements.forEach(function(emailElement) {
+        const emailText = emailElement.textContent || emailElement.innerText;
+        emailElement.textContent = maskingFunc.email(emailText);
+    });
+
     //실명 마스킹
-    if(document.getElementById("username")) {
-        const nameInput = document.getElementById("username");
-        nameInput.value = maskingFunc.name(nameInput.value);
-    }
+    const usernameElements = document.querySelectorAll(".username"); // 클래스가 username인 모든 요소 선택
+    usernameElements.forEach(function(usernameElement) {
+        const nameText = usernameElement.textContent || usernameElement.innerText;
+        usernameElement.textContent = maskingFunc.name(nameText);
+    });
+
     //휴대폰 번호 마스킹
-    if(document.getElementById("userPhoneNumberMasked")) {
-        const phonenumInput = document.getElementById("userPhoneNumberMasked");
-        phonenumInput.value = maskingFunc.phone(phonenumInput.value);
-    }
+    const phoneElements = document.querySelectorAll(".userPhoneNumberMasked"); // 클래스가 userPhoneNumberMasked인 모든 요소 선택
+    phoneElements.forEach(function(phoneElement) {
+        const phoneText = phoneElement.textContent || phoneElement.innerText;
+        phoneElement.textContent = maskingFunc.phone(phoneText);
+    });
 }
 //=============================================================================
 //마스킹

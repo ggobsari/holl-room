@@ -197,3 +197,19 @@
   font-size: 1.4rem;
   font-weight: 600;
 }
+
+#tmp-area {
+  max-height: 25rem;
+  overflow: auto;
+}
+#tmp-area::-webkit-scrollbar {
+  width: 8px;
+}
+#tmp-area::-webkit-scrollbar-thumb {
+  height: 30%;
+  background: var(--bs-dark);
+  border-radius: 10px;
+}
+#tmp-area::-webkit-scrollbar-track {
+  background: var(--bs-dark);
+}
