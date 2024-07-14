@@ -93,6 +93,10 @@ public class UserService {
         if(!passwordEncoder.matches(userPassword, userEntity.getUserPassword())){
             throw new CheckApiException(ErrorCode.NOT_EQUAL_PASSWORD);
         }
+
+        if(userEntity.getIsDeleted() || userEntity.getBan()){
+            throw new CheckApiException(ErrorCode.BAN_USER);
+        }
         //세션 있으면 세션 반환, 없으면 신규 세션 생성
         HttpSession session = request.getSession();
 
@@ -101,7 +105,7 @@ public class UserService {
         dailyVisitorService.logVisitor(userEntity.getId());
 
         log.info(session.toString());
-        System.out.println(session.toString());/////
+        System.out.println(session.toString());
 
         return session;
     }
