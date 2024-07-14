@@ -14,7 +14,9 @@ public enum ErrorCode { //에러코드 정리
 
     NOT_EXIST_USER(HttpStatus.BAD_REQUEST, 400, "존재하지 않는 사용자입니다."),
 
-    NOT_EQUAL_PASSWORD(HttpStatus.BAD_REQUEST, 400, "비밀번호가 일치하지 않습니다.");
+    NOT_EQUAL_PASSWORD(HttpStatus.BAD_REQUEST, 400, "비밀번호가 일치하지 않습니다."),
+
+    BAN_USER(HttpStatus.BAD_REQUEST, 400, "접근 제한된 유저입니다.");
     //================================================================================================================//
     private final HttpStatus httpStatus;
 
