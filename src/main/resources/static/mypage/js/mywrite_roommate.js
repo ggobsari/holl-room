@@ -31,7 +31,7 @@ document.addEventListener('DOMContentLoaded', function () {
             <tr>
                 <td>${totalPosts - (currentPage * pageSize + index)}</td>
                <td class="title-limit">
-                    <a href="/roommate/detail?roommate_id=${board.roommate_id}&action=READ">${board.title}</a>
+                    <a href="/hollroom/roommate/detail?roommate_id=${board.roommate_id}">${board.title}</a>
                 </td>
                 <td class="write-limit">${board.content}</td>
                 <td>${board.created_at ? board.created_at.split('T')[0] : ''}</td>
