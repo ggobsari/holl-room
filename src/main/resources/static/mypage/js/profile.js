@@ -332,7 +332,7 @@ let maskingFunc = {
 // 닉네임 중복 검사 함수
 function checkNickname(nickname) {
     const xhr = new XMLHttpRequest();
-    xhr.open("GET", "/mypage/checkNickname?nickname=" + encodeURIComponent(nickname), true);
+    xhr.open("GET", "/hollroom/mypage/checkNickname?nickname=" + encodeURIComponent(nickname), true);
     xhr.onreadystatechange = function () {
         if (xhr.readyState == 4 && xhr.status == 200) {
             const isTaken = JSON.parse(xhr.responseText);
@@ -351,7 +351,7 @@ function checkNickname(nickname) {
     xhr.send();
 }
 //==============================================================================================
-// 닉네임 중복 검사 함수
+// 휴대폰 중복 검사 함수
 function checkPhoneNum(phoneNum) {
     const xhr = new XMLHttpRequest();
     xhr.open("GET", "/hollroom/mypage/checkPhoneNum?phoneNum=" + encodeURIComponent(phoneNum), true);
